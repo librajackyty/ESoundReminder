@@ -86,6 +86,7 @@ class _AboutPageState extends State<AboutPage> {
                         CusNText(
                           "School of Continuing and Professional Education ( CityU SCOPE )",
                         ),
+                        const SizedBox(height: 20),
                         CusSText(
                           "Project Developer:",
                         ),
@@ -108,6 +109,13 @@ class _AboutPageState extends State<AboutPage> {
                         const SizedBox(height: 20),
                         CusSText(
                           "Repository (GitHub):",
+                        ),
+                        CusSText(
+                          "https://github.com/librajackyty/ESoundReminder.git",
+                        ),
+                        const SizedBox(height: 20),
+                        CusSText(
+                          "Copyright © 2023 Jack TY Yuen All rights reserved.",
                         ),
                       ]),
                 ),
