@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 import '../utils/constants.dart';
 import '../widgets/custom_button_normal_back.dart';
@@ -15,6 +16,32 @@ class AboutPage extends StatefulWidget {
 }
 
 class _AboutPageState extends State<AboutPage> {
+  /*
+  Package info
+  Requesting app name, app version
+  */
+  PackageInfo _packageInfo = PackageInfo(
+    appName: 'Unknown',
+    packageName: 'Unknown',
+    version: 'Unknown',
+    buildNumber: 'Unknown',
+    buildSignature: 'Unknown',
+    installerStore: 'Unknown',
+  );
+  @override
+  void initState() {
+    super.initState();
+    _initPackageInfo();
+  }
+
+  Future<void> _initPackageInfo() async {
+    final info = await PackageInfo.fromPlatform();
+    setState(() {
+      _packageInfo = info;
+    });
+  }
+  // =======
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,13 +67,17 @@ class _AboutPageState extends State<AboutPage> {
                           'App Name:',
                         ),
                         CusNText(
-                          'ESound Reminder',
+                          _packageInfo.appName != 'Unknown'
+                              ? _packageInfo.appName
+                              : 'ESound Reminder',
                         ),
                         CusSText(
                           'Version: ',
                         ),
                         CusNText(
-                          "${1.0}",
+                          _packageInfo.version != 'Unknown'
+                              ? _packageInfo.version
+                              : "${0.1} alpha",
                         ),
                         const SizedBox(height: 20),
                         CusSText(
@@ -55,6 +86,7 @@ class _AboutPageState extends State<AboutPage> {
                         CusNText(
                           "School of Continuing and Professional Education ( CityU SCOPE )",
                         ),
+                        const SizedBox(height: 20),
                         CusSText(
                           "Project Developer:",
                         ),
@@ -77,6 +109,13 @@ class _AboutPageState extends State<AboutPage> {
                         const SizedBox(height: 20),
                         CusSText(
                           "Repository (GitHub):",
+                        ),
+                        CusSText(
+                          "https://github.com/librajackyty/ESoundReminder.git",
+                        ),
+                        const SizedBox(height: 20),
+                        CusSText(
+                          "Copyright © 2023 Jack TY Yuen All rights reserved.",
                         ),
                       ]),
                 ),
