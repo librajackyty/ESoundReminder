@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
     bool shouldUseMaterial3 = true;
 
     return MaterialApp(
-      title: 'ESound Reminder Demo',
+      title: 'E Daily Reminder',
       darkTheme: ThemeData.dark(useMaterial3: shouldUseMaterial3),
       theme: ThemeData(
         useMaterial3: shouldUseMaterial3,

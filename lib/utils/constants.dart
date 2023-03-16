@@ -18,3 +18,4 @@ const double textTitleSize = 36;
 const double textNormalSize = 30;
 const double textSmallSize = 22;
 const double textBtnSize = 28;
+const double textBtnSmallSize = 20;

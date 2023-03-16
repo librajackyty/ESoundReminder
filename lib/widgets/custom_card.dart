@@ -6,30 +6,32 @@ import 'custom_text_small.dart';
 import 'custom_text_title.dart';
 
 class CusCard extends StatefulWidget {
+  Widget icon;
   final String title;
   final String subtitle;
-  final String text;
-  final String btntxt1;
+  // final String text;
+  final String? btntxt1;
   // final String btntxt2;
   VoidCallback? onPressed;
 
-  CusCard(this.text, this.title, this.subtitle, this.btntxt1, this.onPressed);
+  CusCard(this.icon, this.title, this.subtitle, {this.btntxt1, this.onPressed});
 
   @override
   _CusCardState createState() =>
-      _CusCardState(title, subtitle, text, btntxt1, onPressed);
+      _CusCardState(icon, title, subtitle, btntxt1, onPressed);
 }
 
 class _CusCardState extends State<CusCard> {
+  Widget icon;
   String title;
   String subtitle;
-  String text;
-  String btntxt1;
+  // String text;
+  String? btntxt1;
   // String btntxt2;
   VoidCallback? onPressed;
 
   _CusCardState(
-      this.text, this.title, this.subtitle, this.btntxt1, this.onPressed);
+      this.icon, this.title, this.subtitle, this.btntxt1, this.onPressed);
 
   @override
   Widget build(BuildContext context) {
@@ -54,15 +56,16 @@ class _CusCardState extends State<CusCard> {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               ListTile(
-                leading: Icon(
-                  Icons.nightlight_rounded, // Icons.sunny
-                  color: Colors.yellow[600]!, // Colors.yellow[900]!
-                  size: 36.0,
-                  semanticLabel:
-                      'moon icon means Time between 18:00 to 06:00', //'sunny icon means Time between 06:00 to 18:00',
-                ),
-                title: CusTitleText(widget.title),
-                subtitle: CusNText(widget.subtitle),
+                leading: widget.icon,
+                // Icon(
+                //   Icons.nightlight_rounded, // Icons.sunny
+                //   color: Colors.yellow[600]!, // Colors.yellow[900]!
+                //   size: 36.0,
+                //   semanticLabel:
+                //       'moon icon means Time between 18:00 to 06:00', //'sunny icon means Time between 06:00 to 18:00',
+                // ),
+                title: CusNText(widget.title),
+                subtitle: CusTitleText(widget.subtitle),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -73,13 +76,13 @@ class _CusCardState extends State<CusCard> {
                   // ),
                   const SizedBox(width: 8),
                   Icon(
-                    Icons.edit,
+                    Icons.summarize_rounded,
                     size: 20.0,
                     semanticLabel: 'Tap to edit',
                     color: Colors.green,
                   ),
                   CusSText(
-                    widget.btntxt1,
+                    widget.btntxt1 != null ? widget.btntxt1! : "Details",
                     color: Colors.green,
                   ),
                   // TextButton(

@@ -1,8 +1,10 @@
 import 'package:e_sound_reminder_app/widgets/custom_card.dart';
+import 'package:e_sound_reminder_app/widgets/custom_text_small.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import '../utils/constants.dart' as constants;
 import '../utils/constants.dart';
+import '../widgets/custom_scroll_bar.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});
@@ -18,30 +20,31 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text("Hello, Sir"),
       ),
       extendBody: true,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(safeAreaPaddingAllWthLv),
-          child: Scrollbar(
-            thumbVisibility: true,
-            thickness: 10.0,
-            child: ListView(
+          child: CusScrollbar(
+            ListView(
                 padding: const EdgeInsets.all(listviewPaddingAll),
                 children: <Widget>[
-                  CusCard('Remindder1', "Remind take medicine", "21:30", "edit",
-                      (() => {})),
-                  CusCard('Remindder1', "Remind take medicine", "21:30", "edit",
-                      (() => {})),
-                  CusCard('Remindder1', "Remind take medicine", "21:30", "edit",
-                      (() => {})),
-                  CusCard('Remindder1', "Remind take medicine", "21:30", "edit",
-                      (() => {})),
-                  CusCard('Remindder1', "Remind take medicine", "21:30", "edit",
-                      (() => {})),
-                  CusCard('Remindder1', "Remind take medicine", "21:30", "edit",
-                      (() => {})),
+                  Container(
+                    padding: EdgeInsets.only(bottom: 20),
+                    child: CusSText('Below are the reminders you created:'),
+                  ),
+                  CusCard(
+                      Icon(
+                        Icons.nightlight_rounded, // Icons.sunny
+                        color: Colors.yellow[600]!, // Colors.yellow[900]!
+                        size: 36.0,
+                        semanticLabel:
+                            'moon icon means Time between 18:00 to 06:00', //'sunny icon means Time between 06:00 to 18:00',
+                      ),
+                      "Remind take medicine",
+                      "21:30",
+                      onPressed: (() => {})),
                 ]),
           ),
           // Center(
