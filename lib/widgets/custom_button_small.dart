@@ -2,34 +2,33 @@ import 'package:flutter/material.dart';
 
 import '../utils/constants.dart';
 
-class CusNBackButton extends StatefulWidget {
+class CusSButton extends StatefulWidget {
   final String text;
   Widget? icon;
   VoidCallback? onPressed;
 
-  CusNBackButton(this.text, this.onPressed, {this.icon});
+  CusSButton(this.text, this.onPressed, {this.icon});
 
   @override
-  _CusNBackButtonState createState() =>
-      _CusNBackButtonState(text, onPressed!, icon);
+  _CusSButtonState createState() => _CusSButtonState(text, onPressed!, icon);
 }
 
-class _CusNBackButtonState extends State<CusNBackButton> {
+class _CusSButtonState extends State<CusSButton> {
   String text;
   VoidCallback onPressed;
   Widget? icon;
 
   final ButtonStyle backstyle = ElevatedButton.styleFrom(
-    foregroundColor: Colors.red,
-    textStyle: const TextStyle(fontSize: textBtnSize),
-    minimumSize: const Size.fromHeight(60),
+    textStyle: const TextStyle(
+        fontSize: textBtnSmallSize, fontWeight: FontWeight.bold),
+    minimumSize: const Size.fromHeight(40),
     side: BorderSide(
-      color: Colors.red[900]!,
+      color: Colors.green[900]!,
       width: 1.0,
     ),
   );
 
-  _CusNBackButtonState(this.text, this.onPressed, this.icon);
+  _CusSButtonState(this.text, this.onPressed, this.icon);
 
   @override
   Widget build(BuildContext context) {
