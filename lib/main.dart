@@ -7,6 +7,7 @@ import 'screens/landing.dart';
 import 'screens/lang_config.dart';
 import 'screens/opensources.dart';
 import 'screens/reminder_new.dart';
+import 'screens/reminder_new_2.dart';
 import 'screens/settings.dart';
 import 'screens/reminder_detail.dart';
 import 'utils/constants.dart' as constants;
@@ -46,6 +47,8 @@ class MyApp extends StatelessWidget {
             const ReminderDetailPage(title: 'Reminder Detail'),
         constants.pageRouteReminderNew: (context) =>
             const ReminderNewPage(title: 'New Reminder'),
+        constants.pageRouteReminderNew2: (context) =>
+            const ReminderNewPage2(title: 'New Reminder 2'),
         constants.pageRouteAbout: (context) => const AboutPage(title: 'About'),
         constants.pageRouteOpenSources: (context) =>
             const OpenSourcesPage(title: 'Open Sources Software (OSS)'),

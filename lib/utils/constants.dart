@@ -5,6 +5,7 @@ const String pageRouteLanding = "/landing";
 const String pageRouteSettings = "/settings";
 const String pageRouteReminderDetail = "/reminderdetail";
 const String pageRouteReminderNew = "/remindernew";
+const String pageRouteReminderNew2 = "/remindernew2";
 const String pageRouteOpenSources = "/opensources";
 const String pageRouteAbout = "/about";
 

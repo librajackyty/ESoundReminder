@@ -43,13 +43,6 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
   ];
   List selectedMedicine = [];
 
-  bool isSelectedMedicine = false;
-  void onCalListEmpty() {
-    setState(() {
-      isSelectedMedicine = selectedMedicine.isNotEmpty;
-    });
-  }
-
   // UI rendering
   List<Widget> medicineSelection(List medicinelist) {
     List<Widget> mwList = [];
@@ -78,7 +71,6 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
         () {
           setState(() {
             selectedMedicine.remove("$medicine");
-            onCalListEmpty();
           });
         },
         icon: Icon(Icons.cancel),
@@ -131,9 +123,9 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
                         height: 200,
                         child: GridView.count(
                             primary: false,
-                            padding: const EdgeInsets.all(20),
-                            crossAxisSpacing: 2,
-                            mainAxisSpacing: 10,
+                            padding: const EdgeInsets.all(10),
+                            crossAxisSpacing: 8,
+                            mainAxisSpacing: 8,
                             crossAxisCount: 3,
                             children: medicineSelectedArea(selectedMedicine)),
                       ),
@@ -159,6 +151,11 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
                                           content: CusSText(
                                               "Please select at least one medicine first"),
                                         ))
+                                      }
+                                    else
+                                      {
+                                        Navigator.pushNamed(
+                                            context, pageRouteReminderNew2)
                                       }
                                   }),
                         ),
