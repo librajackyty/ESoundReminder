@@ -44,7 +44,10 @@ class _HomePageState extends State<HomePage> {
                       ),
                       "Remind take medicine",
                       "21:30",
-                      onPressed: (() => {})),
+                      onPressed: (() => {
+                            Navigator.pushNamed(
+                                context, pageRouteReminderDetail)
+                          })),
                 ]),
           ),
           // Center(
