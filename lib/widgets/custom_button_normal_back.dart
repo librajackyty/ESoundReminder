@@ -11,12 +11,12 @@ class CusNBackButton extends StatefulWidget {
 
   @override
   _CusNBackButtonState createState() =>
-      _CusNBackButtonState(text, onPressed!, icon);
+      _CusNBackButtonState(text, onPressed, icon);
 }
 
 class _CusNBackButtonState extends State<CusNBackButton> {
   String text;
-  VoidCallback onPressed;
+  VoidCallback? onPressed;
   Widget? icon;
 
   final ButtonStyle backstyle = ElevatedButton.styleFrom(

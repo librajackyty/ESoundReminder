@@ -12,12 +12,12 @@ class CusNButton extends StatefulWidget {
 
   @override
   _CusNButtonState createState() =>
-      _CusNButtonState(text, onPressed!, icon, disabled);
+      _CusNButtonState(text, onPressed, icon, disabled);
 }
 
 class _CusNButtonState extends State<CusNButton> {
   String text;
-  VoidCallback onPressed;
+  VoidCallback? onPressed;
   Widget? icon;
   bool disabled;
 

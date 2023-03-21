@@ -10,12 +10,12 @@ class CusSButton extends StatefulWidget {
   CusSButton(this.text, this.onPressed, {this.icon});
 
   @override
-  _CusSButtonState createState() => _CusSButtonState(text, onPressed!, icon);
+  _CusSButtonState createState() => _CusSButtonState(text, onPressed, icon);
 }
 
 class _CusSButtonState extends State<CusSButton> {
   String text;
-  VoidCallback onPressed;
+  VoidCallback? onPressed;
   Widget? icon;
 
   final ButtonStyle btnstyle = ElevatedButton.styleFrom(

@@ -7,6 +7,7 @@ import '../widgets/custom_button_normal.dart';
 import '../widgets/custom_button_normal_back.dart';
 import '../widgets/custom_button_small.dart';
 import '../widgets/custom_scroll_bar.dart';
+import '../widgets/custom_text_normal.dart';
 import '../widgets/custom_text_small.dart';
 import '../widgets/custom_text_small_ex.dart';
 
@@ -61,7 +62,7 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
   // UI rendering
   void openTimePicker() {}
 
-  String shoingRepeatWeekdays() {
+  String showingRepeatWeekdays() {
     if (selectedweekdays1.isEmpty && selectedweekdays2.isEmpty) {
       return "Not Repeat";
     }
@@ -173,7 +174,7 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         CusSText(
-                          'Please set time:',
+                          'Please set timer:',
                         ),
                         CusNButton(
                           "$hoursDisplay1:$minsDisplay1",
@@ -302,7 +303,7 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                           fontSize: selectWeekDaysFontSize,
                           fontWeight: FontWeight.bold,
                           days: weekdays2,
-                          backgroundColor: Color.fromARGB(255, 76, 175, 80),
+                          // backgroundColor: Color.fromARGB(255, 76, 175, 80),
                           border: false,
                           boxDecoration: BoxDecoration(
                             color: Colors.green,
@@ -354,11 +355,16 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                                 //           "${date.year} / ${date.month} / ${date.day}")
                                 //     ]),
                                 Visibility(
-                                    maintainSize: true,
-                                    maintainAnimation: true,
-                                    maintainState: true,
-                                    visible: setMorning,
-                                    child: CusSText("Set timer to:")),
+                                  maintainSize: true,
+                                  maintainAnimation: true,
+                                  maintainState: true,
+                                  visible: setMorning,
+                                  child: Row(children: [
+                                    Icon(Icons.alarm_on_outlined),
+                                    SizedBox(width: 6),
+                                    CusSText("Set timer to:"),
+                                  ]),
+                                ),
                                 // Visibility(
                                 //     maintainSize: true,
                                 //     maintainAnimation: true,
@@ -383,23 +389,28 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                                 Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
-                                      Icon(Icons.alarm),
-                                      SizedBox(width: 8),
+                                      // Icon(Icons.alarm),
+                                      // SizedBox(width: 8),
                                       CusTitleText(
                                           "$hoursDisplay1:$minsDisplay1")
                                     ]),
                                 Visibility(
-                                    maintainSize: true,
-                                    maintainAnimation: true,
-                                    maintainState: true,
-                                    visible: true,
-                                    child: CusSText("Set repeat on:")),
+                                  maintainSize: true,
+                                  maintainAnimation: true,
+                                  maintainState: true,
+                                  visible: true,
+                                  child: Row(children: [
+                                    Icon(Icons.event_repeat_outlined),
+                                    SizedBox(width: 6),
+                                    CusSText("Set repeat on:"),
+                                  ]),
+                                ),
                                 Visibility(
                                     maintainSize: true,
                                     maintainAnimation: true,
                                     maintainState: true,
                                     visible: true,
-                                    child: CusSText(shoingRepeatWeekdays())),
+                                    child: CusNText(showingRepeatWeekdays())),
                               ],
                             ))),
                     Row(

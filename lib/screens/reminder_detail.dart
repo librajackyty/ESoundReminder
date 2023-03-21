@@ -21,24 +21,74 @@ class ReminderDetailPage extends StatefulWidget {
 class _ReminderDetailPageState extends State<ReminderDetailPage> {
   List selectedMedicine = [
     "脷底丸",
-    "降膽固醇",
-    "抗糖尿病",
-    "降血壓藥",
+    // "降膽固醇",
+    // "抗糖尿病",
+    // "降血壓藥",
   ];
 
   List<Widget> medicineSelectedArea(List selectedlist) {
     List<Widget> mwList = [];
     for (var medicine in selectedlist) {
-      mwList.add(CusSButton(
+      mwList.add(CusNButton(
         "$medicine",
-        () {
-          // setState(() {
-          //   selectedMedicine.remove("$medicine");
-          // });
-        },
+        () {},
+      ));
+      mwList.add(const SizedBox(
+        height: 8.0,
       ));
     }
     return mwList;
+  }
+
+  // UI
+  Widget settedTime(String timeText) {
+    return Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+      // Icon(Icons.alarm),
+      // SizedBox(width: 8),
+      CusTitleText(timeText)
+    ]);
+  }
+
+  void showConfirmDialog() {
+    showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: CusSText('Save?'),
+        content: CusNText('Are you sure to save this reminder?'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.pop(context, 'NO'),
+            child: CusSText('No'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pushNamedAndRemoveUntil(
+                context, pageRouteHome, ((route) => false)),
+            child: CusSText('Yes'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void showCancelDialog() {
+    showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: CusSText('Cancel?'),
+        content: CusNText('Are you sure to cancel this reminder?'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.pop(context, 'NO'),
+            child: CusSText('No'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pushNamedAndRemoveUntil(
+                context, pageRouteHome, ((route) => false)),
+            child: CusSText('Yes'),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -76,30 +126,64 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
                         padding: EdgeInsets.all(8),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            CusSText("Set timer to:"),
-                            Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(Icons.alarm),
-                                  SizedBox(width: 8),
-                                  CusTitleText("06:30")
-                                ]),
-                            CusSText("Set repeat on:"),
-                            CusNText("Monday, Friday"),
-                            const SizedBox(
-                              height: 12,
-                            ),
-                            CusSText("Take medince of:"),
+                            // CusSText("Set timer to:"),
+                            // settedTime("07:00"),
+                            // settedTime("12:00"),
+                            // settedTime("18:30"),
+                            // CusSText("Set repeat on:"),
+                            // CusNText("Monday, Friday"),
+                            // const SizedBox(
+                            //   height: 12,
+                            // ),
+                            // CusSText("Take medince of:"),
+                            // Expanded(
+                            //   child: GridView.count(
+                            //       primary: true,
+                            //       padding: const EdgeInsets.all(10),
+                            //       crossAxisSpacing: 8,
+                            //       mainAxisSpacing: 8,
+                            //       crossAxisCount: 3,
+                            //       children:
+                            //           medicineSelectedArea(selectedMedicine)),
+                            // ),
                             Expanded(
-                              child: GridView.count(
-                                  primary: true,
-                                  padding: const EdgeInsets.all(10),
-                                  crossAxisSpacing: 8,
-                                  mainAxisSpacing: 8,
-                                  crossAxisCount: 3,
-                                  children:
-                                      medicineSelectedArea(selectedMedicine)),
+                              child: ListView(
+                                padding: const EdgeInsets.all(12),
+                                children: [
+                                  Row(children: [
+                                    Icon(Icons.alarm_on_outlined),
+                                    SizedBox(width: 6),
+                                    CusSText("Set timer to:"),
+                                  ]),
+                                  settedTime("07:00"),
+                                  // settedTime("12:00"),
+                                  // settedTime("18:30"),
+                                  const SizedBox(
+                                    height: 12,
+                                  ),
+                                  Row(children: [
+                                    Icon(Icons.event_repeat_outlined),
+                                    SizedBox(width: 6),
+                                    CusSText("Set repeat on:"),
+                                  ]),
+                                  CusNText(
+                                      "Monday, Friday, Tuesday, Wednesday"),
+                                  const SizedBox(
+                                    height: 12,
+                                  ),
+                                  Row(children: [
+                                    Icon(Icons.medication_outlined),
+                                    SizedBox(width: 6),
+                                    CusSText("Take medince:")
+                                  ]),
+                                  const SizedBox(
+                                    height: 8.0,
+                                  ),
+                                  ...medicineSelectedArea(selectedMedicine)
+                                ],
+                              ),
                             ),
                             const SizedBox(
                               height: 4,
@@ -116,74 +200,11 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
                                 padding: EdgeInsets.all(8.0),
                                 child: Column(
                                   children: [
-                                    CusNButton(
-                                        "Save",
-                                        (() => showDialog<String>(
-                                              context: context,
-                                              builder: (BuildContext context) =>
-                                                  AlertDialog(
-                                                title: CusSText('Save?'),
-                                                content: CusNText(
-                                                    'Are you sure to save this reminder?'),
-                                                actions: <Widget>[
-                                                  TextButton(
-                                                    onPressed: () =>
-                                                        Navigator.pop(
-                                                            context, 'NO'),
-                                                    child: CusSText('No'),
-                                                  ),
-                                                  TextButton(
-                                                    onPressed: () => Navigator
-                                                        .pushNamedAndRemoveUntil(
-                                                            context,
-                                                            pageRouteHome,
-                                                            ((route) => false)),
-                                                    child: CusSText('Yes'),
-                                                  ),
-                                                ],
-                                              ),
-                                            )
-                                        // {
-                                        // Navigator.pushNamedAndRemoveUntil(
-                                        //     context, pageRouteHome, ((route) => false));
-
-                                        // }
-                                        )),
+                                    CusNButton("Save", showConfirmDialog),
                                     const SizedBox(
                                       height: 8,
                                     ),
-                                    CusNBackButton(
-                                        'Delete',
-                                        () => showDialog<String>(
-                                              context: context,
-                                              builder: (BuildContext context) =>
-                                                  AlertDialog(
-                                                title: CusSText('Delete?'),
-                                                content: CusNText(
-                                                    'Are you sure to delete this reminder?'),
-                                                actions: <Widget>[
-                                                  TextButton(
-                                                    onPressed: () =>
-                                                        Navigator.pop(
-                                                            context, 'NO'),
-                                                    child: CusSText('No'),
-                                                  ),
-                                                  TextButton(
-                                                    onPressed: () => Navigator
-                                                        .pushNamedAndRemoveUntil(
-                                                            context,
-                                                            pageRouteHome,
-                                                            ((route) => false)),
-                                                    child: CusSText('Yes'),
-                                                  ),
-                                                ],
-                                              ),
-                                            )
-                                        // {
-                                        //   Navigator.pushNamedAndRemoveUntil(
-                                        //       context, pageRouteHome, ((route) => false));
-                                        // }
-                                        ),
+                                    CusNBackButton('Cancel', showCancelDialog),
                                   ],
                                 ))
                           ],
