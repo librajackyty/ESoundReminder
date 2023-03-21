@@ -75,7 +75,8 @@ class _SettingsPageState extends State<SettingsPage> {
                 //   child:
                 Align(
                   alignment: Alignment.bottomCenter,
-                  child: CusNBackButton('Back', () => {Navigator.pop(context)}),
+                  child: CusNBackButton(Language.of(context)!.t("common_back"),
+                      () => {Navigator.pop(context)}),
                 ),
                 // ),
               ],
