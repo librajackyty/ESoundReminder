@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.e_daily_reminder">
    <application
-        android:label="e_daily_reminder"
+        android:label="E Daily Reminder"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

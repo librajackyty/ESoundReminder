@@ -16,12 +16,16 @@ dependencies:
   provider: ^6.0.0
   lottie: ^2.2.0
   package_info_plus: ^3.0.3
+  flutter_launcher_name: ^0.0.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   flutter_lints: ^2.0.0
+
+flutter_launcher_name:
+  name: "E Daily Reminder"
 
 flutter:
   uses-material-design: true
