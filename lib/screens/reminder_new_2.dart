@@ -1,3 +1,4 @@
+import 'package:day_picker/day_picker.dart';
 import 'package:e_sound_reminder_app/widgets/custom_text_title.dart';
 import 'package:flutter/material.dart';
 
@@ -7,6 +8,7 @@ import '../widgets/custom_button_normal_back.dart';
 import '../widgets/custom_button_small.dart';
 import '../widgets/custom_scroll_bar.dart';
 import '../widgets/custom_text_small.dart';
+import '../widgets/custom_text_small_ex.dart';
 
 class ReminderNewPage2 extends StatefulWidget {
   const ReminderNewPage2({super.key, required this.title});
@@ -30,15 +32,56 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
   bool setNoon = false;
   bool setNight = false;
 
+  // Weekly selector
+  List<DayInWeek> weekdays1 = [
+    DayInWeek(
+      "Monday",
+    ),
+    DayInWeek(
+      "Tuesday",
+    ),
+    DayInWeek(
+      "Wednesday",
+    ),
+  ];
+  List<DayInWeek> weekdays2 = [
+    DayInWeek(
+      "Thursday",
+    ),
+    DayInWeek(
+      "Friday",
+    ),
+    DayInWeek("Saturday"),
+    DayInWeek("Sunday"),
+  ];
+
+  List selectedweekdays1 = [];
+  List selectedweekdays2 = [];
+
   // UI rendering
   void openTimePicker() {}
+
+  String shoingRepeatWeekdays() {
+    if (selectedweekdays1.isEmpty && selectedweekdays2.isEmpty) {
+      return "Not Repeat";
+    }
+    final String displayW1 = selectedweekdays1.join(", ");
+    final String displayW2 = selectedweekdays2.join(", ");
+    if (selectedweekdays2.isEmpty) {
+      return displayW1;
+    }
+    if (selectedweekdays1.isEmpty) {
+      return displayW2;
+    }
+    return "$displayW1, $displayW2";
+  }
 
   @override
   Widget build(BuildContext context) {
     final hoursDisplay1 = timeMorning.hour.toString().padLeft(2, '0');
     final minsDisplay1 = timeMorning.minute.toString().padLeft(2, '0');
-    final hoursDisplay2 = timeNoon.hour.toString().padLeft(2, '0');
-    final minsDisplay2 = timeNoon.minute.toString().padLeft(2, '0');
+    // final hoursDisplay2 = timeNoon.hour.toString().padLeft(2, '0');
+    // final minsDisplay2 = timeNoon.minute.toString().padLeft(2, '0');
 
     return Scaffold(
       // appBar: AppBar(
@@ -49,8 +92,9 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
           padding: const EdgeInsets.all(safeAreaPaddingAll),
           child: Center(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              // mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+                CusExSText("Step (2/3)"),
                 CusSText(
                   'Please set the time to remind you:',
                 ),
@@ -128,6 +172,9 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        CusSText(
+                          'Please set time:',
+                        ),
                         CusNButton(
                           "$hoursDisplay1:$minsDisplay1",
                           () async {
@@ -141,6 +188,7 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                           },
                           icon: Icon(Icons.alarm),
                         ),
+
                         // CusNButton(
                         //   "Setting Date",
                         //   () async {
@@ -224,6 +272,53 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                         //   },
                         //   icon: Icon(Icons.alarm_add),
                         // )
+                        CusSText(
+                          'Please set repeat in week:',
+                        ),
+                        SelectWeekDays(
+                          padding: selectWeekDaysPadding,
+                          fontSize: selectWeekDaysFontSize,
+                          fontWeight: FontWeight.bold,
+                          days: weekdays1,
+                          // backgroundColor: Color.fromARGB(255, 129, 199, 132),
+                          border: false,
+                          boxDecoration: BoxDecoration(
+                            color: Colors.green,
+                            borderRadius: BorderRadius.only(
+                                topLeft:
+                                    Radius.circular(selectWeekDaysBorderRadius),
+                                topRight: Radius.circular(
+                                    selectWeekDaysBorderRadius)),
+                          ),
+                          onSelect: (values) {
+                            setState(() {
+                              print(values);
+                              selectedweekdays1 = values;
+                            });
+                          },
+                        ),
+                        SelectWeekDays(
+                          padding: selectWeekDaysPadding,
+                          fontSize: selectWeekDaysFontSize,
+                          fontWeight: FontWeight.bold,
+                          days: weekdays2,
+                          backgroundColor: Color.fromARGB(255, 76, 175, 80),
+                          border: false,
+                          boxDecoration: BoxDecoration(
+                            color: Colors.green,
+                            borderRadius: BorderRadius.only(
+                                bottomLeft:
+                                    Radius.circular(selectWeekDaysBorderRadius),
+                                bottomRight: Radius.circular(
+                                    selectWeekDaysBorderRadius)),
+                          ),
+                          onSelect: (values) {
+                            setState(() {
+                              print(values);
+                              selectedweekdays2 = values;
+                            });
+                          },
+                        ),
                       ]),
                 ),
                 Column(
@@ -234,7 +329,8 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                           border: Border(top: BorderSide()),
                         )),
                     Card(
-                        margin: const EdgeInsets.only(bottom: 16.0),
+                        margin: const EdgeInsets.only(
+                            bottom: reminderCardBottomMargin),
                         shape: RoundedRectangleBorder(
                           side: BorderSide(
                             color: Colors.greenAccent,
@@ -242,9 +338,10 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                           borderRadius:
                               BorderRadius.circular(cardsBorderRadius),
                         ),
-                        elevation: 6.0,
+                        elevation: cardsElevation,
                         child: SizedBox(
-                            height: 200,
+                            height: MediaQuery.of(context).size.height *
+                                reminderCardHeightRatio,
                             child: ListView(
                               padding: EdgeInsets.all(12),
                               children: [
@@ -284,7 +381,7 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                                 //       icon: Icon(Icons.alarm),
                                 //     )),
                                 Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Icon(Icons.alarm),
                                       SizedBox(width: 8),
@@ -297,6 +394,12 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                                     maintainState: true,
                                     visible: true,
                                     child: CusSText("Set repeat on:")),
+                                Visibility(
+                                    maintainSize: true,
+                                    maintainAnimation: true,
+                                    maintainState: true,
+                                    visible: true,
+                                    child: CusSText(shoingRepeatWeekdays())),
                               ],
                             ))),
                     Row(

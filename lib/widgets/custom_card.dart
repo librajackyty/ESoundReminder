@@ -43,7 +43,7 @@ class _CusCardState extends State<CusCard> {
         ),
         borderRadius: BorderRadius.circular(cardsBorderRadius),
       ),
-      elevation: 6.0,
+      elevation: cardsElevation,
       child: InkWell(
         borderRadius: BorderRadius.circular(cardsBorderRadius),
         onTap: () {

@@ -6,6 +6,7 @@ import '../widgets/custom_button_normal_back.dart';
 import '../widgets/custom_button_small.dart';
 import '../widgets/custom_text_normal.dart';
 import '../widgets/custom_text_small.dart';
+import '../widgets/custom_text_small_ex.dart';
 import '../widgets/custom_text_title.dart';
 
 class ReminderDetailPage extends StatefulWidget {
@@ -53,21 +54,26 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                CusNText(
-                  'ReminderDetail:',
+                CusExSText("Step (3/3)"),
+                CusSText(
+                  'Reminder Detail:',
+                ),
+                const SizedBox(
+                  height: 12,
                 ),
                 Expanded(
                   child: Card(
-                      margin: const EdgeInsets.only(bottom: 16.0),
+                      margin: const EdgeInsets.only(
+                          bottom: reminderCardBottomMargin),
                       shape: RoundedRectangleBorder(
                         side: BorderSide(
                           color: Colors.greenAccent,
                         ),
                         borderRadius: BorderRadius.circular(cardsBorderRadius),
                       ),
-                      elevation: 6.0,
+                      elevation: cardsElevation,
                       child: Padding(
-                        padding: EdgeInsets.all(6),
+                        padding: EdgeInsets.all(8),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -79,6 +85,8 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
                                   SizedBox(width: 8),
                                   CusTitleText("06:30")
                                 ]),
+                            CusSText("Set repeat on:"),
+                            CusNText("Monday, Friday"),
                             const SizedBox(
                               height: 12,
                             ),
@@ -96,72 +104,88 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
                             const SizedBox(
                               height: 4,
                             ),
-                            CusNButton(
-                                "Save",
-                                (() => showDialog<String>(
-                                      context: context,
-                                      builder: (BuildContext context) =>
-                                          AlertDialog(
-                                        title: CusSText('Save?'),
-                                        content: CusNText(
-                                            'Are you sure to save this reminder?'),
-                                        actions: <Widget>[
-                                          TextButton(
-                                            onPressed: () =>
-                                                Navigator.pop(context, 'NO'),
-                                            child: CusSText('No'),
-                                          ),
-                                          TextButton(
-                                            onPressed: () => Navigator
-                                                .pushNamedAndRemoveUntil(
-                                                    context,
-                                                    pageRouteHome,
-                                                    ((route) => false)),
-                                            child: CusSText('Yes'),
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                // {
-                                // Navigator.pushNamedAndRemoveUntil(
-                                //     context, pageRouteHome, ((route) => false));
-
-                                // }
+                            Container(
+                                margin: EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  border: Border(top: BorderSide()),
                                 )),
                             const SizedBox(
-                              height: 8,
+                              height: 4,
                             ),
-                            CusNBackButton(
-                                'Delete',
-                                () => showDialog<String>(
-                                      context: context,
-                                      builder: (BuildContext context) =>
-                                          AlertDialog(
-                                        title: CusSText('Delete?'),
-                                        content: CusNText(
-                                            'Are you sure to delete this reminder?'),
-                                        actions: <Widget>[
-                                          TextButton(
-                                            onPressed: () =>
-                                                Navigator.pop(context, 'NO'),
-                                            child: CusSText('No'),
-                                          ),
-                                          TextButton(
-                                            onPressed: () => Navigator
-                                                .pushNamedAndRemoveUntil(
-                                                    context,
-                                                    pageRouteHome,
-                                                    ((route) => false)),
-                                            child: CusSText('Yes'),
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                // {
-                                //   Navigator.pushNamedAndRemoveUntil(
-                                //       context, pageRouteHome, ((route) => false));
-                                // }
-                                ),
+                            Container(
+                                padding: EdgeInsets.all(8.0),
+                                child: Column(
+                                  children: [
+                                    CusNButton(
+                                        "Save",
+                                        (() => showDialog<String>(
+                                              context: context,
+                                              builder: (BuildContext context) =>
+                                                  AlertDialog(
+                                                title: CusSText('Save?'),
+                                                content: CusNText(
+                                                    'Are you sure to save this reminder?'),
+                                                actions: <Widget>[
+                                                  TextButton(
+                                                    onPressed: () =>
+                                                        Navigator.pop(
+                                                            context, 'NO'),
+                                                    child: CusSText('No'),
+                                                  ),
+                                                  TextButton(
+                                                    onPressed: () => Navigator
+                                                        .pushNamedAndRemoveUntil(
+                                                            context,
+                                                            pageRouteHome,
+                                                            ((route) => false)),
+                                                    child: CusSText('Yes'),
+                                                  ),
+                                                ],
+                                              ),
+                                            )
+                                        // {
+                                        // Navigator.pushNamedAndRemoveUntil(
+                                        //     context, pageRouteHome, ((route) => false));
+
+                                        // }
+                                        )),
+                                    const SizedBox(
+                                      height: 8,
+                                    ),
+                                    CusNBackButton(
+                                        'Delete',
+                                        () => showDialog<String>(
+                                              context: context,
+                                              builder: (BuildContext context) =>
+                                                  AlertDialog(
+                                                title: CusSText('Delete?'),
+                                                content: CusNText(
+                                                    'Are you sure to delete this reminder?'),
+                                                actions: <Widget>[
+                                                  TextButton(
+                                                    onPressed: () =>
+                                                        Navigator.pop(
+                                                            context, 'NO'),
+                                                    child: CusSText('No'),
+                                                  ),
+                                                  TextButton(
+                                                    onPressed: () => Navigator
+                                                        .pushNamedAndRemoveUntil(
+                                                            context,
+                                                            pageRouteHome,
+                                                            ((route) => false)),
+                                                    child: CusSText('Yes'),
+                                                  ),
+                                                ],
+                                              ),
+                                            )
+                                        // {
+                                        //   Navigator.pushNamedAndRemoveUntil(
+                                        //       context, pageRouteHome, ((route) => false));
+                                        // }
+                                        ),
+                                  ],
+                                ))
                           ],
                         ),
                       )),

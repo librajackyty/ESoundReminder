@@ -7,6 +7,7 @@ import '../widgets/custom_button_small.dart';
 import '../widgets/custom_scroll_bar.dart';
 import '../widgets/custom_text_normal.dart';
 import '../widgets/custom_text_small.dart';
+import '../widgets/custom_text_small_ex.dart';
 
 class ReminderNewPage extends StatefulWidget {
   const ReminderNewPage({super.key, required this.title});
@@ -27,6 +28,8 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
     "胃藥",
     "抗生素",
     "維他命",
+    "維他命A",
+    "維他命B",
     "維他命C",
     "維他命D",
   ];
@@ -38,6 +41,8 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
     "Antacid",
     "Antibiotic",
     "Vitamin",
+    "Vitamin A",
+    "Vitamin B",
     "Vitamin C",
     "Vitamin D"
   ];
@@ -51,11 +56,12 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
         padding: EdgeInsets.all(8),
         child: CusSButton("$medicine", () {
           setState(() {
-            if (!selectedMedicine.contains("$medicine")) {
-              selectedMedicine.add("$medicine");
-            } else {
-              selectedMedicine.remove("$medicine");
-            }
+            // if (!selectedMedicine.contains("$medicine")) {
+            //   selectedMedicine.add("$medicine");
+            // } else {
+            //   selectedMedicine.remove("$medicine");
+            // }
+            selectedMedicine = ["$medicine"];
           });
         }),
       ));
@@ -66,7 +72,7 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
   List<Widget> medicineSelectedArea(List selectedlist) {
     List<Widget> mwList = [];
     for (var medicine in selectedlist) {
-      mwList.add(CusSButton(
+      mwList.add(CusNButton(
         "$medicine",
         () {
           setState(() {
@@ -90,18 +96,30 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
           padding: const EdgeInsets.all(safeAreaPaddingAll),
           child: Center(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              // mainAxisAlignment: MainAxisAlignment.center,
+              // crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
+                CusExSText("Step (1/3)"),
                 CusSText(
-                  'Please select which medicine you will take (Can select more than one):',
+                  // 'Please select which medicine you will take (Can select more than one):',
+                  'Please select which medicine you will take:',
                 ),
                 Expanded(
-                  child: CusScrollbar(
-                    SingleChildScrollView(
-                      child: Column(
+                  child:
+                      // CusScrollbar(
+                      GridView.count(
+                          primary: false,
+                          padding: const EdgeInsets.all(8),
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 8,
+                          crossAxisCount: 3,
                           children: medicineSelection(staticmedicinelist)),
-                    ),
-                  ),
+                  // SingleChildScrollView(
+                  //   child:
+                  //  Column(
+                  //     children: medicineSelection(staticmedicinelist)),
+                  // ),
+                  // ),
                 ),
                 Column(
                   children: [
@@ -111,23 +129,35 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
                           border: Border(top: BorderSide()),
                         )),
                     Card(
-                      margin: const EdgeInsets.only(bottom: 16.0),
+                      margin: const EdgeInsets.only(
+                          bottom: reminderCardBottomMargin),
                       shape: RoundedRectangleBorder(
                         side: BorderSide(
                           color: Colors.greenAccent,
                         ),
                         borderRadius: BorderRadius.circular(cardsBorderRadius),
                       ),
-                      elevation: 6.0,
+                      elevation: cardsElevation,
                       child: SizedBox(
-                        height: 200,
-                        child: GridView.count(
-                            primary: false,
-                            padding: const EdgeInsets.all(10),
-                            crossAxisSpacing: 8,
-                            mainAxisSpacing: 8,
-                            crossAxisCount: 3,
-                            children: medicineSelectedArea(selectedMedicine)),
+                        width: double.maxFinite,
+                        height: MediaQuery.of(context).size.height *
+                            reminderCardHeightRatio,
+
+                        child: ListView(
+                          padding: const EdgeInsets.all(12),
+                          children: [
+                            CusSText("Selected medicine:"),
+                            ...medicineSelectedArea(selectedMedicine)
+                          ],
+                        ),
+
+                        // GridView.count(
+                        //     primary: false,
+                        //     padding: const EdgeInsets.all(10),
+                        //     crossAxisSpacing: 8,
+                        //     mainAxisSpacing: 8,
+                        //     crossAxisCount: 3,
+                        //     children: medicineSelectedArea(selectedMedicine)),
                       ),
                     ),
                     Row(

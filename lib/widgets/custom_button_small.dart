@@ -18,7 +18,7 @@ class _CusSButtonState extends State<CusSButton> {
   VoidCallback onPressed;
   Widget? icon;
 
-  final ButtonStyle backstyle = ElevatedButton.styleFrom(
+  final ButtonStyle btnstyle = ElevatedButton.styleFrom(
     textStyle: const TextStyle(
         fontSize: textBtnSmallSize, fontWeight: FontWeight.bold),
     minimumSize: const Size.fromHeight(40),
@@ -35,15 +35,18 @@ class _CusSButtonState extends State<CusSButton> {
     if (widget.icon != null) {
       return ElevatedButton.icon(
         icon: widget.icon!,
-        style: backstyle,
+        style: btnstyle,
         onPressed: widget.onPressed,
         label: Text(widget.text),
       );
     }
     return ElevatedButton(
-      style: backstyle,
+      style: btnstyle,
       onPressed: widget.onPressed,
-      child: Text(widget.text),
+      child: Text(
+        widget.text,
+        textAlign: TextAlign.center,
+      ),
     );
   }
 }

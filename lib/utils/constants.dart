@@ -12,8 +12,14 @@ const String pageRouteAbout = "/about";
 const double safeAreaPaddingAll = 20.0;
 const double safeAreaPaddingAllWthLv = 2.0;
 
+const double reminderCardHeightRatio = 0.25;
+const double reminderCardBottomMargin = 16.0;
 const double cardsBorderRadius = 20.0;
+const double cardsElevation = 6.0;
 const double listviewPaddingAll = 18.0;
+const double selectWeekDaysFontSize = 20.0;
+const double selectWeekDaysBorderRadius = 30.0;
+const double selectWeekDaysPadding = 10.0;
 
 const double textTitleSize = 36;
 const double textNormalSize = 30;

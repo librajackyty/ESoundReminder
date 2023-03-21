@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: shouldUseMaterial3,
         primarySwatch: Colors.green,
       ),
-      themeMode: ThemeMode.system,
+      themeMode: ThemeMode.light,
       debugShowCheckedModeBanner: false,
       routes: {
         constants.pageRouteHome: (context) => const HomePage(title: 'Home'),
