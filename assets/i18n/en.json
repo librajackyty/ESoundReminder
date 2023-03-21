@@ -1,0 +1,21 @@
+{
+    "app_title": "E Daily Reminder",
+    "common_yes": "Yes",
+    "common_no": "No",
+    "common_back": "Back",
+    "common_cancel": "Cancel",
+    "common_confirm": "Confirm",
+    "common_Save": "Save",
+    "home_greeting": "Hello!",
+    "home_list_msg" : "Below are the reminders you created:",
+    "reminder_new1_msg": "",
+    "reminder_new2_msg": "",
+    "reminder_new2_timepicker_help": "Select Time",
+    "reminder_detail_msg": "",
+    "settings_title": "Settings",
+    "settings_list_language": "Language",
+    "settings_list_about": "About",
+    "settings_list_oss": "Open source software (OSS)",
+    "lang_title": "Language",
+    "lang_list_msg": "Please select the language:"
+}

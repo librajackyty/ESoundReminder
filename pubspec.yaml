@@ -18,6 +18,9 @@ dependencies:
   package_info_plus: ^3.0.3
   flutter_launcher_name: ^0.0.1
   day_picker: ^2.1.1
+  shared_preferences: ^2.0.18
+  flutter_localizations:
+    sdk: flutter
 
 dev_dependencies:
   flutter_test:

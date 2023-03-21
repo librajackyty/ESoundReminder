@@ -1,6 +1,7 @@
 import 'package:e_sound_reminder_app/widgets/custom_text_small.dart';
 import 'package:flutter/material.dart';
 
+import '../models/language.dart';
 import '../utils/constants.dart';
 import '../widgets/custom_button_normal_back.dart';
 import '../widgets/custom_list_item.dart';
@@ -20,7 +21,7 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(Language.of(context)!.t("settings_title")),
       ),
       body: SafeArea(
         child: Padding(
@@ -45,20 +46,25 @@ class _SettingsPageState extends State<SettingsPage> {
                       child: ListView(
                           padding:
                               const EdgeInsets.only(top: safeAreaPaddingAll),
-                          children: <Widget>[
+                          children: [
                             const Icon(
                               Icons.settings,
                               color: Colors.green,
                               size: 88.0,
                             ),
-                            CusListItm(Icons.language, 'Language', onTap: () {
+                            CusListItm(
+                                Icons.language,
+                                Language.of(context)!
+                                    .t("settings_list_language"), onTap: () {
                               Navigator.pushNamed(context, pageRouteLangConfig);
                             }),
-                            CusListItm(Icons.help, 'About', onTap: () {
+                            CusListItm(Icons.help,
+                                Language.of(context)!.t("settings_list_about"),
+                                onTap: () {
                               Navigator.pushNamed(context, pageRouteAbout);
                             }),
-                            CusListItm(
-                                Icons.terminal, 'Open source software (OSS)',
+                            CusListItm(Icons.terminal,
+                                Language.of(context)!.t("settings_list_oss"),
                                 onTap: () {
                               Navigator.pushNamed(
                                   context, pageRouteOpenSources);

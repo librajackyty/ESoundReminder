@@ -9,6 +9,9 @@ const String pageRouteReminderNew2 = "/remindernew2";
 const String pageRouteOpenSources = "/opensources";
 const String pageRouteAbout = "/about";
 
+const String langLangCodeKey = "language_code";
+const String langCountryCodeKey = "countryCode";
+
 const double safeAreaPaddingAll = 20.0;
 const double safeAreaPaddingAllWthLv = 2.0;
 

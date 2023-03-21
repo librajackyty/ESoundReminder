@@ -1,3 +1,4 @@
+import 'package:e_sound_reminder_app/models/language.dart';
 import 'package:e_sound_reminder_app/widgets/custom_card.dart';
 import 'package:e_sound_reminder_app/widgets/custom_text_small.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Hello, Sir"),
+        title: Text(Language.of(context)!.t("home_greeting")),
       ),
       extendBody: true,
       body: SafeArea(
@@ -32,7 +33,7 @@ class _HomePageState extends State<HomePage> {
                 children: <Widget>[
                   Container(
                     padding: EdgeInsets.only(bottom: 20),
-                    child: CusSText('Below are the reminders you created:'),
+                    child: CusSText(Language.of(context)!.t("home_list_msg")),
                   ),
                   CusCard(
                       Icon(

@@ -1,0 +1,21 @@
+{
+    "app_title": "日日提",
+    "common_yes": "係",
+    "common_no": "唔係",
+    "common_back": "返回",
+    "common_cancel": "取消",
+    "common_confirm": "確認",
+    "common_Save": "保存",
+    "home_greeting": "你好!",
+    "home_list_msg" : "以下係你創建嘅提醒事項:",
+    "reminder_new1_msg": "",
+    "reminder_new2_msg": "",
+    "reminder_new2_timepicker_help": "選擇時間",
+    "reminder_detail_msg": "",
+    "settings_title": "設置",
+    "settings_list_language": "語言",
+    "settings_list_about": "關於",
+    "settings_list_oss": "開源軟件 (OSS)",
+    "lang_title": "語言",
+    "lang_list_msg": "請選擇語言:"
+}

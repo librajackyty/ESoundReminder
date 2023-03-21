@@ -2,6 +2,7 @@ import 'package:day_picker/day_picker.dart';
 import 'package:e_sound_reminder_app/widgets/custom_text_title.dart';
 import 'package:flutter/material.dart';
 
+import '../models/language.dart';
 import '../utils/constants.dart';
 import '../widgets/custom_button_normal.dart';
 import '../widgets/custom_button_normal_back.dart';
@@ -182,7 +183,13 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                             TimeOfDay? newtime = await showTimePicker(
                                 context: context,
                                 initialTime: timeMorning,
-                                initialEntryMode: TimePickerEntryMode.dialOnly);
+                                initialEntryMode: TimePickerEntryMode.dialOnly,
+                                helpText: Language.of(context)!
+                                    .t("reminder_new2_timepicker_help"),
+                                confirmText:
+                                    Language.of(context)!.t("common_confirm"),
+                                cancelText:
+                                    Language.of(context)!.t("common_cancel"));
                             if (newtime == null) return;
 
                             setState(() => timeMorning = newtime);
