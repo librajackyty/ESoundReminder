@@ -5,17 +5,47 @@
     "common_back": "返回",
     "common_cancel": "取消",
     "common_confirm": "確認",
-    "common_Save": "保存",
-    "home_greeting": "你好!",
-    "home_list_msg" : "以下係你創建嘅提醒事項:",
-    "reminder_new1_msg": "",
-    "reminder_new2_msg": "",
+    "common_save": "保存",
+    "common_step": "步驟",
+    "common_next": "下一步",
+    
+    "home_greeting": "您好!",
+    "home_list_msg" : "以下係您創建嘅提醒事項:",
+
+    "reminder_new1_msg": "請選擇您將服用的藥物",
+    "reminder_new1_selectedmedicine": "已選擇藥物:",
+    "reminder_new1_snackmsg1": "請先選擇至少一種藥物",
+
+    "reminder_new2_msg": "請設置時間提醒您服藥",
+    "reminder_new2_settimer1": "請設置時間:",
+    "reminder_new2_setrepeat1": "請設置每周重複:",
+    "reminder_new2_settimer2": "鬧鐘設置為:",
+    "reminder_new2_setrepeat2": "每周重複:",
+    "reminder_new2_setrepeat3": "唔重複",
+    "reminder_new2_setrepeat4": "每日重複",
     "reminder_new2_timepicker_help": "選擇時間",
+
+    "reminder_detail_title": "",
     "reminder_detail_msg": "",
+    "reminder_detail_settimer": "鬧鐘設置為:",
+    "reminder_detail_setrepeat": "每周重複:",
+    "reminder_detail_selectmedicine": "服用以下藥物:",
+    "reminder_detail_confirmquestion": "您確定要保存此提醒事項嗎？",
+    "reminder_detail_cancelquestion": "您確定要取消此提醒事項嗎？",
+
     "settings_title": "設置",
     "settings_list_language": "語言",
     "settings_list_about": "關於",
     "settings_list_oss": "開源軟件 (OSS)",
+
     "lang_title": "語言",
-    "lang_list_msg": "請選擇語言:"
+    "lang_list_msg": "請選擇語言:",
+
+    "week_mon": "一",
+    "week_tue": "二",
+    "week_wed": "三",
+    "week_thu": "四",
+    "week_fri": "五",
+    "week_sat": "六",
+    "week_sun": "日"
 }

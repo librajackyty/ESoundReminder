@@ -1,6 +1,7 @@
 import 'package:e_sound_reminder_app/widgets/custom_button_normal.dart';
 import 'package:flutter/material.dart';
 
+import '../models/language.dart';
 import '../utils/constants.dart';
 import '../widgets/custom_button_normal_back.dart';
 import '../widgets/custom_button_small.dart';
@@ -53,17 +54,18 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
     showDialog<String>(
       context: context,
       builder: (BuildContext context) => AlertDialog(
-        title: CusSText('Save?'),
-        content: CusNText('Are you sure to save this reminder?'),
+        title: CusSText('${Language.of(context)!.t("common_save")}?'),
+        content: CusNText(
+            Language.of(context)!.t("reminder_detail_confirmquestion")),
         actions: <Widget>[
           TextButton(
             onPressed: () => Navigator.pop(context, 'NO'),
-            child: CusSText('No'),
+            child: CusSText(Language.of(context)!.t("common_no")),
           ),
           TextButton(
             onPressed: () => Navigator.pushNamedAndRemoveUntil(
                 context, pageRouteHome, ((route) => false)),
-            child: CusSText('Yes'),
+            child: CusSText(Language.of(context)!.t("common_yes")),
           ),
         ],
       ),
@@ -74,17 +76,18 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
     showDialog<String>(
       context: context,
       builder: (BuildContext context) => AlertDialog(
-        title: CusSText('Cancel?'),
-        content: CusNText('Are you sure to cancel this reminder?'),
+        title: CusSText('${Language.of(context)!.t("common_cancel")}?'),
+        content:
+            CusNText(Language.of(context)!.t("reminder_detail_cancelquestion")),
         actions: <Widget>[
           TextButton(
             onPressed: () => Navigator.pop(context, 'NO'),
-            child: CusSText('No'),
+            child: CusSText(Language.of(context)!.t("common_no")),
           ),
           TextButton(
             onPressed: () => Navigator.pushNamedAndRemoveUntil(
                 context, pageRouteHome, ((route) => false)),
-            child: CusSText('Yes'),
+            child: CusSText(Language.of(context)!.t("common_yes")),
           ),
         ],
       ),
@@ -104,10 +107,10 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                CusExSText("Step (3/3)"),
-                CusSText(
-                  'Reminder Detail:',
-                ),
+                CusExSText("${Language.of(context)!.t("common_step")} (3/3)"),
+                // CusSText(
+                //   'Reminder Detail:',
+                // ),
                 const SizedBox(
                   height: 12,
                 ),
@@ -155,7 +158,8 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
                                   Row(children: [
                                     Icon(Icons.alarm_on_outlined),
                                     SizedBox(width: 6),
-                                    CusSText("Set timer to:"),
+                                    CusSText(Language.of(context)!
+                                        .t("reminder_detail_settimer")),
                                   ]),
                                   settedTime("07:00"),
                                   // settedTime("12:00"),
@@ -166,7 +170,8 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
                                   Row(children: [
                                     Icon(Icons.event_repeat_outlined),
                                     SizedBox(width: 6),
-                                    CusSText("Set repeat on:"),
+                                    CusSText(Language.of(context)!
+                                        .t("reminder_detail_setrepeat")),
                                   ]),
                                   CusNText(
                                       "Monday, Friday, Tuesday, Wednesday"),
@@ -176,7 +181,8 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
                                   Row(children: [
                                     Icon(Icons.medication_outlined),
                                     SizedBox(width: 6),
-                                    CusSText("Take medince:")
+                                    CusSText(Language.of(context)!
+                                        .t("reminder_detail_selectmedicine"))
                                   ]),
                                   const SizedBox(
                                     height: 8.0,
@@ -200,23 +206,26 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
                                 padding: EdgeInsets.all(8.0),
                                 child: Column(
                                   children: [
-                                    CusNButton("Save", showConfirmDialog),
+                                    CusNButton(
+                                        Language.of(context)!.t("common_save"),
+                                        showConfirmDialog),
                                     const SizedBox(
                                       height: 8,
                                     ),
-                                    CusNBackButton('Cancel', showCancelDialog),
+                                    CusNBackButton(
+                                        Language.of(context)!
+                                            .t("common_cancel"),
+                                        showCancelDialog),
                                   ],
                                 ))
                           ],
                         ),
                       )),
                 ),
-                Container(
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child:
-                        CusNBackButton('Back', () => {Navigator.pop(context)}),
-                  ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: CusNBackButton(Language.of(context)!.t("common_back"),
+                      () => {Navigator.pop(context)}),
                 ),
               ],
             ),

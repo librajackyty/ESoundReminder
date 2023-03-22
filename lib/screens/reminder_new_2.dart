@@ -35,37 +35,35 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
   bool setNight = false;
 
   // Weekly selector
-  List<DayInWeek> weekdays1 = [
-    DayInWeek(
-      "Monday",
-    ),
-    DayInWeek(
-      "Tuesday",
-    ),
-    DayInWeek(
-      "Wednesday",
-    ),
-  ];
-  List<DayInWeek> weekdays2 = [
-    DayInWeek(
-      "Thursday",
-    ),
-    DayInWeek(
-      "Friday",
-    ),
-    DayInWeek("Saturday"),
-    DayInWeek("Sunday"),
-  ];
-
   List selectedweekdays1 = [];
   List selectedweekdays2 = [];
 
   // UI rendering
+  List<DayInWeek> getweekdaysList1(BuildContext context) {
+    return [
+      DayInWeek(Language.of(context)!.t("week_mon")),
+      DayInWeek(Language.of(context)!.t("week_tue")),
+      DayInWeek(Language.of(context)!.t("week_wed")),
+    ];
+  }
+
+  List<DayInWeek> getweekdaysList2(BuildContext context) {
+    return [
+      DayInWeek(Language.of(context)!.t("week_thu")),
+      DayInWeek(Language.of(context)!.t("week_fri")),
+      DayInWeek(Language.of(context)!.t("week_sat")),
+      DayInWeek(Language.of(context)!.t("week_sun")),
+    ];
+  }
+
   void openTimePicker() {}
 
   String showingRepeatWeekdays() {
     if (selectedweekdays1.isEmpty && selectedweekdays2.isEmpty) {
-      return "Not Repeat";
+      return Language.of(context)!.t("reminder_new2_setrepeat3");
+    }
+    if (selectedweekdays1.length >= 3 && selectedweekdays2.length >= 4) {
+      return Language.of(context)!.t("reminder_new2_setrepeat4");
     }
     final String displayW1 = selectedweekdays1.join(", ");
     final String displayW2 = selectedweekdays2.join(", ");
@@ -96,9 +94,9 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
             child: Column(
               // mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                CusExSText("Step (2/3)"),
+                CusExSText("${Language.of(context)!.t("common_step")} (2/3)"),
                 CusSText(
-                  'Please set the time to remind you:',
+                  Language.of(context)!.t("reminder_new2_msg"),
                 ),
 
                 // const SizedBox(height: 20),
@@ -175,7 +173,7 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         CusSText(
-                          'Please set timer:',
+                          Language.of(context)!.t("reminder_new2_settimer1"),
                         ),
                         CusNButton(
                           "$hoursDisplay1:$minsDisplay1",
@@ -281,13 +279,13 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                         //   icon: Icon(Icons.alarm_add),
                         // )
                         CusSText(
-                          'Please set repeat in week:',
+                          Language.of(context)!.t("reminder_new2_setrepeat1"),
                         ),
                         SelectWeekDays(
                           padding: selectWeekDaysPadding,
                           fontSize: selectWeekDaysFontSize,
                           fontWeight: FontWeight.bold,
-                          days: weekdays1,
+                          days: getweekdaysList1(context),
                           // backgroundColor: Color.fromARGB(255, 129, 199, 132),
                           border: false,
                           boxDecoration: BoxDecoration(
@@ -309,7 +307,7 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                           padding: selectWeekDaysPadding,
                           fontSize: selectWeekDaysFontSize,
                           fontWeight: FontWeight.bold,
-                          days: weekdays2,
+                          days: getweekdaysList2(context),
                           // backgroundColor: Color.fromARGB(255, 76, 175, 80),
                           border: false,
                           boxDecoration: BoxDecoration(
@@ -369,7 +367,8 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                                   child: Row(children: [
                                     Icon(Icons.alarm_on_outlined),
                                     SizedBox(width: 6),
-                                    CusSText("Set timer to:"),
+                                    CusSText(Language.of(context)!
+                                        .t("reminder_new2_settimer2")),
                                   ]),
                                 ),
                                 // Visibility(
@@ -409,7 +408,8 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                                   child: Row(children: [
                                     Icon(Icons.event_repeat_outlined),
                                     SizedBox(width: 6),
-                                    CusSText("Set repeat on:"),
+                                    CusSText(Language.of(context)!
+                                        .t("reminder_new2_setrepeat2")),
                                   ]),
                                 ),
                                 Visibility(
@@ -424,14 +424,15 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                       children: [
                         Expanded(
                           child: CusNBackButton(
-                              'Back', () => {Navigator.pop(context)}),
+                              Language.of(context)!.t("common_back"),
+                              () => {Navigator.pop(context)}),
                         ),
                         const SizedBox(
                           width: 8,
                         ),
                         Expanded(
                           child: CusNButton(
-                              'Next',
+                              Language.of(context)!.t("common_next"),
                               () => {
                                     Navigator.pushNamed(
                                         context, pageRouteReminderDetail)

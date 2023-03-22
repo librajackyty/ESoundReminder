@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../models/language.dart';
 import '../utils/constants.dart';
 import '../widgets/custom_button_normal.dart';
 import '../widgets/custom_button_normal_back.dart';
@@ -99,10 +100,9 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
               // mainAxisAlignment: MainAxisAlignment.center,
               // crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                CusExSText("Step (1/3)"),
+                CusExSText("${Language.of(context)!.t("common_step")} (1/3)"),
                 CusSText(
-                  // 'Please select which medicine you will take (Can select more than one):',
-                  'Please select which medicine you will take:',
+                  Language.of(context)!.t("reminder_new1_msg"),
                 ),
                 Expanded(
                   child:
@@ -150,7 +150,8 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
                             Row(children: [
                               Icon(Icons.medication_outlined),
                               SizedBox(width: 6),
-                              CusSText("Selected medicine:")
+                              CusSText(Language.of(context)!
+                                  .t("reminder_new1_selectedmedicine"))
                             ]),
                             const SizedBox(
                               height: 8.0,
@@ -172,14 +173,15 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
                       children: [
                         Expanded(
                           child: CusNBackButton(
-                              'Back', () => {Navigator.pop(context)}),
+                              Language.of(context)!.t("common_back"),
+                              () => {Navigator.pop(context)}),
                         ),
                         const SizedBox(
                           width: 8,
                         ),
                         Expanded(
                           child: CusNButton(
-                              'Next',
+                              Language.of(context)!.t("common_next"),
                               () => {
                                     // Navigator.pop(context),
                                     if (selectedMedicine.isEmpty)
@@ -187,7 +189,8 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(SnackBar(
                                           content: CusSText(
-                                              "Please select at least one medicine first"),
+                                              Language.of(context)!.t(
+                                                  "reminder_new1_snackmsg1")),
                                         ))
                                       }
                                     else

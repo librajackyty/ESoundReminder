@@ -1,6 +1,7 @@
 import 'package:e_sound_reminder_app/widgets/custom_text_small.dart';
 import 'package:flutter/material.dart';
 
+import '../models/language.dart';
 import '../utils/constants.dart';
 import '../widgets/custom_button_normal_back.dart';
 import '../widgets/custom_list_item.dart';
@@ -45,8 +46,9 @@ class _OpenSourcesPageState extends State<OpenSourcesPage> {
                 Expanded(
                   child: Align(
                     alignment: Alignment.bottomCenter,
-                    child:
-                        CusNBackButton('Back', () => {Navigator.pop(context)}),
+                    child: CusNBackButton(
+                        Language.of(context)!.t("common_back"),
+                        () => {Navigator.pop(context)}),
                   ),
                 ),
               ],
