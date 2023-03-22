@@ -41,6 +41,9 @@
     "lang_title": "Language",
     "lang_list_msg": "Please select the language:",
 
+    "oss_title": "Open source software (OSS)",
+    "oss_msg": "This application makes use of the following software/libraries/plugins",
+
     "week_mon": "Monday",
     "week_tue": "Tuesday",
     "week_wed": "Wednesday",

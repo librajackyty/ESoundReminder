@@ -40,6 +40,9 @@
 
     "lang_title": "语言",
     "lang_list_msg": "请选择语言:",
+    
+    "oss_title": "开源软件 (OSS)",
+    "oss_msg": "此应用程序使用以下软件/库/插件",
 
     "week_mon": "一",
     "week_tue": "二",

@@ -41,6 +41,9 @@
     "lang_title": "語言",
     "lang_list_msg": "請選擇語言:",
 
+    "oss_title": "開源軟件 (OSS)",
+    "oss_msg": "此應用程序使用以下軟件/庫/插件",
+
     "week_mon": "一",
     "week_tue": "二",
     "week_wed": "三",
