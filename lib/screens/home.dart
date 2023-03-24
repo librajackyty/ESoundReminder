@@ -43,7 +43,7 @@ class _HomePageState extends State<HomePage> {
                         semanticLabel:
                             'moon icon means Time between 18:00 to 06:00', //'sunny icon means Time between 06:00 to 18:00',
                       ),
-                      "Remind take medicine",
+                      "提醒食藥 - 脷底丸",
                       "21:30",
                       onPressed: (() => {
                             Navigator.pushNamed(

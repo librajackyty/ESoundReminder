@@ -174,7 +174,8 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
                                         .t("reminder_detail_setrepeat")),
                                   ]),
                                   CusNText(
-                                      "Monday, Friday, Tuesday, Wednesday"),
+                                    "一, 二, 三, 六, 日",
+                                  ),
                                   const SizedBox(
                                     height: 12,
                                   ),

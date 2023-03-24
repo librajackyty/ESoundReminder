@@ -82,7 +82,7 @@ class _CusCardState extends State<CusCard> {
                     color: Colors.green,
                   ),
                   CusSText(
-                    widget.btntxt1 != null ? widget.btntxt1! : "Details",
+                    widget.btntxt1 != null ? widget.btntxt1! : "更多", //More
                     color: Colors.green,
                   ),
                   // TextButton(
