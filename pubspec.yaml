@@ -21,6 +21,8 @@ dependencies:
   shared_preferences: ^2.0.18
   flutter_localizations:
     sdk: flutter
+  hive_flutter: ^1.1.0
+  hive: ^2.0.5
 
 dev_dependencies:
   flutter_test:
@@ -28,6 +30,8 @@ dev_dependencies:
 
   flutter_lints: ^2.0.0
   flutter_oss_licenses: ^2.0.1
+  hive_generator: ^1.1.2
+  build_runner: ^2.1.7
 
 flutter_launcher_name:
   name: "E Daily Reminder"

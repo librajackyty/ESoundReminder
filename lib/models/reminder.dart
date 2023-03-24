@@ -1,12 +1,24 @@
 import 'dart:math';
 
+import 'package:hive/hive.dart';
+
+part 'reminder.g.dart';
+
+@HiveType(typeId: 0)
 class Reminder {
+  @HiveField(0)
   late final int id;
-  final int reminderType = 0;
+  @HiveField(1)
   final DateTime time1;
+  @HiveField(2)
   final List<int> weekdays1;
+  @HiveField(3)
+  final int reminderType = 0;
+  @HiveField(4)
   final String reminderTitle;
+  @HiveField(5)
   String? reminderDescription;
+  @HiveField(6)
   String? reminderNotes;
 
   Reminder(
