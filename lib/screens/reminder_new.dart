@@ -134,9 +134,13 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
                   Language.of(context)!.t("reminder_new1_msg"),
                 ),
                 Expanded(
-                  child:
-                      // CusScrollbar(
-                      GridView.count(
+                  child: Language.currentLocale(context) == Language.codeEnglish
+                      ? SingleChildScrollView(
+                          child: Column(
+                              children:
+                                  medicineSelection(staticmedicineENlist)),
+                        )
+                      : GridView.count(
                           primary: false,
                           padding: const EdgeInsets.all(8),
                           crossAxisSpacing: 10,
@@ -144,12 +148,6 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
                           crossAxisCount: 3,
                           children:
                               medicineSelection(getMedicineByLang(context))),
-                  // SingleChildScrollView(
-                  //   child:
-                  //  Column(
-                  //     children: medicineSelection(staticmedicinelist)),
-                  // ),
-                  // ),
                 ),
                 Column(
                   children: [
