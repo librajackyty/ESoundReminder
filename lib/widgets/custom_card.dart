@@ -6,39 +6,45 @@ import 'custom_text_small.dart';
 import 'custom_text_title.dart';
 
 class CusCard extends StatefulWidget {
-  Widget icon;
+  final Widget icon;
   final String title;
   final String subtitle;
+  final String subtitle2;
   // final String text;
   final String? btntxt1;
   // final String btntxt2;
   VoidCallback? onPressed;
 
-  CusCard(this.icon, this.title, this.subtitle, {this.btntxt1, this.onPressed});
+  CusCard(this.icon, this.title, this.subtitle, this.subtitle2,
+      {this.btntxt1, this.onPressed});
 
   @override
   _CusCardState createState() =>
-      _CusCardState(icon, title, subtitle, btntxt1, onPressed);
+      _CusCardState(icon, title, subtitle, subtitle2, btntxt1, onPressed);
 }
 
 class _CusCardState extends State<CusCard> {
   Widget icon;
   String title;
   String subtitle;
+  String subtitle2;
   // String text;
   String? btntxt1;
   // String btntxt2;
   VoidCallback? onPressed;
 
-  _CusCardState(
-      this.icon, this.title, this.subtitle, this.btntxt1, this.onPressed);
+  _CusCardState(this.icon, this.title, this.subtitle, this.subtitle2,
+      this.btntxt1, this.onPressed);
 
   @override
   Widget build(BuildContext context) {
     return Card(
+      // color: Colors.white,
+      // surfaceTintColor: Colors.white,
       margin: const EdgeInsets.only(bottom: 16.0),
       shape: RoundedRectangleBorder(
         side: BorderSide(
+          width: 1.0,
           color: Colors.greenAccent,
         ),
         borderRadius: BorderRadius.circular(cardsBorderRadius),
@@ -65,8 +71,30 @@ class _CusCardState extends State<CusCard> {
                 //       'moon icon means Time between 18:00 to 06:00', //'sunny icon means Time between 06:00 to 18:00',
                 // ),
                 title: CusNText(widget.title),
-                subtitle: CusTitleText(widget.subtitle),
+                subtitle: Wrap(
+                    // mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      CusTitleText(widget.subtitle),
+                      CusNText(
+                        widget
+                            .subtitle2, //"Repeat: Mon, Tue, Wed, Thur, Fri, Sat", //More
+                        // color: Colors.black,
+                      ),
+                    ]), //CusTitleText(widget.subtitle),
+                isThreeLine: true,
               ),
+              // CusSText(
+              //   "Repeat: Mon, Tue, Wed, Thur, Fri, Sat", //More
+              //   // color: Colors.black,
+              // ),
+              // Wrap(
+              //     // mainAxisAlignment: MainAxisAlignment.start,
+              //     children: <Widget>[
+              //       CusSText(
+              //         "Repeat: Mon, Tue, Wed, Thur, Fri, Sat", //More
+              //         // color: Colors.black,
+              //       ),
+              //     ]),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
@@ -79,11 +107,11 @@ class _CusCardState extends State<CusCard> {
                     Icons.summarize_rounded,
                     size: 20.0,
                     semanticLabel: 'Tap to edit',
-                    color: Colors.green,
+                    color: Colors.green[800],
                   ),
                   CusSText(
                     widget.btntxt1 != null ? widget.btntxt1! : "更多", //More
-                    color: Colors.green,
+                    color: Colors.green[800],
                   ),
                   // TextButton(
                   //   style: TextButton.styleFrom(

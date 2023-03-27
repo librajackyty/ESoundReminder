@@ -37,14 +37,15 @@ class _HomePageState extends State<HomePage> {
                   ),
                   CusCard(
                       Icon(
-                        Icons.nightlight_rounded, // Icons.sunny
-                        color: Colors.yellow[600]!, // Colors.yellow[900]!
-                        size: 36.0,
+                        Icons.medication, // Icons.sunny
+                        color: Colors.blue[600]!, // Colors.yellow[900]!
+                        size: 40.0,
                         semanticLabel:
                             'moon icon means Time between 18:00 to 06:00', //'sunny icon means Time between 06:00 to 18:00',
                       ),
                       "提醒食藥 - 脷底丸",
                       "21:30",
+                      "每周重複: \n一, 二, 三, 六, 日",
                       onPressed: (() => {
                             Navigator.pushNamed(
                                 context, pageRouteReminderDetail)
