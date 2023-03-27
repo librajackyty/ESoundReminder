@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../models/language.dart';
+import '../models/reminder.dart';
+import '../models/reminder_screen_arg.dart';
 import '../utils/constants.dart';
 import '../widgets/custom_button_normal.dart';
 import '../widgets/custom_button_normal_back.dart';
@@ -11,9 +13,10 @@ import '../widgets/custom_text_small.dart';
 import '../widgets/custom_text_small_ex.dart';
 
 class ReminderNewPage extends StatefulWidget {
-  const ReminderNewPage({super.key, required this.title});
+  const ReminderNewPage({super.key, required this.title, this.arg});
 
   final String title;
+  final ReminderScreenArg? arg;
 
   @override
   State<ReminderNewPage> createState() => _ReminderNewPageState();
@@ -34,6 +37,19 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
     "維他命C",
     "維他命D",
   ];
+  List staticmedicineCNlist = [
+    "脷底丸",
+    "降胆固醇",
+    "抗糖尿病",
+    "降血压药",
+    "胃药",
+    "抗生素",
+    "维他命",
+    "维他命A",
+    "维他命B",
+    "维他命C",
+    "维他命D",
+  ];
   List staticmedicineENlist = [
     "Nitroglyercin",
     "Cholesterol-lowering drugs",
@@ -50,6 +66,19 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
   List selectedMedicine = [];
 
   // UI rendering
+  List getMedicineByLang(BuildContext context) {
+    switch (Language.currentLocale(context)) {
+      case Language.codeEnglish:
+        return staticmedicineENlist;
+      case Language.codeSChinese:
+        return staticmedicineCNlist;
+      case Language.codeTCantonese:
+        return staticmedicinelist;
+      default:
+        return staticmedicinelist;
+    }
+  }
+
   List<Widget> medicineSelection(List medicinelist) {
     List<Widget> mwList = [];
     for (var medicine in medicinelist) {
@@ -113,7 +142,8 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
                           crossAxisSpacing: 10,
                           mainAxisSpacing: 8,
                           crossAxisCount: 3,
-                          children: medicineSelection(staticmedicinelist)),
+                          children:
+                              medicineSelection(getMedicineByLang(context))),
                   // SingleChildScrollView(
                   //   child:
                   //  Column(
