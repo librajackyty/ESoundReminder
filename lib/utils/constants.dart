@@ -4,10 +4,14 @@ const String pageRouteIntro = "/intro";
 const String pageRouteLanding = "/landing";
 const String pageRouteSettings = "/settings";
 const String pageRouteReminderDetail = "/reminderdetail";
+const String pageRouteReminderDetailMore = "/reminderdetailmore";
 const String pageRouteReminderNew = "/remindernew";
 const String pageRouteReminderNew2 = "/remindernew2";
 const String pageRouteOpenSources = "/opensources";
 const String pageRouteAbout = "/about";
+
+const String pageNameReminderDetailMore = "More Reminder Detail";
+const String pageNameReminderDetail = "New Reminder Detail";
 
 const String langLangCodeKey = "language_code";
 const String langCountryCodeKey = "countryCode";

@@ -6,11 +6,15 @@
     "common_cancel": "Cancel",
     "common_confirm": "Confirm",
     "common_save": "Save",
+    "common_delete": "Delete",
     "common_step": "Step",
     "common_next": "Next",
 
     "home_greeting": "Hello!",
     "home_list_msg" : "Below are the reminders you created:",
+    "home_card_remind_title": "Remind Taking Medicine",
+    "home_card_repeat": "Repeat:",
+    "home_card_more": "More",
     
     "reminder_new1_msg": "Please select which medicine you will take",
     "reminder_new1_selectedmedicine": "Selected medicine:",
@@ -32,6 +36,7 @@
     "reminder_detail_selectmedicine": "Taking medicine:",
     "reminder_detail_confirmquestion": "Are you sure to save this reminder?",
     "reminder_detail_cancelquestion": "Are you sure to cancel this reminder?",
+    "reminder_detail_deletequestion": "Are you sure to delete this reminder?",
 
     "settings_title": "Settings",
     "settings_list_language": "Language",

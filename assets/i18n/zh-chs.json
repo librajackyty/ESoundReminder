@@ -6,11 +6,15 @@
     "common_cancel": "取消",
     "common_confirm": "确认",
     "common_save": "保存",
+    "common_delete": "删除",
     "common_step": "步骤",
     "common_next": "下一步",
 
     "home_greeting": "您好!",
     "home_list_msg" : "以下是您创建的提醒事项:",
+    "home_card_remind_title": "提醒食藥",
+    "home_card_repeat": "重复:",
+    "home_card_more": "更多",
 
     "reminder_new1_msg": "请选择您将服用的药物",
     "reminder_new1_selectedmedicine": "已选择药物:",
@@ -32,6 +36,7 @@
     "reminder_detail_selectmedicine": "服用以下药物:",
     "reminder_detail_confirmquestion": "您确定要保存此提醒事项吗？",
     "reminder_detail_cancelquestion": "您确定要取消此提醒事项吗？",
+    "reminder_detail_deletequestion": "您确定要删除此提醒事项吗？",
 
     "settings_title": "设置",
     "settings_list_language": "语言",

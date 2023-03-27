@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/language.dart';
+import '../models/reminder.dart';
 
 String fromWeekdayToString(BuildContext context, int weekday) {
   switch (weekday) {
@@ -92,4 +93,18 @@ String mTOmm(int minute) {
     sMinute = '$minute';
   }
   return sMinute;
+}
+
+String showingRepeatWeekdays(BuildContext context, Reminder reminder) {
+  if (reminder.weekdays1.isEmpty) {
+    return Language.of(context)!.t("reminder_new2_setrepeat3");
+  }
+  if (reminder.weekdays1.length >= 7) {
+    return Language.of(context)!.t("reminder_new2_setrepeat4");
+  }
+  List<String> weekdaysStr = [];
+  for (var dNum in reminder.weekdays1) {
+    weekdaysStr.add(fromWeekdayToString(context, dNum));
+  }
+  return weekdaysStr.join(", ");
 }

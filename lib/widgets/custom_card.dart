@@ -1,6 +1,7 @@
 import 'package:e_sound_reminder_app/widgets/custom_text_normal.dart';
 import 'package:flutter/material.dart';
 
+import '../models/language.dart';
 import '../utils/constants.dart';
 import 'custom_text_small.dart';
 import 'custom_text_title.dart';
@@ -71,15 +72,12 @@ class _CusCardState extends State<CusCard> {
                 //       'moon icon means Time between 18:00 to 06:00', //'sunny icon means Time between 06:00 to 18:00',
                 // ),
                 title: CusNText(widget.title),
-                subtitle: Wrap(
-                    // mainAxisAlignment: MainAxisAlignment.start,
+                subtitle: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       CusTitleText(widget.subtitle),
-                      CusNText(
-                        widget
-                            .subtitle2, //"Repeat: Mon, Tue, Wed, Thur, Fri, Sat", //More
-                        // color: Colors.black,
-                      ),
+                      CusNText(widget.subtitle2),
                     ]), //CusTitleText(widget.subtitle),
                 isThreeLine: true,
               ),
@@ -110,7 +108,9 @@ class _CusCardState extends State<CusCard> {
                     color: Colors.green[800],
                   ),
                   CusSText(
-                    widget.btntxt1 != null ? widget.btntxt1! : "更多", //More
+                    widget.btntxt1 != null
+                        ? widget.btntxt1!
+                        : Language.of(context)!.t("home_card_more"), //More
                     color: Colors.green[800],
                   ),
                   // TextButton(

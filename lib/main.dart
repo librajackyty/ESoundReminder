@@ -1,3 +1,4 @@
+import 'package:e_sound_reminder_app/providers/reminders/reminders_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
@@ -15,6 +16,7 @@ import 'screens/reminder_new.dart';
 import 'screens/reminder_new_2.dart';
 import 'screens/settings.dart';
 import 'screens/reminder_detail.dart';
+import 'storage/reminders_hive.dart';
 import 'utils/constants.dart' as constants;
 
 void main() async {
@@ -37,11 +39,11 @@ class MyApp extends StatelessWidget {
         providers: [
           // ChangeNotifierProvider(create: (context) => ThemeModel()),
           // ChangeNotifierProvider(create: (context) => ClockTypeModel()),
-          // ChangeNotifierProvider(
-          //   create: (context) => AlarmModel(
-          //     const AlarmsHiveLocalStorage(),
-          //   ),
-          // ),
+          ChangeNotifierProvider(
+            create: (context) => ReminderModel(
+              const RemindersHiveLocalStorage(),
+            ),
+          ),
           ChangeNotifierProvider(
             create: (context) => appLanguage,
           )
@@ -66,7 +68,8 @@ class MyApp extends StatelessWidget {
             darkTheme: ThemeData.dark(useMaterial3: shouldUseMaterial3),
             theme: ThemeData(
               useMaterial3: shouldUseMaterial3,
-              primarySwatch: Colors.green,
+              // primarySwatch: Colors.green,
+              colorSchemeSeed: Colors.green,
             ),
             themeMode: ThemeMode.light,
             debugShowCheckedModeBanner: false,
@@ -115,7 +118,14 @@ class MyApp extends StatelessWidget {
                 case constants.pageRouteReminderDetail:
                   return MaterialPageRoute(
                     builder: (context) => ReminderDetailPage(
-                      title: 'New Reminder Detail',
+                      title: constants.pageNameReminderDetail,
+                      arg: settings.arguments as ReminderScreenArg?,
+                    ),
+                  );
+                case constants.pageRouteReminderDetailMore:
+                  return MaterialPageRoute(
+                    builder: (context) => ReminderDetailPage(
+                      title: constants.pageNameReminderDetailMore,
                       arg: settings.arguments as ReminderScreenArg?,
                     ),
                   );
