@@ -24,6 +24,13 @@ class ReminderNewPage extends StatefulWidget {
 
 class _ReminderNewPageState extends State<ReminderNewPage> {
   // Data
+  late Reminder reminder = widget.arg?.reminder ??
+      Reminder(
+          reminderTitle: "",
+          time1: DateTime.now(),
+          weekdays1: [],
+          selectedMedicine: []);
+
   List staticmedicinelist = [
     "脷底丸",
     "降膽固醇",
@@ -65,6 +72,10 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
   ];
   List selectedMedicine = [];
 
+  void updateSelectedMedicineToModel(List newList) {
+    reminder = reminder.copyWith(selectedMedicine: newList);
+  }
+
   // UI rendering
   List getMedicineByLang(BuildContext context) {
     switch (Language.currentLocale(context)) {
@@ -92,6 +103,7 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
             //   selectedMedicine.remove("$medicine");
             // }
             selectedMedicine = ["$medicine"];
+            updateSelectedMedicineToModel(selectedMedicine);
           });
         }),
       ));
@@ -107,6 +119,7 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
         () {
           setState(() {
             selectedMedicine.remove("$medicine");
+            updateSelectedMedicineToModel(selectedMedicine);
           });
         },
         icon: Icon(Icons.cancel),
@@ -224,7 +237,9 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
                                     else
                                       {
                                         Navigator.pushNamed(
-                                            context, pageRouteReminderNew2)
+                                            context, pageRouteReminderNew2,
+                                            arguments:
+                                                ReminderScreenArg(reminder))
                                       }
                                   }),
                         ),

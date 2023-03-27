@@ -3,6 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
 import 'models/language.dart';
+import 'models/reminder_screen_arg.dart';
 import 'providers/app_language.dart';
 import 'screens/about.dart';
 import 'screens/home.dart';
@@ -80,16 +81,46 @@ class MyApp extends StatelessWidget {
                   const LandingPage(title: 'Landing'),
               constants.pageRouteSettings: (context) =>
                   const SettingsPage(title: 'Settings'),
-              constants.pageRouteReminderDetail: (context) =>
-                  const ReminderDetailPage(title: 'Reminder Detail'),
-              constants.pageRouteReminderNew: (context) =>
-                  const ReminderNewPage(title: 'New Reminder'),
-              constants.pageRouteReminderNew2: (context) =>
-                  const ReminderNewPage2(title: 'New Reminder 2'),
+              // constants.pageRouteReminderDetail: (context) =>
+              //     const ReminderDetailPage(title: 'Reminder Detail'),
+              // constants.pageRouteReminderNew: (context) =>
+              //     const ReminderNewPage(title: 'New Reminder'),
+              // constants.pageRouteReminderNew2: (context) =>
+              //     const ReminderNewPage2(title: 'New Reminder 2'),
               constants.pageRouteAbout: (context) =>
                   const AboutPage(title: 'About'),
               constants.pageRouteOpenSources: (context) =>
                   const OpenSourcesPage(title: 'Open Sources Software (OSS)'),
+            },
+            onGenerateRoute: (settings) {
+              switch (settings.name) {
+                // case '/':
+                //   return MaterialPageRoute(
+                //     builder: (context) => const HomeScreen(),
+                //   );
+                case constants.pageRouteReminderNew:
+                  return MaterialPageRoute(
+                    builder: (context) => ReminderNewPage(
+                      title: 'New Reminder',
+                      arg: settings.arguments as ReminderScreenArg?,
+                    ),
+                  );
+                case constants.pageRouteReminderNew2:
+                  return MaterialPageRoute(
+                    builder: (context) => ReminderNewPage2(
+                      title: 'New Reminder 2',
+                      arg: settings.arguments as ReminderScreenArg?,
+                    ),
+                  );
+                case constants.pageRouteReminderDetail:
+                  return MaterialPageRoute(
+                    builder: (context) => ReminderDetailPage(
+                      title: 'New Reminder Detail',
+                      arg: settings.arguments as ReminderScreenArg?,
+                    ),
+                  );
+              }
+              return null;
             },
           ),
         ));

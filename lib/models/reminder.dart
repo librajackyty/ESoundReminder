@@ -20,12 +20,15 @@ class Reminder {
   String? reminderDescription;
   @HiveField(6)
   String? reminderNotes;
+  @HiveField(7)
+  final List selectedMedicine;
 
   Reminder(
       {int? id,
       required this.time1,
       required this.weekdays1,
-      required this.reminderTitle}) {
+      required this.reminderTitle,
+      required this.selectedMedicine}) {
     this.id = id ?? Random.secure().nextInt(10000 - 1000) + 1000;
   }
 
@@ -34,11 +37,14 @@ class Reminder {
     String? reminderTitle,
     DateTime? time1,
     List<int>? weekdays1,
+    List? selectedMedicine,
   }) =>
       Reminder(
-        id: id ?? this.id,
-        reminderTitle: reminderTitle ?? this.reminderTitle,
-        time1: time1 ?? this.time1,
-        weekdays1: weekdays1 != null ? List.from(weekdays1) : this.weekdays1,
-      );
+          id: id ?? this.id,
+          reminderTitle: reminderTitle ?? this.reminderTitle,
+          time1: time1 ?? this.time1,
+          weekdays1: weekdays1 != null ? List.from(weekdays1) : this.weekdays1,
+          selectedMedicine: selectedMedicine != null
+              ? List.from(selectedMedicine)
+              : this.selectedMedicine);
 }

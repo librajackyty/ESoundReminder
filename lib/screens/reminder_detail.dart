@@ -2,7 +2,10 @@ import 'package:e_sound_reminder_app/widgets/custom_button_normal.dart';
 import 'package:flutter/material.dart';
 
 import '../models/language.dart';
+import '../models/reminder.dart';
+import '../models/reminder_screen_arg.dart';
 import '../utils/constants.dart';
+import '../utils/formatter.dart';
 import '../widgets/custom_button_normal_back.dart';
 import '../widgets/custom_button_small.dart';
 import '../widgets/custom_text_normal.dart';
@@ -11,22 +14,32 @@ import '../widgets/custom_text_small_ex.dart';
 import '../widgets/custom_text_title.dart';
 
 class ReminderDetailPage extends StatefulWidget {
-  const ReminderDetailPage({super.key, required this.title});
+  const ReminderDetailPage({super.key, required this.title, this.arg});
 
   final String title;
+  final ReminderScreenArg? arg;
 
   @override
   State<ReminderDetailPage> createState() => _ReminderDetailPageState();
 }
 
 class _ReminderDetailPageState extends State<ReminderDetailPage> {
-  List selectedMedicine = [
-    "脷底丸",
+  // Data
+  late Reminder reminder = widget.arg?.reminder ??
+      Reminder(
+          reminderTitle: "",
+          time1: DateTime.now(),
+          weekdays1: [],
+          selectedMedicine: []);
+
+  List dSelectedMedicine = [
+    // "脷底丸",
     // "降膽固醇",
     // "抗糖尿病",
     // "降血壓藥",
   ];
 
+  // UI
   List<Widget> medicineSelectedArea(List selectedlist) {
     List<Widget> mwList = [];
     for (var medicine in selectedlist) {
@@ -41,13 +54,26 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
     return mwList;
   }
 
-  // UI
   Widget settedTime(String timeText) {
     return Row(mainAxisAlignment: MainAxisAlignment.start, children: [
       // Icon(Icons.alarm),
       // SizedBox(width: 8),
       CusTitleText(timeText)
     ]);
+  }
+
+  String showingRepeatWeekdays(BuildContext context) {
+    if (reminder.weekdays1.isEmpty) {
+      return Language.of(context)!.t("reminder_new2_setrepeat3");
+    }
+    if (reminder.weekdays1.length >= 7) {
+      return Language.of(context)!.t("reminder_new2_setrepeat4");
+    }
+    List<String> weekdaysStr = [];
+    for (var dNum in reminder.weekdays1) {
+      weekdaysStr.add(fromWeekdayToString(context, dNum));
+    }
+    return weekdaysStr.join(", ");
   }
 
   void showConfirmDialog() {
@@ -161,7 +187,7 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
                                     CusSText(Language.of(context)!
                                         .t("reminder_detail_settimer")),
                                   ]),
-                                  settedTime("07:00"),
+                                  settedTime(fromTimeToString(reminder.time1)),
                                   // settedTime("12:00"),
                                   // settedTime("18:30"),
                                   const SizedBox(
@@ -173,9 +199,9 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
                                     CusSText(Language.of(context)!
                                         .t("reminder_detail_setrepeat")),
                                   ]),
-                                  CusNText(
-                                    "一, 二, 三, 六, 日",
-                                  ),
+                                  CusNText(showingRepeatWeekdays(context)
+                                      // "一, 二, 三, 六, 日",
+                                      ),
                                   const SizedBox(
                                     height: 12,
                                   ),
@@ -188,7 +214,8 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
                                   const SizedBox(
                                     height: 8.0,
                                   ),
-                                  ...medicineSelectedArea(selectedMedicine)
+                                  ...medicineSelectedArea(
+                                      reminder.selectedMedicine)
                                 ],
                               ),
                             ),

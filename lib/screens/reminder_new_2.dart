@@ -3,7 +3,10 @@ import 'package:e_sound_reminder_app/widgets/custom_text_title.dart';
 import 'package:flutter/material.dart';
 
 import '../models/language.dart';
+import '../models/reminder.dart';
+import '../models/reminder_screen_arg.dart';
 import '../utils/constants.dart';
+import '../utils/formatter.dart';
 import '../widgets/custom_button_normal.dart';
 import '../widgets/custom_button_normal_back.dart';
 import '../widgets/custom_button_small.dart';
@@ -13,9 +16,10 @@ import '../widgets/custom_text_small.dart';
 import '../widgets/custom_text_small_ex.dart';
 
 class ReminderNewPage2 extends StatefulWidget {
-  const ReminderNewPage2({super.key, required this.title});
+  const ReminderNewPage2({super.key, required this.title, this.arg});
 
   final String title;
+  final ReminderScreenArg? arg;
 
   @override
   State<ReminderNewPage2> createState() => _ReminderNewPage2State();
@@ -23,11 +27,19 @@ class ReminderNewPage2 extends StatefulWidget {
 
 class _ReminderNewPage2State extends State<ReminderNewPage2> {
   // Data
+
+  DateTime _fromDate = DateTime.now();
   TimeOfDay timeMorning = TimeOfDay(hour: 6, minute: 0);
   TimeOfDay timeNoon = TimeOfDay(hour: 12, minute: 0);
   TimeOfDay timeNight = TimeOfDay(hour: 18, minute: 0);
   // TimeOfDay time = TimeOfDay.now();
-  // DateTime date = DateTime.now();
+
+  late Reminder reminder = widget.arg?.reminder ??
+      Reminder(
+          reminderTitle: "",
+          time1: DateTime.now(),
+          weekdays1: [],
+          selectedMedicine: []);
 
   bool eatMoreThanOnce = false;
   bool setMorning = true;
@@ -56,6 +68,24 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
     ];
   }
 
+  void updateTime1ToModel(TimeOfDay newTime) {
+    reminder = reminder.copyWith(
+        time1: DateTime(_fromDate.year, _fromDate.month, _fromDate.day,
+            newTime.hour, newTime.minute));
+  }
+
+  void updateWeekdays1ToModel(BuildContext context) {
+    List<int> newWeekdays = [];
+    for (var day in selectedweekdays1) {
+      newWeekdays.add(fromStringToWeekday(context, day));
+    }
+    for (var day in selectedweekdays2) {
+      newWeekdays.add(fromStringToWeekday(context, day));
+    }
+    reminder = reminder.copyWith(weekdays1: newWeekdays);
+  }
+
+  // UI
   void openTimePicker() {}
 
   String showingRepeatWeekdays() {
@@ -74,6 +104,12 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
       return displayW2;
     }
     return "$displayW1, $displayW2";
+  }
+
+  @override
+  void initState() {
+    updateTime1ToModel(timeMorning);
+    super.initState();
   }
 
   @override
@@ -190,7 +226,10 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                                     Language.of(context)!.t("common_cancel"));
                             if (newtime == null) return;
 
-                            setState(() => timeMorning = newtime);
+                            setState(() {
+                              timeMorning = newtime;
+                              updateTime1ToModel(timeMorning);
+                            });
                           },
                           icon: Icon(Icons.alarm),
                         ),
@@ -300,6 +339,7 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                             setState(() {
                               print(values);
                               selectedweekdays1 = values;
+                              updateWeekdays1ToModel(context);
                             });
                           },
                         ),
@@ -322,6 +362,7 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                             setState(() {
                               print(values);
                               selectedweekdays2 = values;
+                              updateWeekdays1ToModel(context);
                             });
                           },
                         ),
@@ -435,7 +476,8 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                               Language.of(context)!.t("common_next"),
                               () => {
                                     Navigator.pushNamed(
-                                        context, pageRouteReminderDetail)
+                                        context, pageRouteReminderDetail,
+                                        arguments: ReminderScreenArg(reminder))
                                   }),
                         ),
                       ],
