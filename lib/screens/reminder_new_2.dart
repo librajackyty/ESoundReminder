@@ -372,6 +372,7 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                 Column(
                   children: [
                     Container(
+                        margin: EdgeInsets.only(top: 8),
                         padding: EdgeInsets.all(8),
                         decoration: BoxDecoration(
                           border: Border(top: BorderSide()),

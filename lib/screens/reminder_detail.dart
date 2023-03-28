@@ -250,30 +250,31 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
                                 ],
                               ),
                             ),
-                            const SizedBox(
-                              height: 4,
-                            ),
-                            Container(
-                                margin: EdgeInsets.all(8),
-                                decoration: BoxDecoration(
-                                  border: Border(top: BorderSide()),
-                                )),
-                            const SizedBox(
-                              height: 4,
-                            ),
+                            const Divider(),
+                            // const SizedBox(
+                            //   height: 4,
+                            // ),
+                            // Container(
+                            //     margin: EdgeInsets.all(8),
+                            //     decoration: BoxDecoration(
+                            //       border: Border(top: BorderSide()),
+                            //     )),
+                            // const SizedBox(
+                            //   height: 4,
+                            // ),
                             Container(
                                 padding: EdgeInsets.all(8.0),
                                 child: Column(
                                   children:
                                       widget.title == pageNameReminderDetail
                                           ? [
-                                              CusNButton(
-                                                  Language.of(context)!
-                                                      .t("common_save"),
-                                                  showConfirmDialog),
-                                              const SizedBox(
-                                                height: 8,
-                                              ),
+                                              // CusNButton(
+                                              //     Language.of(context)!
+                                              //         .t("common_save"),
+                                              //     showConfirmDialog),
+                                              // const SizedBox(
+                                              //   height: 8,
+                                              // ),
                                               CusNBackButton(
                                                   Language.of(context)!
                                                       .t("common_cancel"),
@@ -290,16 +291,37 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
                         ),
                       )),
                 ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: CusNBackButton(Language.of(context)!.t("common_back"),
-                      () => {Navigator.pop(context)}),
-                ),
+                getBottomActionBar(context)
               ],
             ),
           ),
         ),
       ),
+    );
+  }
+
+  Widget getBottomActionBar(BuildContext context) {
+    if (widget.title == pageNameReminderDetail) {
+      return Row(
+        children: [
+          Expanded(
+            child: CusNBackButton(Language.of(context)!.t("common_back"),
+                () => {Navigator.pop(context)}),
+          ),
+          const SizedBox(
+            width: 8,
+          ),
+          Expanded(
+            child: CusNButton(
+                Language.of(context)!.t("common_save"), showConfirmDialog),
+          ),
+        ],
+      );
+    }
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: CusNBackButton(Language.of(context)!.t("common_back"),
+          () => {Navigator.pop(context)}),
     );
   }
 }
