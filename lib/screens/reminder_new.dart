@@ -146,6 +146,7 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
                 CusSText(
                   Language.of(context)!.t("reminder_new1_msg"),
                 ),
+                const Divider(),
                 Expanded(
                   child: Language.currentLocale(context) == Language.codeEnglish
                       ? SingleChildScrollView(

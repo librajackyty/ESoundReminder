@@ -134,6 +134,7 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                 CusSText(
                   Language.of(context)!.t("reminder_new2_msg"),
                 ),
+                const Divider(),
 
                 // const SizedBox(height: 20),
                 // Row(
@@ -205,13 +206,13 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                 //   ],
                 // ),
                 Expanded(
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                  child: ListView(
+                      // mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         CusSText(
                           Language.of(context)!.t("reminder_new2_settimer1"),
                         ),
-                        CusNButton(
+                        CusSButton(
                           "$hoursDisplay1:$minsDisplay1",
                           () async {
                             TimeOfDay? newtime = await showTimePicker(
