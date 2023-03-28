@@ -10,6 +10,9 @@
     "common_step": "Step",
     "common_next": "Next",
 
+    "localnotification_title": "Time to take medicine!",
+    "localnotification_subtitle": "Remember to take",
+
     "home_greeting": "Hello!",
     "home_list_msg" : "Below are the reminders you created:",
     "home_card_remind_title": "Remind Taking Medicine",

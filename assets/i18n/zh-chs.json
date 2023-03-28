@@ -10,6 +10,9 @@
     "common_step": "步骤",
     "common_next": "下一步",
 
+    "localnotification_title": "到点吃药吧",
+    "localnotification_subtitle": "记得吃",
+
     "home_greeting": "您好!",
     "home_list_msg" : "以下是您创建的提醒事项:",
     "home_card_remind_title": "提醒食藥",

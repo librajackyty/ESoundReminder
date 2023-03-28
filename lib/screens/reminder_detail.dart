@@ -35,13 +35,6 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
           selectedMedicine: []);
   late int index = widget.arg?.index ?? 0;
 
-  List dSelectedMedicine = [
-    // "脷底丸",
-    // "降膽固醇",
-    // "抗糖尿病",
-    // "降血壓藥",
-  ];
-
   // UI
   List<Widget> medicineSelectedArea(List selectedlist) {
     List<Widget> mwList = [];
@@ -79,6 +72,11 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
           ),
           TextButton(
             onPressed: () async {
+              reminder = reminder.copyWith(
+                  reminderTitle:
+                      "${fromTimeToString(reminder.time1)} ${Language.of(context)?.t("localnotification_title")}",
+                  reminderDescription:
+                      "${Language.of(context)?.t("localnotification_subtitle")} - ${reminder.selectedMedicine.join(",")}");
               final model = context.read<ReminderModel>();
               await model.addReminder(reminder);
               if (context.mounted) {
@@ -141,6 +139,11 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
         ],
       ),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override
