@@ -291,7 +291,7 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
                         ),
                       )),
                 ),
-                getBottomActionBar(context)
+                createBottomActionBar(context)
               ],
             ),
           ),
@@ -300,7 +300,7 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
     );
   }
 
-  Widget getBottomActionBar(BuildContext context) {
+  Widget createBottomActionBar(BuildContext context) {
     if (widget.title == pageNameReminderDetail) {
       return Row(
         children: [

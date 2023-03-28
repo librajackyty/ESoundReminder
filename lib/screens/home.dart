@@ -69,7 +69,7 @@ class _HomePageState extends State<HomePage>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(Language.of(context)!.t("home_greeting")),
+        title: createAppBarTxt(),
       ),
       extendBody: true,
       body: SafeArea(
@@ -245,10 +245,10 @@ class _HomePageState extends State<HomePage>
                 padding: const EdgeInsets.only(
                     left: listviewPaddingAll, right: listviewPaddingAll),
                 child: Column(children: [
-                  Container(
-                    padding: EdgeInsets.only(bottom: 20),
-                    child: CusSText(Language.of(context)!.t("home_list_msg")),
-                  ),
+                  // Container(
+                  //   padding: EdgeInsets.only(bottom: 20),
+                  //   child: CusSText(Language.of(context)!.t("home_list_msg")),
+                  // ),
                   Expanded(
                     child: AnimatedList(
                       key: listKey,
@@ -285,6 +285,15 @@ class _HomePageState extends State<HomePage>
           }
           return createNoReminderSection();
         });
+  }
+
+  Widget createAppBarTxt() {
+    final model = context.read<ReminderModel>();
+    if (model.reminders != null && model.reminders!.isNotEmpty) {
+      return Text(
+          "${Language.of(context)!.t("home_greeting")} ${Language.of(context)!.t("home_list_msg")}");
+    }
+    return Text(Language.of(context)!.t("home_greeting"));
   }
 
   Widget createNoReminderSection() {

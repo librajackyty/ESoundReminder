@@ -28,7 +28,7 @@ class ReminderModel extends ChangeNotifier {
   void loadReminders() async {
     final reminders = await _storage.loadReminders();
 
-    this.reminders = List.from(reminders);
+    this.reminders = List.from(reminders.reversed);
     state = ReminderLoaded(reminders);
     loading = false;
     notifyListeners();
@@ -42,7 +42,7 @@ class ReminderModel extends ChangeNotifier {
     reminders!.add(newReminder);
     // reminders!.sort(reminderSort);
 
-    reminders = List.from(reminders!);
+    reminders = List.from(reminders!.reversed);
 
     loading = false;
     state = ReminderCreated(
@@ -62,7 +62,7 @@ class ReminderModel extends ChangeNotifier {
 
     reminders![index] = newReminder;
     // reminders!.sort(reminderSort);
-    reminders = List.from(reminders!);
+    reminders = List.from(reminders!.reversed);
 
     loading = false;
     state = ReminderUpdated(
@@ -80,6 +80,8 @@ class ReminderModel extends ChangeNotifier {
   Future<void> deleteReminder(Reminder reminder, int index) async {
     loading = true;
     notifyListeners();
+    debugPrint(
+        "deleteReminder: ${reminder.id}) ${reminder.reminderTitle} ${reminder.reminderDescription}");
 
     await _storage.removeReminder(reminder);
 
