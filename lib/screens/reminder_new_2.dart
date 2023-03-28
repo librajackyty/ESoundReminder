@@ -2,7 +2,11 @@ import 'package:day_picker/day_picker.dart';
 import 'package:e_sound_reminder_app/widgets/custom_text_title.dart';
 import 'package:flutter/material.dart';
 
+import '../models/language.dart';
+import '../models/reminder.dart';
+import '../models/reminder_screen_arg.dart';
 import '../utils/constants.dart';
+import '../utils/formatter.dart';
 import '../widgets/custom_button_normal.dart';
 import '../widgets/custom_button_normal_back.dart';
 import '../widgets/custom_button_small.dart';
@@ -12,9 +16,10 @@ import '../widgets/custom_text_small.dart';
 import '../widgets/custom_text_small_ex.dart';
 
 class ReminderNewPage2 extends StatefulWidget {
-  const ReminderNewPage2({super.key, required this.title});
+  const ReminderNewPage2({super.key, required this.title, this.arg});
 
   final String title;
+  final ReminderScreenArg? arg;
 
   @override
   State<ReminderNewPage2> createState() => _ReminderNewPage2State();
@@ -22,11 +27,19 @@ class ReminderNewPage2 extends StatefulWidget {
 
 class _ReminderNewPage2State extends State<ReminderNewPage2> {
   // Data
+
+  DateTime _fromDate = DateTime.now();
   TimeOfDay timeMorning = TimeOfDay(hour: 6, minute: 0);
   TimeOfDay timeNoon = TimeOfDay(hour: 12, minute: 0);
   TimeOfDay timeNight = TimeOfDay(hour: 18, minute: 0);
   // TimeOfDay time = TimeOfDay.now();
-  // DateTime date = DateTime.now();
+
+  late Reminder reminder = widget.arg?.reminder ??
+      Reminder(
+          reminderTitle: "",
+          time1: DateTime.now(),
+          weekdays1: [],
+          selectedMedicine: []);
 
   bool eatMoreThanOnce = false;
   bool setMorning = true;
@@ -34,37 +47,53 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
   bool setNight = false;
 
   // Weekly selector
-  List<DayInWeek> weekdays1 = [
-    DayInWeek(
-      "Monday",
-    ),
-    DayInWeek(
-      "Tuesday",
-    ),
-    DayInWeek(
-      "Wednesday",
-    ),
-  ];
-  List<DayInWeek> weekdays2 = [
-    DayInWeek(
-      "Thursday",
-    ),
-    DayInWeek(
-      "Friday",
-    ),
-    DayInWeek("Saturday"),
-    DayInWeek("Sunday"),
-  ];
-
   List selectedweekdays1 = [];
   List selectedweekdays2 = [];
 
   // UI rendering
+  List<DayInWeek> getweekdaysList1(BuildContext context) {
+    return [
+      DayInWeek(Language.of(context)!.t("week_mon")),
+      DayInWeek(Language.of(context)!.t("week_tue")),
+      DayInWeek(Language.of(context)!.t("week_wed")),
+    ];
+  }
+
+  List<DayInWeek> getweekdaysList2(BuildContext context) {
+    return [
+      DayInWeek(Language.of(context)!.t("week_thu")),
+      DayInWeek(Language.of(context)!.t("week_fri")),
+      DayInWeek(Language.of(context)!.t("week_sat")),
+      DayInWeek(Language.of(context)!.t("week_sun")),
+    ];
+  }
+
+  void updateTime1ToModel(TimeOfDay newTime) {
+    reminder = reminder.copyWith(
+        time1: DateTime(_fromDate.year, _fromDate.month, _fromDate.day,
+            newTime.hour, newTime.minute));
+  }
+
+  void updateWeekdays1ToModel(BuildContext context) {
+    List<int> newWeekdays = [];
+    for (var day in selectedweekdays1) {
+      newWeekdays.add(fromStringToWeekday(context, day));
+    }
+    for (var day in selectedweekdays2) {
+      newWeekdays.add(fromStringToWeekday(context, day));
+    }
+    reminder = reminder.copyWith(weekdays1: newWeekdays);
+  }
+
+  // UI
   void openTimePicker() {}
 
   String showingRepeatWeekdays() {
     if (selectedweekdays1.isEmpty && selectedweekdays2.isEmpty) {
-      return "Not Repeat";
+      return Language.of(context)!.t("reminder_new2_setrepeat3");
+    }
+    if (selectedweekdays1.length >= 3 && selectedweekdays2.length >= 4) {
+      return Language.of(context)!.t("reminder_new2_setrepeat4");
     }
     final String displayW1 = selectedweekdays1.join(", ");
     final String displayW2 = selectedweekdays2.join(", ");
@@ -75,6 +104,12 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
       return displayW2;
     }
     return "$displayW1, $displayW2";
+  }
+
+  @override
+  void initState() {
+    updateTime1ToModel(timeMorning);
+    super.initState();
   }
 
   @override
@@ -95,9 +130,9 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
             child: Column(
               // mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                CusExSText("Step (2/3)"),
+                CusExSText("${Language.of(context)!.t("common_step")} (2/3)"),
                 CusSText(
-                  'Please set the time to remind you:',
+                  Language.of(context)!.t("reminder_new2_msg"),
                 ),
 
                 // const SizedBox(height: 20),
@@ -174,7 +209,7 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         CusSText(
-                          'Please set timer:',
+                          Language.of(context)!.t("reminder_new2_settimer1"),
                         ),
                         CusNButton(
                           "$hoursDisplay1:$minsDisplay1",
@@ -182,10 +217,19 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                             TimeOfDay? newtime = await showTimePicker(
                                 context: context,
                                 initialTime: timeMorning,
-                                initialEntryMode: TimePickerEntryMode.dialOnly);
+                                initialEntryMode: TimePickerEntryMode.dialOnly,
+                                helpText: Language.of(context)!
+                                    .t("reminder_new2_timepicker_help"),
+                                confirmText:
+                                    Language.of(context)!.t("common_confirm"),
+                                cancelText:
+                                    Language.of(context)!.t("common_cancel"));
                             if (newtime == null) return;
 
-                            setState(() => timeMorning = newtime);
+                            setState(() {
+                              timeMorning = newtime;
+                              updateTime1ToModel(timeMorning);
+                            });
                           },
                           icon: Icon(Icons.alarm),
                         ),
@@ -274,13 +318,13 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                         //   icon: Icon(Icons.alarm_add),
                         // )
                         CusSText(
-                          'Please set repeat in week:',
+                          Language.of(context)!.t("reminder_new2_setrepeat1"),
                         ),
                         SelectWeekDays(
                           padding: selectWeekDaysPadding,
                           fontSize: selectWeekDaysFontSize,
                           fontWeight: FontWeight.bold,
-                          days: weekdays1,
+                          days: getweekdaysList1(context),
                           // backgroundColor: Color.fromARGB(255, 129, 199, 132),
                           border: false,
                           boxDecoration: BoxDecoration(
@@ -295,6 +339,7 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                             setState(() {
                               print(values);
                               selectedweekdays1 = values;
+                              updateWeekdays1ToModel(context);
                             });
                           },
                         ),
@@ -302,7 +347,7 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                           padding: selectWeekDaysPadding,
                           fontSize: selectWeekDaysFontSize,
                           fontWeight: FontWeight.bold,
-                          days: weekdays2,
+                          days: getweekdaysList2(context),
                           // backgroundColor: Color.fromARGB(255, 76, 175, 80),
                           border: false,
                           boxDecoration: BoxDecoration(
@@ -317,6 +362,7 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                             setState(() {
                               print(values);
                               selectedweekdays2 = values;
+                              updateWeekdays1ToModel(context);
                             });
                           },
                         ),
@@ -362,7 +408,8 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                                   child: Row(children: [
                                     Icon(Icons.alarm_on_outlined),
                                     SizedBox(width: 6),
-                                    CusSText("Set timer to:"),
+                                    CusSText(Language.of(context)!
+                                        .t("reminder_new2_settimer2")),
                                   ]),
                                 ),
                                 // Visibility(
@@ -402,7 +449,8 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                                   child: Row(children: [
                                     Icon(Icons.event_repeat_outlined),
                                     SizedBox(width: 6),
-                                    CusSText("Set repeat on:"),
+                                    CusSText(Language.of(context)!
+                                        .t("reminder_new2_setrepeat2")),
                                   ]),
                                 ),
                                 Visibility(
@@ -417,17 +465,19 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                       children: [
                         Expanded(
                           child: CusNBackButton(
-                              'Back', () => {Navigator.pop(context)}),
+                              Language.of(context)!.t("common_back"),
+                              () => {Navigator.pop(context)}),
                         ),
                         const SizedBox(
                           width: 8,
                         ),
                         Expanded(
                           child: CusNButton(
-                              'Next',
+                              Language.of(context)!.t("common_next"),
                               () => {
                                     Navigator.pushNamed(
-                                        context, pageRouteReminderDetail)
+                                        context, pageRouteReminderDetail,
+                                        arguments: ReminderScreenArg(reminder))
                                   }),
                         ),
                       ],

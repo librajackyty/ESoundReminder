@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
+import '../models/language.dart';
 import '../utils/constants.dart';
 import '../widgets/custom_button_normal_back.dart';
 import '../widgets/custom_text_normal.dart';
@@ -121,7 +122,8 @@ class _AboutPageState extends State<AboutPage> {
                 ),
                 Align(
                   alignment: Alignment.bottomCenter,
-                  child: CusNBackButton('Back', () => {Navigator.pop(context)}),
+                  child: CusNBackButton(Language.of(context)!.t("common_back"),
+                      () => {Navigator.pop(context)}),
                 ),
               ],
             ),

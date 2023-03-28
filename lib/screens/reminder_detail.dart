@@ -1,7 +1,13 @@
 import 'package:e_sound_reminder_app/widgets/custom_button_normal.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../models/language.dart';
+import '../models/reminder.dart';
+import '../models/reminder_screen_arg.dart';
+import '../providers/reminders/reminders_provider.dart';
 import '../utils/constants.dart';
+import '../utils/formatter.dart';
 import '../widgets/custom_button_normal_back.dart';
 import '../widgets/custom_button_small.dart';
 import '../widgets/custom_text_normal.dart';
@@ -10,22 +16,33 @@ import '../widgets/custom_text_small_ex.dart';
 import '../widgets/custom_text_title.dart';
 
 class ReminderDetailPage extends StatefulWidget {
-  const ReminderDetailPage({super.key, required this.title});
+  const ReminderDetailPage({super.key, required this.title, this.arg});
 
   final String title;
+  final ReminderScreenArg? arg;
 
   @override
   State<ReminderDetailPage> createState() => _ReminderDetailPageState();
 }
 
 class _ReminderDetailPageState extends State<ReminderDetailPage> {
-  List selectedMedicine = [
-    "脷底丸",
+  // Data
+  late Reminder reminder = widget.arg?.reminder ??
+      Reminder(
+          reminderTitle: "",
+          time1: DateTime.now(),
+          weekdays1: [],
+          selectedMedicine: []);
+  late int index = widget.arg?.index ?? 0;
+
+  List dSelectedMedicine = [
+    // "脷底丸",
     // "降膽固醇",
     // "抗糖尿病",
     // "降血壓藥",
   ];
 
+  // UI
   List<Widget> medicineSelectedArea(List selectedlist) {
     List<Widget> mwList = [];
     for (var medicine in selectedlist) {
@@ -40,7 +57,6 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
     return mwList;
   }
 
-  // UI
   Widget settedTime(String timeText) {
     return Row(mainAxisAlignment: MainAxisAlignment.start, children: [
       // Icon(Icons.alarm),
@@ -53,17 +69,24 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
     showDialog<String>(
       context: context,
       builder: (BuildContext context) => AlertDialog(
-        title: CusSText('Save?'),
-        content: CusNText('Are you sure to save this reminder?'),
+        title: CusSText('${Language.of(context)!.t("common_save")}?'),
+        content: CusNText(
+            Language.of(context)!.t("reminder_detail_confirmquestion")),
         actions: <Widget>[
           TextButton(
             onPressed: () => Navigator.pop(context, 'NO'),
-            child: CusSText('No'),
+            child: CusSText(Language.of(context)!.t("common_no")),
           ),
           TextButton(
-            onPressed: () => Navigator.pushNamedAndRemoveUntil(
-                context, pageRouteHome, ((route) => false)),
-            child: CusSText('Yes'),
+            onPressed: () async {
+              final model = context.read<ReminderModel>();
+              await model.addReminder(reminder);
+              if (context.mounted) {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, pageRouteHome, ((route) => false));
+              }
+            },
+            child: CusSText(Language.of(context)!.t("common_yes")),
           ),
         ],
       ),
@@ -74,17 +97,46 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
     showDialog<String>(
       context: context,
       builder: (BuildContext context) => AlertDialog(
-        title: CusSText('Cancel?'),
-        content: CusNText('Are you sure to cancel this reminder?'),
+        title: CusSText('${Language.of(context)!.t("common_cancel")}?'),
+        content:
+            CusNText(Language.of(context)!.t("reminder_detail_cancelquestion")),
         actions: <Widget>[
           TextButton(
             onPressed: () => Navigator.pop(context, 'NO'),
-            child: CusSText('No'),
+            child: CusSText(Language.of(context)!.t("common_no")),
           ),
           TextButton(
             onPressed: () => Navigator.pushNamedAndRemoveUntil(
                 context, pageRouteHome, ((route) => false)),
-            child: CusSText('Yes'),
+            child: CusSText(Language.of(context)!.t("common_yes")),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void showDeleteDialog() {
+    showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: CusSText('${Language.of(context)!.t("common_delete")}?'),
+        content:
+            CusNText(Language.of(context)!.t("reminder_detail_deletequestion")),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.pop(context, 'NO'),
+            child: CusSText(Language.of(context)!.t("common_no")),
+          ),
+          TextButton(
+            onPressed: () async {
+              final model = context.read<ReminderModel>();
+              await model.deleteReminder(reminder, index);
+              if (context.mounted) {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, pageRouteHome, ((route) => false));
+              }
+            },
+            child: CusSText(Language.of(context)!.t("common_yes")),
           ),
         ],
       ),
@@ -104,12 +156,16 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                CusExSText("Step (3/3)"),
-                CusSText(
-                  'Reminder Detail:',
-                ),
+                widget.title == pageNameReminderDetail
+                    ? CusExSText(
+                        "${Language.of(context)!.t("common_step")} (3/3)")
+                    : CusNText(
+                        Language.of(context)!.t("reminder_detail_title")),
+                widget.title == pageNameReminderDetail
+                    ? CusSText(Language.of(context)!.t("reminder_detail_msg"))
+                    : const SizedBox(),
                 const SizedBox(
-                  height: 12,
+                  height: 8,
                 ),
                 Expanded(
                   child: Card(
@@ -155,9 +211,10 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
                                   Row(children: [
                                     Icon(Icons.alarm_on_outlined),
                                     SizedBox(width: 6),
-                                    CusSText("Set timer to:"),
+                                    CusSText(Language.of(context)!
+                                        .t("reminder_detail_settimer")),
                                   ]),
-                                  settedTime("07:00"),
+                                  settedTime(fromTimeToString(reminder.time1)),
                                   // settedTime("12:00"),
                                   // settedTime("18:30"),
                                   const SizedBox(
@@ -166,22 +223,27 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
                                   Row(children: [
                                     Icon(Icons.event_repeat_outlined),
                                     SizedBox(width: 6),
-                                    CusSText("Set repeat on:"),
+                                    CusSText(Language.of(context)!
+                                        .t("reminder_detail_setrepeat")),
                                   ]),
                                   CusNText(
-                                      "Monday, Friday, Tuesday, Wednesday"),
+                                      showingRepeatWeekdays(context, reminder)
+                                      // "一, 二, 三, 六, 日",
+                                      ),
                                   const SizedBox(
                                     height: 12,
                                   ),
                                   Row(children: [
                                     Icon(Icons.medication_outlined),
                                     SizedBox(width: 6),
-                                    CusSText("Take medince:")
+                                    CusSText(Language.of(context)!
+                                        .t("reminder_detail_selectmedicine"))
                                   ]),
                                   const SizedBox(
                                     height: 8.0,
                                   ),
-                                  ...medicineSelectedArea(selectedMedicine)
+                                  ...medicineSelectedArea(
+                                      reminder.selectedMedicine)
                                 ],
                               ),
                             ),
@@ -199,24 +261,36 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
                             Container(
                                 padding: EdgeInsets.all(8.0),
                                 child: Column(
-                                  children: [
-                                    CusNButton("Save", showConfirmDialog),
-                                    const SizedBox(
-                                      height: 8,
-                                    ),
-                                    CusNBackButton('Cancel', showCancelDialog),
-                                  ],
+                                  children:
+                                      widget.title == pageNameReminderDetail
+                                          ? [
+                                              CusNButton(
+                                                  Language.of(context)!
+                                                      .t("common_save"),
+                                                  showConfirmDialog),
+                                              const SizedBox(
+                                                height: 8,
+                                              ),
+                                              CusNBackButton(
+                                                  Language.of(context)!
+                                                      .t("common_cancel"),
+                                                  showCancelDialog),
+                                            ]
+                                          : [
+                                              CusNBackButton(
+                                                  Language.of(context)!
+                                                      .t("common_delete"),
+                                                  showDeleteDialog)
+                                            ],
                                 ))
                           ],
                         ),
                       )),
                 ),
-                Container(
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child:
-                        CusNBackButton('Back', () => {Navigator.pop(context)}),
-                  ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: CusNBackButton(Language.of(context)!.t("common_back"),
+                      () => {Navigator.pop(context)}),
                 ),
               ],
             ),

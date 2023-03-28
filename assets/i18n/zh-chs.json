@@ -1,0 +1,59 @@
+{
+    "app_title": "日日提",
+    "common_yes": "是",
+    "common_no": "不是",
+    "common_back": "返回",
+    "common_cancel": "取消",
+    "common_confirm": "确认",
+    "common_save": "保存",
+    "common_delete": "删除",
+    "common_step": "步骤",
+    "common_next": "下一步",
+
+    "home_greeting": "您好!",
+    "home_list_msg" : "以下是您创建的提醒事项:",
+    "home_card_remind_title": "提醒食藥",
+    "home_card_repeat": "重复:",
+    "home_card_more": "更多",
+
+    "reminder_new1_msg": "请选择您将服用的药物",
+    "reminder_new1_selectedmedicine": "已选择药物:",
+    "reminder_new1_snackmsg1": "请先选择至少一种药物",
+
+    "reminder_new2_msg": "请设置时间提醒您服药",
+    "reminder_new2_settimer1": "请设置闹钟:",
+    "reminder_new2_setrepeat1": "请设置每周重复:",
+    "reminder_new2_settimer2": "闹钟设置为:",
+    "reminder_new2_setrepeat2": "每周重复:",
+    "reminder_new2_setrepeat3": "不重复",
+    "reminder_new2_setrepeat4": "每天重复",
+    "reminder_new2_timepicker_help": "选择时间",
+
+    "reminder_detail_title": "提醒食藥",
+    "reminder_detail_msg": "请确认以下设置,然后按'保存'",
+    "reminder_detail_settimer": "闹钟设置为:",
+    "reminder_detail_setrepeat": "每周重复:",
+    "reminder_detail_selectmedicine": "服用以下药物:",
+    "reminder_detail_confirmquestion": "您要保存此提醒事项吗？",
+    "reminder_detail_cancelquestion": "您要取消此提醒事项吗？",
+    "reminder_detail_deletequestion": "您要删除此提醒事项吗？",
+
+    "settings_title": "设置",
+    "settings_list_language": "语言",
+    "settings_list_about": "关于",
+    "settings_list_oss": "开源软件 (OSS)",
+
+    "lang_title": "语言",
+    "lang_list_msg": "请选择语言:",
+    
+    "oss_title": "开源软件 (OSS)",
+    "oss_msg": "此应用程序使用以下软件/库/插件",
+
+    "week_mon": "一",
+    "week_tue": "二",
+    "week_wed": "三",
+    "week_thu": "四",
+    "week_fri": "五",
+    "week_sat": "六",
+    "week_sun": "日"
+}
