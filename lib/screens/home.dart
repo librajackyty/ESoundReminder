@@ -172,6 +172,8 @@ class _HomePageState extends State<HomePage>
         // shape: CircularNotchedRectangle(), //shape of notch
         // notchMargin:
         //     10, //notche margin between floating button and bottom appbar
+        // padding: EdgeInsets.all(8.0),
+        height: 120, //MediaQuery.of(context).size.height * 0.1,
         child: Row(
           //children inside bottom appbar
           mainAxisSize: MainAxisSize.max,
@@ -205,9 +207,8 @@ class _HomePageState extends State<HomePage>
                   color: Colors.black,
                   size: 36.0,
                 ),
-                onPressed: () {
-                  Navigator.pushNamed(context, constants.pageRouteSettings);
-                },
+                onPressed: () =>
+                    Navigator.pushNamed(context, constants.pageRouteSettings),
               ),
             )
           ],
@@ -239,9 +240,10 @@ class _HomePageState extends State<HomePage>
         },
         selector: (_, model) => model,
         builder: (context, model, child) {
-          if (model.reminders != null) {
+          if (model.reminders != null && model.reminders!.isNotEmpty) {
             return Padding(
-                padding: const EdgeInsets.all(listviewPaddingAll),
+                padding: const EdgeInsets.only(
+                    left: listviewPaddingAll, right: listviewPaddingAll),
                 child: Column(children: [
                   Container(
                     padding: EdgeInsets.only(bottom: 20),
