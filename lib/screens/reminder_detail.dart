@@ -160,12 +160,12 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
                     ? CusExSText(
                         "${Language.of(context)!.t("common_step")} (3/3)")
                     : CusNText(
-                        Language.of(context)!.t("home_card_remind_title")),
-                // CusSText(
-                //   'Reminder Detail:',
-                // ),
+                        Language.of(context)!.t("reminder_detail_title")),
+                widget.title == pageNameReminderDetail
+                    ? CusSText(Language.of(context)!.t("reminder_detail_msg"))
+                    : const SizedBox(),
                 const SizedBox(
-                  height: 12,
+                  height: 8,
                 ),
                 Expanded(
                   child: Card(

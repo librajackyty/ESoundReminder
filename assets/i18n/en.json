@@ -29,8 +29,8 @@
     "reminder_new2_setrepeat4": "Repeat Everyday",
     "reminder_new2_timepicker_help": "Select Time",
 
-    "reminder_detail_title": "",
-    "reminder_detail_msg": "",
+    "reminder_detail_title": "Remind Taking Medicine",
+    "reminder_detail_msg": "Please confirm below settings & press 'Save'",
     "reminder_detail_settimer": "Alarm set to:",
     "reminder_detail_setrepeat": "Repeat on:",
     "reminder_detail_selectmedicine": "Taking medicine:",

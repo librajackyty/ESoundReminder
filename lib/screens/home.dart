@@ -252,13 +252,12 @@ class _HomePageState extends State<HomePage>
                   Expanded(
                     child: AnimatedList(
                       key: listKey,
-                      // not recommended for a list with large number of items
                       shrinkWrap: true,
                       initialItemCount: model.reminders!.length,
-
                       itemBuilder: (context, index, animation) {
-                        if (index >= model.reminders!.length)
+                        if (index >= model.reminders!.length) {
                           return Container();
+                        }
                         final reminder = model.reminders![index];
 
                         return CardReminderItem(
@@ -284,7 +283,11 @@ class _HomePageState extends State<HomePage>
                   ),
                 ]));
           }
-          return Text("No Data");
+          return createNoReminderSection();
         });
+  }
+
+  Widget createNoReminderSection() {
+    return Text("No Data");
   }
 }
