@@ -16,11 +16,11 @@
     "home_card_repeat": "Repeat:",
     "home_card_more": "More",
     
-    "reminder_new1_msg": "Please select which medicine you will take",
+    "reminder_new1_msg": "Please select which medicine you will take & press 'Next'",
     "reminder_new1_selectedmedicine": "Selected medicine:",
     "reminder_new1_snackmsg1": "Please select at least one medicine first",
 
-    "reminder_new2_msg": "Please set the time to remind you to take the medicine",
+    "reminder_new2_msg": "Please set the time to remind you to take the medicine & press 'Next'",
     "reminder_new2_settimer1": "Please set the alarm:",
     "reminder_new2_setrepeat1": "Please set repeat in a week:",
     "reminder_new2_settimer2": "Alarm set to:",

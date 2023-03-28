@@ -16,11 +16,11 @@
     "home_card_repeat": "重複:",
     "home_card_more": "更多",
 
-    "reminder_new1_msg": "請選擇您將服用的藥物",
+    "reminder_new1_msg": "請選擇您將服用的藥物,然後按'下一步'",
     "reminder_new1_selectedmedicine": "已選擇藥物:",
     "reminder_new1_snackmsg1": "請先選擇至少一種藥物",
 
-    "reminder_new2_msg": "請設置時間提醒您服藥",
+    "reminder_new2_msg": "請設置時間提醒您服藥,然後按'下一步'",
     "reminder_new2_settimer1": "請設置時間:",
     "reminder_new2_setrepeat1": "請設置每周重複:",
     "reminder_new2_settimer2": "鬧鐘設置為:",
