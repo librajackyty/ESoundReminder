@@ -24,32 +24,45 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage>
-    with SingleTickerProviderStateMixin {
+class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   final GlobalKey<AnimatedListState> listKey = GlobalKey<AnimatedListState>();
 
-  late AnimationController aniController;
-  Animation<double>? animation;
+  late var stateReady = false;
+  late final AnimationController aniController = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 1000),
+  );
+  late final Animation<double> animation = Tween(
+    begin: 0.0,
+    end: 1.0,
+  ).animate(CurvedAnimation(
+    parent: aniController,
+    curve: Curves.easeIn,
+  ));
+
+  late final AnimationController aniControllerBottom = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 800),
+  );
+  late final Animation<Offset> animationBottom = Tween<Offset>(
+    begin: const Offset(0, 1),
+    end: const Offset(0, 0),
+  ).animate(CurvedAnimation(
+    parent: aniControllerBottom,
+    curve: Curves.decelerate,
+  ));
+  late final Animation<double> animationFAB = CurvedAnimation(
+    parent: aniControllerBottom,
+    curve: Curves.fastOutSlowIn,
+  );
 
   @override
   void initState() {
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-      aniController = AnimationController(
-        vsync: this,
-        duration: const Duration(milliseconds: 200),
-      )..addListener(() {
-          setState(() {});
-        });
-
-      animation = Tween(
-        begin: 0.0, //getSmallSize(),
-        end: 500.0, //getBigSize(),
-      ).animate(CurvedAnimation(
-        parent: aniController,
-        curve: Curves.decelerate,
-      ));
+      aniController.forward();
+      aniControllerBottom.forward();
+      stateReady = true;
     });
-
     super.initState();
   }
 
@@ -63,142 +76,151 @@ class _HomePageState extends State<HomePage>
   @override
   void dispose() {
     aniController.dispose();
+    aniControllerBottom.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: createAppBarTxt(),
-      ),
-      extendBody: true,
-      body: SafeArea(
-        child: Padding(
-            padding: const EdgeInsets.all(safeAreaPaddingAllWthLv),
-            child: createReminderList()
-            //   CusScrollbar(
-            //   ListView(
-            //       padding: const EdgeInsets.all(listviewPaddingAll),
-            //       children: <Widget>[
-            // Container(
-            //   padding: EdgeInsets.only(bottom: 20),
-            //   child: CusSText(Language.of(context)!.t("home_list_msg")),
-            // ),
-            // CusCard(
-            //     Icon(
-            //       Icons.medication, // Icons.sunny
-            //       color: Colors.blue[600]!, // Colors.yellow[900]!
-            //       size: 40.0,
-            //       semanticLabel:
-            //           'moon icon means Time between 18:00 to 06:00', //'sunny icon means Time between 06:00 to 18:00',
-            //     ),
-            //     "提醒食藥 - 脷底丸",
-            //     "21:30",
-            //     "每周重複: \n一, 二, 三, 六, 日",
-            //     onPressed: (() => {
-            //           Navigator.pushNamed(
-            //               context, pageRouteReminderDetail)
-            //         })),
-            //       ]),
-            // ),
-            // Center(
-            //   child: Column(
-            //     mainAxisAlignment: MainAxisAlignment.center,
-            //     children: <Widget>[
-            //       Card(
-            //         child: Column(
-            //           mainAxisSize: MainAxisSize.min,
-            //           children: <Widget>[
-            //             const ListTile(
-            //               leading: Icon(Icons.album),
-            //               title: Text('The Enchanted Nightingale'),
-            //               subtitle: Text(
-            //                   'Music by Julie Gable. Lyrics by Sidney Stein.'),
-            //             ),
-            //             Row(
-            //               mainAxisAlignment: MainAxisAlignment.end,
-            //               children: <Widget>[
-            //                 TextButton(
-            //                   child: const Text('BUY TICKETS'),
-            //                   onPressed: () {/* ... */},
-            //                 ),
-            //                 const SizedBox(width: 8),
-            //                 TextButton(
-            //                   child: const Text('LISTEN'),
-            //                   onPressed: () {/* ... */},
-            //                 ),
-            //                 const SizedBox(width: 8),
-            //               ],
-            //             ),
-            //           ],
-            //         ),
-            //       ),
-            // Lottie.asset(
-            //   'assets/lotties/80567-sound-voice-waves.json',
-            //   width: 200,
-            //   height: 200,
-            //   fit: BoxFit.fill,
-            // ),
-            //       // const Text(
-            //       //   'Sound testing...',
-            //       // ),
-            //       // ElevatedButton(
-            //       //   onPressed: () {
-            //       //     Navigator.pushNamed(context, constants.pageRouteLangConfig);
-            //       //   },
-            //       //   child: const Text('Go Lang Config'),
-            //       // ),
-            //     ],
-            //   ),
-            // ),
-            ),
-      ),
-      floatingActionButton: FloatingActionButton.large(
-        onPressed: () {
-          Navigator.pushNamed(context, pageRouteReminderNew);
-        },
-        elevation: 20.0,
-        backgroundColor: Colors.green,
-        tooltip: Language.of(context)!.t("home_add_tip"),
-        child: Lottie.asset(
-          assetslinkLottie('38580-addbutton'),
-          width: 80,
-          height: 80,
-          fit: BoxFit.fill,
+        appBar: AppBar(
+          title: createAppBarTxt(),
         ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: BottomAppBar(
-        height: 120, //MediaQuery.of(context).size.height * 0.1,
-        child: Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            Expanded(
-              child: IconButton(
-                icon: Lottie.asset(
-                  assetslinkLottie('73220-alarm'),
-                  fit: BoxFit.fill,
-                ),
-                onPressed: () {},
+        extendBody: true,
+        body: SafeArea(
+          child: Padding(
+              padding: const EdgeInsets.all(safeAreaPaddingAllWthLv),
+              child: FadeTransition(
+                  opacity:
+                      animation, //aniController.drive(CurveTween(curve: Curves.easeOut)),
+                  child: createReminderList())
+              //   CusScrollbar(
+              //   ListView(
+              //       padding: const EdgeInsets.all(listviewPaddingAll),
+              //       children: <Widget>[
+              // Container(
+              //   padding: EdgeInsets.only(bottom: 20),
+              //   child: CusSText(Language.of(context)!.t("home_list_msg")),
+              // ),
+              // CusCard(
+              //     Icon(
+              //       Icons.medication, // Icons.sunny
+              //       color: Colors.blue[600]!, // Colors.yellow[900]!
+              //       size: 40.0,
+              //       semanticLabel:
+              //           'moon icon means Time between 18:00 to 06:00', //'sunny icon means Time between 06:00 to 18:00',
+              //     ),
+              //     "提醒食藥 - 脷底丸",
+              //     "21:30",
+              //     "每周重複: \n一, 二, 三, 六, 日",
+              //     onPressed: (() => {
+              //           Navigator.pushNamed(
+              //               context, pageRouteReminderDetail)
+              //         })),
+              //       ]),
+              // ),
+              // Center(
+              //   child: Column(
+              //     mainAxisAlignment: MainAxisAlignment.center,
+              //     children: <Widget>[
+              //       Card(
+              //         child: Column(
+              //           mainAxisSize: MainAxisSize.min,
+              //           children: <Widget>[
+              //             const ListTile(
+              //               leading: Icon(Icons.album),
+              //               title: Text('The Enchanted Nightingale'),
+              //               subtitle: Text(
+              //                   'Music by Julie Gable. Lyrics by Sidney Stein.'),
+              //             ),
+              //             Row(
+              //               mainAxisAlignment: MainAxisAlignment.end,
+              //               children: <Widget>[
+              //                 TextButton(
+              //                   child: const Text('BUY TICKETS'),
+              //                   onPressed: () {/* ... */},
+              //                 ),
+              //                 const SizedBox(width: 8),
+              //                 TextButton(
+              //                   child: const Text('LISTEN'),
+              //                   onPressed: () {/* ... */},
+              //                 ),
+              //                 const SizedBox(width: 8),
+              //               ],
+              //             ),
+              //           ],
+              //         ),
+              //       ),
+              // Lottie.asset(
+              //   'assets/lotties/80567-sound-voice-waves.json',
+              //   width: 200,
+              //   height: 200,
+              //   fit: BoxFit.fill,
+              // ),
+              //       // const Text(
+              //       //   'Sound testing...',
+              //       // ),
+              //       // ElevatedButton(
+              //       //   onPressed: () {
+              //       //     Navigator.pushNamed(context, constants.pageRouteLangConfig);
+              //       //   },
+              //       //   child: const Text('Go Lang Config'),
+              //       // ),
+              //     ],
+              //   ),
+              // ),
               ),
-            ),
-            Expanded(child: const SizedBox()),
-            Expanded(
-              child: IconButton(
-                icon: Lottie.asset(
-                  assetslinkLottie('72897-settings'),
-                  fit: BoxFit.fill,
-                ),
-                onPressed: () =>
-                    Navigator.pushNamed(context, constants.pageRouteSettings),
-              ),
-            )
-          ],
         ),
-      ),
-    );
+        floatingActionButton: ScaleTransition(
+          scale: animationFAB,
+          child: FloatingActionButton.large(
+            onPressed: () {
+              Navigator.pushNamed(context, pageRouteReminderNew);
+            },
+            elevation: 20.0,
+            backgroundColor: Colors.green,
+            tooltip: Language.of(context)!.t("home_add_tip"),
+            child: Lottie.asset(
+              assetslinkLottie('38580-addbutton'),
+              width: 80,
+              height: 80,
+              fit: BoxFit.fill,
+            ),
+          ),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        bottomNavigationBar: SlideTransition(
+          position: animationBottom,
+          child: BottomAppBar(
+            height: 120, //MediaQuery.of(context).size.height * 0.1,
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Expanded(
+                  child: IconButton(
+                    icon: Lottie.asset(
+                      assetslinkLottie('73220-alarm'),
+                      fit: BoxFit.fill,
+                    ),
+                    onPressed: () {},
+                  ),
+                ),
+                Expanded(child: const SizedBox()),
+                Expanded(
+                  child: IconButton(
+                    icon: Lottie.asset(
+                      assetslinkLottie('72897-settings'),
+                      fit: BoxFit.fill,
+                    ),
+                    onPressed: () => Navigator.pushNamed(
+                        context, constants.pageRouteSettings),
+                  ),
+                )
+              ],
+            ),
+          ),
+        ));
   }
 
   Widget createReminderList() {
@@ -206,20 +228,40 @@ class _HomePageState extends State<HomePage>
         shouldRebuild: (previous, next) {
           if (next.state is ReminderCreated) {
             final state = next.state as ReminderCreated;
-            listKey.currentState?.insertItem(state.index);
+            listKey.currentState?.insertItem(state.index,
+                duration: const Duration(milliseconds: 800));
           } else if (next.state is ReminderUpdated) {
             final state = next.state as ReminderUpdated;
             if (state.index != state.newIndex) {
               // listKey.currentState?.insertItem(state.newIndex);
               // listKey.currentState?.removeItem(
               //   state.index,
-              //   (context, animation) => CardreminderReminderItem(
-              //     alarm: state.alarm,
-              //     animation: animation,
-              //   ),
+              // (context, animation) => CardReminderItem(
+              //   reminder: state.reminder,
+              //   animation: animation,
+              // ),
               // );
             }
           }
+          // else if (next.state is ReminderDeleted) {
+          //   Future.delayed(const Duration(seconds: 2)).then((value) {
+          //     var state = next.state as ReminderDeleted;
+          //     listKey.currentState?.removeItem(
+          //         state.index,
+          //         (context, animation) => CardReminderItem(
+          //               reminder: state.reminder,
+          //               animation: animation,
+          //             ),
+          //         duration: const Duration(milliseconds: 1500));
+          //   });
+          // }
+          // else if (next.state is ReminderLoaded) {
+          //   final state = next.state as ReminderLoaded;
+          //   for (var i = 0; i < state.reminders.length; i++) {
+          //     listKey.currentState
+          //         ?.insertItem(i, duration: const Duration(milliseconds: 1500));
+          //   }
+          // }
           return true;
         },
         selector: (_, model) => model,
@@ -305,11 +347,7 @@ class _HomePageState extends State<HomePage>
         height: 40,
       )
     ];
-    return
-        // Container(
-        //   margin: EdgeInsets.only(bottom: 50.0),
-        //   child:
-        Column(
+    return Column(
       children: [
         Spacer(),
         ListView(
@@ -318,6 +356,5 @@ class _HomePageState extends State<HomePage>
         )
       ],
     );
-    // );
   }
 }
