@@ -14,9 +14,6 @@ class CusSText extends StatefulWidget {
 }
 
 class _CusSTextState extends State<CusSText> {
-  // String text;
-  // Color? color;
-
   _CusSTextState();
 
   @override

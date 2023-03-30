@@ -50,7 +50,7 @@ class _SettingsPageState extends State<SettingsPage> {
                               const EdgeInsets.only(top: safeAreaPaddingAll),
                           children: [
                             Lottie.asset(
-                              assetslinkLottie('65142-setting-gears'),
+                              assetslinkLottie('69362-green-setting-wheel'),
                               width: MediaQuery.of(context).size.width * 0.4,
                               height: MediaQuery.of(context).size.width * 0.4,
                             ),

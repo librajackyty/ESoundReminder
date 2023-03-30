@@ -284,8 +284,8 @@ class _HomePageState extends State<HomePage>
     List<Widget> noRSList = [
       Lottie.asset(
         assetslinkLottie('89809-no-result-green-theme'),
-        width: MediaQuery.of(context).size.width * 0.6,
-        height: MediaQuery.of(context).size.width * 0.6,
+        width: MediaQuery.of(context).size.width * 0.4,
+        height: MediaQuery.of(context).size.width * 0.4,
       ),
       Container(
         padding: EdgeInsets.only(left: 70, right: 70),
@@ -305,7 +305,11 @@ class _HomePageState extends State<HomePage>
         height: 40,
       )
     ];
-    return Column(
+    return
+        // Container(
+        //   margin: EdgeInsets.only(bottom: 50.0),
+        //   child:
+        Column(
       children: [
         Spacer(),
         ListView(
@@ -314,5 +318,6 @@ class _HomePageState extends State<HomePage>
         )
       ],
     );
+    // );
   }
 }

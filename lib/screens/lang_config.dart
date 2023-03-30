@@ -66,6 +66,7 @@ class _LangConfigPageState extends State<LangConfigPage> {
                 ),
                 CusNText(
                   Language.of(context)!.t("lang_list_msg"),
+                  textAlign: TextAlign.center,
                 ),
                 Expanded(
                     child: Scrollbar(

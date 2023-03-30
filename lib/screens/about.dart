@@ -76,7 +76,7 @@ class _AboutPageState extends State<AboutPage> {
                         CusNText(
                           _packageInfo.appName != 'Unknown'
                               ? _packageInfo.appName
-                              : 'ESound Reminder',
+                              : 'ESound Reminder (TBC)',
                         ),
                         CusSText(
                           'Version: ',
