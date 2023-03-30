@@ -80,9 +80,8 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
               final model = context.read<ReminderModel>();
               await model.addReminder(reminder);
               if (context.mounted) {
-                // Navigator.pushNamedAndRemoveUntil(
-                //     context, pageRouteHome, ((route) => false));
-                Navigator.popUntil(context, ModalRoute.withName(pageRouteHome));
+                Navigator.pushNamedAndRemoveUntil(
+                    context, pageRouteHome, ((route) => false));
               }
             },
             child: CusSText(Language.of(context)!.t("common_yes")),
@@ -105,8 +104,8 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
             child: CusSText(Language.of(context)!.t("common_no")),
           ),
           TextButton(
-            onPressed: () =>
-                Navigator.popUntil(context, ModalRoute.withName(pageRouteHome)),
+            onPressed: () => Navigator.pushNamedAndRemoveUntil(
+                context, pageRouteHome, ((route) => false)),
             child: CusSText(Language.of(context)!.t("common_yes")),
           ),
         ],
@@ -131,9 +130,8 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
               final model = context.read<ReminderModel>();
               await model.deleteReminder(reminder, index);
               if (context.mounted) {
-                Navigator.popUntil(context, ModalRoute.withName(pageRouteHome));
-                // Navigator.pushNamedAndRemoveUntil(
-                //     context, pageRouteHome, ((route) => false));
+                Navigator.pushNamedAndRemoveUntil(
+                    context, pageRouteHome, ((route) => false));
               }
             },
             child: CusSText(Language.of(context)!.t("common_yes")),

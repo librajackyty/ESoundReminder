@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:timezone/data/latest_all.dart';
 import 'package:timezone/timezone.dart';
@@ -55,19 +56,6 @@ const String darwinNotificationCategoryText = 'textCategory';
 /// Defines a iOS/MacOS notification category for plain actions.
 const String darwinNotificationCategoryPlain = 'plainCategory';
 
-// @pragma('vm:entry-point')
-// void notificationTapBackground(NotificationResponse notificationResponse) {
-//   // ignore: avoid_print
-//   print('notification(${notificationResponse.id}) action tapped: '
-//       '${notificationResponse.actionId} with'
-//       ' payload: ${notificationResponse.payload}');
-//   if (notificationResponse.input?.isNotEmpty ?? false) {
-//     // ignore: avoid_print
-//     print(
-//         'notification action tapped with input: ${notificationResponse.input}');
-//   }
-// }
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   AppLanguage appLanguage = AppLanguage();
@@ -86,13 +74,6 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
-
-  // final StreamController<ReceivedNotification>
-  //     didReceiveLocalNotificationStream =
-  //     StreamController<ReceivedNotification>.broadcast();
-
-  // final StreamController<String?> selectNotificationStream =
-  //     StreamController<String?>.broadcast();
 
   @override
   void initState() {
@@ -152,101 +133,6 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  // void setUpLocalNotification() async {
-  //   await _configureLocalTimeZone();
-  //   const AndroidInitializationSettings initializationSettingsAndroid =
-  //       AndroidInitializationSettings('app_icon');
-
-  //   /// Note: permissions aren't requested here just to demonstrate that can be
-  //   /// done later
-  //   final List<DarwinNotificationCategory> darwinNotificationCategories =
-  //       <DarwinNotificationCategory>[
-  //     DarwinNotificationCategory(
-  //       darwinNotificationCategoryText,
-  //       actions: <DarwinNotificationAction>[
-  //         DarwinNotificationAction.text(
-  //           'text_1',
-  //           'Action 1',
-  //           buttonTitle: 'Send',
-  //           placeholder: 'Placeholder',
-  //         ),
-  //       ],
-  //     ),
-  //     DarwinNotificationCategory(
-  //       darwinNotificationCategoryPlain,
-  //       actions: <DarwinNotificationAction>[
-  //         DarwinNotificationAction.plain('id_1', 'Action 1'),
-  //         DarwinNotificationAction.plain(
-  //           'id_2',
-  //           'Action 2 (destructive)',
-  //           options: <DarwinNotificationActionOption>{
-  //             DarwinNotificationActionOption.destructive,
-  //           },
-  //         ),
-  //         DarwinNotificationAction.plain(
-  //           navigationActionId,
-  //           'Action 3 (foreground)',
-  //           options: <DarwinNotificationActionOption>{
-  //             DarwinNotificationActionOption.foreground,
-  //           },
-  //         ),
-  //         DarwinNotificationAction.plain(
-  //           'id_4',
-  //           'Action 4 (auth required)',
-  //           options: <DarwinNotificationActionOption>{
-  //             DarwinNotificationActionOption.authenticationRequired,
-  //           },
-  //         ),
-  //       ],
-  //       options: <DarwinNotificationCategoryOption>{
-  //         DarwinNotificationCategoryOption.hiddenPreviewShowTitle,
-  //       },
-  //     )
-  //   ];
-
-  //   final DarwinInitializationSettings initializationSettingsDarwin =
-  //       DarwinInitializationSettings(
-  //     requestAlertPermission: false,
-  //     requestBadgePermission: false,
-  //     requestSoundPermission: false,
-  //     onDidReceiveLocalNotification:
-  //         (int id, String? title, String? body, String? payload) async {
-  //       didReceiveLocalNotificationStream.add(
-  //         ReceivedNotification(
-  //           id: id,
-  //           title: title,
-  //           body: body,
-  //           payload: payload,
-  //         ),
-  //       );
-  //     },
-  //     notificationCategories: darwinNotificationCategories,
-  //   );
-
-  //   final InitializationSettings initializationSettings =
-  //       InitializationSettings(
-  //     android: initializationSettingsAndroid,
-  //     iOS: initializationSettingsDarwin,
-  //   );
-  //   await flutterLocalNotificationsPlugin.initialize(
-  //     initializationSettings,
-  //     onDidReceiveNotificationResponse:
-  //         (NotificationResponse notificationResponse) {
-  //       switch (notificationResponse.notificationResponseType) {
-  //         case NotificationResponseType.selectedNotification:
-  //           selectNotificationStream.add(notificationResponse.payload);
-  //           break;
-  //         case NotificationResponseType.selectedNotificationAction:
-  //           if (notificationResponse.actionId == navigationActionId) {
-  //             selectNotificationStream.add(notificationResponse.payload);
-  //           }
-  //           break;
-  //       }
-  //     },
-  //     onDidReceiveBackgroundNotificationResponse: notificationTapBackground,
-  //   );
-  // }
-
   Future<void> _configureLocalTimeZone() async {
     if (kIsWeb || Platform.isLinux) {
       return;
@@ -258,8 +144,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void dispose() {
-    // didReceiveLocalNotificationStream.close();
-    // selectNotificationStream.close();
     super.dispose();
   }
 
@@ -270,8 +154,6 @@ class _MyAppState extends State<MyApp> {
 
     return MultiProvider(
         providers: [
-          // ChangeNotifierProvider(create: (context) => ThemeModel()),
-          // ChangeNotifierProvider(create: (context) => ClockTypeModel()),
           ChangeNotifierProvider(
             create: (context) => ReminderModel(
               const RemindersHiveLocalStorage(),
@@ -306,62 +188,67 @@ class _MyAppState extends State<MyApp> {
             ),
             themeMode: ThemeMode.light,
             debugShowCheckedModeBanner: false,
+            initialRoute: constants.pageRouteHome,
             routes: {
-              constants.pageRouteHome: (context) =>
-                  const HomePage(title: 'Home'),
-              constants.pageRouteLangConfig: (context) =>
-                  const LangConfigPage(title: 'Language'),
               constants.pageRouteIntro: (context) =>
                   const IntroPage(title: 'Introduction'),
               constants.pageRouteLanding: (context) =>
                   const LandingPage(title: 'Landing'),
-              constants.pageRouteSettings: (context) =>
-                  const SettingsPage(title: 'Settings'),
-              // constants.pageRouteReminderDetail: (context) =>
-              //     const ReminderDetailPage(title: 'Reminder Detail'),
-              // constants.pageRouteReminderNew: (context) =>
-              //     const ReminderNewPage(title: 'New Reminder'),
-              // constants.pageRouteReminderNew2: (context) =>
-              //     const ReminderNewPage2(title: 'New Reminder 2'),
-              constants.pageRouteAbout: (context) =>
-                  const AboutPage(title: 'About'),
-              constants.pageRouteOpenSources: (context) =>
-                  const OpenSourcesPage(title: 'Open Sources Software (OSS)'),
             },
             onGenerateRoute: (settings) {
               switch (settings.name) {
-                // case '/':
-                //   return MaterialPageRoute(
-                //     builder: (context) => const HomeScreen(),
-                //   );
+                case constants.pageRouteHome:
+                  return PageTransition(
+                      child: const HomePage(title: 'Home'),
+                      type: PageTransitionType.bottomToTop);
+                case constants.pageRouteSettings:
+                  return PageTransition(
+                      child: const SettingsPage(title: 'Settings'),
+                      type: PageTransitionType.rightToLeft);
+                case constants.pageRouteLangConfig:
+                  return PageTransition(
+                      child: const LangConfigPage(title: 'Language'),
+                      type: PageTransitionType.rightToLeft);
+                case constants.pageRouteAbout:
+                  return PageTransition(
+                      child: const AboutPage(title: 'About'),
+                      type: PageTransitionType.rightToLeft);
+                case constants.pageRouteOpenSources:
+                  return PageTransition(
+                      child: const OpenSourcesPage(
+                          title: 'Open Sources Software (OSS)'),
+                      type: PageTransitionType.rightToLeft);
+
                 case constants.pageRouteReminderNew:
-                  return MaterialPageRoute(
-                    builder: (context) => ReminderNewPage(
-                      title: 'New Reminder',
-                      arg: settings.arguments as ReminderScreenArg?,
-                    ),
-                  );
+                  return PageTransition(
+                      child: ReminderNewPage(
+                        title: 'New Reminder',
+                        arg: settings.arguments as ReminderScreenArg?,
+                      ),
+                      type: PageTransitionType.bottomToTop);
                 case constants.pageRouteReminderNew2:
-                  return MaterialPageRoute(
-                    builder: (context) => ReminderNewPage2(
-                      title: 'New Reminder 2',
-                      arg: settings.arguments as ReminderScreenArg?,
-                    ),
-                  );
+                  return PageTransition(
+                      child: ReminderNewPage2(
+                        title: 'New Reminder 2',
+                        arg: settings.arguments as ReminderScreenArg?,
+                      ),
+                      type: PageTransitionType.rightToLeft,
+                      isIos: true);
                 case constants.pageRouteReminderDetail:
-                  return MaterialPageRoute(
-                    builder: (context) => ReminderDetailPage(
-                      title: constants.pageNameReminderDetail,
-                      arg: settings.arguments as ReminderScreenArg?,
-                    ),
-                  );
+                  return PageTransition(
+                      child: ReminderDetailPage(
+                        title: constants.pageNameReminderDetail,
+                        arg: settings.arguments as ReminderScreenArg?,
+                      ),
+                      type: PageTransitionType.rightToLeft,
+                      isIos: true);
                 case constants.pageRouteReminderDetailMore:
-                  return MaterialPageRoute(
-                    builder: (context) => ReminderDetailPage(
-                      title: constants.pageNameReminderDetailMore,
-                      arg: settings.arguments as ReminderScreenArg?,
-                    ),
-                  );
+                  return PageTransition(
+                      child: ReminderDetailPage(
+                        title: constants.pageNameReminderDetailMore,
+                        arg: settings.arguments as ReminderScreenArg?,
+                      ),
+                      type: PageTransitionType.bottomToTop);
               }
               return null;
             },
