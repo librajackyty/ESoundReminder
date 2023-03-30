@@ -25,9 +25,9 @@
     "reminder_new1_selectedmedicine": "Selected medicine:",
     "reminder_new1_snackmsg1": "Please select at least one medicine first",
 
-    "reminder_new2_msg": "Please set the time to remind you to take the medicine & press 'Next'",
-    "reminder_new2_settimer1": "Please set the alarm:",
-    "reminder_new2_setrepeat1": "Please set repeat in a week:",
+    "reminder_new2_msg": "Please set the time to remind you & press 'Next'",
+    "reminder_new2_settimer1": "Alarm:",
+    "reminder_new2_setrepeat1": "Repeat in a week:",
     "reminder_new2_settimer2": "Alarm set to:",
     "reminder_new2_setrepeat2": "Repeat on:",
     "reminder_new2_setrepeat3": "Not Repeat",
@@ -55,7 +55,7 @@
     "oss_msg": "This application makes use of the following software/libraries/plugins",
 
     "about_appname": "",
-    
+
 
     "week_mon": "Monday",
     "week_tue": "Tuesday",

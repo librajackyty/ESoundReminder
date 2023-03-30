@@ -132,6 +132,7 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                 CusExSText("${Language.of(context)!.t("common_step")} (2/3)"),
                 CusSText(
                   Language.of(context)!.t("reminder_new2_msg"),
+                  textAlign: TextAlign.center,
                 ),
                 const Divider(),
 

@@ -28,7 +28,7 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
       Reminder(
           reminderTitle: "",
           time1: DateTime.now(),
-          weekdays1: [],
+          weekdays1: [1, 2, 3, 4, 5, 6, 7],
           selectedMedicine: []);
 
   List staticmedicinelist = [
@@ -145,6 +145,7 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
                 CusExSText("${Language.of(context)!.t("common_step")} (1/3)"),
                 CusSText(
                   Language.of(context)!.t("reminder_new1_msg"),
+                  textAlign: TextAlign.center,
                 ),
                 const Divider(),
                 Expanded(

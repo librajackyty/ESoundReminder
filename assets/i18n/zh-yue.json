@@ -21,13 +21,13 @@
     "home_add_tip": "點擊創建新提醒事項",
     "home_no_data_msg": "睇嚟您仲冇任何提醒事項\n點擊“+”創建新提醒事項提醒您服藥",
     
-    "reminder_new1_msg": "請選擇您將服用的藥物,然後按'下一步'",
+    "reminder_new1_msg": "請選擇您將要服用的藥物,然後按'下一步'",
     "reminder_new1_selectedmedicine": "已選擇藥物:",
     "reminder_new1_snackmsg1": "請先選擇至少一種藥物",
 
-    "reminder_new2_msg": "請設定時間提醒您服藥,然後按'下一步'",
-    "reminder_new2_settimer1": "請設定時間:",
-    "reminder_new2_setrepeat1": "請設定每周重複:",
+    "reminder_new2_msg": "請設定時間提醒,然後按'下一步'",
+    "reminder_new2_settimer1": "鬧鐘時間:",
+    "reminder_new2_setrepeat1": "每周重複:",
     "reminder_new2_settimer2": "已設定鬧鐘:",
     "reminder_new2_setrepeat2": "已設定每周重複:",
     "reminder_new2_setrepeat3": "唔重複",

@@ -51,11 +51,9 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
   }
 
   Widget settedTime(String timeText) {
-    return Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-      // Icon(Icons.alarm),
-      // SizedBox(width: 8),
-      CusTitleText(timeText)
-    ]);
+    return Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [CusTitleText(timeText)]);
   }
 
   void showConfirmDialog() {
@@ -163,9 +161,14 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
                     ? CusExSText(
                         "${Language.of(context)!.t("common_step")} (3/3)")
                     : CusNText(
-                        Language.of(context)!.t("reminder_detail_title")),
+                        Language.of(context)!.t("reminder_detail_title"),
+                        textAlign: TextAlign.center,
+                      ),
                 widget.title == pageNameReminderDetail
-                    ? CusSText(Language.of(context)!.t("reminder_detail_msg"))
+                    ? CusSText(
+                        Language.of(context)!.t("reminder_detail_msg"),
+                        textAlign: TextAlign.center,
+                      )
                     : const SizedBox(),
                 const SizedBox(
                   height: 8,
