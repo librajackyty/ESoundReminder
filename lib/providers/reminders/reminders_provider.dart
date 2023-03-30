@@ -131,12 +131,14 @@ class ReminderModel extends ChangeNotifier {
     //         htmlFormatContentTitle: true,
     //         summaryText: 'summary <i>text</i>',
     //         htmlFormatSummaryText: true);
+    const int insistentFlag = 4;
 
-    const AndroidNotificationDetails androidPlatformChannelSpecifics =
+    AndroidNotificationDetails androidPlatformChannelSpecifics =
         AndroidNotificationDetails('edailyreminder1', 'Reminder1',
             channelDescription: 'Reminder for taking medicine',
             importance: Importance.max,
             priority: Priority.high,
+            additionalFlags: Int32List.fromList(<int>[insistentFlag]),
             playSound: true,
             sound: RawResourceAndroidNotificationSound('reminder_urgent1'),
             largeIcon: DrawableResourceAndroidBitmap('localnotification_icon'));
@@ -148,7 +150,7 @@ class ReminderModel extends ChangeNotifier {
       presentAlert: true,
       presentBadge: true,
     );
-    const NotificationDetails platformChannelSpecifics = NotificationDetails(
+    NotificationDetails platformChannelSpecifics = NotificationDetails(
       android: androidPlatformChannelSpecifics,
       iOS: iOSPlatformChannelSpecifics,
     );
