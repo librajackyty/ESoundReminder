@@ -281,26 +281,36 @@ class _HomePageState extends State<HomePage>
   }
 
   Widget createNoReminderSection() {
+    List<Widget> noRSList = [
+      Lottie.asset(
+        assetslinkLottie('89809-no-result-green-theme'),
+        width: MediaQuery.of(context).size.width * 0.6,
+        height: MediaQuery.of(context).size.width * 0.6,
+      ),
+      Container(
+        padding: EdgeInsets.only(left: 70, right: 70),
+        child: Align(
+            alignment: Alignment.center,
+            child: CusSText(
+              Language.of(context)!.t("home_no_data_msg"),
+              textAlign: TextAlign.center,
+            )),
+      ),
+      Lottie.asset(
+        assetslinkLottie('95113-arrow-down'),
+        width: 120,
+        height: 120,
+      ),
+      SizedBox(
+        height: 40,
+      )
+    ];
     return Column(
       children: [
         Spacer(),
-        Container(
-          padding: EdgeInsets.only(left: 80, right: 80),
-          child: Align(
-              alignment: Alignment.center,
-              child: CusSText(
-                Language.of(context)!.t("home_no_data_msg"),
-                textAlign: TextAlign.center,
-              )),
-        ),
-        Lottie.asset(
-          assetslinkLottie('95113-arrow-down'),
-          width: 80,
-          height: 80,
-          fit: BoxFit.fill,
-        ),
-        SizedBox(
-          height: 40,
+        ListView(
+          shrinkWrap: true,
+          children: noRSList,
         )
       ],
     );
