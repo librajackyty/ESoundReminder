@@ -6,6 +6,11 @@ import '../utils/formatter.dart';
 import 'custom_card.dart';
 
 class CardReminderItem extends StatelessWidget {
+  final Reminder reminder;
+  // final VoidCallback? onDelete;
+  final VoidCallback? onPressed;
+  final Animation<double> animation;
+
   const CardReminderItem({
     Key? key,
     required this.reminder,
@@ -13,11 +18,6 @@ class CardReminderItem extends StatelessWidget {
     // this.onDelete,
     this.onPressed,
   }) : super(key: key);
-
-  final Reminder reminder;
-  // final VoidCallback? onDelete;
-  final VoidCallback? onPressed;
-  final Animation<double> animation;
 
   @override
   Widget build(BuildContext context) {

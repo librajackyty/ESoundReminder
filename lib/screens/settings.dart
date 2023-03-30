@@ -35,12 +35,6 @@ class _SettingsPageState extends State<SettingsPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                // const Icon(
-                //   Icons.settings,
-                //   color: Colors.green,
-                //   size: 88.0,
-                // ),
-                // CusSText('Version: 1.0.0'),
                 Expanded(
                   child: Scrollbar(
                       thumbVisibility: true,
