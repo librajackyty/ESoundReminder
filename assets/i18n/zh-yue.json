@@ -54,6 +54,13 @@
     "oss_title": "開源軟件 (OSS)",
     "oss_msg": "此應用程序使用以下軟件/庫/插件",
 
+    "about_title": "關於",
+    "about_appname": "應用程序名稱:",
+    "about_version": "版本:",
+    "about_pj_developer": "項目開發人員:",
+    "about_contact_mobile": "聯繫方式（手機）:",
+    "about_contact_email": "聯繫方式（電子郵件）:",
+
     "week_mon": "一",
     "week_tue": "二",
     "week_wed": "三",

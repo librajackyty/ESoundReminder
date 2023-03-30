@@ -54,6 +54,13 @@
     "oss_title": "开源软件 (OSS)",
     "oss_msg": "此应用程序使用以下软件/库/插件",
 
+    "about_title": "关于",
+    "about_appname": "应用程序名称:",
+    "about_version": "版本:",
+    "about_pj_developer": "项目开发人员:",
+    "about_contact_mobile": "联系方式（手机）:",
+    "about_contact_email": "联系方式（电子邮件）:",
+
     "week_mon": "一",
     "week_tue": "二",
     "week_wed": "三",

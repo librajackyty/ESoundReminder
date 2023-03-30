@@ -54,7 +54,12 @@
     "oss_title": "Open source software (OSS)",
     "oss_msg": "This application makes use of the following software/libraries/plugins",
 
-    "about_appname": "",
+    "about_title": "About",
+    "about_appname": "App Name:",
+    "about_version": "Version:",
+    "about_pj_developer": "Project Developer:",
+    "about_contact_mobile": "Contact (Mobile):",
+    "about_contact_email": "Contact (E-mail):",
 
 
     "week_mon": "Monday",
