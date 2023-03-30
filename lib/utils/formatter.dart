@@ -24,29 +24,54 @@ String fromWeekdayToString(BuildContext context, int weekday) {
   }
 }
 
-int fromStringToWeekday(BuildContext context, String weekdayStr) {
-  if (Language.of(context)!.t("week_mon") == weekdayStr) {
-    return 1;
+int fromStringToWeekday(String weekdayStr) {
+  // if (Language.of(context)!.t("week_mon") == weekdayStr) {
+  //   return 1;
+  // }
+  // if (Language.of(context)!.t("week_tue") == weekdayStr) {
+  //   return 2;
+  // }
+  // if (Language.of(context)!.t("week_wed") == weekdayStr) {
+  //   return 3;
+  // }
+  // if (Language.of(context)!.t("week_thu") == weekdayStr) {
+  //   return 4;
+  // }
+  // if (Language.of(context)!.t("week_fri") == weekdayStr) {
+  //   return 5;
+  // }
+  // if (Language.of(context)!.t("week_sat") == weekdayStr) {
+  //   return 6;
+  // }
+  // if (Language.of(context)!.t("week_sun") == weekdayStr) {
+  //   return 7;
+  // }
+  // return 0;
+  switch (weekdayStr) {
+    case 'Monday':
+    case '一':
+      return 1;
+    case 'Tuesday':
+    case '二':
+      return 2;
+    case 'Wednesday':
+    case '三':
+      return 3;
+    case 'Thursday':
+    case '四':
+      return 4;
+    case 'Friday':
+    case '五':
+      return 5;
+    case 'Saturday':
+    case '六':
+      return 6;
+    case 'Sunday':
+    case '日':
+      return 7;
+    default:
+      return 0;
   }
-  if (Language.of(context)!.t("week_tue") == weekdayStr) {
-    return 2;
-  }
-  if (Language.of(context)!.t("week_wed") == weekdayStr) {
-    return 3;
-  }
-  if (Language.of(context)!.t("week_thu") == weekdayStr) {
-    return 4;
-  }
-  if (Language.of(context)!.t("week_fri") == weekdayStr) {
-    return 5;
-  }
-  if (Language.of(context)!.t("week_sat") == weekdayStr) {
-    return 6;
-  }
-  if (Language.of(context)!.t("week_sun") == weekdayStr) {
-    return 7;
-  }
-  return 0;
 }
 
 String fromTimeToString(DateTime time) {
