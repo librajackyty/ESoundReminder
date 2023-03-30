@@ -18,6 +18,8 @@
     "home_card_remind_title": "Remind Taking Medicine",
     "home_card_repeat": "Repeat:",
     "home_card_more": "More",
+    "home_add_tip": "Tap to create new reminder",
+    "home_no_data_msg": "Seems you don't have any reminder yet\nTap '+' to create new reminder to remind you to take medicine",
     
     "reminder_new1_msg": "Please select which medicine you will take & press 'Next'",
     "reminder_new1_selectedmedicine": "Selected medicine:",

@@ -29,7 +29,7 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
   // Data
 
   DateTime _fromDate = DateTime.now();
-  TimeOfDay timeMorning = TimeOfDay(hour: 6, minute: 0);
+  TimeOfDay timeMorning = TimeOfDay.now(); //TimeOfDay(hour: 6, minute: 0);
   TimeOfDay timeNoon = TimeOfDay(hour: 12, minute: 0);
   TimeOfDay timeNight = TimeOfDay(hour: 18, minute: 0);
   // TimeOfDay time = TimeOfDay.now();

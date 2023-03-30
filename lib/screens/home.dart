@@ -8,6 +8,7 @@ import '../models/reminder.dart';
 import '../models/reminder_screen_arg.dart';
 import '../providers/reminders/reminders_provider.dart';
 import '../providers/reminders/reminders_state.dart';
+import '../utils/assetslink.dart';
 import '../utils/constants.dart' as constants;
 import '../utils/constants.dart';
 import '../utils/formatter.dart';
@@ -133,12 +134,12 @@ class _HomePageState extends State<HomePage>
             //           ],
             //         ),
             //       ),
-            //       // Lottie.asset(
-            //       //   'assets/lotties/80567-sound-voice-waves.json',
-            //       //   width: 200,
-            //       //   height: 200,
-            //       //   fit: BoxFit.fill,
-            //       // ),
+            // Lottie.asset(
+            //   'assets/lotties/80567-sound-voice-waves.json',
+            //   width: 200,
+            //   height: 200,
+            //   fit: BoxFit.fill,
+            // ),
             //       // const Text(
             //       //   'Sound testing...',
             //       // ),
@@ -157,44 +158,28 @@ class _HomePageState extends State<HomePage>
         onPressed: () {
           Navigator.pushNamed(context, pageRouteReminderNew);
         },
+        elevation: 20.0,
         backgroundColor: Colors.green,
-        tooltip: 'Tap to add new reminder',
-        child: const Icon(
-          Icons.add,
-          size: 44.0,
-          color: Colors.white,
+        tooltip: Language.of(context)!.t("home_add_tip"),
+        child: Lottie.asset(
+          assetslinkLottie('38580-addbutton'),
+          width: 80,
+          height: 80,
+          fit: BoxFit.fill,
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
-        //bottom navigation bar on scaffold
-        // color: Colors.green,
-        // shape: CircularNotchedRectangle(), //shape of notch
-        // notchMargin:
-        //     10, //notche margin between floating button and bottom appbar
-        // padding: EdgeInsets.all(8.0),
         height: 120, //MediaQuery.of(context).size.height * 0.1,
         child: Row(
-          //children inside bottom appbar
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            // Padding(
-            //   padding: EdgeInsets.only(left: 90),
-            //   child: IconButton(
-            //     icon: Icon(
-            //       Icons.menu,
-            //       color: Colors.white,
-            //     ),
-            //     onPressed: () {},
-            //   ),
-            // ),
             Expanded(
               child: IconButton(
-                icon: Icon(
-                  Icons.home,
-                  color: Colors.green,
-                  size: 36.0,
+                icon: Lottie.asset(
+                  assetslinkLottie('73220-alarm'),
+                  fit: BoxFit.fill,
                 ),
                 onPressed: () {},
               ),
@@ -202,10 +187,9 @@ class _HomePageState extends State<HomePage>
             Expanded(child: const SizedBox()),
             Expanded(
               child: IconButton(
-                icon: Icon(
-                  Icons.settings,
-                  color: Colors.black,
-                  size: 36.0,
+                icon: Lottie.asset(
+                  assetslinkLottie('72897-settings'),
+                  fit: BoxFit.fill,
                 ),
                 onPressed: () =>
                     Navigator.pushNamed(context, constants.pageRouteSettings),
@@ -297,6 +281,28 @@ class _HomePageState extends State<HomePage>
   }
 
   Widget createNoReminderSection() {
-    return Text("No Data");
+    return Column(
+      children: [
+        Spacer(),
+        Container(
+          padding: EdgeInsets.only(left: 80, right: 80),
+          child: Align(
+              alignment: Alignment.center,
+              child: CusSText(
+                Language.of(context)!.t("home_no_data_msg"),
+                textAlign: TextAlign.center,
+              )),
+        ),
+        Lottie.asset(
+          assetslinkLottie('95113-arrow-down'),
+          width: 80,
+          height: 80,
+          fit: BoxFit.fill,
+        ),
+        SizedBox(
+          height: 40,
+        )
+      ],
+    );
   }
 }

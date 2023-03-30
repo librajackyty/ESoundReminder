@@ -18,7 +18,9 @@
     "home_card_remind_title": "提醒食藥",
     "home_card_repeat": "重複:",
     "home_card_more": "更多",
-
+    "home_add_tip": "點擊創建新提醒事項",
+    "home_no_data_msg": "睇嚟您仲冇任何提醒事項\n點擊“+”創建新提醒事項提醒您服藥",
+    
     "reminder_new1_msg": "請選擇您將服用的藥物,然後按'下一步'",
     "reminder_new1_selectedmedicine": "已選擇藥物:",
     "reminder_new1_snackmsg1": "請先選擇至少一種藥物",
