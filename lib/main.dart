@@ -188,7 +188,7 @@ class _MyAppState extends State<MyApp> {
             ),
             themeMode: ThemeMode.light,
             debugShowCheckedModeBanner: false,
-            initialRoute: constants.pageRouteHome,
+            initialRoute: constants.pageRouteLanding,
             routes: {
               constants.pageRouteIntro: (context) =>
                   const IntroPage(title: 'Introduction'),

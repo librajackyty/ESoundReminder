@@ -15,29 +15,29 @@ class LandingPage extends StatefulWidget {
 
 class _LandingPageState extends State<LandingPage> {
   @override
+  void initState() {
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      if (context.mounted) {
+        Navigator.pushNamedAndRemoveUntil(
+            context, pageRouteHome, (route) => false);
+      }
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
+      // appBar: AppBar(
+      //   title: Text(widget.title),
+      // ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(safeAreaPaddingAll),
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                CusNText(
-                  'This is landing',
-                ),
-                Expanded(
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child:
-                        CusNBackButton('Back', () => {Navigator.pop(context)}),
-                  ),
-                ),
-              ],
+              children: <Widget>[],
             ),
           ),
         ),
