@@ -1,7 +1,9 @@
 import 'package:e_sound_reminder_app/widgets/custom_text_small.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 import '../models/language.dart';
+import '../utils/assetslink.dart';
 import '../utils/constants.dart';
 import '../widgets/custom_button_normal_back.dart';
 import '../widgets/custom_list_item.dart';
@@ -47,10 +49,10 @@ class _SettingsPageState extends State<SettingsPage> {
                           padding:
                               const EdgeInsets.only(top: safeAreaPaddingAll),
                           children: [
-                            const Icon(
-                              Icons.settings,
-                              color: Colors.green,
-                              size: 88.0,
+                            Lottie.asset(
+                              assetslinkLottie('65142-setting-gears'),
+                              width: MediaQuery.of(context).size.width * 0.4,
+                              height: MediaQuery.of(context).size.width * 0.4,
                             ),
                             CusListItm(
                                 Icons.language,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 import '../models/language.dart';
+import '../utils/assetslink.dart';
 import '../utils/constants.dart';
 import '../widgets/custom_button_normal_back.dart';
 import '../widgets/custom_text_normal.dart';
@@ -64,8 +65,13 @@ class _AboutPageState extends State<AboutPage> {
                   child: ListView(
                       padding: const EdgeInsets.only(top: safeAreaPaddingAll),
                       children: <Widget>[
-                        CusSText(
-                          'App Name:',
+                        Image(
+                            width: MediaQuery.of(context).size.width * 0.4,
+                            height: MediaQuery.of(context).size.width * 0.4,
+                            image: AssetImage(
+                                assetslinkImages('app_icon_512_rounded'))),
+                        const SizedBox(
+                          height: 16,
                         ),
                         CusNText(
                           _packageInfo.appName != 'Unknown'
