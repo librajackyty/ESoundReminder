@@ -1,11 +1,13 @@
 import 'package:e_sound_reminder_app/widgets/custom_button_normal.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 import '../models/language.dart';
 import '../models/reminder.dart';
 import '../models/reminder_screen_arg.dart';
 import '../providers/reminders/reminders_provider.dart';
+import '../utils/assetslink.dart';
 import '../utils/constants.dart';
 import '../utils/formatter.dart';
 import '../widgets/custom_button_normal_back.dart';
@@ -214,8 +216,21 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
                             // ),
                             Expanded(
                               child: ListView(
-                                padding: const EdgeInsets.all(12),
+                                padding:
+                                    const EdgeInsets.only(left: 12, right: 12),
                                 children: [
+                                  Lottie.asset(
+                                    assetslinkLottie('61069-medicine-pills'),
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.3,
+                                    height:
+                                        MediaQuery.of(context).size.width * 0.3,
+                                  ),
+                                  ...medicineSelectedArea(
+                                      reminder.selectedMedicine),
+                                  const SizedBox(
+                                    height: 8,
+                                  ),
                                   Row(children: [
                                     Icon(Icons.alarm_on_outlined),
                                     SizedBox(width: 6),
@@ -226,7 +241,7 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
                                   // settedTime("12:00"),
                                   // settedTime("18:30"),
                                   const SizedBox(
-                                    height: 12,
+                                    height: 8,
                                   ),
                                   Row(children: [
                                     Icon(Icons.event_repeat_outlined),
@@ -239,19 +254,19 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
                                       // "一, 二, 三, 六, 日",
                                       ),
                                   const SizedBox(
-                                    height: 12,
+                                    height: 8,
                                   ),
-                                  Row(children: [
-                                    Icon(Icons.medication_outlined),
-                                    SizedBox(width: 6),
-                                    CusSText(Language.of(context)!
-                                        .t("reminder_detail_selectmedicine"))
-                                  ]),
-                                  const SizedBox(
-                                    height: 8.0,
-                                  ),
-                                  ...medicineSelectedArea(
-                                      reminder.selectedMedicine)
+                                  // Row(children: [
+                                  //   Icon(Icons.medication_outlined),
+                                  //   SizedBox(width: 6),
+                                  //   CusSText(Language.of(context)!
+                                  //       .t("reminder_detail_selectmedicine"))
+                                  // ]),
+                                  // const SizedBox(
+                                  //   height: 8.0,
+                                  // ),
+                                  // ...medicineSelectedArea(
+                                  //     reminder.selectedMedicine)
                                 ],
                               ),
                             ),
