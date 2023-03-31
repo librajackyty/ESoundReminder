@@ -38,6 +38,7 @@ class CardReminderItem extends StatelessWidget {
     return CusCard(
         Lottie.asset(
           assetslinkLottie('61069-medicine-pills'),
+          reverse: true,
           width: 60,
           height: 60,
         ),

@@ -245,6 +245,7 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
                                 children: [
                                   Lottie.asset(
                                     assetslinkLottie('61069-medicine-pills'),
+                                    reverse: true,
                                     width:
                                         MediaQuery.of(context).size.width * 0.3,
                                     height:
