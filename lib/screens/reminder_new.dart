@@ -208,32 +208,27 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
                 Column(
                   children: [
                     Container(
-                        // margin: EdgeInsets.only(top: 8),
-                        padding: EdgeInsets.all(8),
                         decoration: BoxDecoration(
-                          border: Border(top: BorderSide()),
-                        )),
+                      border: Border(top: BorderSide()),
+                    )),
                     Row(
                       children: [
                         Expanded(
                           child: TextField(
                             controller: _TEController,
                             decoration: InputDecoration(
+                                contentPadding: EdgeInsets.zero,
                                 border: OutlineInputBorder(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(16))),
                                 hintText: Language.of(context)!
                                     .t("reminder_new1_inputhint"),
                                 hintStyle: TextStyle(color: Colors.black),
-                                prefixIcon: Icon(
-                                  Icons.edit,
-                                  // size: 30,
-                                ),
+                                prefixIcon: Icon(Icons.edit),
                                 suffixIcon: _TEController.text.isNotEmpty
                                     ? IconButton(
                                         onPressed: () {
                                           _TEController.clear();
-                                          setState(() {});
                                         },
                                         icon: Icon(
                                           Icons.cancel_outlined,
@@ -268,7 +263,7 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
                     Visibility(
                         visible: showActionArea,
                         child: const SizedBox(
-                          height: reminderCardBottomMargin,
+                          height: 2,
                         )),
                     Visibility(
                       visible: showActionArea,
