@@ -11,6 +11,8 @@ import '../utils/constants.dart';
 import 'custom_text_small.dart';
 import 'custom_text_title.dart';
 import 'reminder_weekdays.dart';
+import 'time_box_display.dart';
+import 'time_section_display.dart';
 
 class CusCard extends StatefulWidget {
   final Widget icon;
@@ -90,17 +92,8 @@ class _CusCardState extends State<CusCard> {
                 ],
               ),
             ),
-            Container(
-              padding: const EdgeInsets.all(16),
-              alignment: Alignment.centerLeft,
-              child: Wrap(
-                spacing: 8.0,
-                runSpacing: 6.0,
-                children: [
-                  createTimeDisplayBox(widget.subtitle),
-                  // More timer?
-                ],
-              ),
+            TimeSectionDisplay(
+              times: [widget.subtitle],
             ),
             widget.subline1 ?? Container(),
             const SizedBox(
@@ -118,62 +111,10 @@ class _CusCardState extends State<CusCard> {
                         : Language.of(context)!.t("home_card_more"), () {
                   widget.onPressed?.call();
                 }))
-            // Container(
-            //   alignment: Alignment.center,
-            //   padding: EdgeInsets.all(6),
-            //   margin: EdgeInsets.all(16),
-            //   decoration: BoxDecoration(
-            //       color: Colors.white,
-            //       border: Border.all(color: Colors.green[900]!),
-            //       borderRadius: BorderRadius.all(Radius.circular(20))
-            //       // bottomLeft: Radius.circular(cardsBorderRadius),
-            //       // bottomRight: Radius.circular(cardsBorderRadius)),
-            //       ),
-            //   child: Row(
-            //     // mainAxisSize: MainAxisSize.min,
-            //     mainAxisAlignment: MainAxisAlignment.center,
-            //     children: <Widget>[
-            //       const SizedBox(width: 8),
-            //       Icon(
-            //         Icons.summarize_rounded,
-            //         size: 20.0,
-            //         semanticLabel: 'Tap to edit',
-            //         color: Colors.green[800],
-            //       ),
-            //       CusSText(
-            // widget.btntxt1 != null
-            //     ? widget.btntxt1!
-            //     : Language.of(context)!.t("home_card_more"),
-            //         color: Colors.green[800],
-            //       ),
-            //       const SizedBox(width: 8),
-            //     ],
-            //   ),
-            // ),
-            //   ],
-            // )
           ],
         ),
         // ),
       ),
-    );
-  }
-
-  Widget createTimeDisplayBox(String time) {
-    return Container(
-      padding: EdgeInsets.all(6),
-      decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(color: Colors.green[800]!),
-          borderRadius: BorderRadius.all(Radius.circular(4.0))),
-      child: Row(mainAxisSize: MainAxisSize.min, children: [
-        Lottie.asset(
-          assetslinkLottie('73220-alarm'),
-          width: 30,
-          height: 30,
-        ),
-        CusNText(time)
-      ]),
     );
   }
 }

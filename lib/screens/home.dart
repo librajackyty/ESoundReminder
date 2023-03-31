@@ -278,6 +278,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   Expanded(
                     child: AnimatedList(
                       key: listKey,
+                      padding: EdgeInsets.only(bottom: 40),
                       shrinkWrap: true,
                       initialItemCount: model.reminders!.length,
                       itemBuilder: (context, index, animation) {
