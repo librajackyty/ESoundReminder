@@ -6,6 +6,7 @@ import 'package:lottie/lottie.dart';
 
 import '../models/language.dart';
 import '../models/reminder.dart';
+import '../utils/constants.dart';
 import 'custom_button_small.dart';
 import 'custom_text_small.dart';
 
@@ -37,34 +38,40 @@ class WeekdaysDisplay extends StatelessWidget {
     Widget createWeekdaysList(BuildContext context, List<String> weekdays) {
       List<Widget> wdItm = [];
       for (var dayStr in weekdays) {
-        wdItm.add(Padding(
-            padding: EdgeInsets.all(4),
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
-                surfaceTintColor: Colors.white,
-                foregroundColor: Colors.black,
-                textStyle: TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.normal,
-                    color: Colors.black),
-                fixedSize: const Size.fromHeight(60),
-                side: BorderSide(
-                  color: Colors.green[900]!,
-                  width: 1.0,
-                ),
-              ),
-              onPressed: () {},
-              child: Text(
-                dayStr,
-                textAlign: TextAlign.center,
-              ),
-            )));
+        wdItm.add(
+            // Padding(
+            //   padding: EdgeInsets.all(2),
+            //   child:
+            ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.white,
+            surfaceTintColor: Colors.white,
+            foregroundColor: Colors.black,
+            textStyle: TextStyle(
+                fontSize: textSmallSize,
+                fontWeight: FontWeight.normal,
+                color: Colors.black),
+            fixedSize: const Size.fromHeight(50),
+            side: BorderSide(
+              color: Colors.green[900]!,
+              width: 1.0,
+            ),
+          ),
+          onPressed: () {},
+          child: Text(
+            dayStr,
+            textAlign: TextAlign.center,
+          ),
+        )
+            // )
+            );
       }
       return Container(
           padding: EdgeInsets.only(bottom: 4, left: 16, right: 16),
           alignment: Alignment.centerLeft,
           child: Wrap(
+            spacing: 2.0,
+            runSpacing: 2.0,
             children: [...wdItm],
           ));
     }

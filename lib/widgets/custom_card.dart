@@ -1,5 +1,6 @@
 import 'package:day_picker/model/day_in_week.dart';
 import 'package:e_sound_reminder_app/models/reminder.dart';
+import 'package:e_sound_reminder_app/widgets/custom_button_small.dart';
 import 'package:e_sound_reminder_app/widgets/custom_text_normal.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
@@ -60,14 +61,9 @@ class _CusCardState extends State<CusCard> {
         borderRadius: BorderRadius.circular(cardsBorderRadius),
         onTap: () {
           print("Card Clicked");
-          widget.onPressed?.call();
+          // widget.onPressed?.call();
         },
-        child:
-            // Padding(
-            //   padding: const EdgeInsets.all(12.0),
-            // child:
-            Column(
-          // mainAxisSize: MainAxisSize.min,
+        child: Column(
           children: <Widget>[
             Container(
               padding: EdgeInsets.all(12),
@@ -95,69 +91,67 @@ class _CusCardState extends State<CusCard> {
               ),
             ),
             Container(
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               alignment: Alignment.centerLeft,
               child: Wrap(
                 spacing: 8.0,
                 runSpacing: 6.0,
                 children: [
                   createTimeDisplayBox(widget.subtitle),
-                  // Container(
-                  //   padding: EdgeInsets.all(4),
-                  //   child: CusTitleText(widget.subtitle),
-                  // ),
-                  // Container(
-                  //   padding: EdgeInsets.all(4),
-                  //   child: CusTitleText(widget.subtitle),
-                  // ),
-                  // Container(
-                  //   padding: EdgeInsets.all(4),
-                  //   child: CusTitleText(widget.subtitle),
-                  // )
+                  // More timer?
                 ],
               ),
             ),
             widget.subline1 ?? Container(),
-            // ListTile(
-            //   leading: widget.icon,
-            //   title: CusNText(widget.title),
-            //   subtitle: Column(
-            //       mainAxisAlignment: MainAxisAlignment.start,
-            //       crossAxisAlignment: CrossAxisAlignment.start,
-            //       children: <Widget>[
-            //         CusTitleText(widget.subtitle),
-            //         CusNText(widget.subtitle2),
-            //       ]), //CusTitleText(widget.subtitle),
-            //   isThreeLine: true,
-            // ),
+            const SizedBox(
+              height: 8,
+            ),
+            // Row(
+            //   children: [
+            // Spacer(),
+            const Divider(),
             Container(
-              padding: EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                // color: Colors.green[900],
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(cardsBorderRadius),
-                    bottomRight: Radius.circular(cardsBorderRadius)),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  const SizedBox(width: 8),
-                  Icon(
-                    Icons.summarize_rounded,
-                    size: 20.0,
-                    semanticLabel: 'Tap to edit',
-                    color: Colors.green[800],
-                  ),
-                  CusSText(
+                padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
+                child: CusSButton(
                     widget.btntxt1 != null
                         ? widget.btntxt1!
-                        : Language.of(context)!.t("home_card_more"),
-                    color: Colors.green[800],
-                  ),
-                  const SizedBox(width: 8),
-                ],
-              ),
-            ),
+                        : Language.of(context)!.t("home_card_more"), () {
+                  widget.onPressed?.call();
+                }))
+            // Container(
+            //   alignment: Alignment.center,
+            //   padding: EdgeInsets.all(6),
+            //   margin: EdgeInsets.all(16),
+            //   decoration: BoxDecoration(
+            //       color: Colors.white,
+            //       border: Border.all(color: Colors.green[900]!),
+            //       borderRadius: BorderRadius.all(Radius.circular(20))
+            //       // bottomLeft: Radius.circular(cardsBorderRadius),
+            //       // bottomRight: Radius.circular(cardsBorderRadius)),
+            //       ),
+            //   child: Row(
+            //     // mainAxisSize: MainAxisSize.min,
+            //     mainAxisAlignment: MainAxisAlignment.center,
+            //     children: <Widget>[
+            //       const SizedBox(width: 8),
+            //       Icon(
+            //         Icons.summarize_rounded,
+            //         size: 20.0,
+            //         semanticLabel: 'Tap to edit',
+            //         color: Colors.green[800],
+            //       ),
+            //       CusSText(
+            // widget.btntxt1 != null
+            //     ? widget.btntxt1!
+            //     : Language.of(context)!.t("home_card_more"),
+            //         color: Colors.green[800],
+            //       ),
+            //       const SizedBox(width: 8),
+            //     ],
+            //   ),
+            // ),
+            //   ],
+            // )
           ],
         ),
         // ),
@@ -175,10 +169,10 @@ class _CusCardState extends State<CusCard> {
       child: Row(mainAxisSize: MainAxisSize.min, children: [
         Lottie.asset(
           assetslinkLottie('73220-alarm'),
-          width: 40,
-          height: 40,
+          width: 30,
+          height: 30,
         ),
-        CusTitleText(time)
+        CusNText(time)
       ]),
     );
   }
