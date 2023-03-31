@@ -215,7 +215,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 Expanded(
                   child: IconButton(
                     icon: Lottie.asset(
-                      assetslinkLottie('72897-settings'),
+                      assetslinkLottie('94350-gears-lottie-animation'),
                       fit: BoxFit.fill,
                     ),
                     onPressed: () => Navigator.pushNamed(

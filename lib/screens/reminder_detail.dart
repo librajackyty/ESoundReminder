@@ -70,6 +70,11 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
     showDialog<String>(
       context: context,
       builder: (BuildContext context) => AlertDialog(
+        icon: Lottie.asset(
+          assetslinkLottie('112180-paper-notebook-writing-animation'),
+          width: MediaQuery.of(context).size.width * 0.3,
+          height: MediaQuery.of(context).size.width * 0.3,
+        ),
         title: CusSText('${Language.of(context)!.t("common_save")}?'),
         content: CusNText(
             Language.of(context)!.t("reminder_detail_confirmquestion")),
@@ -80,7 +85,7 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
           ),
           TextButton(
             onPressed: () async {
-              showLottieDialog("112180-paper-notebook-writing-animation");
+              showLottieDialog("95029-success");
               reminder = reminder.copyWith(
                   reminderTitle:
                       "${fromTimeToString(reminder.time1)} ${Language.of(context)?.t("localnotification_title")}",
@@ -88,7 +93,7 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
                       "${Language.of(context)?.t("localnotification_subtitle")} - ${reminder.selectedMedicine.join(",")}");
               final model = context.read<ReminderModel>();
               await model.addReminder(reminder);
-              await Future.delayed(const Duration(seconds: 5));
+              await Future.delayed(const Duration(seconds: 2));
               if (context.mounted) {
                 backToHomePage();
               }
@@ -104,6 +109,11 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
     showDialog<String>(
       context: context,
       builder: (BuildContext context) => AlertDialog(
+        icon: Lottie.asset(
+          assetslinkLottie('131686-deleted'),
+          width: MediaQuery.of(context).size.width * 0.3,
+          height: MediaQuery.of(context).size.width * 0.3,
+        ),
         title: CusSText('${Language.of(context)!.t("common_cancel")}?'),
         content:
             CusNText(Language.of(context)!.t("reminder_detail_cancelquestion")),
@@ -114,8 +124,8 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
           ),
           TextButton(
             onPressed: () async {
-              showLottieDialog("131686-deleted");
-              await Future.delayed(const Duration(seconds: 4));
+              showLottieDialog("95029-success");
+              await Future.delayed(const Duration(seconds: 2));
               backToHomePage();
             },
             child: CusSText(Language.of(context)!.t("common_yes")),
@@ -129,6 +139,11 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
     showDialog<String>(
       context: context,
       builder: (BuildContext context) => AlertDialog(
+        icon: Lottie.asset(
+          assetslinkLottie('131686-deleted'),
+          width: MediaQuery.of(context).size.width * 0.3,
+          height: MediaQuery.of(context).size.width * 0.3,
+        ),
         title: CusSText('${Language.of(context)!.t("common_delete")}?'),
         content:
             CusNText(Language.of(context)!.t("reminder_detail_deletequestion")),
@@ -139,10 +154,10 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
           ),
           TextButton(
             onPressed: () async {
-              showLottieDialog("131686-deleted");
+              showLottieDialog("95029-success");
               final model = context.read<ReminderModel>();
               await model.deleteReminder(reminder, index);
-              await Future.delayed(const Duration(seconds: 4));
+              await Future.delayed(const Duration(seconds: 2));
               if (context.mounted) {
                 backToHomePage();
               }
@@ -155,7 +170,7 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
   }
 
   void showLottieDialog(String lottiefileName,
-      {Function? onLoaded, repeat = true}) {
+      {Function? onLoaded, repeat = false}) {
     showDialog(
       context: context,
       barrierDismissible: false,
