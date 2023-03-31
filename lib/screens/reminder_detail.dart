@@ -72,6 +72,7 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
           ),
           TextButton(
             onPressed: () async {
+              showLottieDialog("112180-paper-notebook-writing-animation");
               reminder = reminder.copyWith(
                   reminderTitle:
                       "${fromTimeToString(reminder.time1)} ${Language.of(context)?.t("localnotification_title")}",
@@ -79,9 +80,9 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
                       "${Language.of(context)?.t("localnotification_subtitle")} - ${reminder.selectedMedicine.join(",")}");
               final model = context.read<ReminderModel>();
               await model.addReminder(reminder);
+              await Future.delayed(const Duration(seconds: 5));
               if (context.mounted) {
-                Navigator.pushNamedAndRemoveUntil(
-                    context, pageRouteHome, ((route) => false));
+                backToHomePage();
               }
             },
             child: CusSText(Language.of(context)!.t("common_yes")),
@@ -104,8 +105,11 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
             child: CusSText(Language.of(context)!.t("common_no")),
           ),
           TextButton(
-            onPressed: () => Navigator.pushNamedAndRemoveUntil(
-                context, pageRouteHome, ((route) => false)),
+            onPressed: () async {
+              showLottieDialog("131686-deleted");
+              await Future.delayed(const Duration(seconds: 4));
+              backToHomePage();
+            },
             child: CusSText(Language.of(context)!.t("common_yes")),
           ),
         ],
@@ -127,11 +131,12 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
           ),
           TextButton(
             onPressed: () async {
+              showLottieDialog("131686-deleted");
               final model = context.read<ReminderModel>();
               await model.deleteReminder(reminder, index);
+              await Future.delayed(const Duration(seconds: 4));
               if (context.mounted) {
-                Navigator.pushNamedAndRemoveUntil(
-                    context, pageRouteHome, ((route) => false));
+                backToHomePage();
               }
             },
             child: CusSText(Language.of(context)!.t("common_yes")),
@@ -139,6 +144,38 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
         ],
       ),
     );
+  }
+
+  void showLottieDialog(String lottiefileName,
+      {Function? onLoaded, repeat = true}) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Lottie.asset(
+                assetslinkLottie(lottiefileName),
+                repeat: repeat,
+                width: MediaQuery.of(context).size.width * 0.5,
+                height: MediaQuery.of(context).size.width * 0.5,
+                onLoaded: (p0) {
+                  debugPrint("ani loaded");
+                  onLoaded != null ? onLoaded() : () {};
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void backToHomePage() {
+    Navigator.pushNamedAndRemoveUntil(
+        context, pageRouteHome, ((route) => false));
   }
 
   @override
