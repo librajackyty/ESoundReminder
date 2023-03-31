@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
+import '../utils/assetslink.dart';
 import '../utils/constants.dart';
 import '../widgets/custom_button_normal_back.dart';
 import '../widgets/custom_text_normal.dart';
@@ -37,7 +39,14 @@ class _LandingPageState extends State<LandingPage> {
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[],
+              children: <Widget>[
+                // Lottie.asset(
+                //   assetslinkLottie(
+                //       '126961-medicine-icon-lottie-json-animation'),
+                //   width: MediaQuery.of(context).size.width * 0.4,
+                //   height: MediaQuery.of(context).size.width * 0.4,
+                // )
+              ],
             ),
           ),
         ),

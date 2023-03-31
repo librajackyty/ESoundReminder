@@ -277,64 +277,37 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
                                     alignment: Alignment.center,
                                     largeTxt: true,
                                   ),
-                                  // CusNText(
-                                  //     showingRepeatWeekdays(context, reminder)
-                                  //     // "一, 二, 三, 六, 日",
-                                  //     ),
                                   const SizedBox(
                                     height: 8,
                                   ),
-                                  // Row(children: [
-                                  //   Icon(Icons.medication_outlined),
-                                  //   SizedBox(width: 6),
-                                  //   CusSText(Language.of(context)!
-                                  //       .t("reminder_detail_selectmedicine"))
-                                  // ]),
-                                  // const SizedBox(
-                                  //   height: 8.0,
-                                  // ),
-                                  // ...medicineSelectedArea(
-                                  //     reminder.selectedMedicine)
                                 ],
                               ),
                             ),
                             const Divider(),
-                            // const SizedBox(
-                            //   height: 4,
-                            // ),
-                            // Container(
-                            //     margin: EdgeInsets.all(8),
-                            //     decoration: BoxDecoration(
-                            //       border: Border(top: BorderSide()),
-                            //     )),
-                            // const SizedBox(
-                            //   height: 4,
-                            // ),
                             Container(
                                 padding: EdgeInsets.all(8.0),
-                                child: Column(
-                                  children:
-                                      widget.title == pageNameReminderDetail
-                                          ? [
-                                              // CusNButton(
-                                              //     Language.of(context)!
-                                              //         .t("common_save"),
-                                              //     showConfirmDialog),
-                                              // const SizedBox(
-                                              //   height: 8,
-                                              // ),
-                                              CusNBackButton(
-                                                  Language.of(context)!
-                                                      .t("common_cancel"),
-                                                  showCancelDialog),
-                                            ]
-                                          : [
-                                              CusNBackButton(
-                                                  Language.of(context)!
-                                                      .t("common_delete"),
-                                                  showDeleteDialog)
-                                            ],
-                                ))
+                                child: widget.title == pageNameReminderDetail
+                                    ? Row(children: [
+                                        Expanded(
+                                          child: CusNBackButton(
+                                              Language.of(context)!
+                                                  .t("common_cancel"),
+                                              showCancelDialog),
+                                        ),
+                                        const SizedBox(
+                                          width: 8,
+                                        ),
+                                        Expanded(
+                                          child: CusNButton(
+                                              Language.of(context)!
+                                                  .t("common_save"),
+                                              showConfirmDialog),
+                                        ),
+                                      ])
+                                    : CusNBackButton(
+                                        Language.of(context)!
+                                            .t("common_delete"),
+                                        showDeleteDialog))
                           ],
                         ),
                       )),
@@ -349,23 +322,6 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
   }
 
   Widget createBottomActionBar(BuildContext context) {
-    if (widget.title == pageNameReminderDetail) {
-      return Row(
-        children: [
-          Expanded(
-            child: CusNBackButton(Language.of(context)!.t("common_back"),
-                () => {Navigator.pop(context)}),
-          ),
-          const SizedBox(
-            width: 8,
-          ),
-          Expanded(
-            child: CusNButton(
-                Language.of(context)!.t("common_save"), showConfirmDialog),
-          ),
-        ],
-      );
-    }
     return Align(
       alignment: Alignment.bottomCenter,
       child: CusNBackButton(Language.of(context)!.t("common_back"),
