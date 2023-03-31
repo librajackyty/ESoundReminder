@@ -16,6 +16,7 @@ import '../widgets/custom_text_normal.dart';
 import '../widgets/custom_text_small.dart';
 import '../widgets/custom_text_small_ex.dart';
 import '../widgets/custom_text_title.dart';
+import '../widgets/reminder_weekdays_display.dart';
 import '../widgets/time_section_display.dart';
 
 class ReminderDetailPage extends StatefulWidget {
@@ -270,10 +271,16 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
                                     CusSText(Language.of(context)!
                                         .t("reminder_detail_setrepeat")),
                                   ]),
-                                  CusNText(
-                                      showingRepeatWeekdays(context, reminder)
-                                      // "一, 二, 三, 六, 日",
-                                      ),
+                                  WeekdaysDisplay(
+                                    reminder: reminder,
+                                    padding: EdgeInsets.all(16),
+                                    alignment: Alignment.center,
+                                    largeTxt: true,
+                                  ),
+                                  // CusNText(
+                                  //     showingRepeatWeekdays(context, reminder)
+                                  //     // "一, 二, 三, 六, 日",
+                                  //     ),
                                   const SizedBox(
                                     height: 8,
                                   ),

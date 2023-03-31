@@ -15,6 +15,7 @@ import '../widgets/custom_text_normal.dart';
 import '../widgets/custom_text_small.dart';
 import '../widgets/custom_text_small_ex.dart';
 import '../widgets/reminder_weekdays.dart';
+import '../widgets/reminder_weekdays_display.dart';
 import '../widgets/time_section_display.dart';
 
 class ReminderNewPage2 extends StatefulWidget {
@@ -338,7 +339,8 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                                   ]),
                                 ),
                                 TimeSectionDisplay(
-                                  padding: EdgeInsets.only(top: 2, bottom: 8),
+                                  padding:
+                                      const EdgeInsets.only(top: 2, bottom: 8),
                                   times: [fromTimeOfDayToString(timeMorning)],
                                 ),
                                 Visibility(
@@ -361,7 +363,13 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                                     maintainAnimation: true,
                                     maintainState: true,
                                     visible: true,
-                                    child: CusNText(showingRepeatWeekdays())),
+                                    child:
+                                        // CusNText(showingRepeatWeekdays())
+                                        WeekdaysDisplay(
+                                      reminder: reminder,
+                                      padding: const EdgeInsets.only(
+                                          top: 2, bottom: 8),
+                                    )),
                               ],
                             ))),
                     Row(

@@ -25,41 +25,6 @@ class CardReminderItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // List<DayInWeek> getweekdaysList(BuildContext context, Reminder reminder) {
-    //   List<DayInWeek> newDisplay = [
-    //     DayInWeek(Language.of(context)!.t("week_mon")),
-    //     DayInWeek(Language.of(context)!.t("week_tue")),
-    //     DayInWeek(Language.of(context)!.t("week_wed")),
-    //     DayInWeek(Language.of(context)!.t("week_thu")),
-    //     DayInWeek(Language.of(context)!.t("week_fri")),
-    //     DayInWeek(Language.of(context)!.t("week_sat")),
-    //     DayInWeek(Language.of(context)!.t("week_sun"))
-    //   ];
-    //   if (reminder.weekdays1.isEmpty) {
-    //     return newDisplay;
-    //   }
-    //   for (var i = 1; i <= reminder.weekdays1.length; i++) {
-    //     if (reminder.weekdays1[i - 1] == (i)) {
-    //       newDisplay[i - 1].isSelected = true;
-    //     }
-    //   }
-    //   return newDisplay;
-    // }
-
-    // Widget createWeekdaysLine(BuildContext context, Reminder reminder) {
-    //   return Container(
-    //       padding: EdgeInsets.only(bottom: 4, left: 4, right: 4),
-    //       child: WeekdaysSelector(
-    //           boxDecoration: BoxDecoration(
-    //             // color: Colors.green[400],
-    //             borderRadius: BorderRadius.all(Radius.circular(4.0)),
-    //           ),
-    //           days: getweekdaysList(context, reminder),
-    //           onSelect: (values) {
-    //             // weekdayNum = reminder.weekdays1;
-    //           }));
-    // }
-
     return SlideTransition(
         position: animation.drive(Tween<Offset>(
           begin: const Offset(1.1, 0),
