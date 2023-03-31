@@ -15,6 +15,7 @@ import '../widgets/custom_text_normal.dart';
 import '../widgets/custom_text_small.dart';
 import '../widgets/custom_text_small_ex.dart';
 import '../widgets/reminder_weekdays.dart';
+import '../widgets/time_section_display.dart';
 
 class ReminderNewPage2 extends StatefulWidget {
   const ReminderNewPage2({super.key, required this.title, this.arg});
@@ -113,8 +114,8 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
 
   @override
   Widget build(BuildContext context) {
-    final hoursDisplay1 = timeMorning.hour.toString().padLeft(2, '0');
-    final minsDisplay1 = timeMorning.minute.toString().padLeft(2, '0');
+    // final hoursDisplay1 = timeMorning.hour.toString().padLeft(2, '0');
+    // final minsDisplay1 = timeMorning.minute.toString().padLeft(2, '0');
     // final hoursDisplay2 = timeNoon.hour.toString().padLeft(2, '0');
     // final minsDisplay2 = timeNoon.minute.toString().padLeft(2, '0');
 
@@ -135,76 +136,6 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                   textAlign: TextAlign.center,
                 ),
                 const Divider(),
-
-                // const SizedBox(height: 20),
-                // Row(
-                //   children: [
-                //     Expanded(child: CusSText('Take more than once a day?')),
-                //     Transform.scale(
-                //         scale: 1.8,
-                //         child: Switch(
-                //           // This bool value toggles the switch.
-                //           value: eatMoreThanOnce,
-                //           onChanged: (bool value) {
-                //             // This is called when the user toggles the switch.
-                //             setState(() {
-                //               eatMoreThanOnce = value;
-                //             });
-                //           },
-                //         ))
-                //   ],
-                // ),
-                // Row(
-                //   children: [
-                //     Expanded(child: CusSText('Take medince in morning?')),
-                //     Transform.scale(
-                //         scale: 1.8,
-                //         child: Switch(
-                //           // This bool value toggles the switch.
-                //           value: setMorning,
-                //           onChanged: (bool value) {
-                //             // This is called when the user toggles the switch.
-                //             setState(() {
-                //               setMorning = value;
-                //             });
-                //           },
-                //         ))
-                //   ],
-                // ),
-                // Row(
-                //   children: [
-                //     Expanded(child: CusSText('Take medince at noon?')),
-                //     Transform.scale(
-                //         scale: 1.8,
-                //         child: Switch(
-                //           // This bool value toggles the switch.
-                //           value: setNight,
-                //           onChanged: (bool value) {
-                //             // This is called when the user toggles the switch.
-                //             setState(() {
-                //               setNight = value;
-                //             });
-                //           },
-                //         ))
-                //   ],
-                // ),
-                // Row(
-                //   children: [
-                //     Expanded(child: CusSText('Take medince at night?')),
-                //     Transform.scale(
-                //         scale: 1.8,
-                //         child: Switch(
-                //           // This bool value toggles the switch.
-                //           value: setNoon,
-                //           onChanged: (bool value) {
-                //             // This is called when the user toggles the switch.
-                //             setState(() {
-                //               setNoon = value;
-                //             });
-                //           },
-                //         ))
-                //   ],
-                // ),
                 Expanded(
                   child: ListView(
                       // mainAxisAlignment: MainAxisAlignment.center,
@@ -213,7 +144,8 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                           Language.of(context)!.t("reminder_new2_settimer1"),
                         ),
                         CusSButton(
-                          "$hoursDisplay1:$minsDisplay1",
+                          // "$hoursDisplay1:$minsDisplay1",
+                          fromTimeOfDayToString(timeMorning),
                           () async {
                             TimeOfDay? newtime = await showTimePicker(
                                 context: context,
@@ -396,50 +328,31 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                                   maintainState: true,
                                   visible: setMorning,
                                   child: Row(children: [
-                                    Icon(Icons.alarm_on_outlined),
-                                    SizedBox(width: 6),
-                                    CusSText(Language.of(context)!
+                                    Icon(
+                                      Icons.alarm_on_outlined,
+                                      size: 14,
+                                    ),
+                                    SizedBox(width: 2),
+                                    CusExSText(Language.of(context)!
                                         .t("reminder_new2_settimer2")),
                                   ]),
                                 ),
-                                // Visibility(
-                                //     maintainSize: true,
-                                //     maintainAnimation: true,
-                                //     maintainState: true,
-                                //     visible: setMorning,
-                                //     child: CusNButton(
-                                //       "$hoursDisplay1:$minsDisplay1",
-                                //       () async {
-                                //         TimeOfDay? newtime =
-                                //             await showTimePicker(
-                                //                 context: context,
-                                //                 initialTime: timeMorning,
-                                //                 initialEntryMode:
-                                //                     TimePickerEntryMode
-                                //                         .dialOnly);
-                                //         if (newtime == null) return;
-
-                                //         setState(() => timeMorning = newtime);
-                                //       },
-                                //       icon: Icon(Icons.alarm),
-                                //     )),
-                                Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      // Icon(Icons.alarm),
-                                      // SizedBox(width: 8),
-                                      CusTitleText(
-                                          "$hoursDisplay1:$minsDisplay1")
-                                    ]),
+                                TimeSectionDisplay(
+                                  padding: EdgeInsets.only(top: 2, bottom: 8),
+                                  times: [fromTimeOfDayToString(timeMorning)],
+                                ),
                                 Visibility(
                                   maintainSize: true,
                                   maintainAnimation: true,
                                   maintainState: true,
                                   visible: true,
                                   child: Row(children: [
-                                    Icon(Icons.event_repeat_outlined),
-                                    SizedBox(width: 6),
-                                    CusSText(Language.of(context)!
+                                    Icon(
+                                      Icons.event_repeat_outlined,
+                                      size: 14,
+                                    ),
+                                    SizedBox(width: 2),
+                                    CusExSText(Language.of(context)!
                                         .t("reminder_new2_setrepeat2")),
                                   ]),
                                 ),

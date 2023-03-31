@@ -120,6 +120,10 @@ String fromTimeToString(DateTime time) {
   return '${hTOhh_24hTrue(time.hour)}:${mTOmm(time.minute)}';
 }
 
+String fromTimeOfDayToString(TimeOfDay time) {
+  return '${hTOhh_24hTrue(time.hour)}:${mTOmm(time.minute)}';
+}
+
 String hTOhh_24hTrue(int hour) {
   late String sHour;
   if (hour < 10) {

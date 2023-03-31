@@ -84,7 +84,7 @@ class _CusCardState extends State<CusCard> {
                   Flexible(
                       child: CusTitleText(
                     widget.title,
-                    color: Colors.green[900],
+                    // color: Colors.green[900],
                   )
                       // CusNText(
                       //     "widget.title sklnk nksdnljn jbdkj bdjkb kjb kbdfjbdsjkhb jkhdbf jbjsdb")

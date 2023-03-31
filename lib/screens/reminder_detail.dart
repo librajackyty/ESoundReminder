@@ -16,6 +16,7 @@ import '../widgets/custom_text_normal.dart';
 import '../widgets/custom_text_small.dart';
 import '../widgets/custom_text_small_ex.dart';
 import '../widgets/custom_text_title.dart';
+import '../widgets/time_section_display.dart';
 
 class ReminderDetailPage extends StatefulWidget {
   const ReminderDetailPage({super.key, required this.title, this.arg});
@@ -44,6 +45,7 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
       mwList.add(CusNButton(
         "$medicine",
         () {},
+        readOnly: true,
       ));
       mwList.add(const SizedBox(
         height: 8.0,
@@ -52,10 +54,15 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
     return mwList;
   }
 
-  Widget settedTime(String timeText) {
-    return Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [CusTitleText(timeText)]);
+  Widget settedTime(Reminder reminder) {
+    return TimeSectionDisplay(
+      largeTxt: true,
+      alignment: Alignment.center,
+      times: [fromTimeToString(reminder.time1)],
+    );
+    // return Row(
+    //     mainAxisAlignment: MainAxisAlignment.start,
+    //     children: [CusTitleText(timeText)]);
   }
 
   void showConfirmDialog() {
@@ -199,10 +206,11 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
                 widget.title == pageNameReminderDetail
                     ? CusExSText(
                         "${Language.of(context)!.t("common_step")} (3/3)")
-                    : CusNText(
-                        Language.of(context)!.t("reminder_detail_title"),
-                        textAlign: TextAlign.center,
-                      ),
+                    : const SizedBox(),
+                // CusNText(
+                //     Language.of(context)!.t("reminder_detail_title"),
+                //     textAlign: TextAlign.center,
+                //   ),
                 widget.title == pageNameReminderDetail
                     ? CusSText(
                         Language.of(context)!.t("reminder_detail_msg"),
@@ -229,26 +237,6 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            // CusSText("Set timer to:"),
-                            // settedTime("07:00"),
-                            // settedTime("12:00"),
-                            // settedTime("18:30"),
-                            // CusSText("Set repeat on:"),
-                            // CusNText("Monday, Friday"),
-                            // const SizedBox(
-                            //   height: 12,
-                            // ),
-                            // CusSText("Take medince of:"),
-                            // Expanded(
-                            //   child: GridView.count(
-                            //       primary: true,
-                            //       padding: const EdgeInsets.all(10),
-                            //       crossAxisSpacing: 8,
-                            //       mainAxisSpacing: 8,
-                            //       crossAxisCount: 3,
-                            //       children:
-                            //           medicineSelectedArea(selectedMedicine)),
-                            // ),
                             Expanded(
                               child: ListView(
                                 padding:
@@ -272,9 +260,7 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
                                     CusSText(Language.of(context)!
                                         .t("reminder_detail_settimer")),
                                   ]),
-                                  settedTime(fromTimeToString(reminder.time1)),
-                                  // settedTime("12:00"),
-                                  // settedTime("18:30"),
+                                  settedTime(reminder),
                                   const SizedBox(
                                     height: 8,
                                   ),
