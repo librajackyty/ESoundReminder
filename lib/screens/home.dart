@@ -174,19 +174,24 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         floatingActionButton: ScaleTransition(
           scale: animationFAB,
           child: FloatingActionButton.large(
-            onPressed: () {
-              Navigator.pushNamed(context, pageRouteReminderNew);
-            },
-            elevation: 20.0,
-            backgroundColor: Colors.green,
-            tooltip: Language.of(context)!.t("home_add_tip"),
-            child: Lottie.asset(
-              assetslinkLottie('38580-addbutton'),
-              width: 80,
-              height: 80,
-              fit: BoxFit.fill,
-            ),
-          ),
+              onPressed: () =>
+                  Navigator.pushNamed(context, pageRouteReminderNew),
+              elevation: 20.0,
+              backgroundColor: Colors.green[600],
+              tooltip: Language.of(context)!.t("home_add_tip"),
+              shape: RoundedRectangleBorder(
+                side: BorderSide(
+                  width: 1.0,
+                  color: Colors.green[900]!,
+                ),
+                borderRadius: BorderRadius.circular(cardsBorderRadius),
+              ),
+              child: Lottie.asset(
+                assetslinkLottie('38580-addbutton'),
+                width: 80,
+                height: 80,
+                fit: BoxFit.fill,
+              )),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: SlideTransition(
