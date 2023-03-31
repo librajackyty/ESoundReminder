@@ -32,43 +32,64 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
           selectedMedicine: []);
 
   List staticmedicinelist = [
+    "鈣質片",
+    "止痛藥",
     "脷底丸",
     "降膽固醇",
     "抗糖尿病",
     "降血壓藥",
+    "抗心臟衰竭",
     "胃藥",
     "抗生素",
+    "哮喘藥",
+    "類固醇藥",
+    "抗凝血藥",
     "維他命",
     "維他命A",
     "維他命B",
     "維他命C",
     "維他命D",
+    "維他命E",
   ];
   List staticmedicineCNlist = [
+    "鈣質片",
+    "止痛药",
     "脷底丸",
     "降胆固醇",
     "抗糖尿病",
     "降血压药",
+    "抗心脏衰竭",
     "胃药",
     "抗生素",
+    "哮喘药",
+    "類固醇藥",
+    "抗凝血药",
     "维他命",
     "维他命A",
     "维他命B",
     "维他命C",
     "维他命D",
+    "维他命E",
   ];
   List staticmedicineENlist = [
+    "Calcium Carbonate",
+    "Analgesic",
     "Nitroglyercin",
     "Cholesterol-lowering drugs",
     "Oral Antidiabetic Medications",
     "Antihypertensive drugs",
+    "Anti-heart failure",
     "Antacid",
     "Antibiotic",
+    "Asthma medicine",
+    "Steroid pills",
+    "Anticoagulants",
     "Vitamin",
     "Vitamin A",
     "Vitamin B",
     "Vitamin C",
-    "Vitamin D"
+    "Vitamin D",
+    "Vitamin E"
   ];
   List selectedMedicine = [];
 
@@ -77,6 +98,7 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
   }
 
   // UI rendering
+  bool showActionArea = true;
   List getMedicineByLang(BuildContext context) {
     switch (Language.currentLocale(context)) {
       case Language.codeEnglish:
@@ -96,15 +118,7 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
       mwList.add(Container(
         padding: EdgeInsets.all(8),
         child: CusSButton("$medicine", () {
-          setState(() {
-            // if (!selectedMedicine.contains("$medicine")) {
-            //   selectedMedicine.add("$medicine");
-            // } else {
-            //   selectedMedicine.remove("$medicine");
-            // }
-            selectedMedicine = ["$medicine"];
-            updateSelectedMedicineToModel(selectedMedicine);
-          });
+          updateSelectedMedicine(medicine);
         }),
       ));
     }
@@ -126,6 +140,33 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
       ));
     }
     return mwList;
+  }
+
+  void updateSelectedMedicine(String medicine) {
+    setState(() {
+      // if (!selectedMedicine.contains("$medicine")) {
+      //   selectedMedicine.add("$medicine");
+      // } else {
+      //   selectedMedicine.remove("$medicine");
+      // }
+      selectedMedicine = ["$medicine"];
+      updateSelectedMedicineToModel(selectedMedicine);
+    });
+  }
+
+  var _TEController = TextEditingController();
+
+  void inputTxtSubmit(String val) async {
+    debugPrint("inputTxtSubmit: $val");
+    FocusManager.instance.primaryFocus?.unfocus();
+    if (val.isNotEmpty) {
+      updateSelectedMedicine(val);
+    }
+    await Future.delayed(const Duration(milliseconds: 800));
+    _TEController.clear();
+    setState(() {
+      showActionArea = true;
+    });
   }
 
   @override
@@ -167,85 +208,150 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
                 Column(
                   children: [
                     Container(
+                        // margin: EdgeInsets.only(top: 8),
                         padding: EdgeInsets.all(8),
                         decoration: BoxDecoration(
                           border: Border(top: BorderSide()),
                         )),
-                    Card(
-                      margin: const EdgeInsets.only(
-                          bottom: reminderCardBottomMargin),
-                      shape: RoundedRectangleBorder(
-                        side: BorderSide(
-                          color: Colors.greenAccent,
-                        ),
-                        borderRadius: BorderRadius.circular(cardsBorderRadius),
-                      ),
-                      elevation: cardsElevation,
-                      child: SizedBox(
-                        width: double.maxFinite,
-                        height: MediaQuery.of(context).size.height *
-                            reminderCardHeightRatio,
-
-                        child: ListView(
-                          padding: const EdgeInsets.all(12),
-                          children: [
-                            // CusSText("Selected medicine:"),
-                            Row(children: [
-                              Icon(Icons.medication_outlined),
-                              SizedBox(width: 6),
-                              CusSText(Language.of(context)!
-                                  .t("reminder_new1_selectedmedicine"))
-                            ]),
-                            const SizedBox(
-                              height: 8.0,
-                            ),
-                            ...medicineSelectedArea(selectedMedicine)
-                          ],
-                        ),
-
-                        // GridView.count(
-                        //     primary: false,
-                        //     padding: const EdgeInsets.all(10),
-                        //     crossAxisSpacing: 8,
-                        //     mainAxisSpacing: 8,
-                        //     crossAxisCount: 3,
-                        //     children: medicineSelectedArea(selectedMedicine)),
-                      ),
-                    ),
                     Row(
                       children: [
                         Expanded(
-                          child: CusNBackButton(
-                              Language.of(context)!.t("common_back"),
-                              () => {Navigator.pop(context)}),
-                        ),
-                        const SizedBox(
-                          width: 8,
-                        ),
-                        Expanded(
-                          child: CusNButton(
-                              Language.of(context)!.t("common_next"),
-                              () => {
-                                    // Navigator.pop(context),
-                                    if (selectedMedicine.isEmpty)
-                                      {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(SnackBar(
-                                          content: CusSText(
-                                              Language.of(context)!.t(
-                                                  "reminder_new1_snackmsg1")),
+                          child: TextField(
+                            controller: _TEController,
+                            decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(16))),
+                                hintText: Language.of(context)!
+                                    .t("reminder_new1_inputhint"),
+                                hintStyle: TextStyle(color: Colors.black),
+                                prefixIcon: Icon(
+                                  Icons.edit,
+                                  // size: 30,
+                                ),
+                                suffixIcon: _TEController.text.isNotEmpty
+                                    ? IconButton(
+                                        onPressed: () {
+                                          _TEController.clear();
+                                          setState(() {});
+                                        },
+                                        icon: Icon(
+                                          Icons.cancel_outlined,
+                                          size: 36,
                                         ))
-                                      }
-                                    else
-                                      {
-                                        Navigator.pushNamed(
-                                            context, pageRouteReminderNew2,
-                                            arguments:
-                                                ReminderScreenArg(reminder))
-                                      }
-                                  }),
+                                    : null),
+                            onTap: () {
+                              setState(() {
+                                showActionArea = false;
+                              });
+                            },
+                            onSubmitted: (value) {
+                              debugPrint("onSubmitted: $value");
+                              inputTxtSubmit(value);
+                            },
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: showActionArea
+                              ? null
+                              : () => inputTxtSubmit(_TEController.text),
+                          iconSize: 48,
+                          icon: Icon(
+                            Icons.check_circle_outline,
+                            color: showActionArea
+                                ? Colors.grey[400]
+                                : Colors.green[800],
+                          ),
                         ),
                       ],
+                    ),
+                    Visibility(
+                        visible: showActionArea,
+                        child: const SizedBox(
+                          height: reminderCardBottomMargin,
+                        )),
+                    Visibility(
+                      visible: showActionArea,
+                      child: Card(
+                        margin: const EdgeInsets.only(
+                            bottom: reminderCardBottomMargin),
+                        shape: RoundedRectangleBorder(
+                          side: BorderSide(
+                            color: Colors.greenAccent,
+                          ),
+                          borderRadius:
+                              BorderRadius.circular(cardsBorderRadius),
+                        ),
+                        elevation: cardsElevation,
+                        child: SizedBox(
+                          width: double.maxFinite,
+                          height: MediaQuery.of(context).size.height *
+                              reminderCardHeightRatio,
+
+                          child: ListView(
+                            padding: const EdgeInsets.all(12),
+                            children: [
+                              // CusSText("Selected medicine:"),
+                              Row(children: [
+                                Icon(Icons.medication_outlined),
+                                SizedBox(width: 6),
+                                CusSText(Language.of(context)!
+                                    .t("reminder_new1_selectedmedicine"))
+                              ]),
+                              const SizedBox(
+                                height: 8.0,
+                              ),
+                              ...medicineSelectedArea(selectedMedicine)
+                            ],
+                          ),
+
+                          // GridView.count(
+                          //     primary: false,
+                          //     padding: const EdgeInsets.all(10),
+                          //     crossAxisSpacing: 8,
+                          //     mainAxisSpacing: 8,
+                          //     crossAxisCount: 3,
+                          //     children: medicineSelectedArea(selectedMedicine)),
+                        ),
+                      ),
+                    ),
+                    Visibility(
+                      visible: showActionArea,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: CusNBackButton(
+                                Language.of(context)!.t("common_back"),
+                                () => {Navigator.pop(context)}),
+                          ),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          Expanded(
+                            child: CusNButton(
+                                Language.of(context)!.t("common_next"),
+                                () => {
+                                      // Navigator.pop(context),
+                                      if (selectedMedicine.isEmpty)
+                                        {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(SnackBar(
+                                            content: CusSText(
+                                                Language.of(context)!.t(
+                                                    "reminder_new1_snackmsg1")),
+                                          ))
+                                        }
+                                      else
+                                        {
+                                          Navigator.pushNamed(
+                                              context, pageRouteReminderNew2,
+                                              arguments:
+                                                  ReminderScreenArg(reminder))
+                                        }
+                                    }),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 )

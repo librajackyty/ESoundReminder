@@ -24,6 +24,7 @@
     "reminder_new1_msg": "請選擇您將要服用的藥物,然後按'下一步'",
     "reminder_new1_selectedmedicine": "已選擇藥物:",
     "reminder_new1_snackmsg1": "請先選擇至少一種藥物",
+    "reminder_new1_inputhint": "上面搵唔到？ 輸入藥物名稱",
 
     "reminder_new2_msg": "請設定時間提醒,然後按'下一步'",
     "reminder_new2_settimer1": "鬧鐘時間:",
