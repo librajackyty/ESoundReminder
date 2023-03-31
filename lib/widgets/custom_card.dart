@@ -61,7 +61,7 @@ class _CusCardState extends State<CusCard> {
         borderRadius: BorderRadius.circular(cardsBorderRadius),
         onTap: () {
           print("Card Clicked");
-          // widget.onPressed?.call();
+          widget.onPressed?.call();
         },
         child: Column(
           children: <Widget>[

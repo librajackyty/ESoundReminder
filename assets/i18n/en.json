@@ -68,5 +68,19 @@
     "week_thu": "Thursday",
     "week_fri": "Friday",
     "week_sat": "Saturday",
-    "week_sun": "Sunday"
+    "week_sun": "Sunday",
+    "week_mon_s": "Mon",
+    "week_tue_s": "Tue",
+    "week_wed_s": "Wed",
+    "week_thu_s": "Thu",
+    "week_fri_s": "Fri",
+    "week_sat_s": "Sat",
+    "week_sun_s": "Sun",
+    "week_mon_ss": "M",
+    "week_tue_ss": "T",
+    "week_wed_ss": "W",
+    "week_thu_ss": "T",
+    "week_fri_ss": "F",
+    "week_sat_ss": "S",
+    "week_sun_ss": "S"
 }

@@ -29,7 +29,7 @@ class WeekdaysDisplay extends StatelessWidget {
         newDisplay.add(Language.of(context)!.t("reminder_new2_setrepeat4"));
       } else {
         for (var day in reminder.weekdays1) {
-          newDisplay.add(fromWeekdayToString(context, day));
+          newDisplay.add(fromWeekdayToShortString(context, day));
         }
       }
       return newDisplay;

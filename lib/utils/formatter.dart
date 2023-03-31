@@ -24,6 +24,48 @@ String fromWeekdayToString(BuildContext context, int weekday) {
   }
 }
 
+String fromWeekdayToShortString(BuildContext context, int weekday) {
+  switch (weekday) {
+    case 1:
+      return Language.of(context)!.t("week_mon_s");
+    case 2:
+      return Language.of(context)!.t("week_tue_s");
+    case 3:
+      return Language.of(context)!.t("week_wed_s");
+    case 4:
+      return Language.of(context)!.t("week_thu_s");
+    case 5:
+      return Language.of(context)!.t("week_fri_s");
+    case 6:
+      return Language.of(context)!.t("week_sat_s");
+    case 7:
+      return Language.of(context)!.t("week_sun_s");
+    default:
+      return '';
+  }
+}
+
+String fromWeekdayToExShortString(BuildContext context, int weekday) {
+  switch (weekday) {
+    case 1:
+      return Language.of(context)!.t("week_mon_ss");
+    case 2:
+      return Language.of(context)!.t("week_tue_ss");
+    case 3:
+      return Language.of(context)!.t("week_wed_ss");
+    case 4:
+      return Language.of(context)!.t("week_thu_ss");
+    case 5:
+      return Language.of(context)!.t("week_fri_ss");
+    case 6:
+      return Language.of(context)!.t("week_sat_ss");
+    case 7:
+      return Language.of(context)!.t("week_sun_ss");
+    default:
+      return '';
+  }
+}
+
 int fromStringToWeekday(String weekdayStr) {
   // if (Language.of(context)!.t("week_mon") == weekdayStr) {
   //   return 1;

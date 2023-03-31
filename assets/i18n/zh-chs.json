@@ -67,5 +67,19 @@
     "week_thu": "四",
     "week_fri": "五",
     "week_sat": "六",
-    "week_sun": "日"
+    "week_sun": "日",
+    "week_mon_s": "一",
+    "week_tue_s": "二",
+    "week_wed_s": "三",
+    "week_thu_s": "四",
+    "week_fri_s": "五",
+    "week_sat_s": "六",
+    "week_sun_s": "日",
+    "week_mon_ss": "一",
+    "week_tue_ss": "二",
+    "week_wed_ss": "三",
+    "week_thu_ss": "四",
+    "week_fri_ss": "五",
+    "week_sat_ss": "六",
+    "week_sun_ss": "日"
 }
