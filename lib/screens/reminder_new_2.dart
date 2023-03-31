@@ -167,7 +167,9 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                           },
                           icon: Icon(Icons.alarm),
                         ),
-
+                        const SizedBox(
+                          height: 12,
+                        ),
                         // CusNButton(
                         //   "Setting Date",
                         //   () async {

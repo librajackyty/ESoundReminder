@@ -271,22 +271,28 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
                                   const SizedBox(
                                     height: 8,
                                   ),
-                                  Row(children: [
-                                    Icon(Icons.alarm_on_outlined),
-                                    SizedBox(width: 6),
-                                    CusSText(Language.of(context)!
-                                        .t("reminder_detail_settimer")),
-                                  ]),
+                                  Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Icon(Icons.alarm_on_outlined),
+                                        SizedBox(width: 6),
+                                        CusSText(Language.of(context)!
+                                            .t("reminder_detail_settimer")),
+                                      ]),
                                   settedTime(reminder),
                                   const SizedBox(
                                     height: 8,
                                   ),
-                                  Row(children: [
-                                    Icon(Icons.event_repeat_outlined),
-                                    SizedBox(width: 6),
-                                    CusSText(Language.of(context)!
-                                        .t("reminder_detail_setrepeat")),
-                                  ]),
+                                  Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Icon(Icons.event_repeat_outlined),
+                                        SizedBox(width: 6),
+                                        CusSText(Language.of(context)!
+                                            .t("reminder_detail_setrepeat")),
+                                      ]),
                                   WeekdaysDisplay(
                                     reminder: reminder,
                                     padding: EdgeInsets.all(16),
