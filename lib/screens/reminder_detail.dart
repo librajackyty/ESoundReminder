@@ -298,6 +298,7 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
                                     padding: EdgeInsets.all(16),
                                     alignment: Alignment.center,
                                     largeTxt: true,
+                                    displayAll: true,
                                   ),
                                   const SizedBox(
                                     height: 8,
