@@ -29,12 +29,11 @@ class _LangConfigPageState extends State<LangConfigPage> {
       mwList.add(CusNButton(
         "${Language.localeDisplay[lang]}",
         () {
-          setState(() {
-            appLanguage.changeLanguage(Locale(lang));
-          });
+          // setState(() {
+          appLanguage.changeLanguage(Locale(lang));
+          // });
           if (initalConfig) {
-            Navigator.pushNamedAndRemoveUntil(
-                context, pageRouteHome, (route) => false);
+            Navigator.pushReplacementNamed(context, pageRouteHome);
           } else {
             Navigator.of(context).pop();
           }
