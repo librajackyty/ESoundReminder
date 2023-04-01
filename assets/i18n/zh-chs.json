@@ -21,6 +21,17 @@
     "home_add_tip": "点击创建新提醒事项",
     "home_no_data_msg": "看来您还没有任何提醒事项\n点击“+”创建新提醒事项提醒您服药",
 
+    "filter_all": "显示全部",
+    "filter_repeat_all": "每天重复",
+    "filter_repeat_no": "不重复",
+    "filter_repeat_mon": "星期一",
+    "filter_repeat_tue": "星期二",
+    "filter_repeat_wed": "星期三",
+    "filter_repeat_thu": "星期四",
+    "filter_repeat_fri": "星期五",
+    "filter_repeat_sat": "星期六",
+    "filter_repeat_sun": "星期日",
+
     "reminder_new1_msg": "请选择您将要服用的药物,然后按'下一步'",
     "reminder_new1_selectedmedicine": "已选择药物:",
     "reminder_new1_snackmsg1": "请先选择至少一种药物",

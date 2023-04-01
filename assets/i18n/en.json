@@ -22,6 +22,17 @@
     "home_card_more": "More",
     "home_add_tip": "Tap to create new reminder",
     "home_no_data_msg": "Seems you don't have any reminder yet\nTap '+' to create new reminder to remind you to take medicine",
+
+    "filter_all": "Show All",
+    "filter_repeat_all": "Everyday",
+    "filter_repeat_no": "No Repeat",
+    "filter_repeat_mon": "Mon",
+    "filter_repeat_tue": "Tue",
+    "filter_repeat_wed": "Wed",
+    "filter_repeat_thu": "Thu",
+    "filter_repeat_fri": "Fri",
+    "filter_repeat_sat": "Sat",
+    "filter_repeat_sun": "Sun",
     
     "reminder_new1_msg": "Please select which medicine you will take & press 'Next'",
     "reminder_new1_selectedmedicine": "Selected medicine:",

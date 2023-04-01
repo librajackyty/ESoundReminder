@@ -1,6 +1,8 @@
 import 'package:e_sound_reminder_app/models/language.dart';
 import 'package:e_sound_reminder_app/widgets/custom_card.dart';
+import 'package:e_sound_reminder_app/widgets/custom_text_normal.dart';
 import 'package:e_sound_reminder_app/widgets/custom_text_small.dart';
+import 'package:e_sound_reminder_app/widgets/custom_text_small_ex.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
@@ -55,6 +57,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     parent: aniControllerBottom,
     curve: Curves.fastOutSlowIn,
   );
+  String listFilterBtnStrKey = "filter_all";
 
   @override
   void initState() {
@@ -77,92 +80,25 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          toolbarHeight: 80,
+          leadingWidth: 68,
+          leading: Container(
+            margin: EdgeInsets.only(left: safeAreaPaddingAll, right: 8),
+            child: Image(
+                width: 40,
+                height: 40,
+                image: AssetImage(assetslinkImages('app_icon_512_rounded'))),
+          ),
           title: createAppBarTxt(),
+          titleSpacing: 8,
+          centerTitle: false,
         ),
         extendBody: true,
         body: SafeArea(
           child: Padding(
               padding: const EdgeInsets.all(safeAreaPaddingAllWthLv),
               child: FadeTransition(
-                  opacity:
-                      animation, //aniController.drive(CurveTween(curve: Curves.easeOut)),
-                  child: createReminderList())
-              //   CusScrollbar(
-              //   ListView(
-              //       padding: const EdgeInsets.all(listviewPaddingAll),
-              //       children: <Widget>[
-              // Container(
-              //   padding: EdgeInsets.only(bottom: 20),
-              //   child: CusSText(Language.of(context)!.t("home_list_msg")),
-              // ),
-              // CusCard(
-              //     Icon(
-              //       Icons.medication, // Icons.sunny
-              //       color: Colors.blue[600]!, // Colors.yellow[900]!
-              //       size: 40.0,
-              //       semanticLabel:
-              //           'moon icon means Time between 18:00 to 06:00', //'sunny icon means Time between 06:00 to 18:00',
-              //     ),
-              //     "提醒食藥 - 脷底丸",
-              //     "21:30",
-              //     "每周重複: \n一, 二, 三, 六, 日",
-              //     onPressed: (() => {
-              //           Navigator.pushNamed(
-              //               context, pageRouteReminderDetail)
-              //         })),
-              //       ]),
-              // ),
-              // Center(
-              //   child: Column(
-              //     mainAxisAlignment: MainAxisAlignment.center,
-              //     children: <Widget>[
-              //       Card(
-              //         child: Column(
-              //           mainAxisSize: MainAxisSize.min,
-              //           children: <Widget>[
-              //             const ListTile(
-              //               leading: Icon(Icons.album),
-              //               title: Text('The Enchanted Nightingale'),
-              //               subtitle: Text(
-              //                   'Music by Julie Gable. Lyrics by Sidney Stein.'),
-              //             ),
-              //             Row(
-              //               mainAxisAlignment: MainAxisAlignment.end,
-              //               children: <Widget>[
-              //                 TextButton(
-              //                   child: const Text('BUY TICKETS'),
-              //                   onPressed: () {/* ... */},
-              //                 ),
-              //                 const SizedBox(width: 8),
-              //                 TextButton(
-              //                   child: const Text('LISTEN'),
-              //                   onPressed: () {/* ... */},
-              //                 ),
-              //                 const SizedBox(width: 8),
-              //               ],
-              //             ),
-              //           ],
-              //         ),
-              //       ),
-              // Lottie.asset(
-              //   'assets/lotties/80567-sound-voice-waves.json',
-              //   width: 200,
-              //   height: 200,
-              //   fit: BoxFit.fill,
-              // ),
-              //       // const Text(
-              //       //   'Sound testing...',
-              //       // ),
-              //       // ElevatedButton(
-              //       //   onPressed: () {
-              //       //     Navigator.pushNamed(context, constants.pageRouteLangConfig);
-              //       //   },
-              //       //   child: const Text('Go Lang Config'),
-              //       // ),
-              //     ],
-              //   ),
-              // ),
-              ),
+                  opacity: animation, child: createReminderList())),
         ),
         floatingActionButton: ScaleTransition(
           scale: animationFAB,
@@ -190,31 +126,45 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         bottomNavigationBar: SlideTransition(
           position: animationBottom,
           child: BottomAppBar(
-            height: MediaQuery.of(context).size.height * 0.15,
+            height: 160,
             child: Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 Expanded(
-                  child: IconButton(
-                    icon: Lottie.asset(
-                      assetslinkLottie('50432-notification-animation'),
-                      fit: BoxFit.fill,
-                    ),
-                    onPressed: () {},
+                    child: TextButton(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Lottie.asset(
+                        assetslinkLottie('50432-notification-animation'),
+                        width: 55,
+                        height: 55,
+                      ),
+                      CusSText(Language.of(context)!.t(listFilterBtnStrKey))
+                    ],
                   ),
-                ),
+                  onPressed: () {
+                    setState(() {});
+                  },
+                )),
                 Expanded(child: const SizedBox()),
                 Expanded(
-                  child: IconButton(
-                    icon: Lottie.asset(
-                      assetslinkLottie('94350-gears-lottie-animation'),
-                      fit: BoxFit.fill,
-                    ),
-                    onPressed: () => Navigator.pushNamed(
-                        context, constants.pageRouteSettings),
+                    child: TextButton(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Lottie.asset(
+                        assetslinkLottie('94350-gears-lottie-animation'),
+                        width: 55,
+                        height: 55,
+                      ),
+                      CusSText(Language.of(context)!.t("settings_title"))
+                    ],
                   ),
-                )
+                  onPressed: () =>
+                      Navigator.pushNamed(context, constants.pageRouteSettings),
+                ))
               ],
             ),
           ),
@@ -316,9 +266,14 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     final model = context.read<ReminderModel>();
     if (model.reminders != null && model.reminders!.isNotEmpty) {
       return Text(
-          "${Language.of(context)!.t("home_greeting")} ${Language.of(context)!.t("home_list_msg")}");
+        "${Language.of(context)!.t("home_greeting")}\n${Language.of(context)!.t("home_list_msg")}",
+        maxLines: 2,
+      );
     }
-    return Text(Language.of(context)!.t("home_greeting"));
+    return Text(
+      Language.of(context)!.t("home_greeting"),
+      textAlign: TextAlign.start,
+    );
   }
 
   Widget createNoReminderSection() {
@@ -342,9 +297,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         width: MediaQuery.of(context).size.width * 0.3,
         height: MediaQuery.of(context).size.width * 0.3,
       ),
-      SizedBox(
-        height: 40,
-      )
     ];
     return Column(
       children: [
@@ -352,6 +304,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         ListView(
           shrinkWrap: true,
           children: noRSList,
+        ),
+        SizedBox(
+          height: 40,
         )
       ],
     );
