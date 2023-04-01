@@ -197,7 +197,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         bottomNavigationBar: SlideTransition(
           position: animationBottom,
           child: BottomAppBar(
-            height: 120, //MediaQuery.of(context).size.height * 0.1,
+            height: MediaQuery.of(context).size.height * 0.15,
             child: Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -205,7 +205,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 Expanded(
                   child: IconButton(
                     icon: Lottie.asset(
-                      assetslinkLottie('73220-alarm'),
+                      assetslinkLottie('50432-notification-animation'),
                       fit: BoxFit.fill,
                     ),
                     onPressed: () {},
