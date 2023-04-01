@@ -66,13 +66,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     super.initState();
   }
 
-  double getBigSize() => MediaQuery.of(context).size.height * .8;
-
-  double getSmallSize() {
-    return MediaQuery.of(context).size.height * .8 -
-        MediaQuery.of(context).size.width;
-  }
-
   @override
   void dispose() {
     aniController.dispose();
