@@ -1,8 +1,10 @@
 import 'package:e_sound_reminder_app/models/language.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/app_language.dart';
+import '../utils/assetslink.dart';
 import '../utils/constants.dart';
 import '../widgets/custom_button_normal.dart';
 import '../widgets/custom_button_normal_back.dart';
@@ -57,8 +59,14 @@ class _LangConfigPageState extends State<LangConfigPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+                Lottie.asset(
+                  assetslinkLottie('132900-0101ftue-04'),
+                  width: MediaQuery.of(context).size.width * 0.4,
+                  height: MediaQuery.of(context).size.width * 0.4,
+                ),
                 CusNText(
                   Language.of(context)!.t("lang_list_msg"),
+                  textAlign: TextAlign.center,
                 ),
                 Expanded(
                     child: Scrollbar(

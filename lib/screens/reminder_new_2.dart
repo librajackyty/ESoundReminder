@@ -14,6 +14,9 @@ import '../widgets/custom_scroll_bar.dart';
 import '../widgets/custom_text_normal.dart';
 import '../widgets/custom_text_small.dart';
 import '../widgets/custom_text_small_ex.dart';
+import '../widgets/reminder_weekdays.dart';
+import '../widgets/reminder_weekdays_display.dart';
+import '../widgets/time_section_display.dart';
 
 class ReminderNewPage2 extends StatefulWidget {
   const ReminderNewPage2({super.key, required this.title, this.arg});
@@ -29,7 +32,7 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
   // Data
 
   DateTime _fromDate = DateTime.now();
-  TimeOfDay timeMorning = TimeOfDay(hour: 6, minute: 0);
+  TimeOfDay timeMorning = TimeOfDay.now(); //TimeOfDay(hour: 6, minute: 0);
   TimeOfDay timeNoon = TimeOfDay(hour: 12, minute: 0);
   TimeOfDay timeNight = TimeOfDay(hour: 18, minute: 0);
   // TimeOfDay time = TimeOfDay.now();
@@ -38,7 +41,7 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
       Reminder(
           reminderTitle: "",
           time1: DateTime.now(),
-          weekdays1: [],
+          weekdays1: [1, 2, 3, 4, 5, 6, 7],
           selectedMedicine: []);
 
   bool eatMoreThanOnce = false;
@@ -47,24 +50,24 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
   bool setNight = false;
 
   // Weekly selector
-  List selectedweekdays1 = [];
-  List selectedweekdays2 = [];
+  List selectedweekdays1 = ['Monday', 'Tuesday', 'Wednesday'];
+  List selectedweekdays2 = ['Thursday', 'Friday', 'Saturday', 'Sunday'];
 
   // UI rendering
   List<DayInWeek> getweekdaysList1(BuildContext context) {
     return [
-      DayInWeek(Language.of(context)!.t("week_mon")),
-      DayInWeek(Language.of(context)!.t("week_tue")),
-      DayInWeek(Language.of(context)!.t("week_wed")),
+      DayInWeek(Language.of(context)!.t("week_mon"), isSelected: true),
+      DayInWeek(Language.of(context)!.t("week_tue"), isSelected: true),
+      DayInWeek(Language.of(context)!.t("week_wed"), isSelected: true),
     ];
   }
 
   List<DayInWeek> getweekdaysList2(BuildContext context) {
     return [
-      DayInWeek(Language.of(context)!.t("week_thu")),
-      DayInWeek(Language.of(context)!.t("week_fri")),
-      DayInWeek(Language.of(context)!.t("week_sat")),
-      DayInWeek(Language.of(context)!.t("week_sun")),
+      DayInWeek(Language.of(context)!.t("week_thu"), isSelected: true),
+      DayInWeek(Language.of(context)!.t("week_fri"), isSelected: true),
+      DayInWeek(Language.of(context)!.t("week_sat"), isSelected: true),
+      DayInWeek(Language.of(context)!.t("week_sun"), isSelected: true),
     ];
   }
 
@@ -74,14 +77,15 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
             newTime.hour, newTime.minute));
   }
 
-  void updateWeekdays1ToModel(BuildContext context) {
+  void updateWeekdays1ToModel() {
     List<int> newWeekdays = [];
     for (var day in selectedweekdays1) {
-      newWeekdays.add(fromStringToWeekday(context, day));
+      newWeekdays.add(fromStringToWeekday(day));
     }
     for (var day in selectedweekdays2) {
-      newWeekdays.add(fromStringToWeekday(context, day));
+      newWeekdays.add(fromStringToWeekday(day));
     }
+    newWeekdays.sort((a, b) => a.compareTo(b));
     reminder = reminder.copyWith(weekdays1: newWeekdays);
   }
 
@@ -89,33 +93,30 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
   void openTimePicker() {}
 
   String showingRepeatWeekdays() {
-    if (selectedweekdays1.isEmpty && selectedweekdays2.isEmpty) {
+    if (reminder.weekdays1.isEmpty) {
       return Language.of(context)!.t("reminder_new2_setrepeat3");
     }
-    if (selectedweekdays1.length >= 3 && selectedweekdays2.length >= 4) {
-      return Language.of(context)!.t("reminder_new2_setrepeat4");
+    if (reminder.weekdays1.isNotEmpty && reminder.weekdays1.length < 7) {
+      List weekStr = [];
+      for (var weekday in reminder.weekdays1) {
+        weekStr.add(fromWeekdayToString(context, weekday));
+      }
+      return weekStr.join(", ");
     }
-    final String displayW1 = selectedweekdays1.join(", ");
-    final String displayW2 = selectedweekdays2.join(", ");
-    if (selectedweekdays2.isEmpty) {
-      return displayW1;
-    }
-    if (selectedweekdays1.isEmpty) {
-      return displayW2;
-    }
-    return "$displayW1, $displayW2";
+    return Language.of(context)!.t("reminder_new2_setrepeat4");
   }
 
   @override
   void initState() {
     updateTime1ToModel(timeMorning);
+    updateWeekdays1ToModel();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final hoursDisplay1 = timeMorning.hour.toString().padLeft(2, '0');
-    final minsDisplay1 = timeMorning.minute.toString().padLeft(2, '0');
+    // final hoursDisplay1 = timeMorning.hour.toString().padLeft(2, '0');
+    // final minsDisplay1 = timeMorning.minute.toString().padLeft(2, '0');
     // final hoursDisplay2 = timeNoon.hour.toString().padLeft(2, '0');
     // final minsDisplay2 = timeNoon.minute.toString().padLeft(2, '0');
 
@@ -133,86 +134,19 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                 CusExSText("${Language.of(context)!.t("common_step")} (2/3)"),
                 CusSText(
                   Language.of(context)!.t("reminder_new2_msg"),
+                  textAlign: TextAlign.center,
                 ),
-
-                // const SizedBox(height: 20),
-                // Row(
-                //   children: [
-                //     Expanded(child: CusSText('Take more than once a day?')),
-                //     Transform.scale(
-                //         scale: 1.8,
-                //         child: Switch(
-                //           // This bool value toggles the switch.
-                //           value: eatMoreThanOnce,
-                //           onChanged: (bool value) {
-                //             // This is called when the user toggles the switch.
-                //             setState(() {
-                //               eatMoreThanOnce = value;
-                //             });
-                //           },
-                //         ))
-                //   ],
-                // ),
-                // Row(
-                //   children: [
-                //     Expanded(child: CusSText('Take medince in morning?')),
-                //     Transform.scale(
-                //         scale: 1.8,
-                //         child: Switch(
-                //           // This bool value toggles the switch.
-                //           value: setMorning,
-                //           onChanged: (bool value) {
-                //             // This is called when the user toggles the switch.
-                //             setState(() {
-                //               setMorning = value;
-                //             });
-                //           },
-                //         ))
-                //   ],
-                // ),
-                // Row(
-                //   children: [
-                //     Expanded(child: CusSText('Take medince at noon?')),
-                //     Transform.scale(
-                //         scale: 1.8,
-                //         child: Switch(
-                //           // This bool value toggles the switch.
-                //           value: setNight,
-                //           onChanged: (bool value) {
-                //             // This is called when the user toggles the switch.
-                //             setState(() {
-                //               setNight = value;
-                //             });
-                //           },
-                //         ))
-                //   ],
-                // ),
-                // Row(
-                //   children: [
-                //     Expanded(child: CusSText('Take medince at night?')),
-                //     Transform.scale(
-                //         scale: 1.8,
-                //         child: Switch(
-                //           // This bool value toggles the switch.
-                //           value: setNoon,
-                //           onChanged: (bool value) {
-                //             // This is called when the user toggles the switch.
-                //             setState(() {
-                //               setNoon = value;
-                //             });
-                //           },
-                //         ))
-                //   ],
-                // ),
+                const Divider(),
                 Expanded(
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                  child: ListView(
+                      // mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         CusSText(
                           Language.of(context)!.t("reminder_new2_settimer1"),
                         ),
-                        CusNButton(
-                          "$hoursDisplay1:$minsDisplay1",
+                        CusSButton(
+                          // "$hoursDisplay1:$minsDisplay1",
+                          fromTimeOfDayToString(timeMorning),
                           () async {
                             TimeOfDay? newtime = await showTimePicker(
                                 context: context,
@@ -233,7 +167,9 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                           },
                           icon: Icon(Icons.alarm),
                         ),
-
+                        const SizedBox(
+                          height: 12,
+                        ),
                         // CusNButton(
                         //   "Setting Date",
                         //   () async {
@@ -320,57 +256,46 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                         CusSText(
                           Language.of(context)!.t("reminder_new2_setrepeat1"),
                         ),
-                        SelectWeekDays(
-                          padding: selectWeekDaysPadding,
-                          fontSize: selectWeekDaysFontSize,
-                          fontWeight: FontWeight.bold,
-                          days: getweekdaysList1(context),
-                          // backgroundColor: Color.fromARGB(255, 129, 199, 132),
-                          border: false,
-                          boxDecoration: BoxDecoration(
-                            color: Colors.green,
-                            borderRadius: BorderRadius.only(
-                                topLeft:
-                                    Radius.circular(selectWeekDaysBorderRadius),
-                                topRight: Radius.circular(
-                                    selectWeekDaysBorderRadius)),
-                          ),
-                          onSelect: (values) {
-                            setState(() {
-                              print(values);
-                              selectedweekdays1 = values;
-                              updateWeekdays1ToModel(context);
-                            });
-                          },
-                        ),
-                        SelectWeekDays(
-                          padding: selectWeekDaysPadding,
-                          fontSize: selectWeekDaysFontSize,
-                          fontWeight: FontWeight.bold,
-                          days: getweekdaysList2(context),
-                          // backgroundColor: Color.fromARGB(255, 76, 175, 80),
-                          border: false,
-                          boxDecoration: BoxDecoration(
-                            color: Colors.green,
-                            borderRadius: BorderRadius.only(
-                                bottomLeft:
-                                    Radius.circular(selectWeekDaysBorderRadius),
-                                bottomRight: Radius.circular(
-                                    selectWeekDaysBorderRadius)),
-                          ),
-                          onSelect: (values) {
-                            setState(() {
-                              print(values);
-                              selectedweekdays2 = values;
-                              updateWeekdays1ToModel(context);
-                            });
-                          },
-                        ),
+                        WeekdaysSelector(
+                            boxDecoration: BoxDecoration(
+                              color: Colors.lightGreen[100],
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(
+                                      selectWeekDaysBorderRadius),
+                                  topRight: Radius.circular(
+                                      selectWeekDaysBorderRadius)),
+                            ),
+                            days: getweekdaysList1(context),
+                            onSelect: (values) {
+                              setState(() {
+                                print(values);
+                                selectedweekdays1 = values;
+                                updateWeekdays1ToModel();
+                              });
+                            }),
+                        WeekdaysSelector(
+                            boxDecoration: BoxDecoration(
+                              color: Colors.lightGreen[100],
+                              borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(
+                                      selectWeekDaysBorderRadius),
+                                  bottomRight: Radius.circular(
+                                      selectWeekDaysBorderRadius)),
+                            ),
+                            days: getweekdaysList2(context),
+                            onSelect: (values) {
+                              setState(() {
+                                print(values);
+                                selectedweekdays2 = values;
+                                updateWeekdays1ToModel();
+                              });
+                            }),
                       ]),
                 ),
                 Column(
                   children: [
                     Container(
+                        margin: EdgeInsets.only(top: 8),
                         padding: EdgeInsets.all(8),
                         decoration: BoxDecoration(
                           border: Border(top: BorderSide()),
@@ -406,50 +331,32 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                                   maintainState: true,
                                   visible: setMorning,
                                   child: Row(children: [
-                                    Icon(Icons.alarm_on_outlined),
-                                    SizedBox(width: 6),
-                                    CusSText(Language.of(context)!
+                                    Icon(
+                                      Icons.alarm_on_outlined,
+                                      size: 14,
+                                    ),
+                                    SizedBox(width: 2),
+                                    CusExSText(Language.of(context)!
                                         .t("reminder_new2_settimer2")),
                                   ]),
                                 ),
-                                // Visibility(
-                                //     maintainSize: true,
-                                //     maintainAnimation: true,
-                                //     maintainState: true,
-                                //     visible: setMorning,
-                                //     child: CusNButton(
-                                //       "$hoursDisplay1:$minsDisplay1",
-                                //       () async {
-                                //         TimeOfDay? newtime =
-                                //             await showTimePicker(
-                                //                 context: context,
-                                //                 initialTime: timeMorning,
-                                //                 initialEntryMode:
-                                //                     TimePickerEntryMode
-                                //                         .dialOnly);
-                                //         if (newtime == null) return;
-
-                                //         setState(() => timeMorning = newtime);
-                                //       },
-                                //       icon: Icon(Icons.alarm),
-                                //     )),
-                                Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      // Icon(Icons.alarm),
-                                      // SizedBox(width: 8),
-                                      CusTitleText(
-                                          "$hoursDisplay1:$minsDisplay1")
-                                    ]),
+                                TimeSectionDisplay(
+                                  padding:
+                                      const EdgeInsets.only(top: 2, bottom: 8),
+                                  times: [fromTimeOfDayToString(timeMorning)],
+                                ),
                                 Visibility(
                                   maintainSize: true,
                                   maintainAnimation: true,
                                   maintainState: true,
                                   visible: true,
                                   child: Row(children: [
-                                    Icon(Icons.event_repeat_outlined),
-                                    SizedBox(width: 6),
-                                    CusSText(Language.of(context)!
+                                    Icon(
+                                      Icons.event_repeat_outlined,
+                                      size: 14,
+                                    ),
+                                    SizedBox(width: 2),
+                                    CusExSText(Language.of(context)!
                                         .t("reminder_new2_setrepeat2")),
                                   ]),
                                 ),
@@ -458,7 +365,13 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                                     maintainAnimation: true,
                                     maintainState: true,
                                     visible: true,
-                                    child: CusNText(showingRepeatWeekdays())),
+                                    child:
+                                        // CusNText(showingRepeatWeekdays())
+                                        WeekdaysDisplay(
+                                      reminder: reminder,
+                                      padding: const EdgeInsets.only(
+                                          top: 2, bottom: 8),
+                                    )),
                               ],
                             ))),
                     Row(

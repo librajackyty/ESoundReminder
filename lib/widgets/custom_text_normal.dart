@@ -4,20 +4,22 @@ import '../utils/constants.dart';
 
 class CusNText extends StatefulWidget {
   final String text;
+  Color? color;
+  TextAlign? textAlign;
 
-  CusNText(this.text);
+  CusNText(this.text, {this.color, this.textAlign});
 
   @override
-  _CusNTextState createState() => _CusNTextState(text);
+  _CusNTextState createState() => _CusNTextState();
 }
 
 class _CusNTextState extends State<CusNText> {
-  String text;
-
-  _CusNTextState(this.text);
+  _CusNTextState();
 
   @override
   Widget build(BuildContext context) {
-    return Text(widget.text, style: TextStyle(fontSize: textNormalSize));
+    return Text(widget.text,
+        textAlign: widget.textAlign,
+        style: TextStyle(fontSize: textNormalSize, color: widget.color));
   }
 }

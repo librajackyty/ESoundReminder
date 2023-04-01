@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 import '../models/language.dart';
+import '../utils/assetslink.dart';
 import '../utils/constants.dart';
 import '../widgets/custom_button_normal_back.dart';
 import '../widgets/custom_text_normal.dart';
@@ -47,7 +48,7 @@ class _AboutPageState extends State<AboutPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(Language.of(context)!.t("about_title")),
       ),
       body: SafeArea(
         child: Padding(
@@ -64,46 +65,39 @@ class _AboutPageState extends State<AboutPage> {
                   child: ListView(
                       padding: const EdgeInsets.only(top: safeAreaPaddingAll),
                       children: <Widget>[
-                        CusSText(
-                          'App Name:',
+                        Image(
+                            width: MediaQuery.of(context).size.width * 0.4,
+                            height: MediaQuery.of(context).size.width * 0.4,
+                            image: AssetImage(
+                                assetslinkImages('app_icon_512_rounded'))),
+                        const SizedBox(
+                          height: 16,
                         ),
+                        CusSText(Language.of(context)!.t("about_appname")),
                         CusNText(
                           _packageInfo.appName != 'Unknown'
                               ? _packageInfo.appName
-                              : 'ESound Reminder',
+                              : 'ESound Reminder (TBC)',
                         ),
-                        CusSText(
-                          'Version: ',
-                        ),
+                        CusSText(Language.of(context)!.t("about_version")),
                         CusNText(
                           _packageInfo.version != 'Unknown'
                               ? _packageInfo.version
                               : "${0.1} alpha",
                         ),
                         const SizedBox(height: 20),
-                        CusSText(
-                          "Project of:",
-                        ),
-                        CusNText(
-                          "School of Continuing and Professional Education ( CityU SCOPE )",
-                        ),
-                        const SizedBox(height: 20),
-                        CusSText(
-                          "Project Developer:",
-                        ),
+                        CusSText(Language.of(context)!.t("about_pj_developer")),
                         CusNText(
                           "Yuen tin Yau Jack",
                         ),
                         const SizedBox(height: 20),
                         CusSText(
-                          "Contact (mobile):",
-                        ),
+                            Language.of(context)!.t("about_contact_mobile")),
                         CusNText(
                           "+852 90622642",
                         ),
                         CusSText(
-                          "Contact (email):",
-                        ),
+                            Language.of(context)!.t("about_contact_email")),
                         CusNText(
                           "jackyuen4-c@my.cityu.edu.hk",
                         ),

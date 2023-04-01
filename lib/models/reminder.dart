@@ -28,13 +28,15 @@ class Reminder {
       required this.time1,
       required this.weekdays1,
       required this.reminderTitle,
-      required this.selectedMedicine}) {
+      required this.selectedMedicine,
+      this.reminderDescription}) {
     this.id = id ?? Random.secure().nextInt(10000 - 1000) + 1000;
   }
 
   Reminder copyWith({
     int? id,
     String? reminderTitle,
+    String? reminderDescription,
     DateTime? time1,
     List<int>? weekdays1,
     List? selectedMedicine,
@@ -42,6 +44,7 @@ class Reminder {
       Reminder(
           id: id ?? this.id,
           reminderTitle: reminderTitle ?? this.reminderTitle,
+          reminderDescription: reminderDescription ?? this.reminderDescription,
           time1: time1 ?? this.time1,
           weekdays1: weekdays1 != null ? List.from(weekdays1) : this.weekdays1,
           selectedMedicine: selectedMedicine != null
