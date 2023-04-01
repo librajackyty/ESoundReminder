@@ -144,7 +144,7 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                         CusSText(
                           Language.of(context)!.t("reminder_new2_settimer1"),
                         ),
-                        CusSButton(
+                        CusNButton(
                           // "$hoursDisplay1:$minsDisplay1",
                           fromTimeOfDayToString(timeMorning),
                           () async {
