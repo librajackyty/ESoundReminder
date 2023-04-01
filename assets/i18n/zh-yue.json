@@ -20,6 +20,8 @@
     "home_card_more": "更多",
     "home_add_tip": "點擊創建新提醒事項",
     "home_no_data_msg": "睇嚟您仲冇任何提醒事項\n點擊“+”創建新提醒事項提醒您服藥",
+    "home_filter_head": "只顯示:",
+    "home_filter_no_data_msg": "無篩選結果",
 
     "filter_all": "顯示全部",
     "filter_repeat_all": "每日重複",

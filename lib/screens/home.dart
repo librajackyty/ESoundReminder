@@ -58,6 +58,73 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     curve: Curves.fastOutSlowIn,
   );
   String listFilterBtnStrKey = "filter_all";
+  ValueNotifier<int> selectedFilterIndex = ValueNotifier<int>(0);
+  final List filterKeys = [
+    "filter_all",
+    "filter_repeat_all",
+    "filter_repeat_no",
+    "filter_repeat_mon",
+    "filter_repeat_tue",
+    "filter_repeat_wed",
+    "filter_repeat_thu",
+    "filter_repeat_fri",
+    "filter_repeat_sat",
+    "filter_repeat_sun"
+  ];
+
+  bool isFiltering() {
+    return selectedFilterIndex.value > 0;
+  }
+
+  void showFilterSelection() {
+    showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        builder: (context) => DraggableScrollableSheet(
+              initialChildSize: 0.5,
+              minChildSize: 0.2,
+              maxChildSize: 0.75,
+              expand: false,
+              builder: (_, controller) => Column(
+                children: [
+                  Icon(
+                    Icons.remove,
+                    color: Colors.grey[800],
+                  ),
+                  Expanded(
+                    child: ListView.builder(
+                      padding: EdgeInsets.all(24),
+                      controller: controller,
+                      itemCount: filterKeys.length,
+                      itemBuilder: (_, index) {
+                        return Padding(
+                            padding: EdgeInsets.only(bottom: 8),
+                            child: ListTile(
+                              shape: RoundedRectangleBorder(
+                                  side: BorderSide(
+                                      color: Colors.green[900]!, width: 2.0),
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(cardsBorderRadius))),
+                              title: CusNText(
+                                  Language.of(context)!.t(filterKeys[index])),
+                              tileColor: Colors.white,
+                              selectedTileColor: Colors.green[900],
+                              selectedColor: Colors.white,
+                              selected: selectedFilterIndex.value == index,
+                              onTap: () {
+                                setState(() {
+                                  selectedFilterIndex.value = index;
+                                });
+                                Navigator.pop(context);
+                              },
+                            ));
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ));
+  }
 
   @override
   void initState() {
@@ -65,6 +132,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       aniController.forward();
       aniControllerBottom.forward();
       stateReady = true;
+    });
+    selectedFilterIndex.addListener(() {
+      debugPrint("selectedFilterIndex val changes");
+      listFilterBtnStrKey = filterKeys[selectedFilterIndex.value];
+      final model = context.read<ReminderModel>();
+      model.filterReminder(selectedFilterIndex.value);
     });
     super.initState();
   }
@@ -144,9 +217,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       CusSText(Language.of(context)!.t(listFilterBtnStrKey))
                     ],
                   ),
-                  onPressed: () {
-                    setState(() {});
-                  },
+                  onPressed: () => showFilterSelection(),
                 )),
                 Expanded(child: const SizedBox()),
                 Expanded(
@@ -174,6 +245,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   Widget createReminderList() {
     return Selector<ReminderModel, ReminderModel>(
         shouldRebuild: (previous, next) {
+          debugPrint("createReminderList shouldRebuild");
           if (next.state is ReminderCreated) {
             final state = next.state as ReminderCreated;
             listKey.currentState?.insertItem(state.index,
@@ -181,40 +253,36 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           } else if (next.state is ReminderUpdated) {
             final state = next.state as ReminderUpdated;
             if (state.index != state.newIndex) {
-              // listKey.currentState?.insertItem(state.newIndex);
-              // listKey.currentState?.removeItem(
-              //   state.index,
-              // (context, animation) => CardReminderItem(
-              //   reminder: state.reminder,
-              //   animation: animation,
-              // ),
-              // );
+              listKey.currentState?.insertItem(state.newIndex);
+              listKey.currentState?.removeItem(
+                state.index,
+                (context, animation) => CardReminderItem(
+                  reminder: state.reminder,
+                  animation: animation,
+                ),
+              );
             }
+          } else if (next.state is ReminderDeleted) {
+            final state = next.state as ReminderDeleted;
+            listKey.currentState?.removeItem(
+                state.index,
+                (context, animation) => CardReminderItem(
+                      reminder: state.reminder,
+                      animation: animation,
+                    ),
+                duration: const Duration(milliseconds: 800));
           }
-          // else if (next.state is ReminderDeleted) {
-          //   Future.delayed(const Duration(seconds: 2)).then((value) {
-          //     var state = next.state as ReminderDeleted;
-          //     listKey.currentState?.removeItem(
-          //         state.index,
-          //         (context, animation) => CardReminderItem(
-          //               reminder: state.reminder,
-          //               animation: animation,
-          //             ),
-          //         duration: const Duration(milliseconds: 1500));
-          //   });
-          // }
-          // else if (next.state is ReminderLoaded) {
-          //   final state = next.state as ReminderLoaded;
-          //   for (var i = 0; i < state.reminders.length; i++) {
-          //     listKey.currentState
-          //         ?.insertItem(i, duration: const Duration(milliseconds: 1500));
-          //   }
-          // }
           return true;
         },
         selector: (_, model) => model,
         builder: (context, model, child) {
-          if (model.reminders != null && model.reminders!.isNotEmpty) {
+          if (model.remindersIntial != null &&
+              model.remindersIntial!.isNotEmpty) {
+            if (isFiltering() &&
+                model.reminders != null &&
+                model.reminders!.isEmpty) {
+              return createNoFilterResult();
+            }
             return Padding(
                 padding: const EdgeInsets.only(
                     left: listviewPaddingAll, right: listviewPaddingAll),
@@ -234,7 +302,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           return Container();
                         }
                         final reminder = model.reminders![index];
-
+                        debugPrint("reminder id: ${reminder.id}");
+                        debugPrint(
+                            "reminder createtime: ${reminder.createTime}");
                         return CardReminderItem(
                           reminder: reminder,
                           animation: animation,
@@ -262,9 +332,33 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         });
   }
 
+  Widget createFilterBoxDisplay() {
+    return Container(
+      margin: EdgeInsets.only(left: 8),
+      padding: EdgeInsets.all(8),
+      decoration: BoxDecoration(
+          color: Colors.green[900],
+          border: Border.all(color: Colors.green[900]!),
+          borderRadius: BorderRadius.all(Radius.circular(cardsBorderRadius))),
+      child: CusSText(
+        Language.of(context)!.t(filterKeys[selectedFilterIndex.value]),
+        color: Colors.white,
+      ),
+    );
+  }
+
   Widget createAppBarTxt() {
     final model = context.read<ReminderModel>();
-    if (model.reminders != null && model.reminders!.isNotEmpty) {
+    if (model.remindersIntial != null && model.remindersIntial!.isNotEmpty) {
+      if (selectedFilterIndex.value > 0) {
+        return Wrap(
+          crossAxisAlignment: WrapCrossAlignment.center,
+          children: [
+            CusExSText(Language.of(context)!.t("home_filter_head")),
+            createFilterBoxDisplay()
+          ],
+        );
+      }
       return Text(
         "${Language.of(context)!.t("home_greeting")}\n${Language.of(context)!.t("home_list_msg")}",
         maxLines: 2,
@@ -299,16 +393,36 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       ),
     ];
     return Column(
+      // mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Spacer(),
         ListView(
           shrinkWrap: true,
           children: noRSList,
-        ),
-        SizedBox(
-          height: 40,
         )
       ],
+    );
+  }
+
+  Widget createNoFilterResult() {
+    return Center(
+      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+        Lottie.asset(
+          assetslinkLottie('84854-empty'),
+          width: MediaQuery.of(context).size.width * 0.4,
+          height: MediaQuery.of(context).size.width * 0.4,
+        ),
+        createFilterBoxDisplay(),
+        const SizedBox(
+          height: 8,
+        ),
+        Align(
+            alignment: Alignment.center,
+            child: CusSText(
+              Language.of(context)!.t("home_filter_no_data_msg"),
+              textAlign: TextAlign.center,
+            )),
+      ]),
     );
   }
 }
