@@ -43,6 +43,7 @@
     "reminder_detail_confirmquestion": "您要保存呢個提醒事項嗎？",
     "reminder_detail_cancelquestion": "您要取消呢個提醒事項嗎？",
     "reminder_detail_deletequestion": "您要删除呢個提醒事項嗎？",
+    "reminder_detail_notice": "記得按照医师嘅指示\n每次服用適量的藥物",
 
     "settings_title": "設定",
     "settings_list_language": "語言",
