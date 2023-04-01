@@ -7,19 +7,24 @@ import '../utils/constants.dart';
 class AppLanguage extends ChangeNotifier {
   Locale _appLocale = Locale(Language.codeEnglish);
   Locale get appLocal => _appLocale;
+  bool _initalConfig = false;
+  bool get isInitalConfig => _initalConfig;
 
   fetchLocale() async {
     var prefs = await SharedPreferences.getInstance();
     if (prefs.getString(langLangCodeKey) == null) {
-      _appLocale = Locale(Language.codeEnglish);
-      return Null;
+      // _appLocale = Locale(Language.codeEnglish);
+      debugPrint("Lang string no data");
+      _initalConfig = true;
+      return false;
     }
     _appLocale =
         Locale(prefs.getString(langLangCodeKey) ?? Language.codeEnglish);
-    return Null;
+    return true;
   }
 
   void changeLanguage(Locale type) async {
+    _initalConfig = false;
     var prefs = await SharedPreferences.getInstance();
     if (_appLocale == type) {
       return;

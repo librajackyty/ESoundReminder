@@ -56,10 +56,13 @@ const String darwinNotificationCategoryText = 'textCategory';
 /// Defines a iOS/MacOS notification category for plain actions.
 const String darwinNotificationCategoryPlain = 'plainCategory';
 
+var successGetDefaultLang = false;
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   AppLanguage appLanguage = AppLanguage();
-  await appLanguage.fetchLocale();
+  successGetDefaultLang = await appLanguage.fetchLocale();
+  debugPrint("Main main - failtoGetDefaultLang: $successGetDefaultLang");
   runApp(MyApp(appLanguage: appLanguage));
 }
 
@@ -188,7 +191,9 @@ class _MyAppState extends State<MyApp> {
             ),
             themeMode: ThemeMode.light,
             debugShowCheckedModeBanner: false,
-            initialRoute: constants.pageRouteLanding,
+            initialRoute: !successGetDefaultLang
+                ? constants.pageRouteLangConfig
+                : constants.pageRouteLanding,
             routes: {
               constants.pageRouteIntro: (context) =>
                   const IntroPage(title: 'Introduction'),

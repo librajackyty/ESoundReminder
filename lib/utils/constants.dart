@@ -1,4 +1,4 @@
-const String pageRouteHome = "/";
+const String pageRouteHome = "/home";
 const String pageRouteLangConfig = "/langConfig";
 const String pageRouteIntro = "/intro";
 const String pageRouteLanding = "/landing";

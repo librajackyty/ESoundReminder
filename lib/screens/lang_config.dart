@@ -20,6 +20,8 @@ class LangConfigPage extends StatefulWidget {
 }
 
 class _LangConfigPageState extends State<LangConfigPage> {
+  bool initalConfig = true;
+
   List<Widget> langSelectArea(
       BuildContext context, AppLanguage appLanguage, List langlist) {
     List<Widget> mwList = [];
@@ -30,9 +32,14 @@ class _LangConfigPageState extends State<LangConfigPage> {
           setState(() {
             appLanguage.changeLanguage(Locale(lang));
           });
-          Navigator.of(context).pop();
+          if (initalConfig) {
+            Navigator.pushNamedAndRemoveUntil(
+                context, pageRouteHome, (route) => false);
+          } else {
+            Navigator.of(context).pop();
+          }
         },
-        icon: lang == Language.currentLocale(context)
+        icon: !initalConfig && lang == Language.currentLocale(context)
             ? Icon(
                 Icons.check,
                 size: 36.0,
@@ -47,11 +54,20 @@ class _LangConfigPageState extends State<LangConfigPage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    initalConfig = Provider.of<AppLanguage>(context).isInitalConfig;
+    debugPrint("initalConfig: $initalConfig");
     return Scaffold(
-      appBar: AppBar(
-        title: Text(Language.of(context)!.t("lang_title")),
-      ),
+      appBar: initalConfig
+          ? null
+          : AppBar(
+              title: Text(Language.of(context)!.t("lang_title")),
+            ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(safeAreaPaddingAll),
@@ -64,10 +80,12 @@ class _LangConfigPageState extends State<LangConfigPage> {
                   width: MediaQuery.of(context).size.width * 0.4,
                   height: MediaQuery.of(context).size.width * 0.4,
                 ),
-                CusNText(
-                  Language.of(context)!.t("lang_list_msg"),
-                  textAlign: TextAlign.center,
-                ),
+                Visibility(
+                    visible: !initalConfig,
+                    child: CusNText(
+                      Language.of(context)!.t("lang_list_msg"),
+                      textAlign: TextAlign.center,
+                    )),
                 Expanded(
                     child: Scrollbar(
                         thumbVisibility: false,
@@ -79,10 +97,14 @@ class _LangConfigPageState extends State<LangConfigPage> {
                                 context,
                                 Provider.of<AppLanguage>(context),
                                 Language.localeDisplay.keys.toList())))),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: CusNBackButton(Language.of(context)!.t("common_back"),
-                      () => {Navigator.pop(context)}),
+                Visibility(
+                  visible: !initalConfig,
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: CusNBackButton(
+                        Language.of(context)!.t("common_back"),
+                        () => {Navigator.pop(context)}),
+                  ),
                 ),
               ],
             ),
