@@ -336,7 +336,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         height: MediaQuery.of(context).size.width * 0.4,
       ),
       Container(
-        padding: EdgeInsets.only(left: 70, right: 70),
+        padding: EdgeInsets.only(left: 40, right: 40),
         child: Align(
             alignment: Alignment.center,
             child: CusSText(
@@ -346,8 +346,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       ),
       Lottie.asset(
         assetslinkLottie('95113-arrow-down'),
-        width: 120,
-        height: 120,
+        width: MediaQuery.of(context).size.width * 0.3,
+        height: MediaQuery.of(context).size.width * 0.3,
       ),
       SizedBox(
         height: 40,
