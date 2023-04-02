@@ -9,6 +9,8 @@
     "common_delete": "删除",
     "common_step": "步驟",
     "common_next": "下一步",
+    "common_ok": "確定",
+    "common_understand": "明白",
     
     "localnotification_title": "夠鐘食藥啦",
     "localnotification_subtitle": "記得食",
@@ -76,6 +78,9 @@
     "about_pj_developer": "項目開發人員:",
     "about_contact_mobile": "聯繫方式（手機）:",
     "about_contact_email": "聯繫方式（電子郵件）:",
+
+    "timepicker_hr": "時   ",
+    "timepicker_min": "分鐘 ",
 
     "week_mon": "一",
     "week_tue": "二",

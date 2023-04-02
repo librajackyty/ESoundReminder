@@ -1,3 +1,4 @@
+import 'package:day_night_time_picker/day_night_time_picker.dart';
 import 'package:flutter/material.dart';
 
 import 'constants.dart';
@@ -119,4 +120,44 @@ Future<TimeOfDay?> showDefaultTimePicker(
       helpText: helpText,
       confirmText: confirmText,
       cancelText: cancelText);
+}
+
+final btnTxtStyle =
+    TextStyle(fontSize: textBtnSmallSize, fontWeight: FontWeight.bold);
+final btnStyle = ButtonStyle(
+    padding: MaterialStatePropertyAll(EdgeInsets.all(elementSSPadding)),
+    side: MaterialStateBorderSide.resolveWith((states) =>
+        BorderSide(color: buttonBorderColor, width: buttonBorderWidth)),
+    minimumSize: MaterialStatePropertyAll(Size(120, buttonHeightSmall)),
+    fixedSize: MaterialStatePropertyAll(Size.fromHeight(buttonHeightSmall)));
+
+void showDayNightTimePicker(BuildContext context, TimeOfDay initialTime,
+    {required void Function(DateTime) onChangeDateTime,
+    String? confirmText,
+    String? cancelText,
+    String? hourLabel,
+    String? minuteLabel,
+    bool iosStylePicker = false}) {
+  Navigator.of(context).push(showPicker(
+      context: context,
+      height: 390,
+      value: Time.fromTimeOfDay(initialTime, 0),
+      okText: confirmText ?? "CONFIRM",
+      cancelText: cancelText ?? "CANCEL",
+      buttonsSpacing: elementSPadding,
+      okStyle: btnTxtStyle,
+      buttonStyle: btnStyle,
+      cancelStyle: btnTxtStyle,
+      cancelButtonStyle: btnStyle,
+      hourLabel: hourLabel ?? 'Hr   ',
+      minuteLabel: minuteLabel ?? 'Min  ',
+      blurredBackground: true,
+      borderRadius: cardsBorderRadius,
+      disableAutoFocusToNextInput: true,
+      minuteInterval: TimePickerInterval.FIVE,
+      iosStylePicker: iosStylePicker,
+      onChange: (time) {
+        debugPrint("time changed: ${time.hour}:${time.minute}");
+      },
+      onChangeDateTime: onChangeDateTime));
 }

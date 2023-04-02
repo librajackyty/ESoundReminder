@@ -27,6 +27,7 @@ dependencies:
   flutter_local_notifications: ^9.3.2
   timezone: ^0.8.0
   page_transition: ^2.0.9
+  day_night_time_picker: ^1.2.0+2
 
 dev_dependencies:
   flutter_test:
