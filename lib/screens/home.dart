@@ -324,6 +324,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           children: [
             Icon(filterIconData[selectedFilterIndex.value],
                 size: 24.0, color: buttonReadOnlyColor),
+            const SizedBox(width: elementSSPadding),
             CusSText(
               Language.of(context)!.t(filterKeys[selectedFilterIndex.value]),
               color: buttonReadOnlyColor,
