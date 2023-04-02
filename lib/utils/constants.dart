@@ -44,6 +44,8 @@ const double textSmallSize = 22;
 const double textBtnSize = 28;
 const double textBtnSmallSize = 20;
 
+final Color elementActiveColor = Colors.green[900]!;
+
 // button ui
 const double buttonBorderWidth = 2;
 const double buttonBorderWidthReadOnly = 1;
@@ -58,6 +60,19 @@ const Color buttonReadOnlyForegroundColor = Colors.black;
 
 // card ui
 final Color cardBorderColor = Colors.green[900]!;
+
+final List filterIconData = [
+  Icons.calendar_month,
+  Icons.date_range,
+  Icons.calendar_today,
+  Icons.today,
+  Icons.today,
+  Icons.today,
+  Icons.today,
+  Icons.today,
+  Icons.today,
+  Icons.today
+];
 
 final List filterKeys = [
   "filter_all",

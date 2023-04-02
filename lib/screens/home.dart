@@ -88,6 +88,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       itemBuilder: (_, index) {
                         return CusListItm(
                           Language.of(context)!.t(filterKeys[index]),
+                          iconData: filterIconData[index],
                           onTap: () {
                             setState(() {
                               selectedFilterIndex.value = index;
@@ -96,28 +97,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           },
                           selected: selectedFilterIndex.value == index,
                         );
-                        //  Padding(
-                        //     padding: EdgeInsets.only(bottom: 8),
-                        //     child: ListTile(
-                        //       shape: RoundedRectangleBorder(
-                        //           side: BorderSide(
-                        //               color: buttonBorderColor,
-                        //               width: buttonBorderWidth),
-                        //           borderRadius: BorderRadius.all(
-                        //               Radius.circular(cardsBorderRadius))),
-                        //       tileColor: buttonReadOnlyColor,
-                        //       selectedTileColor: buttonBorderColor,
-                        //       selectedColor: buttonReadOnlyColor,
-                        //       selected: selectedFilterIndex.value == index,
-                        //       title: CusNText(
-                        //           Language.of(context)!.t(filterKeys[index])),
-                        // onTap: () {
-                        //   setState(() {
-                        //     selectedFilterIndex.value = index;
-                        //   });
-                        //   Navigator.pop(context);
-                        // },
-                        //     ));
                       },
                     ),
                   ),
@@ -334,17 +313,23 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   Widget createFilterBoxDisplay() {
     return Container(
-      margin: EdgeInsets.only(left: 8),
-      padding: EdgeInsets.all(8),
-      decoration: BoxDecoration(
-          color: Colors.green[900],
-          border: Border.all(color: Colors.green[900]!),
-          borderRadius: BorderRadius.all(Radius.circular(cardsBorderRadius))),
-      child: CusSText(
-        Language.of(context)!.t(filterKeys[selectedFilterIndex.value]),
-        color: Colors.white,
-      ),
-    );
+        margin: EdgeInsets.only(left: elementSPadding),
+        padding: EdgeInsets.all(8),
+        decoration: BoxDecoration(
+            color: elementActiveColor,
+            border: Border.all(color: buttonBorderColor),
+            borderRadius: BorderRadius.all(Radius.circular(cardsBorderRadius))),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(filterIconData[selectedFilterIndex.value],
+                size: 24.0, color: buttonReadOnlyColor),
+            CusSText(
+              Language.of(context)!.t(filterKeys[selectedFilterIndex.value]),
+              color: buttonReadOnlyColor,
+            ),
+          ],
+        ));
   }
 
   Widget createAppBarTxt() {

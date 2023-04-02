@@ -52,7 +52,7 @@ class _CusListItmState extends State<CusListItm> {
                     iconData,
                     size: 36.0,
                     semanticLabel: widget.text,
-                    color: Colors.black54,
+                    color: selected ? buttonReadOnlyColor : Colors.black54,
                   )
                 : null,
             title: CusNText(widget.text),
