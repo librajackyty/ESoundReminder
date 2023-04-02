@@ -49,19 +49,19 @@ class _SettingsPageState extends State<SettingsPage> {
                               height: MediaQuery.of(context).size.width * 0.4,
                             ),
                             CusListItm(
-                                Icons.language,
                                 Language.of(context)!
-                                    .t("settings_list_language"), onTap: () {
+                                    .t("settings_list_language"),
+                                iconData: Icons.language, onTap: () {
                               Navigator.pushNamed(context, pageRouteLangConfig);
                             }),
-                            CusListItm(Icons.help,
+                            CusListItm(
                                 Language.of(context)!.t("settings_list_about"),
-                                onTap: () {
+                                iconData: Icons.help, onTap: () {
                               Navigator.pushNamed(context, pageRouteAbout);
                             }),
-                            CusListItm(Icons.terminal,
+                            CusListItm(
                                 Language.of(context)!.t("settings_list_oss"),
-                                onTap: () {
+                                iconData: Icons.terminal, onTap: () {
                               Navigator.pushNamed(
                                   context, pageRouteOpenSources);
                             }),

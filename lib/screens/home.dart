@@ -1,6 +1,8 @@
 import 'package:e_sound_reminder_app/models/language.dart';
 import 'package:e_sound_reminder_app/widgets/custom_card.dart';
+import 'package:e_sound_reminder_app/widgets/custom_text_normal.dart';
 import 'package:e_sound_reminder_app/widgets/custom_text_small.dart';
+import 'package:e_sound_reminder_app/widgets/custom_text_small_ex.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
@@ -12,6 +14,7 @@ import '../utils/assetslink.dart';
 import '../utils/constants.dart' as constants;
 import '../utils/constants.dart';
 import '../utils/formatter.dart';
+import '../widgets/custom_list_item.dart';
 import '../widgets/custom_scroll_bar.dart';
 import '../widgets/reminder_card.dart';
 
@@ -55,6 +58,52 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     parent: aniControllerBottom,
     curve: Curves.fastOutSlowIn,
   );
+  String listFilterBtnStrKey = "filter_all";
+  ValueNotifier<int> selectedFilterIndex = ValueNotifier<int>(0);
+
+  bool isFiltering() {
+    return selectedFilterIndex.value > 0;
+  }
+
+  void showFilterSelection() {
+    showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        builder: (context) => DraggableScrollableSheet(
+              initialChildSize: 0.5,
+              minChildSize: 0.2,
+              maxChildSize: 0.75,
+              expand: false,
+              builder: (_, controller) => Column(
+                children: [
+                  Icon(
+                    Icons.remove,
+                    color: Colors.grey[800],
+                  ),
+                  Expanded(
+                    child: ListView.builder(
+                      padding: EdgeInsets.all(elementMPadding),
+                      controller: controller,
+                      itemCount: filterKeys.length,
+                      itemBuilder: (_, index) {
+                        return CusListItm(
+                          Language.of(context)!.t(filterKeys[index]),
+                          iconData: filterIconData[index],
+                          onTap: () {
+                            setState(() {
+                              selectedFilterIndex.value = index;
+                            });
+                            Navigator.pop(context);
+                          },
+                          selected: selectedFilterIndex.value == index,
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ));
+  }
 
   @override
   void initState() {
@@ -63,14 +112,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       aniControllerBottom.forward();
       stateReady = true;
     });
+    selectedFilterIndex.addListener(() {
+      debugPrint("selectedFilterIndex val changes");
+      listFilterBtnStrKey = filterKeys[selectedFilterIndex.value];
+      final model = context.read<ReminderModel>();
+      model.filterReminder(selectedFilterIndex.value);
+    });
     super.initState();
-  }
-
-  double getBigSize() => MediaQuery.of(context).size.height * .8;
-
-  double getSmallSize() {
-    return MediaQuery.of(context).size.height * .8 -
-        MediaQuery.of(context).size.width;
   }
 
   @override
@@ -84,92 +132,25 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          toolbarHeight: 80,
+          leadingWidth: 68,
+          leading: Container(
+            margin: EdgeInsets.only(left: safeAreaPaddingAll, right: 8),
+            child: Image(
+                width: 40,
+                height: 40,
+                image: AssetImage(assetslinkImages('app_icon_512_rounded'))),
+          ),
           title: createAppBarTxt(),
+          titleSpacing: 8,
+          centerTitle: false,
         ),
         extendBody: true,
         body: SafeArea(
           child: Padding(
               padding: const EdgeInsets.all(safeAreaPaddingAllWthLv),
               child: FadeTransition(
-                  opacity:
-                      animation, //aniController.drive(CurveTween(curve: Curves.easeOut)),
-                  child: createReminderList())
-              //   CusScrollbar(
-              //   ListView(
-              //       padding: const EdgeInsets.all(listviewPaddingAll),
-              //       children: <Widget>[
-              // Container(
-              //   padding: EdgeInsets.only(bottom: 20),
-              //   child: CusSText(Language.of(context)!.t("home_list_msg")),
-              // ),
-              // CusCard(
-              //     Icon(
-              //       Icons.medication, // Icons.sunny
-              //       color: Colors.blue[600]!, // Colors.yellow[900]!
-              //       size: 40.0,
-              //       semanticLabel:
-              //           'moon icon means Time between 18:00 to 06:00', //'sunny icon means Time between 06:00 to 18:00',
-              //     ),
-              //     "提醒食藥 - 脷底丸",
-              //     "21:30",
-              //     "每周重複: \n一, 二, 三, 六, 日",
-              //     onPressed: (() => {
-              //           Navigator.pushNamed(
-              //               context, pageRouteReminderDetail)
-              //         })),
-              //       ]),
-              // ),
-              // Center(
-              //   child: Column(
-              //     mainAxisAlignment: MainAxisAlignment.center,
-              //     children: <Widget>[
-              //       Card(
-              //         child: Column(
-              //           mainAxisSize: MainAxisSize.min,
-              //           children: <Widget>[
-              //             const ListTile(
-              //               leading: Icon(Icons.album),
-              //               title: Text('The Enchanted Nightingale'),
-              //               subtitle: Text(
-              //                   'Music by Julie Gable. Lyrics by Sidney Stein.'),
-              //             ),
-              //             Row(
-              //               mainAxisAlignment: MainAxisAlignment.end,
-              //               children: <Widget>[
-              //                 TextButton(
-              //                   child: const Text('BUY TICKETS'),
-              //                   onPressed: () {/* ... */},
-              //                 ),
-              //                 const SizedBox(width: 8),
-              //                 TextButton(
-              //                   child: const Text('LISTEN'),
-              //                   onPressed: () {/* ... */},
-              //                 ),
-              //                 const SizedBox(width: 8),
-              //               ],
-              //             ),
-              //           ],
-              //         ),
-              //       ),
-              // Lottie.asset(
-              //   'assets/lotties/80567-sound-voice-waves.json',
-              //   width: 200,
-              //   height: 200,
-              //   fit: BoxFit.fill,
-              // ),
-              //       // const Text(
-              //       //   'Sound testing...',
-              //       // ),
-              //       // ElevatedButton(
-              //       //   onPressed: () {
-              //       //     Navigator.pushNamed(context, constants.pageRouteLangConfig);
-              //       //   },
-              //       //   child: const Text('Go Lang Config'),
-              //       // ),
-              //     ],
-              //   ),
-              // ),
-              ),
+                  opacity: animation, child: createReminderList())),
         ),
         floatingActionButton: ScaleTransition(
           scale: animationFAB,
@@ -177,12 +158,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               onPressed: () =>
                   Navigator.pushNamed(context, pageRouteReminderNew),
               elevation: 20.0,
-              backgroundColor: Colors.green[600],
+              backgroundColor: Colors.green[500],
               tooltip: Language.of(context)!.t("home_add_tip"),
               shape: RoundedRectangleBorder(
                 side: BorderSide(
-                  width: 1.0,
-                  color: Colors.green[900]!,
+                  width: buttonBorderWidth,
+                  color: buttonBorderColor,
                 ),
                 borderRadius: BorderRadius.circular(cardsBorderRadius),
               ),
@@ -197,31 +178,43 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         bottomNavigationBar: SlideTransition(
           position: animationBottom,
           child: BottomAppBar(
-            height: 120, //MediaQuery.of(context).size.height * 0.1,
+            height: 160,
             child: Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 Expanded(
-                  child: IconButton(
-                    icon: Lottie.asset(
-                      assetslinkLottie('73220-alarm'),
-                      fit: BoxFit.fill,
-                    ),
-                    onPressed: () {},
+                    child: TextButton(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Lottie.asset(
+                        assetslinkLottie('50432-notification-animation'),
+                        width: 55,
+                        height: 55,
+                      ),
+                      CusSText(Language.of(context)!.t(listFilterBtnStrKey))
+                    ],
                   ),
-                ),
+                  onPressed: () => showFilterSelection(),
+                )),
                 Expanded(child: const SizedBox()),
                 Expanded(
-                  child: IconButton(
-                    icon: Lottie.asset(
-                      assetslinkLottie('94350-gears-lottie-animation'),
-                      fit: BoxFit.fill,
-                    ),
-                    onPressed: () => Navigator.pushNamed(
-                        context, constants.pageRouteSettings),
+                    child: TextButton(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Lottie.asset(
+                        assetslinkLottie('94350-gears-lottie-animation'),
+                        width: 55,
+                        height: 55,
+                      ),
+                      CusSText(Language.of(context)!.t("settings_title"))
+                    ],
                   ),
-                )
+                  onPressed: () =>
+                      Navigator.pushNamed(context, constants.pageRouteSettings),
+                ))
               ],
             ),
           ),
@@ -231,6 +224,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   Widget createReminderList() {
     return Selector<ReminderModel, ReminderModel>(
         shouldRebuild: (previous, next) {
+          debugPrint("createReminderList shouldRebuild");
           if (next.state is ReminderCreated) {
             final state = next.state as ReminderCreated;
             listKey.currentState?.insertItem(state.index,
@@ -238,40 +232,36 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           } else if (next.state is ReminderUpdated) {
             final state = next.state as ReminderUpdated;
             if (state.index != state.newIndex) {
-              // listKey.currentState?.insertItem(state.newIndex);
-              // listKey.currentState?.removeItem(
-              //   state.index,
-              // (context, animation) => CardReminderItem(
-              //   reminder: state.reminder,
-              //   animation: animation,
-              // ),
-              // );
+              listKey.currentState?.insertItem(state.newIndex);
+              listKey.currentState?.removeItem(
+                state.index,
+                (context, animation) => CardReminderItem(
+                  reminder: state.reminder,
+                  animation: animation,
+                ),
+              );
             }
+          } else if (next.state is ReminderDeleted) {
+            final state = next.state as ReminderDeleted;
+            listKey.currentState?.removeItem(
+                state.index,
+                (context, animation) => CardReminderItem(
+                      reminder: state.reminder,
+                      animation: animation,
+                    ),
+                duration: const Duration(milliseconds: 800));
           }
-          // else if (next.state is ReminderDeleted) {
-          //   Future.delayed(const Duration(seconds: 2)).then((value) {
-          //     var state = next.state as ReminderDeleted;
-          //     listKey.currentState?.removeItem(
-          //         state.index,
-          //         (context, animation) => CardReminderItem(
-          //               reminder: state.reminder,
-          //               animation: animation,
-          //             ),
-          //         duration: const Duration(milliseconds: 1500));
-          //   });
-          // }
-          // else if (next.state is ReminderLoaded) {
-          //   final state = next.state as ReminderLoaded;
-          //   for (var i = 0; i < state.reminders.length; i++) {
-          //     listKey.currentState
-          //         ?.insertItem(i, duration: const Duration(milliseconds: 1500));
-          //   }
-          // }
           return true;
         },
         selector: (_, model) => model,
         builder: (context, model, child) {
-          if (model.reminders != null && model.reminders!.isNotEmpty) {
+          if (model.remindersIntial != null &&
+              model.remindersIntial!.isNotEmpty) {
+            if (isFiltering() &&
+                model.reminders != null &&
+                model.reminders!.isEmpty) {
+              return createNoFilterResult();
+            }
             return Padding(
                 padding: const EdgeInsets.only(
                     left: listviewPaddingAll, right: listviewPaddingAll),
@@ -291,7 +281,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           return Container();
                         }
                         final reminder = model.reminders![index];
-
+                        debugPrint("reminder id: ${reminder.id}");
+                        debugPrint(
+                            "reminder createtime: ${reminder.createTime}");
                         return CardReminderItem(
                           reminder: reminder,
                           animation: animation,
@@ -319,13 +311,49 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         });
   }
 
+  Widget createFilterBoxDisplay() {
+    return Container(
+        margin: EdgeInsets.only(left: elementSPadding),
+        padding: EdgeInsets.all(8),
+        decoration: BoxDecoration(
+            color: elementActiveColor,
+            border: Border.all(color: buttonBorderColor),
+            borderRadius: BorderRadius.all(Radius.circular(cardsBorderRadius))),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(filterIconData[selectedFilterIndex.value],
+                size: 24.0, color: buttonReadOnlyColor),
+            const SizedBox(width: elementSSPadding),
+            CusSText(
+              Language.of(context)!.t(filterKeys[selectedFilterIndex.value]),
+              color: buttonReadOnlyColor,
+            ),
+          ],
+        ));
+  }
+
   Widget createAppBarTxt() {
     final model = context.read<ReminderModel>();
-    if (model.reminders != null && model.reminders!.isNotEmpty) {
+    if (model.remindersIntial != null && model.remindersIntial!.isNotEmpty) {
+      if (selectedFilterIndex.value > 0) {
+        return Wrap(
+          crossAxisAlignment: WrapCrossAlignment.center,
+          children: [
+            CusExSText(Language.of(context)!.t("home_filter_head")),
+            createFilterBoxDisplay()
+          ],
+        );
+      }
       return Text(
-          "${Language.of(context)!.t("home_greeting")} ${Language.of(context)!.t("home_list_msg")}");
+        "${Language.of(context)!.t("home_greeting")}\n${Language.of(context)!.t("home_list_msg")}",
+        maxLines: 2,
+      );
     }
-    return Text(Language.of(context)!.t("home_greeting"));
+    return Text(
+      Language.of(context)!.t("home_greeting"),
+      textAlign: TextAlign.start,
+    );
   }
 
   Widget createNoReminderSection() {
@@ -336,7 +364,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         height: MediaQuery.of(context).size.width * 0.4,
       ),
       Container(
-        padding: EdgeInsets.only(left: 70, right: 70),
+        padding: EdgeInsets.only(left: 40, right: 40),
         child: Align(
             alignment: Alignment.center,
             child: CusSText(
@@ -346,21 +374,41 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       ),
       Lottie.asset(
         assetslinkLottie('95113-arrow-down'),
-        width: 120,
-        height: 120,
+        width: MediaQuery.of(context).size.width * 0.3,
+        height: MediaQuery.of(context).size.width * 0.3,
       ),
-      SizedBox(
-        height: 40,
-      )
     ];
     return Column(
+      // mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Spacer(),
         ListView(
           shrinkWrap: true,
           children: noRSList,
         )
       ],
+    );
+  }
+
+  Widget createNoFilterResult() {
+    return Center(
+      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+        Lottie.asset(
+          assetslinkLottie('84854-empty'),
+          width: MediaQuery.of(context).size.width * 0.4,
+          height: MediaQuery.of(context).size.width * 0.4,
+        ),
+        createFilterBoxDisplay(),
+        const SizedBox(
+          height: 8,
+        ),
+        Align(
+            alignment: Alignment.center,
+            child: CusSText(
+              Language.of(context)!.t("home_filter_no_data_msg"),
+              textAlign: TextAlign.center,
+            )),
+      ]),
     );
   }
 }

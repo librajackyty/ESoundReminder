@@ -31,15 +31,15 @@ class _CusNButtonState extends State<CusNButton> {
   Widget build(BuildContext context) {
     ButtonStyle btnStyle() {
       return ElevatedButton.styleFrom(
-        backgroundColor: readOnly ? Colors.white : null,
-        surfaceTintColor: readOnly ? Colors.white : null,
-        foregroundColor: readOnly ? Colors.black : null,
+        backgroundColor: readOnly ? buttonReadOnlyColor : null,
+        surfaceTintColor: readOnly ? buttonReadOnlyColor : null,
+        foregroundColor: readOnly ? buttonReadOnlyForegroundColor : null,
         textStyle:
             const TextStyle(fontSize: textBtnSize, fontWeight: FontWeight.bold),
-        minimumSize: const Size.fromHeight(60),
+        minimumSize: const Size.fromHeight(buttonHeight),
         side: BorderSide(
-          color: Colors.green[900]!,
-          width: 1.0,
+          color: buttonBorderColor,
+          width: readOnly ? buttonBorderWidthReadOnly : buttonBorderWidth,
         ),
       );
     }

@@ -20,12 +20,12 @@ class _CusNBackButtonState extends State<CusNBackButton> {
   Widget? icon;
 
   final ButtonStyle backstyle = ElevatedButton.styleFrom(
-    foregroundColor: Colors.red,
+    foregroundColor: buttonForegroundColor2,
     textStyle: const TextStyle(fontSize: textBtnSize),
-    minimumSize: const Size.fromHeight(60),
+    minimumSize: const Size.fromHeight(buttonHeight),
     side: BorderSide(
-      color: Colors.red[900]!,
-      width: 1.0,
+      color: buttonBorderColor2,
+      width: buttonBorderWidth,
     ),
   );
 

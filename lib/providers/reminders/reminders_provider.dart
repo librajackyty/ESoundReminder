@@ -13,7 +13,9 @@ class ReminderModel extends ChangeNotifier {
 
   ReminderState? state;
   List<Reminder>? reminders;
+  List<Reminder>? remindersIntial;
   bool loading = true;
+  int currentFilterIdx = 0;
 
   ReminderModel(RemindersHiveLocalStorage storage) : _storage = storage {
     _storage.init().then((_) => loadReminders());
@@ -27,9 +29,76 @@ class ReminderModel extends ChangeNotifier {
 
   void loadReminders() async {
     final reminders = await _storage.loadReminders();
+    reminders.sort(reminderSort);
+    this.reminders = List.from(reminders);
+    remindersIntial = List.from(this.reminders!);
+    state = ReminderLoaded(remindersIntial!);
+    loading = false;
+    notifyListeners();
+  }
 
-    this.reminders = List.from(reminders.reversed);
-    state = ReminderLoaded(reminders);
+  void listFiltering(int index) {
+    switch (index) {
+      case 0:
+        reminders = List.from(remindersIntial!);
+        break;
+      case 1: // only show repeat everyday
+        reminders =
+            remindersIntial?.where((i) => i.weekdays1.length == 7).toList();
+        break;
+      case 2: // only show no repeat
+        reminders = remindersIntial?.where((i) => i.weekdays1.isEmpty).toList();
+        break;
+      case 3: // only show has Mon
+        reminders = remindersIntial
+            ?.where((i) => i.weekdays1.length < 7 && i.weekdays1.contains(1))
+            .toList();
+        break;
+      case 4: // only show has Tue
+        reminders = remindersIntial
+            ?.where((i) => i.weekdays1.length < 7 && i.weekdays1.contains(2))
+            .toList();
+        break;
+      case 5: // only show has Wed
+        reminders = remindersIntial
+            ?.where((i) => i.weekdays1.length < 7 && i.weekdays1.contains(3))
+            .toList();
+        break;
+      case 6: // only show has Thu
+        reminders = remindersIntial
+            ?.where((i) => i.weekdays1.length < 7 && i.weekdays1.contains(4))
+            .toList();
+        break;
+      case 7: // only show has Fri
+        reminders = remindersIntial
+            ?.where((i) => i.weekdays1.length < 7 && i.weekdays1.contains(5))
+            .toList();
+        break;
+      case 8: // only show has Sat
+        reminders = remindersIntial
+            ?.where((i) => i.weekdays1.length < 7 && i.weekdays1.contains(6))
+            .toList();
+        break;
+      case 9: // only show has Sun
+        reminders = remindersIntial
+            ?.where((i) => i.weekdays1.length < 7 && i.weekdays1.contains(7))
+            .toList();
+        break;
+      default:
+    }
+  }
+
+  void filterReminder(int index) {
+    if (remindersIntial!.isEmpty) {
+      return;
+    }
+    loading = true;
+    currentFilterIdx = index;
+    listFiltering(currentFilterIdx);
+    reminders!.sort(reminderSort);
+    debugPrint("filter reminders length: ${reminders?.length}");
+    // debugPrint("$reminders?");
+    state = ReminderLoaded(reminders!);
     loading = false;
     notifyListeners();
   }
@@ -39,10 +108,13 @@ class ReminderModel extends ChangeNotifier {
     notifyListeners();
 
     final newReminder = await _storage.addReminder(reminder);
+    listFiltering(0);
+    debugPrint("addReminder reminders length: ${reminders?.length}");
     reminders!.add(newReminder);
-    // reminders!.sort(reminderSort);
+    reminders!.sort(reminderSort);
 
-    reminders = List.from(reminders!.reversed);
+    reminders = List.from(reminders!);
+    remindersIntial = List.from(reminders!);
 
     loading = false;
     state = ReminderCreated(
@@ -59,10 +131,12 @@ class ReminderModel extends ChangeNotifier {
     notifyListeners();
 
     final newReminder = await _storage.updateReminder(reminder);
-
-    reminders![index] = newReminder;
-    // reminders!.sort(reminderSort);
-    reminders = List.from(reminders!.reversed);
+    listFiltering(0);
+    debugPrint("updateReminder reminders length: ${reminders?.length}");
+    reminders![reminders!.indexOf(reminder)] = newReminder;
+    reminders!.sort(reminderSort);
+    reminders = List.from(reminders!);
+    remindersIntial = List.from(reminders!);
 
     loading = false;
     state = ReminderUpdated(
@@ -84,8 +158,10 @@ class ReminderModel extends ChangeNotifier {
         "deleteReminder: ${reminder.id}) ${reminder.reminderTitle} ${reminder.reminderDescription}");
 
     await _storage.removeReminder(reminder);
-
-    reminders!.removeAt(index);
+    listFiltering(0);
+    reminders!.removeAt(reminders!.indexOf(reminder));
+    reminders = List.from(reminders!);
+    remindersIntial = List.from(reminders!);
 
     loading = false;
     state = ReminderDeleted(
@@ -97,8 +173,8 @@ class ReminderModel extends ChangeNotifier {
     await _removeScheduledReminder(reminder);
   }
 
-  int reminderSort(reminder1, reminder2) =>
-      reminder1.time1.compareTo(reminder2.time1);
+  int reminderSort(Reminder reminder1, Reminder reminder2) =>
+      reminder2.createTime.compareTo(reminder1.createTime);
 
   Future<void> _removeScheduledReminder(Reminder reminder) async {
     final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =

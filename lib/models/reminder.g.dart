@@ -22,15 +22,15 @@ class ReminderAdapter extends TypeAdapter<Reminder> {
       weekdays1: (fields[2] as List).cast<int>(),
       reminderTitle: fields[4] as String,
       selectedMedicine: (fields[7] as List).cast<dynamic>(),
-    )
-      ..reminderDescription = fields[5] as String?
-      ..reminderNotes = fields[6] as String?;
+      reminderDescription: fields[5] as String?,
+      createTime: fields[8] as DateTime?,
+    )..reminderNotes = fields[6] as String?;
   }
 
   @override
   void write(BinaryWriter writer, Reminder obj) {
     writer
-      ..writeByte(8)
+      ..writeByte(9)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -46,7 +46,9 @@ class ReminderAdapter extends TypeAdapter<Reminder> {
       ..writeByte(6)
       ..write(obj.reminderNotes)
       ..writeByte(7)
-      ..write(obj.selectedMedicine);
+      ..write(obj.selectedMedicine)
+      ..writeByte(8)
+      ..write(obj.createTime);
   }
 
   @override

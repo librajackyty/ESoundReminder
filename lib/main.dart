@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:e_sound_reminder_app/providers/reminders/reminders_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
@@ -56,11 +57,16 @@ const String darwinNotificationCategoryText = 'textCategory';
 /// Defines a iOS/MacOS notification category for plain actions.
 const String darwinNotificationCategoryPlain = 'plainCategory';
 
+var successGetDefaultLang = false;
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   AppLanguage appLanguage = AppLanguage();
-  await appLanguage.fetchLocale();
-  runApp(MyApp(appLanguage: appLanguage));
+  successGetDefaultLang = await appLanguage.fetchLocale();
+  debugPrint("Main main - failtoGetDefaultLang: $successGetDefaultLang");
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then(
+    (_) => runApp(MyApp(appLanguage: appLanguage)),
+  );
 }
 
 class MyApp extends StatefulWidget {
@@ -188,7 +194,9 @@ class _MyAppState extends State<MyApp> {
             ),
             themeMode: ThemeMode.light,
             debugShowCheckedModeBanner: false,
-            initialRoute: constants.pageRouteLanding,
+            initialRoute: !successGetDefaultLang
+                ? constants.pageRouteLangConfigFirst
+                : constants.pageRouteLanding,
             routes: {
               constants.pageRouteIntro: (context) =>
                   const IntroPage(title: 'Introduction'),
@@ -200,14 +208,22 @@ class _MyAppState extends State<MyApp> {
                 case constants.pageRouteHome:
                   return PageTransition(
                       child: const HomePage(title: 'Home'),
-                      type: PageTransitionType.bottomToTop);
+                      type: PageTransitionType.fade);
                 case constants.pageRouteSettings:
                   return PageTransition(
                       child: const SettingsPage(title: 'Settings'),
                       type: PageTransitionType.rightToLeft);
+                case constants.pageRouteLangConfigFirst:
+                  return PageTransition(
+                      child: const LangConfigPage(
+                        title: 'Language',
+                        isFromSettings: false,
+                      ),
+                      type: PageTransitionType.fade);
                 case constants.pageRouteLangConfig:
                   return PageTransition(
-                      child: const LangConfigPage(title: 'Language'),
+                      child: const LangConfigPage(
+                          title: 'Language', isFromSettings: true),
                       type: PageTransitionType.rightToLeft);
                 case constants.pageRouteAbout:
                   return PageTransition(
@@ -225,6 +241,7 @@ class _MyAppState extends State<MyApp> {
                         title: 'New Reminder',
                         arg: settings.arguments as ReminderScreenArg?,
                       ),
+                      duration: const Duration(milliseconds: 300),
                       type: PageTransitionType.bottomToTop);
                 case constants.pageRouteReminderNew2:
                   return PageTransition(
