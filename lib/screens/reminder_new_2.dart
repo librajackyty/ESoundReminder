@@ -7,6 +7,7 @@ import '../models/reminder.dart';
 import '../models/reminder_screen_arg.dart';
 import '../utils/constants.dart';
 import '../utils/formatter.dart';
+import '../utils/time_picker.dart';
 import '../widgets/custom_button_normal.dart';
 import '../widgets/custom_button_normal_back.dart';
 import '../widgets/custom_button_small.dart';
@@ -90,7 +91,20 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
   }
 
   // UI
-  void openTimePicker() {}
+  void openTimePicker() async {
+    TimeOfDay? newtime = await showStyledTimePicker(context, timeMorning,
+        errorInvalidText:
+            Language.of(context)!.t("reminder_new2_timepicker_error"),
+        helpText: Language.of(context)!.t("reminder_new2_settimer1"),
+        confirmText: Language.of(context)!.t("common_confirm"),
+        cancelText: Language.of(context)!.t("common_cancel"));
+    if (newtime == null) return;
+
+    setState(() {
+      timeMorning = newtime;
+      updateTime1ToModel(timeMorning);
+    });
+  }
 
   String showingRepeatWeekdays() {
     if (reminder.weekdays1.isEmpty) {
@@ -105,71 +119,6 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
     }
     return Language.of(context)!.t("reminder_new2_setrepeat4");
   }
-
-  final theme = ThemeData.light().copyWith(
-      timePickerTheme: TimePickerThemeData(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(
-              cardsBorderRadius), // this is the border radius of the picker
-        ),
-        backgroundColor: Colors.lightGreen.shade100,
-        hourMinuteColor: MaterialStateColor.resolveWith(
-            (states) => states.contains(MaterialState.selected)
-                ? elementActiveColor // Colors.blue.withOpacity(0.2)
-                : elementNotActiveColor),
-        hourMinuteTextColor: MaterialStateColor.resolveWith((states) =>
-            states.contains(MaterialState.selected)
-                ? elementActiveTxtColor
-                : elementNotActiveTxtColor),
-        hourMinuteShape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(4.0),
-            side: BorderSide(
-                color: elementActiveColor, width: buttonBorderWidth)),
-        dayPeriodColor: MaterialStateColor.resolveWith(
-            (states) => states.contains(MaterialState.selected)
-                ? elementActiveColor // Colors.blue.withOpacity(0.2)
-                : elementNotActiveColor),
-        dayPeriodTextColor: MaterialStateColor.resolveWith((states) =>
-            states.contains(MaterialState.selected)
-                ? elementActiveTxtColor
-                : elementNotActiveTxtColor),
-        dayPeriodBorderSide:
-            BorderSide(color: elementActiveColor, width: buttonBorderWidth),
-        dayPeriodShape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.0)),
-        dialHandColor: elementActiveColor,
-        dialBackgroundColor: elementNotActiveColor,
-        dialTextColor: MaterialStateColor.resolveWith((states) =>
-            states.contains(MaterialState.selected)
-                ? elementActiveTxtColor
-                : elementNotActiveTxtColor),
-        entryModeIconColor: elementNotActiveTxtColor,
-        helpTextStyle: const TextStyle(
-            fontSize: textSmallSize,
-            fontWeight: FontWeight.bold,
-            color: Colors.black),
-      ),
-      textTheme: TextTheme(
-        labelSmall: TextStyle(
-          color: elementNotActiveTxtColor,
-        ),
-      ),
-      textButtonTheme: TextButtonThemeData(
-          style: ButtonStyle(
-        // fixedSize: MaterialStateProperty.all(Size.fromHeight(buttonHeight)),
-        // side: MaterialStateBorderSide.resolveWith((states) => BorderSide(
-        //       width: buttonBorderWidth,
-        //       color: buttonBorderColor,
-        //     )),
-        textStyle: MaterialStateTextStyle.resolveWith((states) =>
-            TextStyle(fontSize: textBtnSize, fontWeight: FontWeight.bold)),
-        // backgroundColor:
-        //     MaterialStateColor.resolveWith((states) => Colors.white),
-        foregroundColor:
-            MaterialStateColor.resolveWith((states) => elementActiveColor),
-        overlayColor:
-            MaterialStateColor.resolveWith((states) => buttonReadOnlyColor),
-      )));
 
   @override
   void initState() {
@@ -194,7 +143,6 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
           padding: const EdgeInsets.all(safeAreaPaddingAll),
           child: Center(
             child: Column(
-              // mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 CusExSText("${Language.of(context)!.t("common_step")} (2/3)"),
                 CusSText(
@@ -203,163 +151,139 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                 ),
                 const Divider(),
                 Expanded(
-                  child: ListView(
-                      // mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        CusSText(
-                          Language.of(context)!.t("reminder_new2_settimer1"),
+                  child: ListView(children: [
+                    CusSText(
+                      Language.of(context)!.t("reminder_new2_settimer1"),
+                    ),
+                    CusNButton(
+                      fromTimeOfDayToString(timeMorning),
+                      openTimePicker,
+                      icon: Icon(Icons.alarm),
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    // CusNButton(
+                    //   "Setting Date",
+                    //   () async {
+                    //     DateTime? newdate = await showDatePicker(
+                    //         context: context,
+                    //         initialDate: date,
+                    //         firstDate: date,
+                    //         lastDate: date.add(const Duration(days: 300)),
+                    //         initialEntryMode: DatePickerEntryMode.calendarOnly,
+                    //         builder: (context, child) {
+                    //           return Theme(
+                    //             data: Theme.of(context).copyWith(
+                    //               textButtonTheme: TextButtonThemeData(
+                    //                 style: TextButton.styleFrom(
+                    //                   textStyle: TextStyle(
+                    //                       fontSize: 20,
+                    //                       fontWeight: FontWeight.bold),
+                    //                 ),
+                    //               ),
+                    //             ),
+                    //             child: child!,
+                    //           );
+                    //         });
+                    //     if (newdate == null) return;
+
+                    //     setState(() => date = newdate);
+                    //   },
+                    //   icon: Icon(Icons.edit_calendar),
+                    // ),
+                    // const SizedBox(
+                    //   height: 20,
+                    // ),
+                    // Visibility(
+                    //     maintainSize: true,
+                    //     maintainAnimation: true,
+                    //     maintainState: true,
+                    //     visible: setMorning,
+                    //     child: CusNButton(
+                    //       "Select Time (Morning)",
+                    //       () async {
+                    //         TimeOfDay? newtime = await showTimePicker(
+                    //             context: context,
+                    //             initialTime: timeMorning,
+                    //             initialEntryMode:
+                    //                 TimePickerEntryMode.dialOnly);
+                    //         if (newtime == null) return;
+
+                    //         setState(() => timeMorning = newtime);
+                    //       },
+                    //       icon: Icon(Icons.alarm_add),
+                    //     )),
+                    // const SizedBox(
+                    //   height: 20,
+                    // ),
+                    // CusNButton(
+                    //   "Select Time (Noon)",
+                    //   () async {
+                    //     TimeOfDay? newtime = await showTimePicker(
+                    //         context: context,
+                    //         initialTime: timeNoon,
+                    //         initialEntryMode: TimePickerEntryMode.dialOnly);
+                    //     if (newtime == null) return;
+
+                    //     setState(() => timeNoon = newtime);
+                    //   },
+                    //   icon: Icon(Icons.alarm_add),
+                    // ),
+                    // const SizedBox(
+                    //   height: 20,
+                    // ),
+                    // CusNButton(
+                    //   "Select Time (Night)",
+                    //   () async {
+                    //     TimeOfDay? newtime = await showTimePicker(
+                    //         context: context,
+                    //         initialTime: timeNight,
+                    //         initialEntryMode: TimePickerEntryMode.dialOnly);
+                    //     if (newtime == null) return;
+
+                    //     setState(() => timeNight = newtime);
+                    //   },
+                    //   icon: Icon(Icons.alarm_add),
+                    // )
+                    CusSText(
+                      Language.of(context)!.t("reminder_new2_setrepeat1"),
+                    ),
+                    WeekdaysSelector(
+                        boxDecoration: BoxDecoration(
+                          color: Colors.lightGreen[100],
+                          borderRadius: BorderRadius.only(
+                              topLeft:
+                                  Radius.circular(selectWeekDaysBorderRadius),
+                              topRight:
+                                  Radius.circular(selectWeekDaysBorderRadius)),
                         ),
-                        CusNButton(
-                          fromTimeOfDayToString(timeMorning),
-                          () async {
-                            TimeOfDay? newtime = await showTimePicker(
-                                context: context,
-                                initialTime: timeMorning,
-                                initialEntryMode: TimePickerEntryMode.dial,
-                                builder: (context, child) {
-                                  return Theme(data: theme, child: child!);
-                                },
-                                errorInvalidText: Language.of(context)!
-                                    .t("reminder_new2_timepicker_error"),
-                                helpText: Language.of(context)!
-                                    .t("reminder_new2_settimer1"),
-                                confirmText:
-                                    Language.of(context)!.t("common_confirm"),
-                                cancelText:
-                                    Language.of(context)!.t("common_cancel"));
-                            if (newtime == null) return;
-
-                            setState(() {
-                              timeMorning = newtime;
-                              updateTime1ToModel(timeMorning);
-                            });
-                          },
-                          icon: Icon(Icons.alarm),
+                        days: getweekdaysList1(context),
+                        onSelect: (values) {
+                          setState(() {
+                            print(values);
+                            selectedweekdays1 = values;
+                            updateWeekdays1ToModel();
+                          });
+                        }),
+                    WeekdaysSelector(
+                        boxDecoration: BoxDecoration(
+                          color: Colors.lightGreen[100],
+                          borderRadius: BorderRadius.only(
+                              bottomLeft:
+                                  Radius.circular(selectWeekDaysBorderRadius),
+                              bottomRight:
+                                  Radius.circular(selectWeekDaysBorderRadius)),
                         ),
-                        const SizedBox(
-                          height: 12,
-                        ),
-                        // CusNButton(
-                        //   "Setting Date",
-                        //   () async {
-                        //     DateTime? newdate = await showDatePicker(
-                        //         context: context,
-                        //         initialDate: date,
-                        //         firstDate: date,
-                        //         lastDate: date.add(const Duration(days: 300)),
-                        //         initialEntryMode: DatePickerEntryMode.calendarOnly,
-                        //         builder: (context, child) {
-                        //           return Theme(
-                        //             data: Theme.of(context).copyWith(
-                        //               textButtonTheme: TextButtonThemeData(
-                        //                 style: TextButton.styleFrom(
-                        //                   textStyle: TextStyle(
-                        //                       fontSize: 20,
-                        //                       fontWeight: FontWeight.bold),
-                        //                 ),
-                        //               ),
-                        //             ),
-                        //             child: child!,
-                        //           );
-                        //         });
-                        //     if (newdate == null) return;
-
-                        //     setState(() => date = newdate);
-                        //   },
-                        //   icon: Icon(Icons.edit_calendar),
-                        // ),
-                        // const SizedBox(
-                        //   height: 20,
-                        // ),
-                        // Visibility(
-                        //     maintainSize: true,
-                        //     maintainAnimation: true,
-                        //     maintainState: true,
-                        //     visible: setMorning,
-                        //     child: CusNButton(
-                        //       "Select Time (Morning)",
-                        //       () async {
-                        //         TimeOfDay? newtime = await showTimePicker(
-                        //             context: context,
-                        //             initialTime: timeMorning,
-                        //             initialEntryMode:
-                        //                 TimePickerEntryMode.dialOnly);
-                        //         if (newtime == null) return;
-
-                        //         setState(() => timeMorning = newtime);
-                        //       },
-                        //       icon: Icon(Icons.alarm_add),
-                        //     )),
-                        // const SizedBox(
-                        //   height: 20,
-                        // ),
-                        // CusNButton(
-                        //   "Select Time (Noon)",
-                        //   () async {
-                        //     TimeOfDay? newtime = await showTimePicker(
-                        //         context: context,
-                        //         initialTime: timeNoon,
-                        //         initialEntryMode: TimePickerEntryMode.dialOnly);
-                        //     if (newtime == null) return;
-
-                        //     setState(() => timeNoon = newtime);
-                        //   },
-                        //   icon: Icon(Icons.alarm_add),
-                        // ),
-                        // const SizedBox(
-                        //   height: 20,
-                        // ),
-                        // CusNButton(
-                        //   "Select Time (Night)",
-                        //   () async {
-                        //     TimeOfDay? newtime = await showTimePicker(
-                        //         context: context,
-                        //         initialTime: timeNight,
-                        //         initialEntryMode: TimePickerEntryMode.dialOnly);
-                        //     if (newtime == null) return;
-
-                        //     setState(() => timeNight = newtime);
-                        //   },
-                        //   icon: Icon(Icons.alarm_add),
-                        // )
-                        CusSText(
-                          Language.of(context)!.t("reminder_new2_setrepeat1"),
-                        ),
-                        WeekdaysSelector(
-                            boxDecoration: BoxDecoration(
-                              color: Colors.lightGreen[100],
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(
-                                      selectWeekDaysBorderRadius),
-                                  topRight: Radius.circular(
-                                      selectWeekDaysBorderRadius)),
-                            ),
-                            days: getweekdaysList1(context),
-                            onSelect: (values) {
-                              setState(() {
-                                print(values);
-                                selectedweekdays1 = values;
-                                updateWeekdays1ToModel();
-                              });
-                            }),
-                        WeekdaysSelector(
-                            boxDecoration: BoxDecoration(
-                              color: Colors.lightGreen[100],
-                              borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(
-                                      selectWeekDaysBorderRadius),
-                                  bottomRight: Radius.circular(
-                                      selectWeekDaysBorderRadius)),
-                            ),
-                            days: getweekdaysList2(context),
-                            onSelect: (values) {
-                              setState(() {
-                                print(values);
-                                selectedweekdays2 = values;
-                                updateWeekdays1ToModel();
-                              });
-                            }),
-                      ]),
+                        days: getweekdaysList2(context),
+                        onSelect: (values) {
+                          setState(() {
+                            print(values);
+                            selectedweekdays2 = values;
+                            updateWeekdays1ToModel();
+                          });
+                        }),
+                  ]),
                 ),
                 Column(
                   children: [
@@ -386,14 +310,6 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                             child: ListView(
                               padding: EdgeInsets.all(12),
                               children: [
-                                // Row(
-                                //     mainAxisAlignment: MainAxisAlignment.center,
-                                //     children: [
-                                //       Icon(Icons.calendar_today),
-                                //       SizedBox(width: 8),
-                                //       CusTitleText(
-                                //           "${date.year} / ${date.month} / ${date.day}")
-                                //     ]),
                                 Visibility(
                                   maintainSize: true,
                                   maintainAnimation: true,
@@ -434,9 +350,7 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                                     maintainAnimation: true,
                                     maintainState: true,
                                     visible: true,
-                                    child:
-                                        // CusNText(showingRepeatWeekdays())
-                                        WeekdaysDisplay(
+                                    child: WeekdaysDisplay(
                                       reminder: reminder,
                                       padding: const EdgeInsets.only(
                                           top: 2, bottom: 8),
