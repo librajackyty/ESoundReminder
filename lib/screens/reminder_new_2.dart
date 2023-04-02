@@ -145,7 +145,6 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                           Language.of(context)!.t("reminder_new2_settimer1"),
                         ),
                         CusNButton(
-                          // "$hoursDisplay1:$minsDisplay1",
                           fromTimeOfDayToString(timeMorning),
                           () async {
                             TimeOfDay? newtime = await showTimePicker(

@@ -14,6 +14,7 @@ import '../utils/assetslink.dart';
 import '../utils/constants.dart' as constants;
 import '../utils/constants.dart';
 import '../utils/formatter.dart';
+import '../widgets/custom_list_item.dart';
 import '../widgets/custom_scroll_bar.dart';
 import '../widgets/reminder_card.dart';
 
@@ -59,18 +60,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   );
   String listFilterBtnStrKey = "filter_all";
   ValueNotifier<int> selectedFilterIndex = ValueNotifier<int>(0);
-  final List filterKeys = [
-    "filter_all",
-    "filter_repeat_all",
-    "filter_repeat_no",
-    "filter_repeat_mon",
-    "filter_repeat_tue",
-    "filter_repeat_wed",
-    "filter_repeat_thu",
-    "filter_repeat_fri",
-    "filter_repeat_sat",
-    "filter_repeat_sun"
-  ];
 
   bool isFiltering() {
     return selectedFilterIndex.value > 0;
@@ -93,31 +82,42 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   ),
                   Expanded(
                     child: ListView.builder(
-                      padding: EdgeInsets.all(24),
+                      padding: EdgeInsets.all(elementMPadding),
                       controller: controller,
                       itemCount: filterKeys.length,
                       itemBuilder: (_, index) {
-                        return Padding(
-                            padding: EdgeInsets.only(bottom: 8),
-                            child: ListTile(
-                              shape: RoundedRectangleBorder(
-                                  side: BorderSide(
-                                      color: Colors.green[900]!, width: 2.0),
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(cardsBorderRadius))),
-                              title: CusNText(
-                                  Language.of(context)!.t(filterKeys[index])),
-                              tileColor: Colors.white,
-                              selectedTileColor: Colors.green[900],
-                              selectedColor: Colors.white,
-                              selected: selectedFilterIndex.value == index,
-                              onTap: () {
-                                setState(() {
-                                  selectedFilterIndex.value = index;
-                                });
-                                Navigator.pop(context);
-                              },
-                            ));
+                        return CusListItm(
+                          Language.of(context)!.t(filterKeys[index]),
+                          onTap: () {
+                            setState(() {
+                              selectedFilterIndex.value = index;
+                            });
+                            Navigator.pop(context);
+                          },
+                          selected: selectedFilterIndex.value == index,
+                        );
+                        //  Padding(
+                        //     padding: EdgeInsets.only(bottom: 8),
+                        //     child: ListTile(
+                        //       shape: RoundedRectangleBorder(
+                        //           side: BorderSide(
+                        //               color: buttonBorderColor,
+                        //               width: buttonBorderWidth),
+                        //           borderRadius: BorderRadius.all(
+                        //               Radius.circular(cardsBorderRadius))),
+                        //       tileColor: buttonReadOnlyColor,
+                        //       selectedTileColor: buttonBorderColor,
+                        //       selectedColor: buttonReadOnlyColor,
+                        //       selected: selectedFilterIndex.value == index,
+                        //       title: CusNText(
+                        //           Language.of(context)!.t(filterKeys[index])),
+                        // onTap: () {
+                        //   setState(() {
+                        //     selectedFilterIndex.value = index;
+                        //   });
+                        //   Navigator.pop(context);
+                        // },
+                        //     ));
                       },
                     ),
                   ),
@@ -179,12 +179,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               onPressed: () =>
                   Navigator.pushNamed(context, pageRouteReminderNew),
               elevation: 20.0,
-              backgroundColor: Colors.green[600],
+              backgroundColor: Colors.green[500],
               tooltip: Language.of(context)!.t("home_add_tip"),
               shape: RoundedRectangleBorder(
                 side: BorderSide(
-                  width: 1.0,
-                  color: Colors.green[900]!,
+                  width: buttonBorderWidth,
+                  color: buttonBorderColor,
                 ),
                 borderRadius: BorderRadius.circular(cardsBorderRadius),
               ),
