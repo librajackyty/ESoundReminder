@@ -250,7 +250,7 @@ class _MyAppState extends State<MyApp> {
                         arg: settings.arguments as ReminderScreenArg?,
                       ),
                       type: PageTransitionType.rightToLeft,
-                      isIos: true);
+                      isIos: false);
                 case constants.pageRouteReminderDetail:
                   return PageTransition(
                       child: ReminderDetailPage(
@@ -258,7 +258,7 @@ class _MyAppState extends State<MyApp> {
                         arg: settings.arguments as ReminderScreenArg?,
                       ),
                       type: PageTransitionType.rightToLeft,
-                      isIos: true);
+                      isIos: false);
                 case constants.pageRouteReminderDetailMore:
                   return PageTransition(
                       child: ReminderDetailPage(

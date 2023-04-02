@@ -33,7 +33,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   late var stateReady = false;
   late final AnimationController aniController = AnimationController(
     vsync: this,
-    duration: const Duration(milliseconds: 1000),
+    duration: const Duration(milliseconds: 500),
   );
   late final Animation<double> animation = Tween(
     begin: 0.0,
@@ -225,36 +225,15 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     return Selector<ReminderModel, ReminderModel>(
         shouldRebuild: (previous, next) {
           debugPrint("createReminderList shouldRebuild");
-          if (next.state is ReminderCreated) {
-            final state = next.state as ReminderCreated;
-            listKey.currentState?.insertItem(state.index,
-                duration: const Duration(milliseconds: 800));
-          } else if (next.state is ReminderUpdated) {
-            final state = next.state as ReminderUpdated;
-            if (state.index != state.newIndex) {
-              listKey.currentState?.insertItem(state.newIndex);
-              listKey.currentState?.removeItem(
-                state.index,
-                (context, animation) => CardReminderItem(
-                  reminder: state.reminder,
-                  animation: animation,
-                ),
-              );
-            }
-          } else if (next.state is ReminderDeleted) {
-            final state = next.state as ReminderDeleted;
-            listKey.currentState?.removeItem(
-                state.index,
-                (context, animation) => CardReminderItem(
-                      reminder: state.reminder,
-                      animation: animation,
-                    ),
-                duration: const Duration(milliseconds: 800));
-          }
           return true;
         },
         selector: (_, model) => model,
         builder: (context, model, child) {
+          debugPrint("createReminderList builder Rebuild");
+          debugPrint(
+              "createReminderList model.remindersIntial len: ${model.remindersIntial?.length}");
+          debugPrint(
+              "createReminderList model.reminders len: ${model.reminders?.length}");
           if (model.remindersIntial != null &&
               model.remindersIntial!.isNotEmpty) {
             if (isFiltering() &&
@@ -266,37 +245,22 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 padding: const EdgeInsets.only(
                     left: listviewPaddingAll, right: listviewPaddingAll),
                 child: Column(children: [
-                  // Container(
-                  //   padding: EdgeInsets.only(bottom: 20),
-                  //   child: CusSText(Language.of(context)!.t("home_list_msg")),
-                  // ),
                   Expanded(
-                    child: AnimatedList(
-                      key: listKey,
-                      padding: EdgeInsets.only(bottom: 40),
+                    child: ListView.builder(
                       shrinkWrap: true,
-                      initialItemCount: model.reminders!.length,
-                      itemBuilder: (context, index, animation) {
+                      padding: EdgeInsets.only(bottom: 40),
+                      itemCount: model.reminders!.length,
+                      itemBuilder: (_, index) {
                         if (index >= model.reminders!.length) {
                           return Container();
                         }
-                        final reminder = model.reminders![index];
+                        var reminder = model.reminders![index];
                         debugPrint("reminder id: ${reminder.id}");
                         debugPrint(
                             "reminder createtime: ${reminder.createTime}");
                         return CardReminderItem(
                           reminder: reminder,
                           animation: animation,
-                          // onDelete: () async {
-                          //   _listKey.currentState?.removeItem(
-                          //     index,
-                          //     (context, animation) => CardReminderItem(
-                          //       alarm: alarm,
-                          //       animation: animation,
-                          //     ),
-                          //   );
-                          //   await model.deleteAlarm(alarm, index);
-                          // },
                           onPressed: () => Navigator.pushNamed(
                               context, pageRouteReminderDetailMore,
                               arguments:

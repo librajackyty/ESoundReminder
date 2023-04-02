@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
 import '../models/language.dart';
+import '../widgets/custom_button_small_back.dart';
 import '../widgets/custom_text_small.dart';
 import 'assetslink.dart';
 
@@ -67,7 +68,7 @@ void showCommonDialog(BuildContext context,
     yesBtnTxtKey = "common_yes",
     void Function()? yesBtnOnPressed}) {
   showBaseDialog(context, icon: icon, title: title, content: content, actions: [
-    CusSButton(Language.of(context)!.t(noBtnTxtKey), noBtnOnPressed),
+    CusSBackButton(Language.of(context)!.t(noBtnTxtKey), noBtnOnPressed),
     CusSButton(Language.of(context)!.t(yesBtnTxtKey), yesBtnOnPressed),
   ]);
 }

@@ -27,7 +27,7 @@ class CardReminderItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return SlideTransition(
         position: animation.drive(Tween<Offset>(
-          begin: const Offset(1.1, 0),
+          begin: const Offset(0, 1),
           end: const Offset(0, 0),
         ).chain(CurveTween(curve: Curves.decelerate))),
         child:
@@ -42,7 +42,6 @@ class CardReminderItem extends StatelessWidget {
           width: 60,
           height: 60,
         ),
-        // "${Language.of(context)!.t("home_card_remind_title")} - ${reminder.selectedMedicine.join(",")}",
         reminder.selectedMedicine.join(","),
         fromTimeToString(reminder.time1),
         reminder.weekdays1.isNotEmpty

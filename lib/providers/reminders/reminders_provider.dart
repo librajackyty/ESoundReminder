@@ -96,9 +96,10 @@ class ReminderModel extends ChangeNotifier {
     currentFilterIdx = index;
     listFiltering(currentFilterIdx);
     reminders!.sort(reminderSort);
+    reminders = List.from(reminders!);
     debugPrint("filter reminders length: ${reminders?.length}");
-    // debugPrint("$reminders?");
-    state = ReminderLoaded(reminders!);
+    debugPrint("${reminders.toString()}?");
+    state = ReminderReLoaded(reminders!);
     loading = false;
     notifyListeners();
   }

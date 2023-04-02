@@ -10,6 +10,12 @@ class ReminderLoaded extends ReminderState {
   const ReminderLoaded(this.reminders);
 }
 
+class ReminderReLoaded extends ReminderState {
+  final List<Reminder> reminders;
+
+  const ReminderReLoaded(this.reminders);
+}
+
 // state for create, update, delete,
 class ReminderCreated extends ReminderState {
   final Reminder reminder;
