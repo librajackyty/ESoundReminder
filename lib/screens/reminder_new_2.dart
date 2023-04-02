@@ -106,6 +106,71 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
     return Language.of(context)!.t("reminder_new2_setrepeat4");
   }
 
+  final theme = ThemeData.light().copyWith(
+      timePickerTheme: TimePickerThemeData(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(
+              cardsBorderRadius), // this is the border radius of the picker
+        ),
+        backgroundColor: Colors.lightGreen.shade100,
+        hourMinuteColor: MaterialStateColor.resolveWith(
+            (states) => states.contains(MaterialState.selected)
+                ? elementActiveColor // Colors.blue.withOpacity(0.2)
+                : elementNotActiveColor),
+        hourMinuteTextColor: MaterialStateColor.resolveWith((states) =>
+            states.contains(MaterialState.selected)
+                ? elementActiveTxtColor
+                : elementNotActiveTxtColor),
+        hourMinuteShape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(4.0),
+            side: BorderSide(
+                color: elementActiveColor, width: buttonBorderWidth)),
+        dayPeriodColor: MaterialStateColor.resolveWith(
+            (states) => states.contains(MaterialState.selected)
+                ? elementActiveColor // Colors.blue.withOpacity(0.2)
+                : elementNotActiveColor),
+        dayPeriodTextColor: MaterialStateColor.resolveWith((states) =>
+            states.contains(MaterialState.selected)
+                ? elementActiveTxtColor
+                : elementNotActiveTxtColor),
+        dayPeriodBorderSide:
+            BorderSide(color: elementActiveColor, width: buttonBorderWidth),
+        dayPeriodShape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.0)),
+        dialHandColor: elementActiveColor,
+        dialBackgroundColor: elementNotActiveColor,
+        dialTextColor: MaterialStateColor.resolveWith((states) =>
+            states.contains(MaterialState.selected)
+                ? elementActiveTxtColor
+                : elementNotActiveTxtColor),
+        entryModeIconColor: elementNotActiveTxtColor,
+        helpTextStyle: const TextStyle(
+            fontSize: textSmallSize,
+            fontWeight: FontWeight.bold,
+            color: Colors.black),
+      ),
+      textTheme: TextTheme(
+        labelSmall: TextStyle(
+          color: elementNotActiveTxtColor,
+        ),
+      ),
+      textButtonTheme: TextButtonThemeData(
+          style: ButtonStyle(
+        // fixedSize: MaterialStateProperty.all(Size.fromHeight(buttonHeight)),
+        // side: MaterialStateBorderSide.resolveWith((states) => BorderSide(
+        //       width: buttonBorderWidth,
+        //       color: buttonBorderColor,
+        //     )),
+        textStyle: MaterialStateTextStyle.resolveWith((states) =>
+            TextStyle(fontSize: textBtnSize, fontWeight: FontWeight.bold)),
+        // backgroundColor:
+        //     MaterialStateColor.resolveWith((states) => Colors.white),
+        foregroundColor:
+            MaterialStateColor.resolveWith((states) => elementActiveColor),
+        overlayColor:
+            MaterialStateColor.resolveWith((states) => buttonReadOnlyColor),
+      )));
+
   @override
   void initState() {
     updateTime1ToModel(timeMorning);
@@ -150,9 +215,14 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                             TimeOfDay? newtime = await showTimePicker(
                                 context: context,
                                 initialTime: timeMorning,
-                                initialEntryMode: TimePickerEntryMode.dialOnly,
+                                initialEntryMode: TimePickerEntryMode.dial,
+                                builder: (context, child) {
+                                  return Theme(data: theme, child: child!);
+                                },
+                                errorInvalidText: Language.of(context)!
+                                    .t("reminder_new2_timepicker_error"),
                                 helpText: Language.of(context)!
-                                    .t("reminder_new2_timepicker_help"),
+                                    .t("reminder_new2_settimer1"),
                                 confirmText:
                                     Language.of(context)!.t("common_confirm"),
                                 cancelText:

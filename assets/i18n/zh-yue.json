@@ -47,6 +47,7 @@
     "reminder_new2_setrepeat3": "唔重複",
     "reminder_new2_setrepeat4": "每日重複",
     "reminder_new2_timepicker_help": "選擇時間",
+    "reminder_new2_timepicker_error": "輸入有效時間",
 
     "reminder_detail_title": "提醒食藥",
     "reminder_detail_msg": "請確認以下設定,然後按'保存'",

@@ -45,6 +45,9 @@ const double textBtnSize = 28;
 const double textBtnSmallSize = 20;
 
 final Color elementActiveColor = Colors.green[900]!;
+const Color elementNotActiveColor = Colors.white;
+const Color elementActiveTxtColor = Colors.white;
+const Color elementNotActiveTxtColor = Colors.black;
 
 // button ui
 const double buttonBorderWidth = 2;

@@ -1,3 +1,4 @@
+import 'package:e_sound_reminder_app/widgets/custom_button_small.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
@@ -66,14 +67,8 @@ void showCommonDialog(BuildContext context,
     yesBtnTxtKey = "common_yes",
     void Function()? yesBtnOnPressed}) {
   showBaseDialog(context, icon: icon, title: title, content: content, actions: [
-    TextButton(
-      onPressed: noBtnOnPressed,
-      child: CusSText(Language.of(context)!.t(noBtnTxtKey)),
-    ),
-    TextButton(
-      onPressed: yesBtnOnPressed,
-      child: CusSText(Language.of(context)!.t(yesBtnTxtKey)),
-    ),
+    CusSButton(Language.of(context)!.t(noBtnTxtKey), noBtnOnPressed),
+    CusSButton(Language.of(context)!.t(yesBtnTxtKey), yesBtnOnPressed),
   ]);
 }
 
