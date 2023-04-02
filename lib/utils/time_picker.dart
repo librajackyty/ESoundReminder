@@ -124,10 +124,20 @@ Future<TimeOfDay?> showDefaultTimePicker(
 
 final btnTxtStyle =
     TextStyle(fontSize: textBtnSmallSize, fontWeight: FontWeight.bold);
+final cancelBtnTxtStyle = TextStyle(
+    fontSize: textBtnSmallSize,
+    fontWeight: FontWeight.bold,
+    color: buttonForegroundColor2);
 final btnStyle = ButtonStyle(
     padding: MaterialStatePropertyAll(EdgeInsets.all(elementSSPadding)),
     side: MaterialStateBorderSide.resolveWith((states) =>
         BorderSide(color: buttonBorderColor, width: buttonBorderWidth)),
+    minimumSize: MaterialStatePropertyAll(Size(120, buttonHeightSmall)),
+    fixedSize: MaterialStatePropertyAll(Size.fromHeight(buttonHeightSmall)));
+final cancelBtnStyle = ButtonStyle(
+    padding: MaterialStatePropertyAll(EdgeInsets.all(elementSSPadding)),
+    side: MaterialStateBorderSide.resolveWith((states) =>
+        BorderSide(color: buttonBorderColor2, width: buttonBorderWidth)),
     minimumSize: MaterialStatePropertyAll(Size(120, buttonHeightSmall)),
     fixedSize: MaterialStatePropertyAll(Size.fromHeight(buttonHeightSmall)));
 
@@ -147,8 +157,8 @@ void showDayNightTimePicker(BuildContext context, TimeOfDay initialTime,
       buttonsSpacing: elementSPadding,
       okStyle: btnTxtStyle,
       buttonStyle: btnStyle,
-      cancelStyle: btnTxtStyle,
-      cancelButtonStyle: btnStyle,
+      cancelStyle: cancelBtnTxtStyle,
+      cancelButtonStyle: cancelBtnStyle,
       hourLabel: hourLabel ?? 'Hr   ',
       minuteLabel: minuteLabel ?? 'Min  ',
       blurredBackground: true,
