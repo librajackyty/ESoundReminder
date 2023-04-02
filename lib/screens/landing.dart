@@ -20,9 +20,8 @@ class _LandingPageState extends State<LandingPage> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       if (context.mounted) {
-        Navigator.pushReplacementNamed(context, pageRouteHome);
-        // Navigator.pushNamedAndRemoveUntil(
-        //     context, pageRouteHome, (route) => false);
+        Navigator.pushNamedAndRemoveUntil(
+            context, pageRouteHome, (route) => false);
       }
     });
     super.initState();

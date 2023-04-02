@@ -192,7 +192,7 @@ class _MyAppState extends State<MyApp> {
             themeMode: ThemeMode.light,
             debugShowCheckedModeBanner: false,
             initialRoute: !successGetDefaultLang
-                ? constants.pageRouteLangConfig
+                ? constants.pageRouteLangConfigFirst
                 : constants.pageRouteLanding,
             routes: {
               constants.pageRouteIntro: (context) =>
@@ -205,14 +205,22 @@ class _MyAppState extends State<MyApp> {
                 case constants.pageRouteHome:
                   return PageTransition(
                       child: const HomePage(title: 'Home'),
-                      type: PageTransitionType.bottomToTop);
+                      type: PageTransitionType.fade);
                 case constants.pageRouteSettings:
                   return PageTransition(
                       child: const SettingsPage(title: 'Settings'),
                       type: PageTransitionType.rightToLeft);
+                case constants.pageRouteLangConfigFirst:
+                  return PageTransition(
+                      child: const LangConfigPage(
+                        title: 'Language',
+                        isFromSettings: false,
+                      ),
+                      type: PageTransitionType.fade);
                 case constants.pageRouteLangConfig:
                   return PageTransition(
-                      child: const LangConfigPage(title: 'Language'),
+                      child: const LangConfigPage(
+                          title: 'Language', isFromSettings: true),
                       type: PageTransitionType.rightToLeft);
                 case constants.pageRouteAbout:
                   return PageTransition(
@@ -230,6 +238,7 @@ class _MyAppState extends State<MyApp> {
                         title: 'New Reminder',
                         arg: settings.arguments as ReminderScreenArg?,
                       ),
+                      duration: const Duration(milliseconds: 300),
                       type: PageTransitionType.bottomToTop);
                 case constants.pageRouteReminderNew2:
                   return PageTransition(

@@ -11,9 +11,11 @@ import '../widgets/custom_button_normal_back.dart';
 import '../widgets/custom_text_normal.dart';
 
 class LangConfigPage extends StatefulWidget {
-  const LangConfigPage({super.key, required this.title});
+  const LangConfigPage(
+      {super.key, required this.title, required this.isFromSettings});
 
   final String title;
+  final bool isFromSettings;
 
   @override
   State<LangConfigPage> createState() => _LangConfigPageState();
@@ -29,11 +31,10 @@ class _LangConfigPageState extends State<LangConfigPage> {
       mwList.add(CusNButton(
         "${Language.localeDisplay[lang]}",
         () {
-          // setState(() {
           appLanguage.changeLanguage(Locale(lang));
-          // });
           if (initalConfig) {
-            Navigator.pushReplacementNamed(context, pageRouteHome);
+            Navigator.pushNamedAndRemoveUntil(
+                context, pageRouteHome, (route) => false);
           } else {
             Navigator.of(context).pop();
           }
@@ -59,8 +60,8 @@ class _LangConfigPageState extends State<LangConfigPage> {
 
   @override
   Widget build(BuildContext context) {
-    initalConfig = Provider.of<AppLanguage>(context).isInitalConfig;
-    debugPrint("initalConfig: $initalConfig");
+    initalConfig = !widget.isFromSettings;
+
     return Scaffold(
       appBar: initalConfig
           ? null
