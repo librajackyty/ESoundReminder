@@ -148,11 +148,6 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
 
   @override
   Widget build(BuildContext context) {
-    // final hoursDisplay1 = timeMorning.hour.toString().padLeft(2, '0');
-    // final minsDisplay1 = timeMorning.minute.toString().padLeft(2, '0');
-    // final hoursDisplay2 = timeNoon.hour.toString().padLeft(2, '0');
-    // final minsDisplay2 = timeNoon.minute.toString().padLeft(2, '0');
-
     return Scaffold(
       // appBar: AppBar(
       //   title: Text(widget.title),
@@ -178,7 +173,7 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                       fromTimeOfDayToString(timeMorning),
                       () => openDayNightTimePicker(),
                       // openTimePicker,
-                      icon: Icon(Icons.alarm),
+                      icon: Icon(Icons.alarm_add),
                     ),
                     const SizedBox(
                       height: 12,
@@ -269,40 +264,50 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                     CusSText(
                       Language.of(context)!.t("reminder_new2_setrepeat1"),
                     ),
-                    WeekdaysSelector(
-                        boxDecoration: BoxDecoration(
-                          color: Colors.lightGreen[100],
-                          borderRadius: BorderRadius.only(
-                              topLeft:
-                                  Radius.circular(selectWeekDaysBorderRadius),
-                              topRight:
-                                  Radius.circular(selectWeekDaysBorderRadius)),
-                        ),
-                        days: getweekdaysList1(context),
-                        onSelect: (values) {
-                          setState(() {
-                            print(values);
-                            selectedweekdays1 = values;
-                            updateWeekdays1ToModel();
-                          });
-                        }),
-                    WeekdaysSelector(
-                        boxDecoration: BoxDecoration(
-                          color: Colors.lightGreen[100],
-                          borderRadius: BorderRadius.only(
-                              bottomLeft:
-                                  Radius.circular(selectWeekDaysBorderRadius),
-                              bottomRight:
-                                  Radius.circular(selectWeekDaysBorderRadius)),
-                        ),
-                        days: getweekdaysList2(context),
-                        onSelect: (values) {
-                          setState(() {
-                            print(values);
-                            selectedweekdays2 = values;
-                            updateWeekdays1ToModel();
-                          });
-                        }),
+                    Container(
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              color: buttonBorderColor,
+                              width: buttonBorderWidth),
+                          borderRadius: BorderRadius.circular(
+                              selectWeekDaysBorderRadius)),
+                      child: Column(mainAxisSize: MainAxisSize.min, children: [
+                        WeekdaysSelector(
+                            boxDecoration: BoxDecoration(
+                              color: Colors.green.shade50,
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(
+                                      selectWeekDaysBorderRadius),
+                                  topRight: Radius.circular(
+                                      selectWeekDaysBorderRadius)),
+                            ),
+                            days: getweekdaysList1(context),
+                            onSelect: (values) {
+                              setState(() {
+                                print(values);
+                                selectedweekdays1 = values;
+                                updateWeekdays1ToModel();
+                              });
+                            }),
+                        WeekdaysSelector(
+                            boxDecoration: BoxDecoration(
+                              color: Colors.green.shade50,
+                              borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(
+                                      selectWeekDaysBorderRadius),
+                                  bottomRight: Radius.circular(
+                                      selectWeekDaysBorderRadius)),
+                            ),
+                            days: getweekdaysList2(context),
+                            onSelect: (values) {
+                              setState(() {
+                                print(values);
+                                selectedweekdays2 = values;
+                                updateWeekdays1ToModel();
+                              });
+                            }),
+                      ]),
+                    ),
                   ]),
                 ),
                 Column(
