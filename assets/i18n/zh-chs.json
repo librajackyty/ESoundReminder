@@ -9,6 +9,8 @@
     "common_delete": "删除",
     "common_step": "步骤",
     "common_next": "下一步",
+    "common_ok": "确定",
+    "common_understand": "明白",
 
     "localnotification_title": "到点吃药吧",
     "localnotification_subtitle": "记得吃",
@@ -76,6 +78,9 @@
     "about_pj_developer": "项目开发人员:",
     "about_contact_mobile": "联系方式（手机）:",
     "about_contact_email": "联系方式（电子邮件）:",
+
+    "timepicker_hr": "时   ",
+    "timepicker_min": "分钟 ",
 
     "week_mon": "一",
     "week_tue": "二",

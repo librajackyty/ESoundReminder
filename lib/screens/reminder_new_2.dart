@@ -1,3 +1,4 @@
+import 'package:day_night_time_picker/day_night_time_picker.dart';
 import 'package:day_picker/day_picker.dart';
 import 'package:e_sound_reminder_app/widgets/custom_text_title.dart';
 import 'package:flutter/material.dart';
@@ -98,6 +99,24 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
         helpText: Language.of(context)!.t("reminder_new2_settimer1"),
         confirmText: Language.of(context)!.t("common_confirm"),
         cancelText: Language.of(context)!.t("common_cancel"));
+
+    updatingAlarmTime(newtime);
+  }
+
+  void openDayNightTimePicker() {
+    showDayNightTimePicker(context, timeMorning,
+        confirmText: Language.of(context)!.t("common_confirm"),
+        cancelText: Language.of(context)!.t("common_cancel"),
+        hourLabel: Language.of(context)!.t("timepicker_hr"),
+        minuteLabel: Language.of(context)!.t("timepicker_min"),
+        onChangeDateTime: (datetime) {
+      debugPrint("onChangeDateTime: ${datetime.hour}:${datetime.minute}");
+
+      updatingAlarmTime(TimeOfDay.fromDateTime(datetime));
+    });
+  }
+
+  void updatingAlarmTime(TimeOfDay? newtime) {
     if (newtime == null) return;
 
     setState(() {
@@ -129,11 +148,6 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
 
   @override
   Widget build(BuildContext context) {
-    // final hoursDisplay1 = timeMorning.hour.toString().padLeft(2, '0');
-    // final minsDisplay1 = timeMorning.minute.toString().padLeft(2, '0');
-    // final hoursDisplay2 = timeNoon.hour.toString().padLeft(2, '0');
-    // final minsDisplay2 = timeNoon.minute.toString().padLeft(2, '0');
-
     return Scaffold(
       // appBar: AppBar(
       //   title: Text(widget.title),
@@ -157,8 +171,9 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                     ),
                     CusNButton(
                       fromTimeOfDayToString(timeMorning),
-                      openTimePicker,
-                      icon: Icon(Icons.alarm),
+                      () => openDayNightTimePicker(),
+                      // openTimePicker,
+                      icon: Icon(Icons.alarm_add),
                     ),
                     const SizedBox(
                       height: 12,
@@ -249,40 +264,50 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                     CusSText(
                       Language.of(context)!.t("reminder_new2_setrepeat1"),
                     ),
-                    WeekdaysSelector(
-                        boxDecoration: BoxDecoration(
-                          color: Colors.lightGreen[100],
-                          borderRadius: BorderRadius.only(
-                              topLeft:
-                                  Radius.circular(selectWeekDaysBorderRadius),
-                              topRight:
-                                  Radius.circular(selectWeekDaysBorderRadius)),
-                        ),
-                        days: getweekdaysList1(context),
-                        onSelect: (values) {
-                          setState(() {
-                            print(values);
-                            selectedweekdays1 = values;
-                            updateWeekdays1ToModel();
-                          });
-                        }),
-                    WeekdaysSelector(
-                        boxDecoration: BoxDecoration(
-                          color: Colors.lightGreen[100],
-                          borderRadius: BorderRadius.only(
-                              bottomLeft:
-                                  Radius.circular(selectWeekDaysBorderRadius),
-                              bottomRight:
-                                  Radius.circular(selectWeekDaysBorderRadius)),
-                        ),
-                        days: getweekdaysList2(context),
-                        onSelect: (values) {
-                          setState(() {
-                            print(values);
-                            selectedweekdays2 = values;
-                            updateWeekdays1ToModel();
-                          });
-                        }),
+                    Container(
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              color: buttonBorderColor,
+                              width: buttonBorderWidth),
+                          borderRadius: BorderRadius.circular(
+                              selectWeekDaysBorderRadius)),
+                      child: Column(mainAxisSize: MainAxisSize.min, children: [
+                        WeekdaysSelector(
+                            boxDecoration: BoxDecoration(
+                              color: Colors.green.shade50,
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(
+                                      selectWeekDaysBorderRadius),
+                                  topRight: Radius.circular(
+                                      selectWeekDaysBorderRadius)),
+                            ),
+                            days: getweekdaysList1(context),
+                            onSelect: (values) {
+                              setState(() {
+                                print(values);
+                                selectedweekdays1 = values;
+                                updateWeekdays1ToModel();
+                              });
+                            }),
+                        WeekdaysSelector(
+                            boxDecoration: BoxDecoration(
+                              color: Colors.green.shade50,
+                              borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(
+                                      selectWeekDaysBorderRadius),
+                                  bottomRight: Radius.circular(
+                                      selectWeekDaysBorderRadius)),
+                            ),
+                            days: getweekdaysList2(context),
+                            onSelect: (values) {
+                              setState(() {
+                                print(values);
+                                selectedweekdays2 = values;
+                                updateWeekdays1ToModel();
+                              });
+                            }),
+                      ]),
+                    ),
                   ]),
                 ),
                 Column(

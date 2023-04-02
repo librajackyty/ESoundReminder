@@ -67,7 +67,7 @@ final Color cardBorderColor = Colors.green[900]!;
 final List filterIconData = [
   Icons.calendar_month,
   Icons.date_range,
-  Icons.calendar_today,
+  Icons.event_busy,
   Icons.today,
   Icons.today,
   Icons.today,
