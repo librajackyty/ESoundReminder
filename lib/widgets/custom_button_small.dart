@@ -21,10 +21,10 @@ class _CusSButtonState extends State<CusSButton> {
   final ButtonStyle btnstyle = ElevatedButton.styleFrom(
     textStyle: const TextStyle(
         fontSize: textBtnSmallSize, fontWeight: FontWeight.bold),
-    minimumSize: const Size.fromHeight(40),
+    minimumSize: const Size.fromHeight(buttonHeightSmall),
     side: BorderSide(
-      color: Colors.green[900]!,
-      width: 1.0,
+      color: buttonBorderColor,
+      width: buttonBorderWidth,
     ),
   );
 

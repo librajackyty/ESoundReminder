@@ -172,16 +172,11 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text(widget.title),
-      // ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(safeAreaPaddingAll),
           child: Center(
             child: Column(
-              // mainAxisAlignment: MainAxisAlignment.center,
-              // crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 CusExSText("${Language.of(context)!.t("common_step")} (1/3)"),
                 CusSText(
@@ -211,104 +206,103 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
                         decoration: BoxDecoration(
                       border: Border(top: BorderSide()),
                     )),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: TextField(
-                            controller: _TEController,
-                            decoration: InputDecoration(
-                                contentPadding: EdgeInsets.zero,
-                                border: OutlineInputBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(16))),
-                                hintText: Language.of(context)!
-                                    .t("reminder_new1_inputhint"),
-                                hintStyle: TextStyle(color: Colors.black),
-                                prefixIcon: Icon(Icons.edit),
-                                suffixIcon: _TEController.text.isNotEmpty
-                                    ? IconButton(
-                                        onPressed: () {
-                                          _TEController.clear();
-                                        },
-                                        icon: Icon(
-                                          Icons.cancel_outlined,
-                                          size: 36,
-                                        ))
-                                    : null),
-                            onTap: () {
-                              setState(() {
-                                showActionArea = false;
-                              });
-                            },
-                            onSubmitted: (value) {
-                              debugPrint("onSubmitted: $value");
-                              inputTxtSubmit(value);
-                            },
+                    Container(
+                      padding: EdgeInsets.all(8),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: TextField(
+                              controller: _TEController,
+                              decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.zero,
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(16))),
+                                  hintText: Language.of(context)!
+                                      .t("reminder_new1_inputhint"),
+                                  hintStyle: TextStyle(color: Colors.black),
+                                  prefixIcon: Icon(Icons.edit),
+                                  suffixIcon: _TEController.text.isNotEmpty
+                                      ? IconButton(
+                                          onPressed: () {
+                                            _TEController.clear();
+                                          },
+                                          icon: Icon(
+                                            Icons.cancel_outlined,
+                                            size: 36,
+                                          ))
+                                      : null),
+                              onTap: () {
+                                setState(() {
+                                  showActionArea = false;
+                                });
+                              },
+                              onSubmitted: (value) {
+                                debugPrint("onSubmitted: $value");
+                                inputTxtSubmit(value);
+                              },
+                            ),
                           ),
-                        ),
-                        IconButton(
-                          onPressed: showActionArea
-                              ? null
-                              : () => inputTxtSubmit(_TEController.text),
-                          iconSize: 48,
-                          icon: Icon(
-                            Icons.check_circle_outline,
-                            color: showActionArea
-                                ? Colors.grey[400]
-                                : Colors.green[800],
-                          ),
-                        ),
-                      ],
+                          Visibility(
+                            visible: !showActionArea,
+                            child: IconButton(
+                              onPressed: showActionArea
+                                  ? null
+                                  : () => inputTxtSubmit(_TEController.text),
+                              iconSize: 48,
+                              icon: Icon(
+                                Icons.check_circle_outline,
+                                color: showActionArea
+                                    ? Colors.grey[400]
+                                    : Colors.green[800],
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                     Visibility(
                         visible: showActionArea,
                         child: const SizedBox(
                           height: 2,
                         )),
-                    Visibility(
-                      visible: showActionArea,
-                      child: Card(
-                        margin: const EdgeInsets.only(
-                            bottom: reminderCardBottomMargin),
-                        shape: RoundedRectangleBorder(
-                          side: BorderSide(
-                            color: Colors.greenAccent,
-                          ),
-                          borderRadius:
-                              BorderRadius.circular(cardsBorderRadius),
-                        ),
-                        elevation: cardsElevation,
-                        child: SizedBox(
-                          width: double.maxFinite,
-                          height: MediaQuery.of(context).size.height *
-                              reminderCardHeightRatio,
-
-                          child: ListView(
-                            padding: const EdgeInsets.all(12),
-                            children: [
-                              // CusSText("Selected medicine:"),
-                              Row(children: [
-                                Icon(Icons.medication_outlined),
-                                SizedBox(width: 6),
-                                CusSText(Language.of(context)!
-                                    .t("reminder_new1_selectedmedicine"))
-                              ]),
-                              const SizedBox(
-                                height: 8.0,
+                    AnimatedSize(
+                      duration: const Duration(milliseconds: 200),
+                      child: !(selectedMedicine.isNotEmpty && showActionArea)
+                          ? SizedBox.shrink()
+                          : Card(
+                              margin: const EdgeInsets.only(
+                                  bottom: reminderCardBottomMargin),
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(
+                                  color: Colors.greenAccent,
+                                ),
+                                borderRadius:
+                                    BorderRadius.circular(cardsBorderRadius),
                               ),
-                              ...medicineSelectedArea(selectedMedicine)
-                            ],
-                          ),
-
-                          // GridView.count(
-                          //     primary: false,
-                          //     padding: const EdgeInsets.all(10),
-                          //     crossAxisSpacing: 8,
-                          //     mainAxisSpacing: 8,
-                          //     crossAxisCount: 3,
-                          //     children: medicineSelectedArea(selectedMedicine)),
-                        ),
-                      ),
+                              elevation: cardsElevation,
+                              child: SizedBox(
+                                width: double.maxFinite,
+                                height: MediaQuery.of(context).size.height *
+                                    reminderCardHeightRatio,
+                                child: ListView(
+                                  padding: const EdgeInsets.all(12),
+                                  children: [
+                                    // CusSText("Selected medicine:"),
+                                    Row(children: [
+                                      Icon(Icons.medication_outlined),
+                                      SizedBox(width: 6),
+                                      CusSText(Language.of(context)!
+                                          .t("reminder_new1_selectedmedicine"))
+                                    ]),
+                                    const SizedBox(
+                                      height: 8.0,
+                                    ),
+                                    ...medicineSelectedArea(selectedMedicine)
+                                  ],
+                                ),
+                              ),
+                            ),
                     ),
                     Visibility(
                       visible: showActionArea,
@@ -326,7 +320,6 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
                             child: CusNButton(
                                 Language.of(context)!.t("common_next"),
                                 () => {
-                                      // Navigator.pop(context),
                                       if (selectedMedicine.isEmpty)
                                         {
                                           ScaffoldMessenger.of(context)

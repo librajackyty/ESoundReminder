@@ -30,9 +30,6 @@ class _LandingPageState extends State<LandingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text(widget.title),
-      // ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(safeAreaPaddingAll),

@@ -9,6 +9,7 @@ import '../models/reminder_screen_arg.dart';
 import '../providers/reminders/reminders_provider.dart';
 import '../utils/assetslink.dart';
 import '../utils/constants.dart';
+import '../utils/dialog.dart';
 import '../utils/formatter.dart';
 import '../widgets/custom_button_normal_back.dart';
 import '../widgets/custom_button_small.dart';
@@ -67,133 +68,81 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
   }
 
   void showConfirmDialog() {
-    showDialog<String>(
-      context: context,
-      builder: (BuildContext context) => AlertDialog(
-        icon: Lottie.asset(
-          assetslinkLottie('112180-paper-notebook-writing-animation'),
-          width: MediaQuery.of(context).size.width * 0.3,
-          height: MediaQuery.of(context).size.width * 0.3,
-        ),
+    showDialogLottie(context,
+        lottieFileName: '112180-paper-notebook-writing-animation',
         title: CusSText('${Language.of(context)!.t("common_save")}?'),
-        content: CusNText(
-            Language.of(context)!.t("reminder_detail_confirmquestion")),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () => Navigator.pop(context, 'NO'),
-            child: CusSText(Language.of(context)!.t("common_no")),
-          ),
-          TextButton(
-            onPressed: () async {
-              showLottieDialog("95029-success");
-              reminder = reminder.copyWith(
-                  reminderTitle:
-                      "${fromTimeToString(reminder.time1)} ${Language.of(context)?.t("localnotification_title")}",
-                  reminderDescription:
-                      "${Language.of(context)?.t("localnotification_subtitle")} - ${reminder.selectedMedicine.join(",")}");
-              final model = context.read<ReminderModel>();
-              await model.addReminder(reminder);
-              await Future.delayed(const Duration(seconds: 2));
-              if (context.mounted) {
-                backToHomePage();
-              }
-            },
-            child: CusSText(Language.of(context)!.t("common_yes")),
-          ),
-        ],
-      ),
-    );
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            CusNText(
+              Language.of(context)!.t("reminder_detail_confirmquestion"),
+              textAlign: TextAlign.center,
+            ),
+            const Divider(),
+            Column(
+              children: [
+                Lottie.asset(
+                  assetslinkLottie('92326-warning-red'),
+                  width: 30,
+                  height: 30,
+                ),
+                CusSText(
+                  Language.of(context)!.t("reminder_detail_notice"),
+                  textAlign: TextAlign.center,
+                )
+              ],
+            )
+          ],
+        ),
+        noBtnOnPressed: () => Navigator.pop(context, 'NO'),
+        yesBtnOnPressed: () async {
+          showDialogLottieIcon(context, lottieFileName: "95029-success");
+          reminder = reminder.copyWith(
+              reminderTitle:
+                  "${fromTimeToString(reminder.time1)} ${Language.of(context)?.t("localnotification_title")}",
+              reminderDescription:
+                  "${Language.of(context)?.t("localnotification_subtitle")} - ${reminder.selectedMedicine.join(",")}");
+          final model = context.read<ReminderModel>();
+          await model.addReminder(reminder);
+          await Future.delayed(const Duration(seconds: 2));
+          if (context.mounted) {
+            backToHomePage();
+          }
+        });
   }
 
   void showCancelDialog() {
-    showDialog<String>(
-      context: context,
-      builder: (BuildContext context) => AlertDialog(
-        icon: Lottie.asset(
-          assetslinkLottie('131686-deleted'),
-          width: MediaQuery.of(context).size.width * 0.3,
-          height: MediaQuery.of(context).size.width * 0.3,
-        ),
+    showDialogLottie(context,
+        lottieFileName: '117330-warning',
         title: CusSText('${Language.of(context)!.t("common_cancel")}?'),
-        content:
-            CusNText(Language.of(context)!.t("reminder_detail_cancelquestion")),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () => Navigator.pop(context, 'NO'),
-            child: CusSText(Language.of(context)!.t("common_no")),
-          ),
-          TextButton(
-            onPressed: () async {
-              showLottieDialog("95029-success");
-              await Future.delayed(const Duration(seconds: 2));
-              backToHomePage();
-            },
-            child: CusSText(Language.of(context)!.t("common_yes")),
-          ),
-        ],
-      ),
-    );
+        content: CusNText(
+          Language.of(context)!.t("reminder_detail_cancelquestion"),
+          textAlign: TextAlign.center,
+        ),
+        noBtnOnPressed: () => Navigator.pop(context, 'NO'),
+        yesBtnOnPressed: () async {
+          backToHomePage();
+        });
   }
 
   void showDeleteDialog() {
-    showDialog<String>(
-      context: context,
-      builder: (BuildContext context) => AlertDialog(
-        icon: Lottie.asset(
-          assetslinkLottie('131686-deleted'),
-          width: MediaQuery.of(context).size.width * 0.3,
-          height: MediaQuery.of(context).size.width * 0.3,
-        ),
+    showDialogLottie(context,
+        lottieFileName: '131686-deleted',
         title: CusSText('${Language.of(context)!.t("common_delete")}?'),
-        content:
-            CusNText(Language.of(context)!.t("reminder_detail_deletequestion")),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () => Navigator.pop(context, 'NO'),
-            child: CusSText(Language.of(context)!.t("common_no")),
-          ),
-          TextButton(
-            onPressed: () async {
-              showLottieDialog("95029-success");
-              final model = context.read<ReminderModel>();
-              await model.deleteReminder(reminder, index);
-              await Future.delayed(const Duration(seconds: 2));
-              if (context.mounted) {
-                backToHomePage();
-              }
-            },
-            child: CusSText(Language.of(context)!.t("common_yes")),
-          ),
-        ],
-      ),
-    );
-  }
-
-  void showLottieDialog(String lottiefileName,
-      {Function? onLoaded, repeat = false}) {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) {
-        return AlertDialog(
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Lottie.asset(
-                assetslinkLottie(lottiefileName),
-                repeat: repeat,
-                width: MediaQuery.of(context).size.width * 0.5,
-                height: MediaQuery.of(context).size.width * 0.5,
-                onLoaded: (p0) {
-                  debugPrint("ani loaded");
-                  onLoaded != null ? onLoaded() : () {};
-                },
-              ),
-            ],
-          ),
-        );
-      },
-    );
+        content: CusNText(
+          Language.of(context)!.t("reminder_detail_deletequestion"),
+          textAlign: TextAlign.center,
+        ),
+        noBtnOnPressed: () => Navigator.pop(context, 'NO'),
+        yesBtnOnPressed: () async {
+          showDialogLottieIcon(context, lottieFileName: "95029-success");
+          final model = context.read<ReminderModel>();
+          await model.deleteReminder(reminder, index);
+          await Future.delayed(const Duration(seconds: 2));
+          if (context.mounted) {
+            backToHomePage();
+          }
+        });
   }
 
   void backToHomePage() {

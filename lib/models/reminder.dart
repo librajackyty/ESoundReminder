@@ -22,6 +22,8 @@ class Reminder {
   String? reminderNotes;
   @HiveField(7)
   final List selectedMedicine;
+  @HiveField(8)
+  late final DateTime createTime;
 
   Reminder(
       {int? id,
@@ -29,8 +31,10 @@ class Reminder {
       required this.weekdays1,
       required this.reminderTitle,
       required this.selectedMedicine,
-      this.reminderDescription}) {
+      this.reminderDescription,
+      DateTime? createTime}) {
     this.id = id ?? Random.secure().nextInt(10000 - 1000) + 1000;
+    this.createTime = createTime ?? DateTime.now();
   }
 
   Reminder copyWith({
