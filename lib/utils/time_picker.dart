@@ -147,6 +147,7 @@ void showDayNightTimePicker(BuildContext context, TimeOfDay initialTime,
     String? cancelText,
     String? hourLabel,
     String? minuteLabel,
+    TimePickerInterval minuteInterval = TimePickerInterval.ONE,
     bool iosStylePicker = false}) {
   Navigator.of(context).push(showPicker(
       context: context,
@@ -164,7 +165,7 @@ void showDayNightTimePicker(BuildContext context, TimeOfDay initialTime,
       blurredBackground: true,
       borderRadius: cardsBorderRadius,
       disableAutoFocusToNextInput: true,
-      minuteInterval: TimePickerInterval.FIVE,
+      minuteInterval: minuteInterval,
       iosStylePicker: iosStylePicker,
       onChange: (time) {
         debugPrint("time changed: ${time.hour}:${time.minute}");
