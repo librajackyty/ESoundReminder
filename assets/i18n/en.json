@@ -50,6 +50,7 @@
     "reminder_new2_setrepeat4": "Repeat Everyday",
     "reminder_new2_timepicker_help": "Select Time",
     "reminder_new2_timepicker_error": "Enter a valid time",
+    "reminder_new2_allrepeat": "Repeat All",
 
     "reminder_detail_title": "Remind Taking Medicine",
     "reminder_detail_msg": "Please confirm below settings & press 'Save'",

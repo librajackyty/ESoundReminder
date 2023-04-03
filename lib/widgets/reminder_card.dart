@@ -1,4 +1,3 @@
-import 'package:day_picker/model/day_in_week.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 

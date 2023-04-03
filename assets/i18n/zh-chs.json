@@ -50,6 +50,7 @@
     "reminder_new2_setrepeat4": "每天重复",
     "reminder_new2_timepicker_help": "选择时间",
     "reminder_new2_timepicker_error": "输入有效时间",
+    "reminder_new2_allrepeat": "全部重复",
 
     "reminder_detail_title": "提醒食藥",
     "reminder_detail_msg": "请确认以下设定,然后按'保存'",
