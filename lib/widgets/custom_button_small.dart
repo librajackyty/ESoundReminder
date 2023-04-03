@@ -47,7 +47,12 @@ class _CusSButtonState extends State<CusSButton> {
           widget.onPressed?.call();
           runHapticSound();
         },
-        label: Text(widget.text),
+        label: Text(
+          widget.text,
+          textAlign: TextAlign.center,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+        ),
       );
     }
     return ElevatedButton(
@@ -59,6 +64,8 @@ class _CusSButtonState extends State<CusSButton> {
       child: Text(
         widget.text,
         textAlign: TextAlign.center,
+        maxLines: 2,
+        overflow: TextOverflow.ellipsis,
       ),
     );
   }

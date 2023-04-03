@@ -46,7 +46,12 @@ class _CusSBackButtonState extends State<CusSBackButton> {
           widget.onPressed?.call();
           runHapticSound();
         },
-        label: Text(widget.text),
+        label: Text(
+          widget.text,
+          textAlign: TextAlign.center,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
       );
     }
     return ElevatedButton(
@@ -58,6 +63,8 @@ class _CusSBackButtonState extends State<CusSBackButton> {
       child: Text(
         widget.text,
         textAlign: TextAlign.center,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
       ),
     );
   }

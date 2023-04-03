@@ -20,20 +20,21 @@ class _CusNBackButtonState extends State<CusNBackButton> {
   VoidCallback? onPressed;
   Widget? icon;
 
-  final ButtonStyle backstyle = ElevatedButton.styleFrom(
-    foregroundColor: buttonForegroundColor2,
-    textStyle: const TextStyle(fontSize: textBtnSize),
-    minimumSize: const Size.fromHeight(buttonHeight),
-    side: BorderSide(
-      color: buttonBorderColor2,
-      width: buttonBorderWidth,
-    ),
-  );
-
   _CusNBackButtonState(this.text, this.onPressed, this.icon);
 
   @override
   Widget build(BuildContext context) {
+    ButtonStyle backstyle = ElevatedButton.styleFrom(
+      padding: EdgeInsets.fromLTRB(16, 8, 16, 8),
+      foregroundColor: buttonForegroundColor2,
+      textStyle: const TextStyle(fontSize: textBtnSize),
+      minimumSize: const Size.fromHeight(buttonHeight),
+      side: BorderSide(
+        color: buttonBorderColor2,
+        width: buttonBorderWidth,
+      ),
+    );
+
     if (widget.icon != null) {
       return ElevatedButton.icon(
         icon: widget.icon!,
@@ -42,7 +43,11 @@ class _CusNBackButtonState extends State<CusNBackButton> {
           widget.onPressed?.call();
           runHapticSound();
         },
-        label: Text(widget.text),
+        label: Text(
+          widget.text,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
       );
     }
     return ElevatedButton(
@@ -51,7 +56,11 @@ class _CusNBackButtonState extends State<CusNBackButton> {
         widget.onPressed?.call();
         runHapticSound();
       },
-      child: Text(widget.text),
+      child: Text(
+        widget.text,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      ),
     );
   }
 }

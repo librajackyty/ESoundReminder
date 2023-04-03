@@ -30,25 +30,24 @@ class _CusNButtonState extends State<CusNButton> {
 
   @override
   Widget build(BuildContext context) {
-    ButtonStyle btnStyle() {
-      return ElevatedButton.styleFrom(
-        backgroundColor: readOnly ? buttonReadOnlyColor : null,
-        surfaceTintColor: readOnly ? buttonReadOnlyColor : null,
-        foregroundColor: readOnly ? buttonReadOnlyForegroundColor : null,
-        textStyle:
-            const TextStyle(fontSize: textBtnSize, fontWeight: FontWeight.bold),
-        minimumSize: const Size.fromHeight(buttonHeight),
-        side: BorderSide(
-          color: buttonBorderColor,
-          width: readOnly ? buttonBorderWidthReadOnly : buttonBorderWidth,
-        ),
-      );
-    }
+    ButtonStyle btnStyle = ElevatedButton.styleFrom(
+      padding: EdgeInsets.fromLTRB(16, 8, 16, 8),
+      backgroundColor: readOnly ? buttonReadOnlyColor : null,
+      surfaceTintColor: readOnly ? buttonReadOnlyColor : null,
+      foregroundColor: readOnly ? buttonReadOnlyForegroundColor : null,
+      textStyle:
+          const TextStyle(fontSize: textBtnSize, fontWeight: FontWeight.bold),
+      minimumSize: const Size.fromHeight(buttonHeight),
+      side: BorderSide(
+        color: buttonBorderColor,
+        width: readOnly ? buttonBorderWidthReadOnly : buttonBorderWidth,
+      ),
+    );
 
     if (widget.icon != null) {
       return ElevatedButton.icon(
         icon: widget.icon!,
-        style: btnStyle(),
+        style: btnStyle,
         onPressed: disabled
             ? null
             : () {
@@ -56,11 +55,15 @@ class _CusNButtonState extends State<CusNButton> {
                 widget.onPressed?.call();
                 runHapticSound();
               },
-        label: Text(widget.text),
+        label: Text(
+          widget.text,
+          maxLines: readOnly ? 3 : 2,
+          overflow: TextOverflow.ellipsis,
+        ),
       );
     }
     return ElevatedButton(
-      style: btnStyle(),
+      style: btnStyle,
       onPressed: disabled
           ? null
           : () {
@@ -68,7 +71,11 @@ class _CusNButtonState extends State<CusNButton> {
               widget.onPressed?.call();
               runHapticSound();
             },
-      child: Text(widget.text),
+      child: Text(
+        widget.text,
+        maxLines: readOnly ? 3 : 2,
+        overflow: TextOverflow.ellipsis,
+      ),
     );
   }
 }
