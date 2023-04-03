@@ -1,5 +1,4 @@
 import 'package:day_night_time_picker/day_night_time_picker.dart';
-import 'package:day_picker/day_picker.dart';
 import 'package:e_sound_reminder_app/widgets/custom_text_title.dart';
 import 'package:flutter/material.dart';
 
@@ -9,13 +8,17 @@ import '../models/reminder_screen_arg.dart';
 import '../utils/constants.dart';
 import '../utils/formatter.dart';
 import '../utils/time_picker.dart';
+import '../widgets/ani_progress_bar.dart';
 import '../widgets/custom_button_normal.dart';
 import '../widgets/custom_button_normal_back.dart';
 import '../widgets/custom_button_small.dart';
+import '../widgets/custom_card_container.dart';
+import '../widgets/custom_labeled_switch.dart';
 import '../widgets/custom_scroll_bar.dart';
 import '../widgets/custom_text_normal.dart';
 import '../widgets/custom_text_small.dart';
 import '../widgets/custom_text_small_ex.dart';
+import '../widgets/reminder_header.dart';
 import '../widgets/reminder_weekdays.dart';
 import '../widgets/reminder_weekdays_display.dart';
 import '../widgets/time_section_display.dart';
@@ -32,7 +35,8 @@ class ReminderNewPage2 extends StatefulWidget {
 
 class _ReminderNewPage2State extends State<ReminderNewPage2> {
   // Data
-
+  double progressIdx = 0;
+  double progressIdxStep1 = 50;
   DateTime _fromDate = DateTime.now();
   TimeOfDay timeMorning = TimeOfDay.now(); //TimeOfDay(hour: 6, minute: 0);
   TimeOfDay timeNoon = TimeOfDay(hour: 12, minute: 0);
@@ -56,20 +60,29 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
   List selectedweekdays2 = ['Thursday', 'Friday', 'Saturday', 'Sunday'];
 
   // UI rendering
+  List<bool> weekdaysList1Selected = [true, true, true];
   List<DayInWeek> getweekdaysList1(BuildContext context) {
     return [
-      DayInWeek(Language.of(context)!.t("week_mon"), isSelected: true),
-      DayInWeek(Language.of(context)!.t("week_tue"), isSelected: true),
-      DayInWeek(Language.of(context)!.t("week_wed"), isSelected: true),
+      DayInWeek(Language.of(context)!.t("week_mon"),
+          isSelected: weekdaysList1Selected[0]),
+      DayInWeek(Language.of(context)!.t("week_tue"),
+          isSelected: weekdaysList1Selected[1]),
+      DayInWeek(Language.of(context)!.t("week_wed"),
+          isSelected: weekdaysList1Selected[2]),
     ];
   }
 
+  List<bool> weekdaysList2Selected = [true, true, true, true];
   List<DayInWeek> getweekdaysList2(BuildContext context) {
     return [
-      DayInWeek(Language.of(context)!.t("week_thu"), isSelected: true),
-      DayInWeek(Language.of(context)!.t("week_fri"), isSelected: true),
-      DayInWeek(Language.of(context)!.t("week_sat"), isSelected: true),
-      DayInWeek(Language.of(context)!.t("week_sun"), isSelected: true),
+      DayInWeek(Language.of(context)!.t("week_thu"),
+          isSelected: weekdaysList2Selected[0]),
+      DayInWeek(Language.of(context)!.t("week_fri"),
+          isSelected: weekdaysList2Selected[1]),
+      DayInWeek(Language.of(context)!.t("week_sat"),
+          isSelected: weekdaysList2Selected[2]),
+      DayInWeek(Language.of(context)!.t("week_sun"),
+          isSelected: weekdaysList2Selected[3]),
     ];
   }
 
@@ -80,15 +93,48 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
   }
 
   void updateWeekdays1ToModel() {
-    List<int> newWeekdays = [];
+    debugPrint("updateWeekdays1ToModel ================");
+    List<int> newWeekdays = List.empty(growable: true);
+    weekdaysList1Selected = List.filled(3, false);
     for (var day in selectedweekdays1) {
-      newWeekdays.add(fromStringToWeekday(day));
+      int intWD = fromStringToWeekday(day);
+      newWeekdays.add(intWD);
+      weekdaysList1Selected[intWD - 1] = true;
     }
+    weekdaysList2Selected = List.filled(4, false);
     for (var day in selectedweekdays2) {
-      newWeekdays.add(fromStringToWeekday(day));
+      int intWD = fromStringToWeekday(day);
+      newWeekdays.add(intWD);
+      weekdaysList2Selected[intWD - 4] = true;
     }
+    debugPrint("weekdaysList1Selected ${weekdaysList1Selected.toString()}");
+    debugPrint("weekdaysList2Selected ${weekdaysList2Selected.toString()}");
     newWeekdays.sort((a, b) => a.compareTo(b));
     reminder = reminder.copyWith(weekdays1: newWeekdays);
+    debugPrint("updateWeekdays1ToModel ================");
+  }
+
+  void updateWeekDaysByOnce(bool all) {
+    debugPrint("updateWeekDaysByOnce ================");
+    if (all) {
+      selectedweekdays1 = [
+        Language.of(context)!.t("week_mon"),
+        Language.of(context)!.t("week_tue"),
+        Language.of(context)!.t("week_wed")
+      ];
+      selectedweekdays2 = [
+        Language.of(context)!.t("week_thu"),
+        Language.of(context)!.t("week_fri"),
+        Language.of(context)!.t("week_sat"),
+        Language.of(context)!.t("week_sun")
+      ];
+    } else {
+      selectedweekdays1 = List.empty(growable: true);
+      selectedweekdays2 = List.empty(growable: true);
+    }
+    debugPrint("selectedweekdays1 : ${selectedweekdays1.toString()}");
+    debugPrint("selectedweekdays2 : ${selectedweekdays2.toString()}");
+    updateWeekdays1ToModel();
   }
 
   // UI
@@ -144,26 +190,34 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
     updateTime1ToModel(timeMorning);
     updateWeekdays1ToModel();
     super.initState();
+    Future.delayed(const Duration(milliseconds: progressBarDelayShowTime))
+        .then((value) => setState(() {
+              progressIdx = progressIdxStep1;
+            }));
+
+    // _isSelectedEveryday.addListener(() {
+    //   debugPrint("_isSelectedEveryday val changes");
+    //   setState(() {
+    //     updateWeekDaysByOnce();
+    //   });
+    // });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text(widget.title),
-      // ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(safeAreaPaddingAll),
           child: Center(
             child: Column(
               children: <Widget>[
-                CusExSText("${Language.of(context)!.t("common_step")} (2/3)"),
-                CusSText(
-                  Language.of(context)!.t("reminder_new2_msg"),
-                  textAlign: TextAlign.center,
+                ReminderHeader(
+                  progressText:
+                      "${Language.of(context)!.t("common_step")} ( 2 / 3 )",
+                  progressValue: progressIdx,
+                  headerText: Language.of(context)!.t("reminder_new2_msg"),
                 ),
-                const Divider(),
                 Expanded(
                   child: ListView(children: [
                     CusSText(
@@ -178,91 +232,18 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                     const SizedBox(
                       height: 12,
                     ),
-                    // CusNButton(
-                    //   "Setting Date",
-                    //   () async {
-                    //     DateTime? newdate = await showDatePicker(
-                    //         context: context,
-                    //         initialDate: date,
-                    //         firstDate: date,
-                    //         lastDate: date.add(const Duration(days: 300)),
-                    //         initialEntryMode: DatePickerEntryMode.calendarOnly,
-                    //         builder: (context, child) {
-                    //           return Theme(
-                    //             data: Theme.of(context).copyWith(
-                    //               textButtonTheme: TextButtonThemeData(
-                    //                 style: TextButton.styleFrom(
-                    //                   textStyle: TextStyle(
-                    //                       fontSize: 20,
-                    //                       fontWeight: FontWeight.bold),
-                    //                 ),
-                    //               ),
-                    //             ),
-                    //             child: child!,
-                    //           );
-                    //         });
-                    //     if (newdate == null) return;
-
-                    //     setState(() => date = newdate);
-                    //   },
-                    //   icon: Icon(Icons.edit_calendar),
-                    // ),
-                    // const SizedBox(
-                    //   height: 20,
-                    // ),
-                    // Visibility(
-                    //     maintainSize: true,
-                    //     maintainAnimation: true,
-                    //     maintainState: true,
-                    //     visible: setMorning,
-                    //     child: CusNButton(
-                    //       "Select Time (Morning)",
-                    //       () async {
-                    //         TimeOfDay? newtime = await showTimePicker(
-                    //             context: context,
-                    //             initialTime: timeMorning,
-                    //             initialEntryMode:
-                    //                 TimePickerEntryMode.dialOnly);
-                    //         if (newtime == null) return;
-
-                    //         setState(() => timeMorning = newtime);
-                    //       },
-                    //       icon: Icon(Icons.alarm_add),
-                    //     )),
-                    // const SizedBox(
-                    //   height: 20,
-                    // ),
-                    // CusNButton(
-                    //   "Select Time (Noon)",
-                    //   () async {
-                    //     TimeOfDay? newtime = await showTimePicker(
-                    //         context: context,
-                    //         initialTime: timeNoon,
-                    //         initialEntryMode: TimePickerEntryMode.dialOnly);
-                    //     if (newtime == null) return;
-
-                    //     setState(() => timeNoon = newtime);
-                    //   },
-                    //   icon: Icon(Icons.alarm_add),
-                    // ),
-                    // const SizedBox(
-                    //   height: 20,
-                    // ),
-                    // CusNButton(
-                    //   "Select Time (Night)",
-                    //   () async {
-                    //     TimeOfDay? newtime = await showTimePicker(
-                    //         context: context,
-                    //         initialTime: timeNight,
-                    //         initialEntryMode: TimePickerEntryMode.dialOnly);
-                    //     if (newtime == null) return;
-
-                    //     setState(() => timeNight = newtime);
-                    //   },
-                    //   icon: Icon(Icons.alarm_add),
-                    // )
-                    CusSText(
-                      Language.of(context)!.t("reminder_new2_setrepeat1"),
+                    LabeledSwitch(
+                      label:
+                          Language.of(context)!.t("reminder_new2_setrepeat1"),
+                      labelRight:
+                          Language.of(context)!.t("reminder_new2_allrepeat"),
+                      value: reminder.weekdays1.length == 7,
+                      onChanged: (bool newValue) {
+                        debugPrint('LabeledSwitch : val = $newValue');
+                        setState(() {
+                          updateWeekDaysByOnce(newValue);
+                        });
+                      },
                     ),
                     Container(
                       decoration: BoxDecoration(
@@ -284,8 +265,10 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                             days: getweekdaysList1(context),
                             onSelect: (values) {
                               setState(() {
-                                print(values);
-                                selectedweekdays1 = values;
+                                debugPrint(values.toString());
+                                selectedweekdays1 = List.from(values);
+                                debugPrint(
+                                    "selectedweekdays1 ${selectedweekdays1.toString()}");
                                 updateWeekdays1ToModel();
                               });
                             }),
@@ -301,8 +284,10 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                             days: getweekdaysList2(context),
                             onSelect: (values) {
                               setState(() {
-                                print(values);
-                                selectedweekdays2 = values;
+                                debugPrint(values.toString());
+                                selectedweekdays2 = List.from(values);
+                                debugPrint(
+                                    "selectedweekdays2 ${selectedweekdays2.toString()}");
                                 updateWeekdays1ToModel();
                               });
                             }),
@@ -313,22 +298,11 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                 Column(
                   children: [
                     Container(
-                        margin: EdgeInsets.only(top: 8),
                         padding: EdgeInsets.all(8),
                         decoration: BoxDecoration(
                           border: Border(top: BorderSide()),
                         )),
-                    Card(
-                        margin: const EdgeInsets.only(
-                            bottom: reminderCardBottomMargin),
-                        shape: RoundedRectangleBorder(
-                          side: BorderSide(
-                            color: Colors.greenAccent,
-                          ),
-                          borderRadius:
-                              BorderRadius.circular(cardsBorderRadius),
-                        ),
-                        elevation: cardsElevation,
+                    CusCardContainer(
                         child: SizedBox(
                             height: MediaQuery.of(context).size.height *
                                 reminderCardHeightRatio,

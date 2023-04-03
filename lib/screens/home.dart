@@ -13,6 +13,7 @@ import '../providers/reminders/reminders_state.dart';
 import '../utils/assetslink.dart';
 import '../utils/constants.dart' as constants;
 import '../utils/constants.dart';
+import '../utils/feedback.dart';
 import '../utils/formatter.dart';
 import '../widgets/custom_list_item.dart';
 import '../widgets/custom_scroll_bar.dart';
@@ -155,8 +156,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         floatingActionButton: ScaleTransition(
           scale: animationFAB,
           child: FloatingActionButton.large(
-              onPressed: () =>
-                  Navigator.pushNamed(context, pageRouteReminderNew),
+              onPressed: () => {
+                    runHapticSound(type: HapticFeedbackType.medium),
+                    Navigator.pushNamed(context, pageRouteReminderNew)
+                  },
               elevation: 20.0,
               backgroundColor: Colors.green[500],
               tooltip: Language.of(context)!.t("home_add_tip"),
@@ -193,10 +196,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         width: 55,
                         height: 55,
                       ),
-                      CusSText(Language.of(context)!.t(listFilterBtnStrKey))
+                      CusSText(
+                        Language.of(context)!.t(listFilterBtnStrKey),
+                        textAlign: TextAlign.center,
+                      )
                     ],
                   ),
-                  onPressed: () => showFilterSelection(),
+                  onPressed: () => {runHapticSound(), showFilterSelection()},
                 )),
                 Expanded(child: const SizedBox()),
                 Expanded(
@@ -209,11 +215,16 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         width: 55,
                         height: 55,
                       ),
-                      CusSText(Language.of(context)!.t("settings_title"))
+                      CusSText(
+                        Language.of(context)!.t("settings_title"),
+                        textAlign: TextAlign.center,
+                      )
                     ],
                   ),
-                  onPressed: () =>
-                      Navigator.pushNamed(context, constants.pageRouteSettings),
+                  onPressed: () => {
+                    runHapticSound(),
+                    Navigator.pushNamed(context, constants.pageRouteSettings)
+                  },
                 ))
               ],
             ),
@@ -343,7 +354,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       ),
     ];
     return Column(
-      // mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         ListView(

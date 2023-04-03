@@ -1,4 +1,5 @@
 import 'package:day_night_time_picker/day_night_time_picker.dart';
+import 'package:e_sound_reminder_app/utils/feedback.dart';
 import 'package:flutter/material.dart';
 
 import 'constants.dart';
@@ -132,13 +133,15 @@ final btnStyle = ButtonStyle(
     padding: MaterialStatePropertyAll(EdgeInsets.all(elementSSPadding)),
     side: MaterialStateBorderSide.resolveWith((states) =>
         BorderSide(color: buttonBorderColor, width: buttonBorderWidth)),
-    minimumSize: MaterialStatePropertyAll(Size(120, buttonHeightSmall)),
+    minimumSize:
+        MaterialStatePropertyAll(Size(buttonWidthSmall, buttonHeightSmall)),
     fixedSize: MaterialStatePropertyAll(Size.fromHeight(buttonHeightSmall)));
 final cancelBtnStyle = ButtonStyle(
     padding: MaterialStatePropertyAll(EdgeInsets.all(elementSSPadding)),
     side: MaterialStateBorderSide.resolveWith((states) =>
         BorderSide(color: buttonBorderColor2, width: buttonBorderWidth)),
-    minimumSize: MaterialStatePropertyAll(Size(120, buttonHeightSmall)),
+    minimumSize:
+        MaterialStatePropertyAll(Size(buttonWidthSmall, buttonHeightSmall)),
     fixedSize: MaterialStatePropertyAll(Size.fromHeight(buttonHeightSmall)));
 
 void showDayNightTimePicker(BuildContext context, TimeOfDay initialTime,
@@ -169,6 +172,8 @@ void showDayNightTimePicker(BuildContext context, TimeOfDay initialTime,
       iosStylePicker: iosStylePicker,
       onChange: (time) {
         debugPrint("time changed: ${time.hour}:${time.minute}");
+        runHapticSound();
       },
+      onCancel: () => {runHapticSound(), Navigator.pop(context)},
       onChangeDateTime: onChangeDateTime));
 }

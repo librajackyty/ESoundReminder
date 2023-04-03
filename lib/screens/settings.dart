@@ -67,14 +67,11 @@ class _SettingsPageState extends State<SettingsPage> {
                             }),
                           ])),
                 ),
-                // Expanded(
-                //   child:
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: CusNBackButton(Language.of(context)!.t("common_back"),
                       () => {Navigator.pop(context)}),
                 ),
-                // ),
               ],
             ),
           ),

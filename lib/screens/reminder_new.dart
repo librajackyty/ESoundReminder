@@ -1,16 +1,21 @@
+import 'package:e_sound_reminder_app/utils/feedback.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animation_progress_bar/flutter_animation_progress_bar.dart';
 
 import '../models/language.dart';
 import '../models/reminder.dart';
 import '../models/reminder_screen_arg.dart';
 import '../utils/constants.dart';
+import '../widgets/ani_progress_bar.dart';
 import '../widgets/custom_button_normal.dart';
 import '../widgets/custom_button_normal_back.dart';
 import '../widgets/custom_button_small.dart';
+import '../widgets/custom_card_container.dart';
 import '../widgets/custom_scroll_bar.dart';
 import '../widgets/custom_text_normal.dart';
 import '../widgets/custom_text_small.dart';
 import '../widgets/custom_text_small_ex.dart';
+import '../widgets/reminder_header.dart';
 
 class ReminderNewPage extends StatefulWidget {
   const ReminderNewPage({super.key, required this.title, this.arg});
@@ -24,6 +29,9 @@ class ReminderNewPage extends StatefulWidget {
 
 class _ReminderNewPageState extends State<ReminderNewPage> {
   // Data
+  double progressIdx = 0;
+  double progressIdxStep1 = 20;
+  double progressIdxStep2 = 33;
   late Reminder reminder = widget.arg?.reminder ??
       Reminder(
           reminderTitle: "",
@@ -134,6 +142,9 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
           setState(() {
             selectedMedicine.remove("$medicine");
             updateSelectedMedicineToModel(selectedMedicine);
+            if (progressIdx >= progressIdxStep2) {
+              progressIdx = progressIdxStep1;
+            }
           });
         },
         icon: Icon(Icons.cancel),
@@ -151,21 +162,44 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
       // }
       selectedMedicine = ["$medicine"];
       updateSelectedMedicineToModel(selectedMedicine);
+      if (progressIdx < progressIdxStep2) {
+        progressIdx = progressIdxStep2;
+      }
     });
   }
 
-  var _TEController = TextEditingController();
+  var _txtFController = TextEditingController();
+  bool _wasEmpty = true;
+  var maxLength = 30;
+  var textLength = 0;
 
   void inputTxtSubmit(String val) async {
     debugPrint("inputTxtSubmit: $val");
+    runHapticSound();
     FocusManager.instance.primaryFocus?.unfocus();
-    if (val.isNotEmpty) {
-      updateSelectedMedicine(val);
+    if (val.trim().isNotEmpty) {
+      updateSelectedMedicine(val.trim());
     }
     await Future.delayed(const Duration(milliseconds: 800));
-    _TEController.clear();
+    _txtFController.clear();
     setState(() {
       showActionArea = true;
+      textLength = _txtFController.text.length;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(const Duration(milliseconds: progressBarDelayShowTime))
+        .then((value) => setState(() {
+              progressIdx = progressIdxStep1;
+            }));
+    _wasEmpty = _txtFController.text.isEmpty;
+    _txtFController.addListener(() {
+      if (_wasEmpty != _txtFController.text.isEmpty) {
+        setState(() => {_wasEmpty = _txtFController.text.isEmpty});
+      }
     });
   }
 
@@ -178,12 +212,12 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
           child: Center(
             child: Column(
               children: <Widget>[
-                CusExSText("${Language.of(context)!.t("common_step")} (1/3)"),
-                CusSText(
-                  Language.of(context)!.t("reminder_new1_msg"),
-                  textAlign: TextAlign.center,
+                ReminderHeader(
+                  progressText:
+                      "${Language.of(context)!.t("common_step")} ( 1 / 3 )",
+                  progressValue: progressIdx,
+                  headerText: Language.of(context)!.t("reminder_new1_msg"),
                 ),
-                const Divider(),
                 Expanded(
                   child: Language.currentLocale(context) == Language.codeEnglish
                       ? SingleChildScrollView(
@@ -207,13 +241,15 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
                       border: Border(top: BorderSide()),
                     )),
                     Container(
-                      padding: EdgeInsets.all(8),
+                      padding: EdgeInsets.symmetric(vertical: 8),
                       child: Row(
                         children: [
                           Expanded(
                             child: TextField(
-                              controller: _TEController,
+                              maxLength: maxLength,
+                              controller: _txtFController,
                               decoration: InputDecoration(
+                                  counterText: "",
                                   contentPadding: EdgeInsets.zero,
                                   border: OutlineInputBorder(
                                       borderRadius: BorderRadius.all(
@@ -221,18 +257,33 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
                                   hintText: Language.of(context)!
                                       .t("reminder_new1_inputhint"),
                                   hintStyle: TextStyle(color: Colors.black),
-                                  prefixIcon: Icon(Icons.edit),
-                                  suffixIcon: _TEController.text.isNotEmpty
+                                  prefixIcon:
+                                      showActionArea ? Icon(Icons.edit) : null,
+                                  prefixText: showActionArea
+                                      ? ''
+                                      : '  ${textLength.toString()}/${maxLength.toString()} ',
+                                  suffixIcon: _txtFController.text.isNotEmpty
                                       ? IconButton(
                                           onPressed: () {
-                                            _TEController.clear();
+                                            _txtFController.clear();
+                                            setState(() {
+                                              textLength =
+                                                  _txtFController.text.length;
+                                            });
+                                            runHapticSound();
                                           },
                                           icon: Icon(
                                             Icons.cancel_outlined,
-                                            size: 36,
+                                            size: 32,
                                           ))
                                       : null),
+                              onChanged: (value) {
+                                setState(() {
+                                  textLength = value.length;
+                                });
+                              },
                               onTap: () {
+                                runHapticSound();
                                 setState(() {
                                   showActionArea = false;
                                 });
@@ -248,7 +299,7 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
                             child: IconButton(
                               onPressed: showActionArea
                                   ? null
-                                  : () => inputTxtSubmit(_TEController.text),
+                                  : () => inputTxtSubmit(_txtFController.text),
                               iconSize: 48,
                               icon: Icon(
                                 Icons.check_circle_outline,
@@ -270,17 +321,7 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
                       duration: const Duration(milliseconds: 200),
                       child: !(selectedMedicine.isNotEmpty && showActionArea)
                           ? SizedBox.shrink()
-                          : Card(
-                              margin: const EdgeInsets.only(
-                                  bottom: reminderCardBottomMargin),
-                              shape: RoundedRectangleBorder(
-                                side: BorderSide(
-                                  color: Colors.greenAccent,
-                                ),
-                                borderRadius:
-                                    BorderRadius.circular(cardsBorderRadius),
-                              ),
-                              elevation: cardsElevation,
+                          : CusCardContainer(
                               child: SizedBox(
                                 width: double.maxFinite,
                                 height: MediaQuery.of(context).size.height *
@@ -288,7 +329,6 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
                                 child: ListView(
                                   padding: const EdgeInsets.all(12),
                                   children: [
-                                    // CusSText("Selected medicine:"),
                                     Row(children: [
                                       Icon(Icons.medication_outlined),
                                       SizedBox(width: 6),

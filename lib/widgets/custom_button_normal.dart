@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../utils/constants.dart';
+import '../utils/feedback.dart';
 
 class CusNButton extends StatefulWidget {
   final String text;
@@ -29,33 +30,54 @@ class _CusNButtonState extends State<CusNButton> {
 
   @override
   Widget build(BuildContext context) {
-    ButtonStyle btnStyle() {
-      return ElevatedButton.styleFrom(
-        backgroundColor: readOnly ? buttonReadOnlyColor : null,
-        surfaceTintColor: readOnly ? buttonReadOnlyColor : null,
-        foregroundColor: readOnly ? buttonReadOnlyForegroundColor : null,
-        textStyle:
-            const TextStyle(fontSize: textBtnSize, fontWeight: FontWeight.bold),
-        minimumSize: const Size.fromHeight(buttonHeight),
-        side: BorderSide(
-          color: buttonBorderColor,
-          width: readOnly ? buttonBorderWidthReadOnly : buttonBorderWidth,
-        ),
-      );
-    }
+    ButtonStyle btnStyle = ElevatedButton.styleFrom(
+      padding: EdgeInsets.fromLTRB(16, 8, 16, 8),
+      backgroundColor: readOnly ? buttonReadOnlyColor : null,
+      surfaceTintColor: readOnly ? buttonReadOnlyColor : null,
+      foregroundColor: readOnly ? buttonReadOnlyForegroundColor : null,
+      textStyle:
+          const TextStyle(fontSize: textBtnSize, fontWeight: FontWeight.bold),
+      minimumSize: const Size.fromHeight(buttonHeight),
+      side: BorderSide(
+        color: buttonBorderColor,
+        width: readOnly ? buttonBorderWidthReadOnly : buttonBorderWidth,
+      ),
+    );
 
     if (widget.icon != null) {
       return ElevatedButton.icon(
         icon: widget.icon!,
-        style: btnStyle(),
-        onPressed: disabled ? null : widget.onPressed,
-        label: Text(widget.text),
+        style: btnStyle,
+        onPressed: disabled
+            ? null
+            : () {
+                if (readOnly) return;
+                widget.onPressed?.call();
+                runHapticSound();
+              },
+        label: Text(
+          widget.text,
+          textAlign: TextAlign.center,
+          maxLines: readOnly ? 3 : 2,
+          overflow: TextOverflow.ellipsis,
+        ),
       );
     }
     return ElevatedButton(
-      style: btnStyle(),
-      onPressed: disabled ? null : widget.onPressed,
-      child: Text(widget.text),
+      style: btnStyle,
+      onPressed: disabled
+          ? null
+          : () {
+              if (readOnly) return;
+              widget.onPressed?.call();
+              runHapticSound();
+            },
+      child: Text(
+        widget.text,
+        textAlign: TextAlign.center,
+        maxLines: readOnly ? 3 : 2,
+        overflow: TextOverflow.ellipsis,
+      ),
     );
   }
 }

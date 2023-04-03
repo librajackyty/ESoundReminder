@@ -68,8 +68,16 @@ void showCommonDialog(BuildContext context,
     yesBtnTxtKey = "common_yes",
     void Function()? yesBtnOnPressed}) {
   showBaseDialog(context, icon: icon, title: title, content: content, actions: [
-    CusSBackButton(Language.of(context)!.t(noBtnTxtKey), noBtnOnPressed),
-    CusSButton(Language.of(context)!.t(yesBtnTxtKey), yesBtnOnPressed),
+    CusSBackButton(
+      Language.of(context)!.t(noBtnTxtKey),
+      noBtnOnPressed,
+      maxWidth: false,
+    ),
+    CusSButton(
+      Language.of(context)!.t(yesBtnTxtKey),
+      yesBtnOnPressed,
+      maxWidth: false,
+    ),
   ]);
 }
 
