@@ -132,13 +132,15 @@ final btnStyle = ButtonStyle(
     padding: MaterialStatePropertyAll(EdgeInsets.all(elementSSPadding)),
     side: MaterialStateBorderSide.resolveWith((states) =>
         BorderSide(color: buttonBorderColor, width: buttonBorderWidth)),
-    minimumSize: MaterialStatePropertyAll(Size(120, buttonHeightSmall)),
+    minimumSize:
+        MaterialStatePropertyAll(Size(buttonWidthSmall, buttonHeightSmall)),
     fixedSize: MaterialStatePropertyAll(Size.fromHeight(buttonHeightSmall)));
 final cancelBtnStyle = ButtonStyle(
     padding: MaterialStatePropertyAll(EdgeInsets.all(elementSSPadding)),
     side: MaterialStateBorderSide.resolveWith((states) =>
         BorderSide(color: buttonBorderColor2, width: buttonBorderWidth)),
-    minimumSize: MaterialStatePropertyAll(Size(120, buttonHeightSmall)),
+    minimumSize:
+        MaterialStatePropertyAll(Size(buttonWidthSmall, buttonHeightSmall)),
     fixedSize: MaterialStatePropertyAll(Size.fromHeight(buttonHeightSmall)));
 
 void showDayNightTimePicker(BuildContext context, TimeOfDay initialTime,

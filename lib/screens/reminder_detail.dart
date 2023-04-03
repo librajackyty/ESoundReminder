@@ -34,6 +34,9 @@ class ReminderDetailPage extends StatefulWidget {
 class _ReminderDetailPageState extends State<ReminderDetailPage> {
   // Data
   double progressIdx = 0;
+  double progressIdxStep1 = 70;
+  double progressIdxStep2 = 90;
+  double progressIdxStep3 = 100;
   late Reminder reminder = widget.arg?.reminder ??
       Reminder(
           reminderTitle: "",
@@ -70,6 +73,9 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
   }
 
   void showConfirmDialog() {
+    setState(() {
+      progressIdx = progressIdxStep2;
+    });
     showDialogLottie(context,
         lottieFileName: '112180-paper-notebook-writing-animation',
         title: CusSText('${Language.of(context)!.t("common_save")}?'),
@@ -95,25 +101,28 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
               ],
             )
           ],
-        ),
-        noBtnOnPressed: () => Navigator.pop(context, 'NO'),
-        yesBtnOnPressed: () async {
-          setState(() {
-            progressIdx = 100;
-          });
-          showDialogLottieIcon(context, lottieFileName: "95029-success");
-          reminder = reminder.copyWith(
-              reminderTitle:
-                  "${fromTimeToString(reminder.time1)} ${Language.of(context)?.t("localnotification_title")}",
-              reminderDescription:
-                  "${Language.of(context)?.t("localnotification_subtitle")} - ${reminder.selectedMedicine.join(",")}");
-          final model = context.read<ReminderModel>();
-          await model.addReminder(reminder);
-          await Future.delayed(const Duration(seconds: 2));
-          if (context.mounted) {
-            backToHomePage();
-          }
-        });
+        ), noBtnOnPressed: () {
+      setState(() {
+        progressIdx = progressIdxStep1;
+      });
+      Navigator.pop(context, 'NO');
+    }, yesBtnOnPressed: () async {
+      setState(() {
+        progressIdx = progressIdxStep3;
+      });
+      showDialogLottieIcon(context, lottieFileName: "95029-success");
+      reminder = reminder.copyWith(
+          reminderTitle:
+              "${fromTimeToString(reminder.time1)} ${Language.of(context)?.t("localnotification_title")}",
+          reminderDescription:
+              "${Language.of(context)?.t("localnotification_subtitle")} - ${reminder.selectedMedicine.join(",")}");
+      final model = context.read<ReminderModel>();
+      await model.addReminder(reminder);
+      await Future.delayed(const Duration(seconds: 2));
+      if (context.mounted) {
+        backToHomePage();
+      }
+    });
   }
 
   void showCancelDialog() {
@@ -126,6 +135,9 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
         ),
         noBtnOnPressed: () => Navigator.pop(context, 'NO'),
         yesBtnOnPressed: () async {
+          setState(() {
+            progressIdx = 0;
+          });
           backToHomePage();
         });
   }
@@ -158,9 +170,9 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(milliseconds: 400))
+    Future.delayed(const Duration(milliseconds: progressBarDelayShowTime))
         .then((value) => setState(() {
-              progressIdx = 90;
+              progressIdx = progressIdxStep1;
             }));
   }
 

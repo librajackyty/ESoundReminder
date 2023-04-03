@@ -27,6 +27,8 @@ class ReminderNewPage extends StatefulWidget {
 class _ReminderNewPageState extends State<ReminderNewPage> {
   // Data
   double progressIdx = 0;
+  double progressIdxStep1 = 20;
+  double progressIdxStep2 = 33;
   late Reminder reminder = widget.arg?.reminder ??
       Reminder(
           reminderTitle: "",
@@ -137,6 +139,9 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
           setState(() {
             selectedMedicine.remove("$medicine");
             updateSelectedMedicineToModel(selectedMedicine);
+            if (progressIdx >= progressIdxStep2) {
+              progressIdx = progressIdxStep1;
+            }
           });
         },
         icon: Icon(Icons.cancel),
@@ -154,6 +159,9 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
       // }
       selectedMedicine = ["$medicine"];
       updateSelectedMedicineToModel(selectedMedicine);
+      if (progressIdx < progressIdxStep2) {
+        progressIdx = progressIdxStep2;
+      }
     });
   }
 
@@ -175,9 +183,9 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(milliseconds: 400))
+    Future.delayed(const Duration(milliseconds: progressBarDelayShowTime))
         .then((value) => setState(() {
-              progressIdx = 33;
+              progressIdx = progressIdxStep1;
             }));
   }
 

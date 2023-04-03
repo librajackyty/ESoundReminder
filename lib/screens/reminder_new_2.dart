@@ -34,6 +34,7 @@ class ReminderNewPage2 extends StatefulWidget {
 class _ReminderNewPage2State extends State<ReminderNewPage2> {
   // Data
   double progressIdx = 0;
+  double progressIdxStep1 = 50;
   DateTime _fromDate = DateTime.now();
   TimeOfDay timeMorning = TimeOfDay.now(); //TimeOfDay(hour: 6, minute: 0);
   TimeOfDay timeNoon = TimeOfDay(hour: 12, minute: 0);
@@ -145,9 +146,9 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
     updateTime1ToModel(timeMorning);
     updateWeekdays1ToModel();
     super.initState();
-    Future.delayed(const Duration(milliseconds: 400))
+    Future.delayed(const Duration(milliseconds: progressBarDelayShowTime))
         .then((value) => setState(() {
-              progressIdx = 66;
+              progressIdx = progressIdxStep1;
             }));
   }
 
@@ -327,7 +328,6 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                 Column(
                   children: [
                     Container(
-                        margin: EdgeInsets.only(top: 8),
                         padding: EdgeInsets.all(8),
                         decoration: BoxDecoration(
                           border: Border(top: BorderSide()),

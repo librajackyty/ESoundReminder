@@ -14,8 +14,8 @@ class AniProgressBar extends StatelessWidget {
       changeColorValue: 80,
       displayText: '%',
       size: 16,
-      progressColor: Colors.green.shade600,
-      changeProgressColor: Colors.green.shade900,
+      progressColor: Colors.green.shade900,
+      changeProgressColor: Colors.green.shade600,
     );
   }
 }
