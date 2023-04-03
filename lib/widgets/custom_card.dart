@@ -9,6 +9,7 @@ import 'package:lottie/lottie.dart';
 import '../models/language.dart';
 import '../utils/assetslink.dart';
 import '../utils/constants.dart';
+import 'custom_card_container.dart';
 import 'custom_text_small.dart';
 import 'custom_text_title.dart';
 import 'reminder_weekdays.dart';
@@ -48,16 +49,7 @@ class _CusCardState extends State<CusCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.only(bottom: 16.0),
-      shape: RoundedRectangleBorder(
-        side: BorderSide(
-          width: 1.0,
-          color: Colors.greenAccent,
-        ),
-        borderRadius: BorderRadius.circular(cardsBorderRadius),
-      ),
-      elevation: cardsElevation,
+    return CusCardContainer(
       child: InkWell(
         borderRadius: BorderRadius.circular(cardsBorderRadius),
         onTap: () {

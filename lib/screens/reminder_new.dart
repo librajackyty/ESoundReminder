@@ -10,6 +10,7 @@ import '../widgets/ani_progress_bar.dart';
 import '../widgets/custom_button_normal.dart';
 import '../widgets/custom_button_normal_back.dart';
 import '../widgets/custom_button_small.dart';
+import '../widgets/custom_card_container.dart';
 import '../widgets/custom_scroll_bar.dart';
 import '../widgets/custom_text_normal.dart';
 import '../widgets/custom_text_small.dart';
@@ -331,17 +332,7 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
                       duration: const Duration(milliseconds: 200),
                       child: !(selectedMedicine.isNotEmpty && showActionArea)
                           ? SizedBox.shrink()
-                          : Card(
-                              margin: const EdgeInsets.only(
-                                  bottom: reminderCardBottomMargin),
-                              shape: RoundedRectangleBorder(
-                                side: BorderSide(
-                                  color: Colors.greenAccent,
-                                ),
-                                borderRadius:
-                                    BorderRadius.circular(cardsBorderRadius),
-                              ),
-                              elevation: cardsElevation,
+                          : CusCardContainer(
                               child: SizedBox(
                                 width: double.maxFinite,
                                 height: MediaQuery.of(context).size.height *
