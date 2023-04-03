@@ -166,7 +166,8 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
     });
   }
 
-  var _TEController = TextEditingController();
+  var _txtFController = TextEditingController();
+  bool _wasEmpty = true;
 
   void inputTxtSubmit(String val) async {
     debugPrint("inputTxtSubmit: $val");
@@ -176,7 +177,7 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
       updateSelectedMedicine(val);
     }
     await Future.delayed(const Duration(milliseconds: 800));
-    _TEController.clear();
+    _txtFController.clear();
     setState(() {
       showActionArea = true;
     });
@@ -189,6 +190,12 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
         .then((value) => setState(() {
               progressIdx = progressIdxStep1;
             }));
+    _wasEmpty = _txtFController.text.isEmpty;
+    _txtFController.addListener(() {
+      if (_wasEmpty != _txtFController.text.isEmpty) {
+        setState(() => {_wasEmpty = _txtFController.text.isEmpty});
+      }
+    });
   }
 
   @override
@@ -241,12 +248,12 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
                       border: Border(top: BorderSide()),
                     )),
                     Container(
-                      padding: EdgeInsets.all(8),
+                      padding: EdgeInsets.symmetric(vertical: 8),
                       child: Row(
                         children: [
                           Expanded(
                             child: TextField(
-                              controller: _TEController,
+                              controller: _txtFController,
                               decoration: InputDecoration(
                                   contentPadding: EdgeInsets.zero,
                                   border: OutlineInputBorder(
@@ -256,10 +263,10 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
                                       .t("reminder_new1_inputhint"),
                                   hintStyle: TextStyle(color: Colors.black),
                                   prefixIcon: Icon(Icons.edit),
-                                  suffixIcon: _TEController.text.isNotEmpty
+                                  suffixIcon: _txtFController.text.isNotEmpty
                                       ? IconButton(
                                           onPressed: () {
-                                            _TEController.clear();
+                                            _txtFController.clear();
                                             runHapticSound();
                                           },
                                           icon: Icon(
@@ -284,7 +291,7 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
                             child: IconButton(
                               onPressed: showActionArea
                                   ? null
-                                  : () => inputTxtSubmit(_TEController.text),
+                                  : () => inputTxtSubmit(_txtFController.text),
                               iconSize: 48,
                               icon: Icon(
                                 Icons.check_circle_outline,
