@@ -57,6 +57,7 @@ class _CusNButtonState extends State<CusNButton> {
               },
         label: Text(
           widget.text,
+          textAlign: TextAlign.center,
           maxLines: readOnly ? 3 : 2,
           overflow: TextOverflow.ellipsis,
         ),
@@ -73,6 +74,7 @@ class _CusNButtonState extends State<CusNButton> {
             },
       child: Text(
         widget.text,
+        textAlign: TextAlign.center,
         maxLines: readOnly ? 3 : 2,
         overflow: TextOverflow.ellipsis,
       ),

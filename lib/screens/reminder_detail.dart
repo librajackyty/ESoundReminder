@@ -37,8 +37,9 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
   // Data
   double progressIdx = 0;
   double progressIdxStep1 = 70;
-  double progressIdxStep2 = 90;
-  double progressIdxStep3 = 100;
+  double progressIdxStep2 = 80;
+  double progressIdxStep3 = 90;
+  double progressIdxStep4 = 100;
   late Reminder reminder = widget.arg?.reminder ??
       Reminder(
           reminderTitle: "",
@@ -71,35 +72,38 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
     );
   }
 
-  void showConfirmDialog() {
+  void showNoticeDialog() {
     setState(() {
       progressIdx = progressIdxStep2;
     });
     showDialogLottie(context,
+        lottieFileName: '92326-warning-red',
+        content: CusSText(
+          Language.of(context)!.t("reminder_detail_notice"),
+          textAlign: TextAlign.center,
+        ),
+        noBtnTxtKey: "common_back",
+        yesBtnTxtKey: "common_understand", noBtnOnPressed: () {
+      Navigator.pop(context, 'NO');
+      setState(() {
+        progressIdx = progressIdxStep1;
+      });
+    }, yesBtnOnPressed: () {
+      Navigator.pop(context, 'NO');
+      showConfirmDialog();
+    });
+  }
+
+  void showConfirmDialog() {
+    setState(() {
+      progressIdx = progressIdxStep3;
+    });
+    showDialogLottie(context,
         lottieFileName: '112180-paper-notebook-writing-animation',
         title: CusSText('${Language.of(context)!.t("common_save")}?'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            CusNText(
-              Language.of(context)!.t("reminder_detail_confirmquestion"),
-              textAlign: TextAlign.center,
-            ),
-            const Divider(),
-            Column(
-              children: [
-                Lottie.asset(
-                  assetslinkLottie('92326-warning-red'),
-                  width: 30,
-                  height: 30,
-                ),
-                CusSText(
-                  Language.of(context)!.t("reminder_detail_notice"),
-                  textAlign: TextAlign.center,
-                )
-              ],
-            )
-          ],
+        content: CusNText(
+          Language.of(context)!.t("reminder_detail_confirmquestion"),
+          textAlign: TextAlign.center,
         ), noBtnOnPressed: () {
       setState(() {
         progressIdx = progressIdxStep1;
@@ -107,7 +111,7 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
       Navigator.pop(context, 'NO');
     }, yesBtnOnPressed: () async {
       setState(() {
-        progressIdx = progressIdxStep3;
+        progressIdx = progressIdxStep4;
       });
       showDialogLottieIcon(context, lottieFileName: "95029-success");
       reminder = reminder.copyWith(
@@ -271,7 +275,7 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
                                       child: CusNButton(
                                           Language.of(context)!
                                               .t("common_save"),
-                                          showConfirmDialog),
+                                          showNoticeDialog),
                                     ),
                                   ])
                                 : CusNBackButton(

@@ -196,7 +196,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         width: 55,
                         height: 55,
                       ),
-                      CusSText(Language.of(context)!.t(listFilterBtnStrKey))
+                      CusSText(
+                        Language.of(context)!.t(listFilterBtnStrKey),
+                        textAlign: TextAlign.center,
+                      )
                     ],
                   ),
                   onPressed: () => {runHapticSound(), showFilterSelection()},
@@ -212,7 +215,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         width: 55,
                         height: 55,
                       ),
-                      CusSText(Language.of(context)!.t("settings_title"))
+                      CusSText(
+                        Language.of(context)!.t("settings_title"),
+                        textAlign: TextAlign.center,
+                      )
                     ],
                   ),
                   onPressed: () => {
