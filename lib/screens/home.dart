@@ -348,7 +348,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       ),
     ];
     return Column(
-      // mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         ListView(

@@ -64,11 +64,6 @@ class _OpenSourcesPageState extends State<OpenSourcesPage> {
                       const SizedBox(
                         height: 20.0,
                       ),
-                      // const Icon(
-                      //   Icons.terminal,
-                      //   color: Colors.green,
-                      //   size: 88.0,
-                      // ),
                       ...generateOssList()
                     ])),
                 Align(

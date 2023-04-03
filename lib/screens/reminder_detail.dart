@@ -67,9 +67,6 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
       alignment: Alignment.center,
       times: [fromTimeToString(reminder.time1)],
     );
-    // return Row(
-    //     mainAxisAlignment: MainAxisAlignment.start,
-    //     children: [CusTitleText(timeText)]);
   }
 
   void showConfirmDialog() {
@@ -179,9 +176,6 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text(widget.title),
-      // ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(safeAreaPaddingAll),
@@ -203,10 +197,6 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
                         ],
                       )
                     : const SizedBox(),
-                // CusNText(
-                //     Language.of(context)!.t("reminder_detail_title"),
-                //     textAlign: TextAlign.center,
-                //   ),
                 widget.title == pageNameReminderDetail
                     ? CusSText(
                         Language.of(context)!.t("reminder_detail_msg"),

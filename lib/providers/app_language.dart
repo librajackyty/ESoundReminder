@@ -13,7 +13,6 @@ class AppLanguage extends ChangeNotifier {
   fetchLocale() async {
     var prefs = await SharedPreferences.getInstance();
     if (prefs.getString(langLangCodeKey) == null) {
-      // _appLocale = Locale(Language.codeEnglish);
       debugPrint("Lang string no data");
       _initalConfig = true;
       return false;

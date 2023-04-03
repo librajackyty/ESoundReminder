@@ -70,7 +70,7 @@ class _CusCardState extends State<CusCard> {
             Container(
               padding: EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: Colors.white, //Colors.green[600],
+                color: Colors.white,
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(cardsBorderRadius),
                     topRight: Radius.circular(cardsBorderRadius)),

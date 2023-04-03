@@ -349,7 +349,6 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
                                 child: ListView(
                                   padding: const EdgeInsets.all(12),
                                   children: [
-                                    // CusSText("Selected medicine:"),
                                     Row(children: [
                                       Icon(Icons.medication_outlined),
                                       SizedBox(width: 6),

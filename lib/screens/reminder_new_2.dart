@@ -155,9 +155,6 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text(widget.title),
-      // ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(safeAreaPaddingAll),
@@ -193,89 +190,6 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                     const SizedBox(
                       height: 12,
                     ),
-                    // CusNButton(
-                    //   "Setting Date",
-                    //   () async {
-                    //     DateTime? newdate = await showDatePicker(
-                    //         context: context,
-                    //         initialDate: date,
-                    //         firstDate: date,
-                    //         lastDate: date.add(const Duration(days: 300)),
-                    //         initialEntryMode: DatePickerEntryMode.calendarOnly,
-                    //         builder: (context, child) {
-                    //           return Theme(
-                    //             data: Theme.of(context).copyWith(
-                    //               textButtonTheme: TextButtonThemeData(
-                    //                 style: TextButton.styleFrom(
-                    //                   textStyle: TextStyle(
-                    //                       fontSize: 20,
-                    //                       fontWeight: FontWeight.bold),
-                    //                 ),
-                    //               ),
-                    //             ),
-                    //             child: child!,
-                    //           );
-                    //         });
-                    //     if (newdate == null) return;
-
-                    //     setState(() => date = newdate);
-                    //   },
-                    //   icon: Icon(Icons.edit_calendar),
-                    // ),
-                    // const SizedBox(
-                    //   height: 20,
-                    // ),
-                    // Visibility(
-                    //     maintainSize: true,
-                    //     maintainAnimation: true,
-                    //     maintainState: true,
-                    //     visible: setMorning,
-                    //     child: CusNButton(
-                    //       "Select Time (Morning)",
-                    //       () async {
-                    //         TimeOfDay? newtime = await showTimePicker(
-                    //             context: context,
-                    //             initialTime: timeMorning,
-                    //             initialEntryMode:
-                    //                 TimePickerEntryMode.dialOnly);
-                    //         if (newtime == null) return;
-
-                    //         setState(() => timeMorning = newtime);
-                    //       },
-                    //       icon: Icon(Icons.alarm_add),
-                    //     )),
-                    // const SizedBox(
-                    //   height: 20,
-                    // ),
-                    // CusNButton(
-                    //   "Select Time (Noon)",
-                    //   () async {
-                    //     TimeOfDay? newtime = await showTimePicker(
-                    //         context: context,
-                    //         initialTime: timeNoon,
-                    //         initialEntryMode: TimePickerEntryMode.dialOnly);
-                    //     if (newtime == null) return;
-
-                    //     setState(() => timeNoon = newtime);
-                    //   },
-                    //   icon: Icon(Icons.alarm_add),
-                    // ),
-                    // const SizedBox(
-                    //   height: 20,
-                    // ),
-                    // CusNButton(
-                    //   "Select Time (Night)",
-                    //   () async {
-                    //     TimeOfDay? newtime = await showTimePicker(
-                    //         context: context,
-                    //         initialTime: timeNight,
-                    //         initialEntryMode: TimePickerEntryMode.dialOnly);
-                    //     if (newtime == null) return;
-
-                    //     setState(() => timeNight = newtime);
-                    //   },
-                    //   icon: Icon(Icons.alarm_add),
-                    // )
                     CusSText(
                       Language.of(context)!.t("reminder_new2_setrepeat1"),
                     ),
