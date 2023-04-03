@@ -1,4 +1,6 @@
+import 'package:e_sound_reminder_app/utils/feedback.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../utils/constants.dart';
 
@@ -41,13 +43,19 @@ class _CusSButtonState extends State<CusSButton> {
       return ElevatedButton.icon(
         icon: widget.icon!,
         style: btnstyle,
-        onPressed: widget.onPressed,
+        onPressed: () {
+          widget.onPressed?.call();
+          runHapticSound();
+        },
         label: Text(widget.text),
       );
     }
     return ElevatedButton(
       style: btnstyle,
-      onPressed: widget.onPressed,
+      onPressed: () {
+        widget.onPressed?.call();
+        runHapticSound();
+      },
       child: Text(
         widget.text,
         textAlign: TextAlign.center,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../utils/constants.dart';
+import '../utils/feedback.dart';
 
 class CusNButton extends StatefulWidget {
   final String text;
@@ -48,13 +49,25 @@ class _CusNButtonState extends State<CusNButton> {
       return ElevatedButton.icon(
         icon: widget.icon!,
         style: btnStyle(),
-        onPressed: disabled ? null : widget.onPressed,
+        onPressed: disabled
+            ? null
+            : () {
+                if (readOnly) return;
+                widget.onPressed?.call();
+                runHapticSound();
+              },
         label: Text(widget.text),
       );
     }
     return ElevatedButton(
       style: btnStyle(),
-      onPressed: disabled ? null : widget.onPressed,
+      onPressed: disabled
+          ? null
+          : () {
+              if (readOnly) return;
+              widget.onPressed?.call();
+              runHapticSound();
+            },
       child: Text(widget.text),
     );
   }

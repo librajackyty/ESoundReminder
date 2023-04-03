@@ -2,6 +2,7 @@ import 'package:day_picker/day_picker.dart';
 import 'package:flutter/material.dart';
 
 import '../utils/constants.dart';
+import '../utils/feedback.dart';
 
 class WeekdaysSelector extends StatefulWidget {
   final List<DayInWeek> days;
@@ -30,7 +31,10 @@ class _WeekdaysSelectorState extends State<WeekdaysSelector> {
       daysFillColor: elementActiveColor,
       daysBorderColor: elementActiveColor,
       boxDecoration: widget.boxDecoration,
-      onSelect: widget.onSelect,
+      onSelect: (values) {
+        widget.onSelect(values);
+        runHapticSound();
+      },
     );
   }
 }

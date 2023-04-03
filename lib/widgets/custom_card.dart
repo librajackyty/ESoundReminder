@@ -1,5 +1,6 @@
 import 'package:day_picker/model/day_in_week.dart';
 import 'package:e_sound_reminder_app/models/reminder.dart';
+import 'package:e_sound_reminder_app/utils/feedback.dart';
 import 'package:e_sound_reminder_app/widgets/custom_button_small.dart';
 import 'package:e_sound_reminder_app/widgets/custom_text_normal.dart';
 import 'package:flutter/material.dart';
@@ -48,8 +49,6 @@ class _CusCardState extends State<CusCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      // color: Colors.white,
-      // surfaceTintColor: Colors.white,
       margin: const EdgeInsets.only(bottom: 16.0),
       shape: RoundedRectangleBorder(
         side: BorderSide(
@@ -62,8 +61,9 @@ class _CusCardState extends State<CusCard> {
       child: InkWell(
         borderRadius: BorderRadius.circular(cardsBorderRadius),
         onTap: () {
-          print("Card Clicked");
+          debugPrint("Card Clicked");
           widget.onPressed?.call();
+          runHapticSound();
         },
         child: Column(
           children: <Widget>[
@@ -84,11 +84,7 @@ class _CusCardState extends State<CusCard> {
                   Flexible(
                       child: CusTitleText(
                     widget.title,
-                    // color: Colors.green[900],
-                  )
-                      // CusNText(
-                      //     "widget.title sklnk nksdnljn jbdkj bdjkb kjb kbdfjbdsjkhb jkhdbf jbjsdb")
-                      )
+                  ))
                 ],
               ),
             ),
@@ -99,9 +95,6 @@ class _CusCardState extends State<CusCard> {
             const SizedBox(
               height: 8,
             ),
-            // Row(
-            //   children: [
-            // Spacer(),
             const Divider(),
             Container(
                 padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
@@ -113,7 +106,6 @@ class _CusCardState extends State<CusCard> {
                 }))
           ],
         ),
-        // ),
       ),
     );
   }

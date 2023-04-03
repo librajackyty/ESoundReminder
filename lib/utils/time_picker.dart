@@ -1,4 +1,5 @@
 import 'package:day_night_time_picker/day_night_time_picker.dart';
+import 'package:e_sound_reminder_app/utils/feedback.dart';
 import 'package:flutter/material.dart';
 
 import 'constants.dart';
@@ -171,6 +172,8 @@ void showDayNightTimePicker(BuildContext context, TimeOfDay initialTime,
       iosStylePicker: iosStylePicker,
       onChange: (time) {
         debugPrint("time changed: ${time.hour}:${time.minute}");
+        runHapticSound();
       },
+      onCancel: () => {runHapticSound(), Navigator.pop(context)},
       onChangeDateTime: onChangeDateTime));
 }

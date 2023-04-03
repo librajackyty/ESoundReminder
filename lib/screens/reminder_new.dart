@@ -1,3 +1,4 @@
+import 'package:e_sound_reminder_app/utils/feedback.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animation_progress_bar/flutter_animation_progress_bar.dart';
 
@@ -169,6 +170,7 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
 
   void inputTxtSubmit(String val) async {
     debugPrint("inputTxtSubmit: $val");
+    runHapticSound();
     FocusManager.instance.primaryFocus?.unfocus();
     if (val.isNotEmpty) {
       updateSelectedMedicine(val);
@@ -258,13 +260,15 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
                                       ? IconButton(
                                           onPressed: () {
                                             _TEController.clear();
+                                            runHapticSound();
                                           },
                                           icon: Icon(
                                             Icons.cancel_outlined,
-                                            size: 36,
+                                            size: 32,
                                           ))
                                       : null),
                               onTap: () {
+                                runHapticSound();
                                 setState(() {
                                   showActionArea = false;
                                 });
