@@ -1,5 +1,5 @@
-import 'package:day_picker/model/day_in_week.dart';
 import 'package:e_sound_reminder_app/models/reminder.dart';
+import 'package:e_sound_reminder_app/utils/feedback.dart';
 import 'package:e_sound_reminder_app/widgets/custom_button_small.dart';
 import 'package:e_sound_reminder_app/widgets/custom_text_normal.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +8,7 @@ import 'package:lottie/lottie.dart';
 import '../models/language.dart';
 import '../utils/assetslink.dart';
 import '../utils/constants.dart';
+import 'custom_card_container.dart';
 import 'custom_text_small.dart';
 import 'custom_text_title.dart';
 import 'reminder_weekdays.dart';
@@ -47,30 +48,20 @@ class _CusCardState extends State<CusCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      // color: Colors.white,
-      // surfaceTintColor: Colors.white,
-      margin: const EdgeInsets.only(bottom: 16.0),
-      shape: RoundedRectangleBorder(
-        side: BorderSide(
-          width: 1.0,
-          color: Colors.greenAccent,
-        ),
-        borderRadius: BorderRadius.circular(cardsBorderRadius),
-      ),
-      elevation: cardsElevation,
+    return CusCardContainer(
       child: InkWell(
         borderRadius: BorderRadius.circular(cardsBorderRadius),
         onTap: () {
-          print("Card Clicked");
+          debugPrint("Card Clicked");
           widget.onPressed?.call();
+          runHapticSound();
         },
         child: Column(
           children: <Widget>[
             Container(
               padding: EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: Colors.white, //Colors.green[600],
+                color: Colors.white,
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(cardsBorderRadius),
                     topRight: Radius.circular(cardsBorderRadius)),
@@ -84,11 +75,7 @@ class _CusCardState extends State<CusCard> {
                   Flexible(
                       child: CusTitleText(
                     widget.title,
-                    // color: Colors.green[900],
-                  )
-                      // CusNText(
-                      //     "widget.title sklnk nksdnljn jbdkj bdjkb kjb kbdfjbdsjkhb jkhdbf jbjsdb")
-                      )
+                  ))
                 ],
               ),
             ),
@@ -99,9 +86,6 @@ class _CusCardState extends State<CusCard> {
             const SizedBox(
               height: 8,
             ),
-            // Row(
-            //   children: [
-            // Spacer(),
             const Divider(),
             Container(
                 padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
@@ -113,7 +97,6 @@ class _CusCardState extends State<CusCard> {
                 }))
           ],
         ),
-        // ),
       ),
     );
   }

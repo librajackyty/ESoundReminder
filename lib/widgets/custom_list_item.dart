@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../utils/constants.dart';
+import '../utils/feedback.dart';
 import 'custom_text_normal.dart';
 import 'custom_text_small.dart';
 
@@ -31,8 +32,9 @@ class _CusListItmState extends State<CusListItm> {
       child: InkWell(
         borderRadius: BorderRadius.circular(cardsBorderRadius),
         onTap: () {
-          print("Go to ${widget.text}");
+          debugPrint("Go to ${widget.text}");
           widget.onTap?.call();
+          runHapticSound();
         },
         child: Padding(
           padding: const EdgeInsets.all(elementSPadding),

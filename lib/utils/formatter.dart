@@ -67,28 +67,6 @@ String fromWeekdayToExShortString(BuildContext context, int weekday) {
 }
 
 int fromStringToWeekday(String weekdayStr) {
-  // if (Language.of(context)!.t("week_mon") == weekdayStr) {
-  //   return 1;
-  // }
-  // if (Language.of(context)!.t("week_tue") == weekdayStr) {
-  //   return 2;
-  // }
-  // if (Language.of(context)!.t("week_wed") == weekdayStr) {
-  //   return 3;
-  // }
-  // if (Language.of(context)!.t("week_thu") == weekdayStr) {
-  //   return 4;
-  // }
-  // if (Language.of(context)!.t("week_fri") == weekdayStr) {
-  //   return 5;
-  // }
-  // if (Language.of(context)!.t("week_sat") == weekdayStr) {
-  //   return 6;
-  // }
-  // if (Language.of(context)!.t("week_sun") == weekdayStr) {
-  //   return 7;
-  // }
-  // return 0;
   switch (weekdayStr) {
     case 'Monday':
     case '一':

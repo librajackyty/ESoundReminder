@@ -200,11 +200,13 @@ class _MyAppState extends State<MyApp> {
             routes: {
               constants.pageRouteIntro: (context) =>
                   const IntroPage(title: 'Introduction'),
-              constants.pageRouteLanding: (context) =>
-                  const LandingPage(title: 'Landing'),
             },
             onGenerateRoute: (settings) {
               switch (settings.name) {
+                case constants.pageRouteLanding:
+                  return PageTransition(
+                      child: const LandingPage(title: 'Landing'),
+                      type: PageTransitionType.fade);
                 case constants.pageRouteHome:
                   return PageTransition(
                       child: const HomePage(title: 'Home'),

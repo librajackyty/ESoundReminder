@@ -20,10 +20,20 @@ class TimeBoxDisplay extends StatelessWidget {
           color: Colors.white,
           border: Border.all(color: Colors.green[800]!),
           borderRadius: BorderRadius.all(Radius.circular(16.0))),
-      child: Row(mainAxisSize: MainAxisSize.min, children: [
-        icon ?? const SizedBox(),
-        largeTxt ? CusTitleText(time) : CusNText(time)
-      ]),
+      child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            icon ?? const SizedBox.shrink(),
+            largeTxt
+                ? Flexible(child: CusTitleText(time))
+                : Flexible(
+                    child: CusNText(
+                    time,
+                    textAlign: TextAlign.center,
+                  ))
+          ]),
     );
   }
 }

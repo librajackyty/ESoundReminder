@@ -1,4 +1,3 @@
-import 'package:day_picker/model/day_in_week.dart';
 import 'package:e_sound_reminder_app/utils/formatter.dart';
 import 'package:e_sound_reminder_app/widgets/custom_text_small_ex.dart';
 import 'package:flutter/material.dart';

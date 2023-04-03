@@ -37,6 +37,7 @@ const double listviewPaddingAll = 18.0;
 const double selectWeekDaysFontSize = 20.0;
 const double selectWeekDaysBorderRadius = 30.0;
 const double selectWeekDaysPadding = 10.0;
+const int progressBarDelayShowTime = 300;
 
 const double textTitleSize = 36;
 const double textNormalSize = 30;
@@ -53,6 +54,7 @@ const Color elementNotActiveTxtColor = Colors.black;
 const double buttonBorderWidth = 2;
 const double buttonBorderWidthReadOnly = 1;
 const double buttonHeight = 60;
+const double buttonWidthSmall = 100;
 const double buttonHeightSmall = 40;
 final Color buttonBorderColor = Colors.green[900]!;
 final Color buttonBorderColor2 = Colors.red[900]!;

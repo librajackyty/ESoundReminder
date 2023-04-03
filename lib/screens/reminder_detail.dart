@@ -10,13 +10,17 @@ import '../providers/reminders/reminders_provider.dart';
 import '../utils/assetslink.dart';
 import '../utils/constants.dart';
 import '../utils/dialog.dart';
+import '../utils/feedback.dart';
 import '../utils/formatter.dart';
+import '../widgets/ani_progress_bar.dart';
 import '../widgets/custom_button_normal_back.dart';
 import '../widgets/custom_button_small.dart';
+import '../widgets/custom_card_container.dart';
 import '../widgets/custom_text_normal.dart';
 import '../widgets/custom_text_small.dart';
 import '../widgets/custom_text_small_ex.dart';
 import '../widgets/custom_text_title.dart';
+import '../widgets/reminder_header.dart';
 import '../widgets/reminder_weekdays_display.dart';
 import '../widgets/time_section_display.dart';
 
@@ -32,6 +36,11 @@ class ReminderDetailPage extends StatefulWidget {
 
 class _ReminderDetailPageState extends State<ReminderDetailPage> {
   // Data
+  double progressIdx = 0;
+  double progressIdxStep1 = 70;
+  double progressIdxStep2 = 80;
+  double progressIdxStep3 = 90;
+  double progressIdxStep4 = 100;
   late Reminder reminder = widget.arg?.reminder ??
       Reminder(
           reminderTitle: "",
@@ -62,53 +71,63 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
       alignment: Alignment.center,
       times: [fromTimeToString(reminder.time1)],
     );
-    // return Row(
-    //     mainAxisAlignment: MainAxisAlignment.start,
-    //     children: [CusTitleText(timeText)]);
+  }
+
+  void showNoticeDialog() {
+    setState(() {
+      progressIdx = progressIdxStep2;
+    });
+    showDialogLottie(context,
+        lottieFileName: '92326-warning-red',
+        content: CusSText(
+          Language.of(context)!.t("reminder_detail_notice"),
+          textAlign: TextAlign.center,
+        ),
+        noBtnTxtKey: "common_back",
+        yesBtnTxtKey: "common_understand", noBtnOnPressed: () {
+      Navigator.pop(context, 'NO');
+      setState(() {
+        progressIdx = progressIdxStep1;
+      });
+    }, yesBtnOnPressed: () {
+      Navigator.pop(context, 'NO');
+      showConfirmDialog();
+    });
   }
 
   void showConfirmDialog() {
+    setState(() {
+      progressIdx = progressIdxStep3;
+    });
     showDialogLottie(context,
         lottieFileName: '112180-paper-notebook-writing-animation',
         title: CusSText('${Language.of(context)!.t("common_save")}?'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            CusNText(
-              Language.of(context)!.t("reminder_detail_confirmquestion"),
-              textAlign: TextAlign.center,
-            ),
-            const Divider(),
-            Column(
-              children: [
-                Lottie.asset(
-                  assetslinkLottie('92326-warning-red'),
-                  width: 30,
-                  height: 30,
-                ),
-                CusSText(
-                  Language.of(context)!.t("reminder_detail_notice"),
-                  textAlign: TextAlign.center,
-                )
-              ],
-            )
-          ],
-        ),
-        noBtnOnPressed: () => Navigator.pop(context, 'NO'),
-        yesBtnOnPressed: () async {
-          showDialogLottieIcon(context, lottieFileName: "95029-success");
-          reminder = reminder.copyWith(
-              reminderTitle:
-                  "${fromTimeToString(reminder.time1)} ${Language.of(context)?.t("localnotification_title")}",
-              reminderDescription:
-                  "${Language.of(context)?.t("localnotification_subtitle")} - ${reminder.selectedMedicine.join(",")}");
-          final model = context.read<ReminderModel>();
-          await model.addReminder(reminder);
-          await Future.delayed(const Duration(seconds: 2));
-          if (context.mounted) {
-            backToHomePage();
-          }
-        });
+        content: CusNText(
+          Language.of(context)!.t("reminder_detail_confirmquestion"),
+          textAlign: TextAlign.center,
+        ), noBtnOnPressed: () {
+      setState(() {
+        progressIdx = progressIdxStep1;
+      });
+      Navigator.pop(context, 'NO');
+    }, yesBtnOnPressed: () async {
+      setState(() {
+        progressIdx = progressIdxStep4;
+      });
+      showDialogLottieIcon(context, lottieFileName: "95029-success");
+      reminder = reminder.copyWith(
+          reminderTitle:
+              "${fromTimeToString(reminder.time1)} ${Language.of(context)?.t("localnotification_title")}",
+          reminderDescription:
+              "${Language.of(context)?.t("localnotification_subtitle")} - ${reminder.selectedMedicine.join(",")}");
+      final model = context.read<ReminderModel>();
+      await model.addReminder(reminder);
+      await Future.delayed(const Duration(seconds: 2));
+      runSaveFeedback();
+      if (context.mounted) {
+        backToHomePage();
+      }
+    });
   }
 
   void showCancelDialog() {
@@ -121,6 +140,9 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
         ),
         noBtnOnPressed: () => Navigator.pop(context, 'NO'),
         yesBtnOnPressed: () async {
+          setState(() {
+            progressIdx = 0;
+          });
           backToHomePage();
         });
   }
@@ -139,6 +161,7 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
           final model = context.read<ReminderModel>();
           await model.deleteReminder(reminder, index);
           await Future.delayed(const Duration(seconds: 2));
+          runDeleteFeedback();
           if (context.mounted) {
             backToHomePage();
           }
@@ -153,14 +176,15 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
   @override
   void initState() {
     super.initState();
+    Future.delayed(const Duration(milliseconds: progressBarDelayShowTime))
+        .then((value) => setState(() {
+              progressIdx = progressIdxStep1;
+            }));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text(widget.title),
-      // ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(safeAreaPaddingAll),
@@ -169,120 +193,100 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 widget.title == pageNameReminderDetail
-                    ? CusExSText(
-                        "${Language.of(context)!.t("common_step")} (3/3)")
-                    : const SizedBox(),
-                // CusNText(
-                //     Language.of(context)!.t("reminder_detail_title"),
-                //     textAlign: TextAlign.center,
-                //   ),
-                widget.title == pageNameReminderDetail
-                    ? CusSText(
-                        Language.of(context)!.t("reminder_detail_msg"),
-                        textAlign: TextAlign.center,
-                      )
-                    : const SizedBox(),
-                const SizedBox(
-                  height: 8,
-                ),
+                    ? Container(
+                        margin: EdgeInsets.only(bottom: elementSPadding),
+                        child: ReminderHeader(
+                          progressText:
+                              "${Language.of(context)!.t("common_step")} ( 3 / 3 )",
+                          progressValue: progressIdx,
+                          headerText:
+                              Language.of(context)!.t("reminder_detail_msg"),
+                          hasBottomDivider: false,
+                        ))
+                    : const SizedBox.shrink(),
                 Expanded(
-                  child: Card(
-                      margin: const EdgeInsets.only(
-                          bottom: reminderCardBottomMargin),
-                      shape: RoundedRectangleBorder(
-                        side: BorderSide(
-                          color: Colors.greenAccent,
-                        ),
-                        borderRadius: BorderRadius.circular(cardsBorderRadius),
-                      ),
-                      elevation: cardsElevation,
+                  child: CusCardContainer(
                       child: Padding(
-                        padding: EdgeInsets.all(8),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Expanded(
-                              child: ListView(
-                                padding:
-                                    const EdgeInsets.only(left: 12, right: 12),
-                                children: [
-                                  Lottie.asset(
-                                    assetslinkLottie('61069-medicine-pills'),
-                                    reverse: true,
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.3,
-                                    height:
-                                        MediaQuery.of(context).size.width * 0.3,
-                                  ),
-                                  ...medicineSelectedArea(
-                                      reminder.selectedMedicine),
-                                  const SizedBox(
-                                    height: 8,
-                                  ),
-                                  Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Icon(Icons.alarm_on_outlined),
-                                        SizedBox(width: 6),
-                                        CusSText(Language.of(context)!
-                                            .t("reminder_detail_settimer")),
-                                      ]),
-                                  settedTime(reminder),
-                                  const SizedBox(
-                                    height: 8,
-                                  ),
-                                  Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Icon(Icons.event_repeat_outlined),
-                                        SizedBox(width: 6),
-                                        CusSText(Language.of(context)!
-                                            .t("reminder_detail_setrepeat")),
-                                      ]),
-                                  WeekdaysDisplay(
-                                    reminder: reminder,
-                                    padding: EdgeInsets.all(16),
-                                    alignment: Alignment.center,
-                                    largeTxt: true,
-                                    displayAll: true,
-                                  ),
-                                  const SizedBox(
-                                    height: 8,
-                                  ),
-                                ],
+                    padding: EdgeInsets.all(8),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: ListView(
+                            padding: const EdgeInsets.only(left: 12, right: 12),
+                            children: [
+                              Lottie.asset(
+                                assetslinkLottie('61069-medicine-pills'),
+                                reverse: true,
+                                width: MediaQuery.of(context).size.width * 0.3,
+                                height: MediaQuery.of(context).size.width * 0.3,
                               ),
-                            ),
-                            const Divider(),
-                            Container(
-                                padding: EdgeInsets.all(8.0),
-                                child: widget.title == pageNameReminderDetail
-                                    ? Row(children: [
-                                        Expanded(
-                                          child: CusNBackButton(
-                                              Language.of(context)!
-                                                  .t("common_cancel"),
-                                              showCancelDialog),
-                                        ),
-                                        const SizedBox(
-                                          width: 8,
-                                        ),
-                                        Expanded(
-                                          child: CusNButton(
-                                              Language.of(context)!
-                                                  .t("common_save"),
-                                              showConfirmDialog),
-                                        ),
-                                      ])
-                                    : CusNBackButton(
-                                        Language.of(context)!
-                                            .t("common_delete"),
-                                        showDeleteDialog))
-                          ],
+                              ...medicineSelectedArea(
+                                  reminder.selectedMedicine),
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(Icons.alarm_on_outlined),
+                                    SizedBox(width: 6),
+                                    CusSText(Language.of(context)!
+                                        .t("reminder_detail_settimer")),
+                                  ]),
+                              settedTime(reminder),
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(Icons.event_repeat_outlined),
+                                    SizedBox(width: 6),
+                                    CusSText(Language.of(context)!
+                                        .t("reminder_detail_setrepeat")),
+                                  ]),
+                              WeekdaysDisplay(
+                                reminder: reminder,
+                                padding: EdgeInsets.all(16),
+                                alignment: Alignment.center,
+                                largeTxt: true,
+                                displayAll: true,
+                              ),
+                              const SizedBox(
+                                height: 8,
+                              ),
+                            ],
+                          ),
                         ),
-                      )),
+                        const Divider(),
+                        Container(
+                            padding: EdgeInsets.all(8.0),
+                            child: widget.title == pageNameReminderDetail
+                                ? Row(children: [
+                                    Expanded(
+                                      child: CusNBackButton(
+                                          Language.of(context)!
+                                              .t("common_cancel"),
+                                          showCancelDialog),
+                                    ),
+                                    const SizedBox(
+                                      width: 8,
+                                    ),
+                                    Expanded(
+                                      child: CusNButton(
+                                          Language.of(context)!
+                                              .t("common_save"),
+                                          showNoticeDialog),
+                                    ),
+                                  ])
+                                : CusNBackButton(
+                                    Language.of(context)!.t("common_delete"),
+                                    showDeleteDialog))
+                      ],
+                    ),
+                  )),
                 ),
                 createBottomActionBar(context)
               ],
