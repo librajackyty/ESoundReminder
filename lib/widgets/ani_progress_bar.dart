@@ -12,7 +12,7 @@ class AniProgressBar extends StatelessWidget {
     return FAProgressBar(
       currentValue: currentValue,
       changeColorValue: 80,
-      displayText: '%',
+      // displayText: '%',
       size: 16,
       progressColor: Colors.green.shade900,
       changeProgressColor: Colors.green.shade600,

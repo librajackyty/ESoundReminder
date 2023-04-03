@@ -22,7 +22,7 @@
     "home_card_more": "More",
     "home_add_tip": "Tap to create new reminder",
     "home_no_data_msg": "Seems you don't have any reminder yet\nTap '+' to create new reminder to remind you to take medicine",
-    "home_filter_head": "Only Showing:",
+    "home_filter_head": "Showing including:",
     "home_filter_no_data_msg": "No filter result",
 
     "filter_all": "Show All",

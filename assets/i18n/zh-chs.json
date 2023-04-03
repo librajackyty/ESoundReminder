@@ -22,7 +22,7 @@
     "home_card_more": "更多",
     "home_add_tip": "点击创建新提醒事项",
     "home_no_data_msg": "看来您还没有任何提醒事项\n点击“+”创建新提醒事项提醒您服药",
-    "home_filter_head": "只显示:",
+    "home_filter_head": "显示包括:",
     "home_filter_no_data_msg": "无筛选结果",
 
     "filter_all": "显示全部",
