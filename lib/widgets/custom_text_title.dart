@@ -19,6 +19,8 @@ class _CusTitleTextState extends State<CusTitleText> {
   @override
   Widget build(BuildContext context) {
     return Text(widget.text,
+        maxLines: 2,
+        overflow: TextOverflow.ellipsis,
         textAlign: widget.textAlign,
         style: TextStyle(fontSize: textTitleSize, color: widget.color));
   }
