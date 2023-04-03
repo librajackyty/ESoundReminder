@@ -10,6 +10,7 @@ import '../providers/reminders/reminders_provider.dart';
 import '../utils/assetslink.dart';
 import '../utils/constants.dart';
 import '../utils/dialog.dart';
+import '../utils/feedback.dart';
 import '../utils/formatter.dart';
 import '../widgets/ani_progress_bar.dart';
 import '../widgets/custom_button_normal_back.dart';
@@ -122,6 +123,7 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
       final model = context.read<ReminderModel>();
       await model.addReminder(reminder);
       await Future.delayed(const Duration(seconds: 2));
+      runSaveFeedback();
       if (context.mounted) {
         backToHomePage();
       }
@@ -159,6 +161,7 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
           final model = context.read<ReminderModel>();
           await model.deleteReminder(reminder, index);
           await Future.delayed(const Duration(seconds: 2));
+          runDeleteFeedback();
           if (context.mounted) {
             backToHomePage();
           }

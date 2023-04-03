@@ -24,3 +24,11 @@ void runHapticSound({HapticFeedbackType type = HapticFeedbackType.light}) {
   }
   SystemSound.play(SystemSoundType.click);
 }
+
+void runSaveFeedback() {
+  HapticFeedback.heavyImpact();
+}
+
+void runDeleteFeedback() {
+  HapticFeedback.heavyImpact();
+}

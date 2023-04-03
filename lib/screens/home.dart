@@ -157,7 +157,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           scale: animationFAB,
           child: FloatingActionButton.large(
               onPressed: () => {
-                    runHapticSound(type: HapticFeedbackType.heavy),
+                    runHapticSound(type: HapticFeedbackType.medium),
                     Navigator.pushNamed(context, pageRouteReminderNew)
                   },
               elevation: 20.0,
