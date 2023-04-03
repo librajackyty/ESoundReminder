@@ -168,18 +168,21 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
 
   var _txtFController = TextEditingController();
   bool _wasEmpty = true;
+  var maxLength = 30;
+  var textLength = 0;
 
   void inputTxtSubmit(String val) async {
     debugPrint("inputTxtSubmit: $val");
     runHapticSound();
     FocusManager.instance.primaryFocus?.unfocus();
-    if (val.isNotEmpty) {
-      updateSelectedMedicine(val);
+    if (val.trim().isNotEmpty) {
+      updateSelectedMedicine(val.trim());
     }
     await Future.delayed(const Duration(milliseconds: 800));
     _txtFController.clear();
     setState(() {
       showActionArea = true;
+      textLength = _txtFController.text.length;
     });
   }
 
@@ -253,8 +256,10 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
                         children: [
                           Expanded(
                             child: TextField(
+                              maxLength: maxLength,
                               controller: _txtFController,
                               decoration: InputDecoration(
+                                  counterText: "",
                                   contentPadding: EdgeInsets.zero,
                                   border: OutlineInputBorder(
                                       borderRadius: BorderRadius.all(
@@ -262,11 +267,19 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
                                   hintText: Language.of(context)!
                                       .t("reminder_new1_inputhint"),
                                   hintStyle: TextStyle(color: Colors.black),
-                                  prefixIcon: Icon(Icons.edit),
+                                  prefixIcon:
+                                      showActionArea ? Icon(Icons.edit) : null,
+                                  prefixText: showActionArea
+                                      ? ''
+                                      : '  ${textLength.toString()}/${maxLength.toString()} ',
                                   suffixIcon: _txtFController.text.isNotEmpty
                                       ? IconButton(
                                           onPressed: () {
                                             _txtFController.clear();
+                                            setState(() {
+                                              textLength =
+                                                  _txtFController.text.length;
+                                            });
                                             runHapticSound();
                                           },
                                           icon: Icon(
@@ -274,6 +287,11 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
                                             size: 32,
                                           ))
                                       : null),
+                              onChanged: (value) {
+                                setState(() {
+                                  textLength = value.length;
+                                });
+                              },
                               onTap: () {
                                 runHapticSound();
                                 setState(() {
