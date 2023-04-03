@@ -11,6 +11,7 @@ import '../utils/assetslink.dart';
 import '../utils/constants.dart';
 import '../utils/dialog.dart';
 import '../utils/formatter.dart';
+import '../widgets/ani_progress_bar.dart';
 import '../widgets/custom_button_normal_back.dart';
 import '../widgets/custom_button_small.dart';
 import '../widgets/custom_text_normal.dart';
@@ -32,6 +33,7 @@ class ReminderDetailPage extends StatefulWidget {
 
 class _ReminderDetailPageState extends State<ReminderDetailPage> {
   // Data
+  double progressIdx = 0;
   late Reminder reminder = widget.arg?.reminder ??
       Reminder(
           reminderTitle: "",
@@ -96,6 +98,9 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
         ),
         noBtnOnPressed: () => Navigator.pop(context, 'NO'),
         yesBtnOnPressed: () async {
+          setState(() {
+            progressIdx = 100;
+          });
           showDialogLottieIcon(context, lottieFileName: "95029-success");
           reminder = reminder.copyWith(
               reminderTitle:
@@ -153,6 +158,10 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
   @override
   void initState() {
     super.initState();
+    Future.delayed(const Duration(milliseconds: 400))
+        .then((value) => setState(() {
+              progressIdx = 90;
+            }));
   }
 
   @override
@@ -169,8 +178,18 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 widget.title == pageNameReminderDetail
-                    ? CusExSText(
-                        "${Language.of(context)!.t("common_step")} (3/3)")
+                    ? Row(
+                        children: [
+                          CusExSText(
+                              "${Language.of(context)!.t("common_step")} ( 3 / 3 )"),
+                          Expanded(
+                              child: Container(
+                                  padding:
+                                      EdgeInsets.only(left: elementSPadding),
+                                  child: AniProgressBar(
+                                      currentValue: progressIdx))),
+                        ],
+                      )
                     : const SizedBox(),
                 // CusNText(
                 //     Language.of(context)!.t("reminder_detail_title"),

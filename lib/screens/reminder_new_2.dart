@@ -9,6 +9,7 @@ import '../models/reminder_screen_arg.dart';
 import '../utils/constants.dart';
 import '../utils/formatter.dart';
 import '../utils/time_picker.dart';
+import '../widgets/ani_progress_bar.dart';
 import '../widgets/custom_button_normal.dart';
 import '../widgets/custom_button_normal_back.dart';
 import '../widgets/custom_button_small.dart';
@@ -32,7 +33,7 @@ class ReminderNewPage2 extends StatefulWidget {
 
 class _ReminderNewPage2State extends State<ReminderNewPage2> {
   // Data
-
+  double progressIdx = 0;
   DateTime _fromDate = DateTime.now();
   TimeOfDay timeMorning = TimeOfDay.now(); //TimeOfDay(hour: 6, minute: 0);
   TimeOfDay timeNoon = TimeOfDay(hour: 12, minute: 0);
@@ -144,6 +145,10 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
     updateTime1ToModel(timeMorning);
     updateWeekdays1ToModel();
     super.initState();
+    Future.delayed(const Duration(milliseconds: 400))
+        .then((value) => setState(() {
+              progressIdx = 66;
+            }));
   }
 
   @override
@@ -158,7 +163,16 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
           child: Center(
             child: Column(
               children: <Widget>[
-                CusExSText("${Language.of(context)!.t("common_step")} (2/3)"),
+                Row(
+                  children: [
+                    CusExSText(
+                        "${Language.of(context)!.t("common_step")} ( 2 / 3 )"),
+                    Expanded(
+                        child: Container(
+                            padding: EdgeInsets.only(left: elementSPadding),
+                            child: AniProgressBar(currentValue: progressIdx))),
+                  ],
+                ),
                 CusSText(
                   Language.of(context)!.t("reminder_new2_msg"),
                   textAlign: TextAlign.center,

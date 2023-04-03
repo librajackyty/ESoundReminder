@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animation_progress_bar/flutter_animation_progress_bar.dart';
 
 import '../models/language.dart';
 import '../models/reminder.dart';
 import '../models/reminder_screen_arg.dart';
 import '../utils/constants.dart';
+import '../widgets/ani_progress_bar.dart';
 import '../widgets/custom_button_normal.dart';
 import '../widgets/custom_button_normal_back.dart';
 import '../widgets/custom_button_small.dart';
@@ -24,6 +26,7 @@ class ReminderNewPage extends StatefulWidget {
 
 class _ReminderNewPageState extends State<ReminderNewPage> {
   // Data
+  double progressIdx = 0;
   late Reminder reminder = widget.arg?.reminder ??
       Reminder(
           reminderTitle: "",
@@ -170,6 +173,15 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    Future.delayed(const Duration(milliseconds: 400))
+        .then((value) => setState(() {
+              progressIdx = 33;
+            }));
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
@@ -178,7 +190,19 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
           child: Center(
             child: Column(
               children: <Widget>[
-                CusExSText("${Language.of(context)!.t("common_step")} (1/3)"),
+                Row(
+                  children: [
+                    CusExSText(
+                        "${Language.of(context)!.t("common_step")} ( 1 / 3 )"),
+                    Expanded(
+                        child: Container(
+                            padding: EdgeInsets.only(left: elementSPadding),
+                            child: AniProgressBar(currentValue: progressIdx))),
+                  ],
+                ),
+                const SizedBox(
+                  height: elementSSSPadding,
+                ),
                 CusSText(
                   Language.of(context)!.t("reminder_new1_msg"),
                   textAlign: TextAlign.center,
