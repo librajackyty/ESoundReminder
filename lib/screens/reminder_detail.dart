@@ -19,6 +19,7 @@ import '../widgets/custom_text_normal.dart';
 import '../widgets/custom_text_small.dart';
 import '../widgets/custom_text_small_ex.dart';
 import '../widgets/custom_text_title.dart';
+import '../widgets/reminder_header.dart';
 import '../widgets/reminder_weekdays_display.dart';
 import '../widgets/time_section_display.dart';
 
@@ -185,28 +186,17 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 widget.title == pageNameReminderDetail
-                    ? Row(
-                        children: [
-                          CusExSText(
-                              "${Language.of(context)!.t("common_step")} ( 3 / 3 )"),
-                          Expanded(
-                              child: Container(
-                                  padding:
-                                      EdgeInsets.only(left: elementSPadding),
-                                  child: AniProgressBar(
-                                      currentValue: progressIdx))),
-                        ],
-                      )
-                    : const SizedBox(),
-                widget.title == pageNameReminderDetail
-                    ? CusSText(
-                        Language.of(context)!.t("reminder_detail_msg"),
-                        textAlign: TextAlign.center,
-                      )
-                    : const SizedBox(),
-                const SizedBox(
-                  height: 8,
-                ),
+                    ? Container(
+                        margin: EdgeInsets.only(bottom: elementSPadding),
+                        child: ReminderHeader(
+                          progressText:
+                              "${Language.of(context)!.t("common_step")} ( 3 / 3 )",
+                          progressValue: progressIdx,
+                          headerText:
+                              Language.of(context)!.t("reminder_detail_msg"),
+                          hasBottomDivider: false,
+                        ))
+                    : const SizedBox.shrink(),
                 Expanded(
                   child: CusCardContainer(
                       child: Padding(

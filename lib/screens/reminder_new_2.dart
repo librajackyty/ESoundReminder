@@ -18,6 +18,7 @@ import '../widgets/custom_scroll_bar.dart';
 import '../widgets/custom_text_normal.dart';
 import '../widgets/custom_text_small.dart';
 import '../widgets/custom_text_small_ex.dart';
+import '../widgets/reminder_header.dart';
 import '../widgets/reminder_weekdays.dart';
 import '../widgets/reminder_weekdays_display.dart';
 import '../widgets/time_section_display.dart';
@@ -162,21 +163,12 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
           child: Center(
             child: Column(
               children: <Widget>[
-                Row(
-                  children: [
-                    CusExSText(
-                        "${Language.of(context)!.t("common_step")} ( 2 / 3 )"),
-                    Expanded(
-                        child: Container(
-                            padding: EdgeInsets.only(left: elementSPadding),
-                            child: AniProgressBar(currentValue: progressIdx))),
-                  ],
+                ReminderHeader(
+                  progressText:
+                      "${Language.of(context)!.t("common_step")} ( 2 / 3 )",
+                  progressValue: progressIdx,
+                  headerText: Language.of(context)!.t("reminder_new2_msg"),
                 ),
-                CusSText(
-                  Language.of(context)!.t("reminder_new2_msg"),
-                  textAlign: TextAlign.center,
-                ),
-                const Divider(),
                 Expanded(
                   child: ListView(children: [
                     CusSText(

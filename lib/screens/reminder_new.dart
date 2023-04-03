@@ -15,6 +15,7 @@ import '../widgets/custom_scroll_bar.dart';
 import '../widgets/custom_text_normal.dart';
 import '../widgets/custom_text_small.dart';
 import '../widgets/custom_text_small_ex.dart';
+import '../widgets/reminder_header.dart';
 
 class ReminderNewPage extends StatefulWidget {
   const ReminderNewPage({super.key, required this.title, this.arg});
@@ -211,24 +212,12 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
           child: Center(
             child: Column(
               children: <Widget>[
-                Row(
-                  children: [
-                    CusExSText(
-                        "${Language.of(context)!.t("common_step")} ( 1 / 3 )"),
-                    Expanded(
-                        child: Container(
-                            padding: EdgeInsets.only(left: elementSPadding),
-                            child: AniProgressBar(currentValue: progressIdx))),
-                  ],
+                ReminderHeader(
+                  progressText:
+                      "${Language.of(context)!.t("common_step")} ( 1 / 3 )",
+                  progressValue: progressIdx,
+                  headerText: Language.of(context)!.t("reminder_new1_msg"),
                 ),
-                const SizedBox(
-                  height: elementSSSPadding,
-                ),
-                CusSText(
-                  Language.of(context)!.t("reminder_new1_msg"),
-                  textAlign: TextAlign.center,
-                ),
-                const Divider(),
                 Expanded(
                   child: Language.currentLocale(context) == Language.codeEnglish
                       ? SingleChildScrollView(
