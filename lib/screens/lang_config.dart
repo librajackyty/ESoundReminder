@@ -32,12 +32,7 @@ class _LangConfigPageState extends State<LangConfigPage> {
         "${Language.localeDisplay[lang]}",
         () {
           appLanguage.changeLanguage(Locale(lang));
-          if (initalConfig) {
-            Navigator.pushNamedAndRemoveUntil(
-                context, pageRouteHome, (route) => false);
-          } else {
-            Navigator.of(context).pop();
-          }
+          Future.delayed(Duration(milliseconds: 100), goBack);
         },
         icon: !initalConfig && lang == Language.currentLocale(context)
             ? Icon(
@@ -51,6 +46,15 @@ class _LangConfigPageState extends State<LangConfigPage> {
       ));
     }
     return mwList;
+  }
+
+  void goBack() {
+    if (initalConfig) {
+      Navigator.pushNamedAndRemoveUntil(
+          context, pageRouteHome, (route) => false);
+    } else {
+      Navigator.of(context).pop();
+    }
   }
 
   @override
@@ -102,8 +106,7 @@ class _LangConfigPageState extends State<LangConfigPage> {
                   child: Align(
                     alignment: Alignment.bottomCenter,
                     child: CusNBackButton(
-                        Language.of(context)!.t("common_back"),
-                        () => {Navigator.pop(context)}),
+                        Language.of(context)!.t("common_back"), goBack),
                   ),
                 ),
               ],
