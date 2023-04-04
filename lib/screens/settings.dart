@@ -10,6 +10,7 @@ import '../utils/text_config.dart';
 import '../widgets/custom_button_normal_back.dart';
 import '../widgets/custom_list_item.dart';
 import '../widgets/custom_text_normal.dart';
+import '../widgets/page_bottom_area.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key, required this.title});
@@ -53,34 +54,34 @@ class _SettingsPageState extends State<SettingsPage> {
                             CusListItm(
                                 Language.of(context)!
                                     .t("settings_list_language"),
+                                noBorder: true,
                                 iconData: Icons.language, onTap: () {
                               Navigator.pushNamed(context, pageRouteLangConfig);
                             }),
                             CusListItm(
                                 Language.of(context)!
                                     .t("settings_list_display"),
+                                noBorder: true,
                                 iconData: Icons.text_increase, onTap: () {
                               Navigator.pushNamed(
                                   context, pageRouteDisplayConfig);
                             }),
                             CusListItm(
                                 Language.of(context)!.t("settings_list_about"),
+                                noBorder: true,
                                 iconData: Icons.help, onTap: () {
                               Navigator.pushNamed(context, pageRouteAbout);
                             }),
                             CusListItm(
                                 Language.of(context)!.t("settings_list_oss"),
+                                noBorder: true,
                                 iconData: Icons.terminal, onTap: () {
                               Navigator.pushNamed(
                                   context, pageRouteOpenSources);
                             }),
                           ])),
                 ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: CusNBackButton(Language.of(context)!.t("common_back"),
-                      () => {Navigator.pop(context)}),
-                ),
+                PageBottomArea()
               ],
             ),
           ),

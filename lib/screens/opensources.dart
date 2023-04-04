@@ -6,6 +6,7 @@ import '../models/language.dart';
 import '../utils/constants.dart';
 import '../widgets/custom_button_normal_back.dart';
 import '../widgets/custom_text_small_ex.dart';
+import '../widgets/page_bottom_area.dart';
 
 class OpenSourcesPage extends StatefulWidget {
   const OpenSourcesPage({super.key, required this.title});
@@ -65,11 +66,7 @@ class _OpenSourcesPageState extends State<OpenSourcesPage> {
                       ),
                       ...generateOssList()
                     ])),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: CusNBackButton(Language.of(context)!.t("common_back"),
-                      () => {Navigator.pop(context)}),
-                ),
+                PageBottomArea()
               ],
             ),
           ),

@@ -1,5 +1,6 @@
 import 'package:e_sound_reminder_app/models/language.dart';
 import 'package:e_sound_reminder_app/utils/text_config.dart';
+import 'package:e_sound_reminder_app/widgets/page_bottom_area.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
@@ -27,7 +28,7 @@ class _DisplayConfigPageState extends State<DisplayConfigPage> {
         "${Language.of(context)?.t("display_list_itm_$size")}",
         () {
           Displayer.updateAppTextSize(context, fromSizeValToType(size));
-          Future.delayed(Duration(milliseconds: 100), goBack);
+          Future.delayed(Duration(milliseconds: 100), goHome);
         },
         icon: size == Displayer.currentAppTextSize(context)
             ? Icon(
@@ -46,7 +47,7 @@ class _DisplayConfigPageState extends State<DisplayConfigPage> {
     return mwList;
   }
 
-  void goBack() {
+  void goHome() {
     Navigator.pushReplacementNamed(context, pageRouteHome);
   }
 
@@ -88,14 +89,7 @@ class _DisplayConfigPageState extends State<DisplayConfigPage> {
                                 const EdgeInsets.only(top: safeAreaPaddingAll),
                             children: sizeSelectArea(context,
                                 Displayer.sizeDisplayKey.keys.toList())))),
-                Visibility(
-                  visible: true,
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: CusNBackButton(
-                        Language.of(context)!.t("common_back"), goBack),
-                  ),
-                ),
+                Visibility(visible: true, child: PageBottomArea()),
               ],
             ),
           ),

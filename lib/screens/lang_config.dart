@@ -1,4 +1,5 @@
 import 'package:e_sound_reminder_app/models/language.dart';
+import 'package:e_sound_reminder_app/widgets/page_bottom_area.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
@@ -108,11 +109,7 @@ class _LangConfigPageState extends State<LangConfigPage> {
                                 Language.localeDisplay.keys.toList())))),
                 Visibility(
                   visible: !initalConfig,
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: CusNBackButton(
-                        Language.of(context)!.t("common_back"), goBack),
-                  ),
+                  child: PageBottomArea(onPressed: goBack),
                 ),
               ],
             ),
