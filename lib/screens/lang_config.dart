@@ -36,10 +36,15 @@ class _LangConfigPageState extends State<LangConfigPage> {
         },
         icon: !initalConfig && lang == Language.currentLocale(context)
             ? Icon(
-                Icons.check,
+                Icons.radio_button_checked,
                 size: 36.0,
               )
-            : null,
+            : !initalConfig
+                ? Icon(
+                    Icons.radio_button_unchecked,
+                    size: 36.0,
+                  )
+                : null,
       ));
       mwList.add(const SizedBox(
         height: 8.0,
