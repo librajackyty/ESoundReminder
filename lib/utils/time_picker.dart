@@ -42,7 +42,7 @@ final theme = ThemeData.light().copyWith(
               ? elementActiveTxtColor
               : elementNotActiveTxtColor),
       entryModeIconColor: elementNotActiveTxtColor,
-      helpTextStyle: const TextStyle(
+      helpTextStyle: TextStyle(
           fontSize: textSmallSize,
           fontWeight: FontWeight.bold,
           color: Colors.black),
@@ -163,6 +163,7 @@ void showDayNightTimePicker(BuildContext context, TimeOfDay initialTime,
       buttonStyle: btnStyle,
       cancelStyle: cancelBtnTxtStyle,
       cancelButtonStyle: cancelBtnStyle,
+      is24HrFormat: false,
       hourLabel: hourLabel ?? 'Hr   ',
       minuteLabel: minuteLabel ?? 'Min  ',
       blurredBackground: true,

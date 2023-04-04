@@ -23,7 +23,7 @@ class _WeekdaysSelectorState extends State<WeekdaysSelector> {
   Widget build(BuildContext context) {
     return SelectWeekDays(
       padding: selectWeekDaysPadding,
-      fontSize: selectWeekDaysFontSize,
+      fontSize: textExSmallSize,
       fontWeight: FontWeight.bold,
       days: widget.days,
       selectedDayTextColor: elementActiveTxtColor,

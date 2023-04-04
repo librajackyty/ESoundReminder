@@ -34,16 +34,52 @@ const double reminderCardBottomMargin = 16.0;
 const double cardsBorderRadius = 20.0;
 const double cardsElevation = 6.0;
 const double listviewPaddingAll = 18.0;
-const double selectWeekDaysFontSize = 20.0;
+// const double selectWeekDaysFontSize = 20.0;
 const double selectWeekDaysBorderRadius = 30.0;
 const double selectWeekDaysPadding = 10.0;
 const int progressBarDelayShowTime = 300;
 
-const double textTitleSize = 36;
-const double textNormalSize = 30;
-const double textSmallSize = 22;
-const double textBtnSize = 28;
-const double textBtnSmallSize = 20;
+double _textTitleSize = 36;
+double _textNormalSize = 30;
+double _textSmallSize = 22;
+double _textExSmallSize = 20;
+double _textBtnSize = 28;
+double _textBtnSmallSize = 20;
+
+set appTextTitleSize(double size) => _textTitleSize = size;
+set appTextNormalSize(double size) => _textNormalSize = size;
+set appTextSmallSize(double size) => _textSmallSize = size;
+set appTextExSmallSize(double size) => _textExSmallSize = size;
+set appTextBtnSize(double size) => _textBtnSize = size;
+set appTextBtnSmallSize(double size) => _textBtnSmallSize = size;
+
+double get textTitleSize => _textTitleSize;
+double get textNormalSize => _textNormalSize;
+double get textSmallSize => _textSmallSize;
+double get textExSmallSize => _textExSmallSize;
+double get textBtnSize => _textBtnSize;
+double get textBtnSmallSize => _textBtnSmallSize;
+
+const double textLTitleSize = 36;
+const double textLNormalSize = 30;
+const double textLSmallSize = 22;
+const double textLExSmallSize = 20;
+const double textLBtnSize = 28;
+const double textLBtnSmallSize = 20;
+
+const double textMTitleSize = 34;
+const double textMNormalSize = 28;
+const double textMSmallSize = 20;
+const double textMExSmallSize = 18;
+const double textMBtnSize = 26;
+const double textMBtnSmallSize = 18;
+
+const double textSTitleSize = 18;
+const double textSNormalSize = 14;
+const double textSSmallSize = 8;
+const double textSExSmallSize = 6;
+const double textSBtnSize = 14;
+const double textSBtnSmallSize = 6;
 
 final Color elementActiveColor = Colors.green[900]!;
 const Color elementNotActiveColor = Colors.white;
