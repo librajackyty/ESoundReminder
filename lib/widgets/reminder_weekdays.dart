@@ -120,6 +120,7 @@ class _SelectWeekDaysState extends State<SelectWeekDays> {
 
   @override
   void initState() {
+    debugPrint("initStatus _SelectWeekDaysState");
     widget.days.forEach((element) {
       if (element.isSelected) {
         selectedDays.add(element.dayName);
@@ -129,17 +130,7 @@ class _SelectWeekDaysState extends State<SelectWeekDays> {
   }
 
   void _getSelectedWeekDays(bool isSelected, String day) {
-    if (isSelected == true) {
-      if (!selectedDays.contains(day)) {
-        selectedDays.add(day);
-      }
-    } else if (isSelected == false) {
-      if (selectedDays.contains(day)) {
-        selectedDays.remove(day);
-      }
-    }
-    // [onSelect] is the callback which passes the Selected days as list.
-    widget.onSelect(selectedDays.toList());
+    widget.onSelect(widget.days.map((e) => e.isSelected).toList());
   }
 
 // getter to handle background color of container.

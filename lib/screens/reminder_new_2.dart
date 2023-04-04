@@ -1,5 +1,3 @@
-import 'package:day_night_time_picker/day_night_time_picker.dart';
-import 'package:e_sound_reminder_app/widgets/custom_text_title.dart';
 import 'package:flutter/material.dart';
 
 import '../models/language.dart';
@@ -8,20 +6,12 @@ import '../models/reminder_screen_arg.dart';
 import '../utils/constants.dart';
 import '../utils/formatter.dart';
 import '../utils/time_picker.dart';
-import '../widgets/ani_progress_bar.dart';
 import '../widgets/custom_button_normal.dart';
 import '../widgets/custom_button_normal_back.dart';
-import '../widgets/custom_button_small.dart';
-import '../widgets/custom_card_container.dart';
 import '../widgets/custom_labeled_switch.dart';
-import '../widgets/custom_scroll_bar.dart';
-import '../widgets/custom_text_normal.dart';
 import '../widgets/custom_text_small.dart';
-import '../widgets/custom_text_small_ex.dart';
 import '../widgets/reminder_header.dart';
 import '../widgets/reminder_weekdays.dart';
-import '../widgets/reminder_weekdays_display.dart';
-import '../widgets/time_section_display.dart';
 
 class ReminderNewPage2 extends StatefulWidget {
   const ReminderNewPage2({super.key, required this.title, this.arg});
@@ -56,12 +46,13 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
   bool setNight = false;
 
   // Weekly selector
-  List selectedweekdays1 = ['Monday', 'Tuesday', 'Wednesday'];
-  List selectedweekdays2 = ['Thursday', 'Friday', 'Saturday', 'Sunday'];
+  List selectedweekdays1 = List.filled(3, true);
+  List selectedweekdays2 = List.filled(4, true);
 
   // UI rendering
   List<bool> weekdaysList1Selected = [true, true, true];
   List<DayInWeek> getweekdaysList1(BuildContext context) {
+    debugPrint("getweekdaysList1 ==>");
     return [
       DayInWeek(Language.of(context)!.t("week_mon"),
           isSelected: weekdaysList1Selected[0]),
@@ -74,6 +65,7 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
 
   List<bool> weekdaysList2Selected = [true, true, true, true];
   List<DayInWeek> getweekdaysList2(BuildContext context) {
+    debugPrint("getweekdaysList2 ==>");
     return [
       DayInWeek(Language.of(context)!.t("week_thu"),
           isSelected: weekdaysList2Selected[0]),
@@ -96,16 +88,20 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
     debugPrint("updateWeekdays1ToModel ================");
     List<int> newWeekdays = List.empty(growable: true);
     weekdaysList1Selected = List.filled(3, false);
-    for (var day in selectedweekdays1) {
-      int intWD = fromStringToWeekday(day);
-      newWeekdays.add(intWD);
-      weekdaysList1Selected[intWD - 1] = true;
+    for (var i = 0; i < selectedweekdays1.length; i++) {
+      int intWD = selectedweekdays1[i] ? i + 1 : -1;
+      if (intWD > 0) {
+        newWeekdays.add(intWD);
+        weekdaysList1Selected[intWD - 1] = true;
+      }
     }
     weekdaysList2Selected = List.filled(4, false);
-    for (var day in selectedweekdays2) {
-      int intWD = fromStringToWeekday(day);
-      newWeekdays.add(intWD);
-      weekdaysList2Selected[intWD - 4] = true;
+    for (var i = 0; i < selectedweekdays2.length; i++) {
+      int intWD = selectedweekdays2[i] ? i + 4 : -1;
+      if (intWD > 0) {
+        newWeekdays.add(intWD);
+        weekdaysList2Selected[intWD - 4] = true;
+      }
     }
     debugPrint("weekdaysList1Selected ${weekdaysList1Selected.toString()}");
     debugPrint("weekdaysList2Selected ${weekdaysList2Selected.toString()}");
@@ -117,17 +113,8 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
   void updateWeekDaysByOnce(bool all) {
     debugPrint("updateWeekDaysByOnce ================");
     if (all) {
-      selectedweekdays1 = [
-        Language.of(context)!.t("week_mon"),
-        Language.of(context)!.t("week_tue"),
-        Language.of(context)!.t("week_wed")
-      ];
-      selectedweekdays2 = [
-        Language.of(context)!.t("week_thu"),
-        Language.of(context)!.t("week_fri"),
-        Language.of(context)!.t("week_sat"),
-        Language.of(context)!.t("week_sun")
-      ];
+      selectedweekdays1 = List.filled(3, true);
+      selectedweekdays2 = List.filled(4, true);
     } else {
       selectedweekdays1 = List.empty(growable: true);
       selectedweekdays2 = List.empty(growable: true);
