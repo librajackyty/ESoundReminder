@@ -64,11 +64,18 @@
 
     "settings_title": "Settings",
     "settings_list_language": "Language",
+    "settings_list_display": "Text size",
     "settings_list_about": "About",
     "settings_list_oss": "Open source software (OSS)",
 
     "lang_title": "Language",
     "lang_list_msg": "Please select the language:",
+
+    "display_title": "Text Size",
+    "display_list_msg": "Please set the size of the app text:",
+    "display_list_itm_L": "Large",
+    "display_list_itm_M": "Medium",
+    "display_list_itm_S": "Small",
 
     "oss_title": "Open source software (OSS)",
     "oss_msg": "This application makes use of the following software/libraries/plugins",

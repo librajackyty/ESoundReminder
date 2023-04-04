@@ -12,6 +12,7 @@ const String pageRouteReminderNew = "/remindernew";
 const String pageRouteReminderNew2 = "/remindernew2";
 const String pageRouteOpenSources = "/opensources";
 const String pageRouteAbout = "/about";
+const String pageRouteDisplayConfig = "/displayConfig";
 
 const String pageNameReminderDetailMore = "More Reminder Detail";
 const String pageNameReminderDetail = "New Reminder Detail";
@@ -74,12 +75,12 @@ const double textMExSmallSize = 18;
 const double textMBtnSize = 26;
 const double textMBtnSmallSize = 18;
 
-const double textSTitleSize = 18;
-const double textSNormalSize = 14;
-const double textSSmallSize = 8;
-const double textSExSmallSize = 6;
-const double textSBtnSize = 14;
-const double textSBtnSmallSize = 6;
+const double textSTitleSize = 30;
+const double textSNormalSize = 24;
+const double textSSmallSize = 16;
+const double textSExSmallSize = 14;
+const double textSBtnSize = 22;
+const double textSBtnSmallSize = 14;
 
 final Color elementActiveColor = Colors.green[900]!;
 const Color elementNotActiveColor = Colors.white;

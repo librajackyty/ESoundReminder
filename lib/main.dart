@@ -16,7 +16,9 @@ import 'package:timezone/timezone.dart';
 import 'models/language.dart';
 import 'models/reminder_screen_arg.dart';
 import 'providers/app_language.dart';
+import 'providers/displayer_provider.dart';
 import 'screens/about.dart';
+import 'screens/display_config.dart';
 import 'screens/home.dart';
 import 'screens/intro.dart';
 import 'screens/landing.dart';
@@ -64,14 +66,21 @@ void main() async {
   AppLanguage appLanguage = AppLanguage();
   successGetDefaultLang = await appLanguage.fetchLocale();
   debugPrint("Main main - successGetDefaultLang: $successGetDefaultLang");
+  DisplayerProvider dp = DisplayerProvider();
+  await dp.fetchAppTextSize();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then(
-    (_) => runApp(MyApp(appLanguage: appLanguage)),
+    (_) => runApp(MyApp(
+      appLanguage: appLanguage,
+      displayerProvider: dp,
+    )),
   );
 }
 
 class MyApp extends StatefulWidget {
   final AppLanguage appLanguage;
-  MyApp({super.key, required this.appLanguage});
+  final DisplayerProvider displayerProvider;
+  MyApp(
+      {super.key, required this.appLanguage, required this.displayerProvider});
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -168,6 +177,9 @@ class _MyAppState extends State<MyApp> {
           ChangeNotifierProvider(
             create: (context) => widget.appLanguage,
           ),
+          ChangeNotifierProvider(
+            create: (context) => widget.displayerProvider,
+          ),
         ],
         child: Consumer<AppLanguage>(
           builder: (context, model, child) => MaterialApp(
@@ -242,6 +254,10 @@ class _MyAppState extends State<MyApp> {
                   return PageTransition(
                       child: const OpenSourcesPage(
                           title: 'Open Sources Software (OSS)'),
+                      type: PageTransitionType.rightToLeft);
+                case constants.pageRouteDisplayConfig:
+                  return PageTransition(
+                      child: const DisplayConfigPage(title: 'Display Config'),
                       type: PageTransitionType.rightToLeft);
 
                 case constants.pageRouteReminderNew:

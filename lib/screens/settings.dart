@@ -1,10 +1,12 @@
 import 'package:e_sound_reminder_app/widgets/custom_text_small.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
 
 import '../models/language.dart';
 import '../utils/assetslink.dart';
 import '../utils/constants.dart';
+import '../utils/text_config.dart';
 import '../widgets/custom_button_normal_back.dart';
 import '../widgets/custom_list_item.dart';
 import '../widgets/custom_text_normal.dart';
@@ -53,6 +55,13 @@ class _SettingsPageState extends State<SettingsPage> {
                                     .t("settings_list_language"),
                                 iconData: Icons.language, onTap: () {
                               Navigator.pushNamed(context, pageRouteLangConfig);
+                            }),
+                            CusListItm(
+                                Language.of(context)!
+                                    .t("settings_list_display"),
+                                iconData: Icons.text_increase, onTap: () {
+                              Navigator.pushNamed(
+                                  context, pageRouteDisplayConfig);
                             }),
                             CusListItm(
                                 Language.of(context)!.t("settings_list_about"),
