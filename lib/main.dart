@@ -63,7 +63,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   AppLanguage appLanguage = AppLanguage();
   successGetDefaultLang = await appLanguage.fetchLocale();
-  debugPrint("Main main - failtoGetDefaultLang: $successGetDefaultLang");
+  debugPrint("Main main - successGetDefaultLang: $successGetDefaultLang");
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then(
     (_) => runApp(MyApp(appLanguage: appLanguage)),
   );
@@ -167,7 +167,7 @@ class _MyAppState extends State<MyApp> {
           ),
           ChangeNotifierProvider(
             create: (context) => widget.appLanguage,
-          )
+          ),
         ],
         child: Consumer<AppLanguage>(
           builder: (context, model, child) => MaterialApp(
@@ -194,6 +194,13 @@ class _MyAppState extends State<MyApp> {
             ),
             themeMode: ThemeMode.light,
             debugShowCheckedModeBanner: false,
+            builder: (context, child) {
+              final MediaQueryData data = MediaQuery.of(context);
+              return MediaQuery(
+                data: data.copyWith(textScaleFactor: 1.0),
+                child: child!,
+              );
+            },
             initialRoute: !successGetDefaultLang
                 ? constants.pageRouteLangConfigFirst
                 : constants.pageRouteLanding,
