@@ -194,13 +194,6 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
         .then((value) => setState(() {
               progressIdx = progressIdxStep1;
             }));
-
-    // _isSelectedEveryday.addListener(() {
-    //   debugPrint("_isSelectedEveryday val changes");
-    //   setState(() {
-    //     updateWeekDaysByOnce();
-    //   });
-    // });
   }
 
   @override
@@ -302,60 +295,60 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                         decoration: BoxDecoration(
                           border: Border(top: BorderSide()),
                         )),
-                    CusCardContainer(
-                        child: SizedBox(
-                            height: MediaQuery.of(context).size.height *
-                                reminderCardHeightRatio,
-                            child: ListView(
-                              padding: EdgeInsets.all(12),
-                              children: [
-                                Visibility(
-                                  maintainSize: true,
-                                  maintainAnimation: true,
-                                  maintainState: true,
-                                  visible: setMorning,
-                                  child: Row(children: [
-                                    Icon(
-                                      Icons.alarm_on_outlined,
-                                      size: 14,
-                                    ),
-                                    SizedBox(width: 2),
-                                    CusExSText(Language.of(context)!
-                                        .t("reminder_new2_settimer2")),
-                                  ]),
-                                ),
-                                TimeSectionDisplay(
-                                  padding:
-                                      const EdgeInsets.only(top: 2, bottom: 8),
-                                  times: [fromTimeOfDayToString(timeMorning)],
-                                ),
-                                Visibility(
-                                  maintainSize: true,
-                                  maintainAnimation: true,
-                                  maintainState: true,
-                                  visible: true,
-                                  child: Row(children: [
-                                    Icon(
-                                      Icons.event_repeat_outlined,
-                                      size: 14,
-                                    ),
-                                    SizedBox(width: 2),
-                                    CusExSText(Language.of(context)!
-                                        .t("reminder_new2_setrepeat2")),
-                                  ]),
-                                ),
-                                Visibility(
-                                    maintainSize: true,
-                                    maintainAnimation: true,
-                                    maintainState: true,
-                                    visible: true,
-                                    child: WeekdaysDisplay(
-                                      reminder: reminder,
-                                      padding: const EdgeInsets.only(
-                                          top: 2, bottom: 8),
-                                    )),
-                              ],
-                            ))),
+                    // CusCardContainer(
+                    //     child: SizedBox(
+                    //         height: MediaQuery.of(context).size.height *
+                    //             reminderCardHeightRatio,
+                    //         child: ListView(
+                    //           padding: EdgeInsets.all(12),
+                    //           children: [
+                    //             Visibility(
+                    //               maintainSize: true,
+                    //               maintainAnimation: true,
+                    //               maintainState: true,
+                    //               visible: setMorning,
+                    //               child: Row(children: [
+                    //                 Icon(
+                    //                   Icons.alarm_on_outlined,
+                    //                   size: 14,
+                    //                 ),
+                    //                 SizedBox(width: 2),
+                    //                 CusExSText(Language.of(context)!
+                    //                     .t("reminder_new2_settimer2")),
+                    //               ]),
+                    //             ),
+                    //             TimeSectionDisplay(
+                    //               padding:
+                    //                   const EdgeInsets.only(top: 2, bottom: 8),
+                    //               times: [fromTimeOfDayToString(timeMorning)],
+                    //             ),
+                    //             Visibility(
+                    //               maintainSize: true,
+                    //               maintainAnimation: true,
+                    //               maintainState: true,
+                    //               visible: true,
+                    //               child: Row(children: [
+                    //                 Icon(
+                    //                   Icons.event_repeat_outlined,
+                    //                   size: 14,
+                    //                 ),
+                    //                 SizedBox(width: 2),
+                    //                 CusExSText(Language.of(context)!
+                    //                     .t("reminder_new2_setrepeat2")),
+                    //               ]),
+                    //             ),
+                    //             Visibility(
+                    //                 maintainSize: true,
+                    //                 maintainAnimation: true,
+                    //                 maintainState: true,
+                    //                 visible: true,
+                    //                 child: WeekdaysDisplay(
+                    //                   reminder: reminder,
+                    //                   padding: const EdgeInsets.only(
+                    //                       top: 2, bottom: 8),
+                    //                 )),
+                    //           ],
+                    //         ))),
                     Row(
                       children: [
                         Expanded(
