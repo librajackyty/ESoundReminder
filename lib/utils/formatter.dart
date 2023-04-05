@@ -109,7 +109,7 @@ String fromTimeToString(DateTime time,
   if (weekdays != null) {
     if (weekdays.isEmpty) {
       if (dateTxts != null && dateTxts.isNotEmpty) {
-        _showTimeWthdateTxt(time, timeStr, dateTxts, longFormat);
+        return _showTimeWthdateTxt(time, timeStr, dateTxts, longFormat);
       }
       return '${time.year}/${time.month}/${time.day}\n$timeStr';
     }
