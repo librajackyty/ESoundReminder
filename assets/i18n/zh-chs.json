@@ -90,6 +90,9 @@
     "timepicker_hr": "时   ",
     "timepicker_min": "分钟 ",
 
+    "day_expired": "过期",
+    "day_today": "今天",
+    "day_tmr": "明天",
     "week_mon": "一",
     "week_tue": "二",
     "week_wed": "三",

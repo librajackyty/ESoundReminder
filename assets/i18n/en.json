@@ -90,6 +90,9 @@
     "timepicker_hr": "Hr   ",
     "timepicker_min": "Min  ",
 
+    "day_expired": "Expired",
+    "day_today": "Today",
+    "day_tmr": "Tomorrow",
     "week_mon": "Monday",
     "week_tue": "Tuesday",
     "week_wed": "Wednesday",

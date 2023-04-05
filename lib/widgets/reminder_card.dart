@@ -42,7 +42,13 @@ class CardReminderItem extends StatelessWidget {
           height: 60,
         ),
         reminder.selectedMedicine.join(","),
-        fromTimeToString(reminder.time1),
+        fromTimeToString(reminder.time1,
+            weekdays: reminder.weekdays1,
+            dateTxts: [
+              Language.of(context)!.t("day_today"),
+              Language.of(context)!.t("day_tmr"),
+              Language.of(context)!.t("day_expired"),
+            ]),
         reminder.weekdays1.isNotEmpty
             ? "${Language.of(context)!.t("home_card_repeat")} \n${showingRepeatWeekdays(context, reminder)}"
             : '',

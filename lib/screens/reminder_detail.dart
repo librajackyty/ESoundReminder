@@ -69,7 +69,16 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
     return TimeSectionDisplay(
       largeTxt: true,
       alignment: Alignment.center,
-      times: [fromTimeToString(reminder.time1)],
+      times: [
+        fromTimeToString(reminder.time1,
+            weekdays: reminder.weekdays1,
+            longFormat: true,
+            dateTxts: [
+              Language.of(context)!.t("day_today"),
+              Language.of(context)!.t("day_tmr"),
+              Language.of(context)!.t("day_expired"),
+            ])
+      ],
     );
   }
 

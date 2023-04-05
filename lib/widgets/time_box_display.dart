@@ -27,7 +27,11 @@ class TimeBoxDisplay extends StatelessWidget {
           children: [
             icon ?? const SizedBox.shrink(),
             largeTxt
-                ? Flexible(child: CusTitleText(time))
+                ? Flexible(
+                    child: CusTitleText(
+                    time,
+                    textAlign: TextAlign.center,
+                  ))
                 : Flexible(
                     child: CusNText(
                     time,

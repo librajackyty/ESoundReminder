@@ -80,9 +80,14 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
   }
 
   void updateTime1ToModel(TimeOfDay newTime) {
-    reminder = reminder.copyWith(
-        time1: DateTime(_fromDate.year, _fromDate.month, _fromDate.day,
-            newTime.hour, newTime.minute));
+    DateTime newDT = DateTime(_fromDate.year, _fromDate.month, _fromDate.day,
+        newTime.hour, newTime.minute);
+    if (reminder.weekdays1.isEmpty) {
+      newDT = convertSelectTime(DateTime(_fromDate.year, _fromDate.month,
+          _fromDate.day, newTime.hour, newTime.minute));
+    }
+    debugPrint("updateTime1ToModel setTime: ${newDT.toString()}");
+    reminder = reminder.copyWith(time1: newDT);
   }
 
   void updateWeekdays1ToModel() {
@@ -108,6 +113,9 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
     debugPrint("weekdaysList2Selected ${weekdaysList2Selected.toString()}");
     newWeekdays.sort((a, b) => a.compareTo(b));
     reminder = reminder.copyWith(weekdays1: newWeekdays);
+
+    // reset alarm time -> not adding 1 day if will be loop OR adding back 1day if no loop
+    updatingAlarmTime(timeMorning);
     debugPrint("updateWeekdays1ToModel ================");
   }
 
@@ -209,7 +217,13 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                           Language.of(context)!.t("reminder_new2_settimer1"),
                         ),
                         CusNButton(
-                          fromTimeOfDayToString(timeMorning),
+                          // fromTimeOfDayToString(timeMorning),
+                          fromTimeToString(reminder.time1,
+                              weekdays: reminder.weekdays1,
+                              dateTxts: [
+                                Language.of(context)!.t("day_today"),
+                                Language.of(context)!.t("day_tmr")
+                              ]),
                           () => openDayNightTimePicker(),
                           // openTimePicker,
                           icon: Icon(Icons.alarm_add),

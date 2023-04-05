@@ -94,11 +94,50 @@ int fromStringToWeekday(String weekdayStr) {
   }
 }
 
-String fromTimeToString(DateTime time) {
-  return '${hTOhh_24hTrue(time.hour)}:${mTOmm(time.minute)}';
+DateTime convertSelectTime(DateTime dateTime) {
+  final currentT = DateTime.now();
+  debugPrint("convertSelectTime: ${currentT.toString()}");
+  if (dateTime.isBefore(currentT)) {
+    return dateTime.add(const Duration(days: 1));
+  }
+  return dateTime;
 }
 
-String fromTimeOfDayToString(TimeOfDay time) {
+String fromTimeToString(DateTime time,
+    {List? weekdays, List<String>? dateTxts, bool longFormat = false}) {
+  String timeStr = '${hTOhh_24hTrue(time.hour)}:${mTOmm(time.minute)}';
+  if (weekdays != null) {
+    if (weekdays.isEmpty) {
+      if (dateTxts != null && dateTxts.isNotEmpty) {
+        final currentT = DateTime.now();
+
+        if (longFormat) {
+          if (currentT.isBefore(time)) {
+            if (currentT.day == time.day) {
+              return '${time.year}/${time.month}/${time.day}\n${dateTxts[0]} $timeStr';
+            }
+            return '${time.year}/${time.month}/${time.day}\n${dateTxts[1]} $timeStr';
+          } else {
+            if (dateTxts.length >= 3) {
+              // expired
+              return '${time.year}/${time.month}/${time.day}\n${dateTxts[2]} $timeStr';
+            }
+            return '${time.year}/${time.month}/${time.day} $timeStr';
+          }
+        } else {
+          if (currentT.day == time.day) {
+            return '${dateTxts[0]} $timeStr';
+          }
+          return '${dateTxts[1]} $timeStr';
+        }
+      }
+      return '${time.year}/${time.month}/${time.day}\n$timeStr';
+    }
+  }
+  return timeStr;
+}
+
+String fromTimeOfDayToString(TimeOfDay time, {List? weekdays}) {
   return '${hTOhh_24hTrue(time.hour)}:${mTOmm(time.minute)}';
 }
 
