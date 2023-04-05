@@ -26,7 +26,9 @@ void runHapticSound({HapticFeedbackType type = HapticFeedbackType.light}) {
       HapticFeedback.lightImpact();
   }
   // SystemSound.play(SystemSoundType.click);
-  FlutterRingtonePlayer.play(fromAsset: assetslinkSounds("tap"));
+  Future.delayed(Duration.zero, () {
+    FlutterRingtonePlayer.play(fromAsset: assetslinkSounds("tap"));
+  });
 }
 
 void runSaveFeedback() {
