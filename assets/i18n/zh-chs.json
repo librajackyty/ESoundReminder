@@ -64,11 +64,18 @@
 
     "settings_title": "设定",
     "settings_list_language": "语言",
+    "settings_list_display": "文字大小",
     "settings_list_about": "关于",
     "settings_list_oss": "开源软件 (OSS)",
 
     "lang_title": "语言",
     "lang_list_msg": "请选择语言:",
+
+    "display_title": "文字大小",
+    "display_list_msg": "请设置应用文字的大小:",
+    "display_list_itm_L": "大 (L)",
+    "display_list_itm_M": "中 (M)",
+    "display_list_itm_S": "小 (S)",
     
     "oss_title": "开源软件 (OSS)",
     "oss_msg": "此应用程序使用以下软件/库/插件",

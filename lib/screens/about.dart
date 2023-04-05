@@ -7,6 +7,7 @@ import '../utils/constants.dart';
 import '../widgets/custom_button_normal_back.dart';
 import '../widgets/custom_text_normal.dart';
 import '../widgets/custom_text_small.dart';
+import '../widgets/page_bottom_area.dart';
 
 class AboutPage extends StatefulWidget {
   const AboutPage({super.key, required this.title});
@@ -114,11 +115,7 @@ class _AboutPageState extends State<AboutPage> {
                         ),
                       ]),
                 ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: CusNBackButton(Language.of(context)!.t("common_back"),
-                      () => {Navigator.pop(context)}),
-                ),
+                PageBottomArea()
               ],
             ),
           ),

@@ -1,22 +1,16 @@
 import 'package:e_sound_reminder_app/models/language.dart';
-import 'package:e_sound_reminder_app/widgets/custom_card.dart';
-import 'package:e_sound_reminder_app/widgets/custom_text_normal.dart';
 import 'package:e_sound_reminder_app/widgets/custom_text_small.dart';
 import 'package:e_sound_reminder_app/widgets/custom_text_small_ex.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
-import '../models/reminder.dart';
 import '../models/reminder_screen_arg.dart';
 import '../providers/reminders/reminders_provider.dart';
-import '../providers/reminders/reminders_state.dart';
 import '../utils/assetslink.dart';
 import '../utils/constants.dart' as constants;
 import '../utils/constants.dart';
 import '../utils/feedback.dart';
-import '../utils/formatter.dart';
 import '../widgets/custom_list_item.dart';
-import '../widgets/custom_scroll_bar.dart';
 import '../widgets/reminder_card.dart';
 
 class HomePage extends StatefulWidget {
@@ -132,20 +126,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          toolbarHeight: 80,
-          leadingWidth: 68,
-          leading: Container(
-            margin: EdgeInsets.only(left: safeAreaPaddingAll, right: 8),
-            child: Image(
-                width: 40,
-                height: 40,
-                image: AssetImage(assetslinkImages('app_icon_512_rounded'))),
-          ),
-          title: createAppBarTxt(),
-          titleSpacing: 8,
-          centerTitle: false,
-        ),
         extendBody: true,
         body: SafeArea(
           child: Padding(
@@ -256,6 +236,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 padding: const EdgeInsets.only(
                     left: listviewPaddingAll, right: listviewPaddingAll),
                 child: Column(children: [
+                  createAppBar(),
                   Expanded(
                     child: ListView.builder(
                       shrinkWrap: true,
@@ -308,6 +289,15 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         ));
   }
 
+  Widget createAppBar() {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: elementMPadding),
+      child: Column(
+        children: [createAppBarTxt(), const Divider()],
+      ),
+    );
+  }
+
   Widget createAppBarTxt() {
     final model = context.read<ReminderModel>();
     if (model.remindersIntial != null && model.remindersIntial!.isNotEmpty) {
@@ -320,12 +310,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           ],
         );
       }
-      return Text(
-        "${Language.of(context)!.t("home_greeting")}\n${Language.of(context)!.t("home_list_msg")}",
-        maxLines: 2,
+      return CusExSText(
+        "${Language.of(context)!.t("home_greeting")} ${Language.of(context)!.t("home_list_msg")}",
+        textAlign: TextAlign.start,
       );
     }
-    return Text(
+    return CusExSText(
       Language.of(context)!.t("home_greeting"),
       textAlign: TextAlign.start,
     );

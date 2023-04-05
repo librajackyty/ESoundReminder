@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import '../models/language.dart';
 import '../utils/constants.dart';
 import '../widgets/custom_button_normal_back.dart';
-import '../widgets/custom_list_item.dart';
-import '../widgets/custom_text_normal.dart';
+import '../widgets/custom_text_small_ex.dart';
+import '../widgets/page_bottom_area.dart';
 
 class OpenSourcesPage extends StatefulWidget {
   const OpenSourcesPage({super.key, required this.title});
@@ -24,12 +24,12 @@ class _OpenSourcesPageState extends State<OpenSourcesPage> {
       if (item.license?.isNotEmpty ?? false) {
         displayList.add(Column(
           children: [
-            Text(
+            CusSText(
               item.name,
-              style: TextStyle(fontWeight: FontWeight.bold),
+              color: elementActiveColor,
             ),
-            Text(item.version),
-            Text(item.license.toString()),
+            CusSText(item.version),
+            CusExSText(item.license.toString()),
             const SizedBox(
               height: 16.0,
             )
@@ -60,17 +60,13 @@ class _OpenSourcesPageState extends State<OpenSourcesPage> {
                     child: ListView(
                         padding: const EdgeInsets.only(top: safeAreaPaddingAll),
                         children: [
-                      Text(Language.of(context)!.t("oss_msg")),
+                      CusSText(Language.of(context)!.t("oss_msg")),
                       const SizedBox(
                         height: 20.0,
                       ),
                       ...generateOssList()
                     ])),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: CusNBackButton(Language.of(context)!.t("common_back"),
-                      () => {Navigator.pop(context)}),
-                ),
+                PageBottomArea()
               ],
             ),
           ),

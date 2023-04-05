@@ -1,4 +1,5 @@
 import 'package:e_sound_reminder_app/models/language.dart';
+import 'package:e_sound_reminder_app/widgets/page_bottom_area.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
@@ -32,25 +33,34 @@ class _LangConfigPageState extends State<LangConfigPage> {
         "${Language.localeDisplay[lang]}",
         () {
           appLanguage.changeLanguage(Locale(lang));
-          if (initalConfig) {
-            Navigator.pushNamedAndRemoveUntil(
-                context, pageRouteHome, (route) => false);
-          } else {
-            Navigator.of(context).pop();
-          }
+          Future.delayed(Duration(milliseconds: 100), goBack);
         },
         icon: !initalConfig && lang == Language.currentLocale(context)
             ? Icon(
-                Icons.check,
+                Icons.radio_button_checked,
                 size: 36.0,
               )
-            : null,
+            : !initalConfig
+                ? Icon(
+                    Icons.radio_button_unchecked,
+                    size: 36.0,
+                  )
+                : null,
       ));
       mwList.add(const SizedBox(
         height: 8.0,
       ));
     }
     return mwList;
+  }
+
+  void goBack() {
+    if (initalConfig) {
+      Navigator.pushNamedAndRemoveUntil(
+          context, pageRouteHome, (route) => false);
+    } else {
+      Navigator.of(context).pop();
+    }
   }
 
   @override
@@ -99,12 +109,7 @@ class _LangConfigPageState extends State<LangConfigPage> {
                                 Language.localeDisplay.keys.toList())))),
                 Visibility(
                   visible: !initalConfig,
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: CusNBackButton(
-                        Language.of(context)!.t("common_back"),
-                        () => {Navigator.pop(context)}),
-                  ),
+                  child: PageBottomArea(onPressed: goBack),
                 ),
               ],
             ),

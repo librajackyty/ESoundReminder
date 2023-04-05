@@ -28,8 +28,8 @@ class _CusSBackButtonState extends State<CusSBackButton> {
   Widget build(BuildContext context) {
     ButtonStyle btnstyle = ElevatedButton.styleFrom(
       foregroundColor: buttonForegroundColor2,
-      textStyle: const TextStyle(
-          fontSize: textBtnSmallSize, fontWeight: FontWeight.bold),
+      textStyle:
+          TextStyle(fontSize: textBtnSmallSize, fontWeight: FontWeight.bold),
       minimumSize: maxWidth
           ? const Size.fromHeight(buttonHeightSmall)
           : Size(buttonWidthSmall, buttonHeightSmall),

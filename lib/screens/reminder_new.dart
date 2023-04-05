@@ -126,7 +126,7 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
       mwList.add(Container(
         padding: EdgeInsets.all(8),
         child: CusSButton("$medicine", () {
-          updateSelectedMedicine(medicine);
+          updateClickSelection(medicine);
         }),
       ));
     }
@@ -160,12 +160,26 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
       // } else {
       //   selectedMedicine.remove("$medicine");
       // }
-      selectedMedicine = ["$medicine"];
+      if (medicine.isNotEmpty) {
+        selectedMedicine = [medicine];
+      } else {
+        selectedMedicine = [];
+      }
       updateSelectedMedicineToModel(selectedMedicine);
       if (progressIdx < progressIdxStep2) {
         progressIdx = progressIdxStep2;
       }
     });
+  }
+
+  void updateClickSelection(String medicine) async {
+    FocusManager.instance.primaryFocus?.unfocus();
+    setState(() {
+      showActionArea = true;
+      _txtFController.text = medicine;
+      textLength = _txtFController.text.length;
+    });
+    updateSelectedMedicine(medicine);
   }
 
   var _txtFController = TextEditingController();
@@ -177,11 +191,11 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
     debugPrint("inputTxtSubmit: $val");
     runHapticSound();
     FocusManager.instance.primaryFocus?.unfocus();
-    if (val.trim().isNotEmpty) {
-      updateSelectedMedicine(val.trim());
-    }
-    await Future.delayed(const Duration(milliseconds: 800));
-    _txtFController.clear();
+    // if (val.trim().isNotEmpty) {
+    updateSelectedMedicine(val.trim());
+    // }
+    // await Future.delayed(const Duration(milliseconds: 800));
+    // _txtFController.clear();
     setState(() {
       showActionArea = true;
       textLength = _txtFController.text.length;
@@ -246,26 +260,33 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
                         children: [
                           Expanded(
                             child: TextField(
+                              maxLines: 1,
                               maxLength: maxLength,
                               controller: _txtFController,
+                              style: TextStyle(
+                                  fontSize: textSmallSize,
+                                  fontWeight: FontWeight.bold),
                               decoration: InputDecoration(
                                   counterText: "",
-                                  contentPadding: EdgeInsets.zero,
+                                  // contentPadding: const EdgeInsets.all(16),
                                   border: OutlineInputBorder(
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(16))),
-                                  hintText: Language.of(context)!
-                                      .t("reminder_new1_inputhint"),
+                                  hintText: showActionArea
+                                      ? Language.of(context)!
+                                          .t("reminder_new1_inputhint")
+                                      : '',
                                   hintStyle: TextStyle(color: Colors.black),
                                   prefixIcon:
                                       showActionArea ? Icon(Icons.edit) : null,
                                   prefixText: showActionArea
                                       ? ''
-                                      : '  ${textLength.toString()}/${maxLength.toString()} ',
+                                      : '${textLength.toString()}/${maxLength.toString()} ',
                                   suffixIcon: _txtFController.text.isNotEmpty
                                       ? IconButton(
                                           onPressed: () {
                                             _txtFController.clear();
+                                            updateSelectedMedicine('');
                                             setState(() {
                                               textLength =
                                                   _txtFController.text.length;
@@ -294,20 +315,26 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
                               },
                             ),
                           ),
-                          Visibility(
-                            visible: !showActionArea,
-                            child: IconButton(
-                              onPressed: showActionArea
-                                  ? null
-                                  : () => inputTxtSubmit(_txtFController.text),
-                              iconSize: 48,
-                              icon: Icon(
-                                Icons.check_circle_outline,
-                                color: showActionArea
-                                    ? Colors.grey[400]
-                                    : Colors.green[800],
-                              ),
-                            ),
+                          // Visibility(
+                          //   visible: !showActionArea,
+                          //   child:
+                          AnimatedSize(
+                            duration: const Duration(milliseconds: 200),
+                            child: showActionArea
+                                ? SizedBox.shrink()
+                                : IconButton(
+                                    onPressed: showActionArea
+                                        ? null
+                                        : () => inputTxtSubmit(
+                                            _txtFController.text),
+                                    iconSize: 48,
+                                    icon: Icon(
+                                      Icons.check_circle_outline,
+                                      color: showActionArea
+                                          ? Colors.grey[400]
+                                          : Colors.green[800],
+                                    ),
+                                  ),
                           )
                         ],
                       ),
@@ -317,69 +344,79 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
                         child: const SizedBox(
                           height: 2,
                         )),
+                    // AnimatedSize(
+                    //   duration: const Duration(milliseconds: 200),
+                    //   child: !(selectedMedicine.isNotEmpty && showActionArea)
+                    //       ? SizedBox.shrink()
+                    //       : CusCardContainer(
+                    //           child: SizedBox(
+                    //             width: double.maxFinite,
+                    //             height: MediaQuery.of(context).size.height *
+                    //                 reminderCardHeightRatio,
+                    //             child: ListView(
+                    //               padding: const EdgeInsets.all(12),
+                    //               children: [
+                    //                 Row(children: [
+                    //                   Icon(Icons.medication_outlined),
+                    //                   SizedBox(width: 6),
+                    //                   CusSText(Language.of(context)!
+                    //                       .t("reminder_new1_selectedmedicine"))
+                    //                 ]),
+                    //                 const SizedBox(
+                    //                   height: 8.0,
+                    //                 ),
+                    //                 ...medicineSelectedArea(selectedMedicine)
+                    //               ],
+                    //             ),
+                    //           ),
+                    //         ),
+                    // ),
+
+                    // bottom action area
                     AnimatedSize(
                       duration: const Duration(milliseconds: 200),
-                      child: !(selectedMedicine.isNotEmpty && showActionArea)
+                      child: !showActionArea
                           ? SizedBox.shrink()
-                          : CusCardContainer(
-                              child: SizedBox(
-                                width: double.maxFinite,
-                                height: MediaQuery.of(context).size.height *
-                                    reminderCardHeightRatio,
-                                child: ListView(
-                                  padding: const EdgeInsets.all(12),
-                                  children: [
-                                    Row(children: [
-                                      Icon(Icons.medication_outlined),
-                                      SizedBox(width: 6),
-                                      CusSText(Language.of(context)!
-                                          .t("reminder_new1_selectedmedicine"))
-                                    ]),
-                                    const SizedBox(
-                                      height: 8.0,
-                                    ),
-                                    ...medicineSelectedArea(selectedMedicine)
-                                  ],
+                          :
+                          // ),
+                          // Visibility(
+                          //   visible: showActionArea,
+                          //   child:
+                          Row(
+                              children: [
+                                Expanded(
+                                  child: CusNBackButton(
+                                      Language.of(context)!.t("common_back"),
+                                      () => {Navigator.pop(context)}),
                                 ),
-                              ),
+                                const SizedBox(
+                                  width: 8,
+                                ),
+                                Expanded(
+                                  child: CusNButton(
+                                      Language.of(context)!.t("common_next"),
+                                      () => {
+                                            if (selectedMedicine.isEmpty)
+                                              {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(SnackBar(
+                                                  content: CusSText(Language.of(
+                                                          context)!
+                                                      .t("reminder_new1_snackmsg1")),
+                                                ))
+                                              }
+                                            else
+                                              {
+                                                Navigator.pushNamed(context,
+                                                    pageRouteReminderNew2,
+                                                    arguments:
+                                                        ReminderScreenArg(
+                                                            reminder))
+                                              }
+                                          }),
+                                ),
+                              ],
                             ),
-                    ),
-                    Visibility(
-                      visible: showActionArea,
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: CusNBackButton(
-                                Language.of(context)!.t("common_back"),
-                                () => {Navigator.pop(context)}),
-                          ),
-                          const SizedBox(
-                            width: 8,
-                          ),
-                          Expanded(
-                            child: CusNButton(
-                                Language.of(context)!.t("common_next"),
-                                () => {
-                                      if (selectedMedicine.isEmpty)
-                                        {
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(SnackBar(
-                                            content: CusSText(
-                                                Language.of(context)!.t(
-                                                    "reminder_new1_snackmsg1")),
-                                          ))
-                                        }
-                                      else
-                                        {
-                                          Navigator.pushNamed(
-                                              context, pageRouteReminderNew2,
-                                              arguments:
-                                                  ReminderScreenArg(reminder))
-                                        }
-                                    }),
-                          ),
-                        ],
-                      ),
                     ),
                   ],
                 )
