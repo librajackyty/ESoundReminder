@@ -35,8 +35,7 @@ class _CusNButtonState extends State<CusNButton> {
       backgroundColor: readOnly ? buttonReadOnlyColor : null,
       surfaceTintColor: readOnly ? buttonReadOnlyColor : null,
       foregroundColor: readOnly ? buttonReadOnlyForegroundColor : null,
-      textStyle:
-          const TextStyle(fontSize: textBtnSize, fontWeight: FontWeight.bold),
+      textStyle: TextStyle(fontSize: textBtnSize, fontWeight: FontWeight.bold),
       minimumSize: const Size.fromHeight(buttonHeight),
       side: BorderSide(
         color: buttonBorderColor,

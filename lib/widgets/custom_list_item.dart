@@ -10,12 +10,17 @@ class CusListItm extends StatefulWidget {
   final String text;
   VoidCallback? onTap;
   bool selected;
+  bool noBorder;
 
-  CusListItm(this.text, {this.iconData, this.onTap, this.selected = false});
+  CusListItm(this.text,
+      {this.iconData,
+      this.onTap,
+      this.selected = false,
+      this.noBorder = false});
 
   @override
   _CusListItmState createState() =>
-      _CusListItmState(iconData, text, onTap, selected);
+      _CusListItmState(iconData, text, onTap, selected, noBorder);
 }
 
 class _CusListItmState extends State<CusListItm> {
@@ -23,8 +28,10 @@ class _CusListItmState extends State<CusListItm> {
   String text;
   VoidCallback? onTap;
   bool selected;
+  bool noBorder;
 
-  _CusListItmState(this.iconData, this.text, this.onTap, this.selected);
+  _CusListItmState(
+      this.iconData, this.text, this.onTap, this.selected, this.noBorder);
 
   @override
   Widget build(BuildContext context) {
@@ -40,11 +47,13 @@ class _CusListItmState extends State<CusListItm> {
           padding: const EdgeInsets.all(elementSPadding),
           child: ListTile(
             splashColor: buttonForegroundColor,
-            shape: RoundedRectangleBorder(
-                side: BorderSide(
-                    color: buttonBorderColor, width: buttonBorderWidth),
-                borderRadius:
-                    BorderRadius.all(Radius.circular(cardsBorderRadius))),
+            shape: noBorder
+                ? null
+                : RoundedRectangleBorder(
+                    side: BorderSide(
+                        color: buttonBorderColor, width: buttonBorderWidth),
+                    borderRadius:
+                        BorderRadius.all(Radius.circular(cardsBorderRadius))),
             tileColor: buttonReadOnlyColor,
             selectedTileColor: buttonBorderColor,
             selectedColor: buttonReadOnlyColor,

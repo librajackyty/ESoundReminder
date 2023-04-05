@@ -28,8 +28,8 @@ class _CusSButtonState extends State<CusSButton> {
   @override
   Widget build(BuildContext context) {
     ButtonStyle btnstyle = ElevatedButton.styleFrom(
-      textStyle: const TextStyle(
-          fontSize: textBtnSmallSize, fontWeight: FontWeight.bold),
+      textStyle:
+          TextStyle(fontSize: textBtnSmallSize, fontWeight: FontWeight.bold),
       minimumSize: maxWidth
           ? const Size.fromHeight(buttonHeightSmall)
           : Size(buttonWidthSmall, buttonHeightSmall),

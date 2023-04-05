@@ -1,3 +1,4 @@
+import 'package:e_sound_reminder_app/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 class CusExSText extends StatefulWidget {
@@ -17,6 +18,7 @@ class _CusExSTextState extends State<CusExSText> {
   @override
   Widget build(BuildContext context) {
     return Text(widget.text,
-        textAlign: widget.textAlign, style: TextStyle(color: widget.color));
+        textAlign: widget.textAlign,
+        style: TextStyle(fontSize: textExSmallSize, color: widget.color));
   }
 }

@@ -27,7 +27,7 @@ class _CusNBackButtonState extends State<CusNBackButton> {
     ButtonStyle backstyle = ElevatedButton.styleFrom(
       padding: EdgeInsets.fromLTRB(16, 8, 16, 8),
       foregroundColor: buttonForegroundColor2,
-      textStyle: const TextStyle(fontSize: textBtnSize),
+      textStyle: TextStyle(fontSize: textBtnSize),
       minimumSize: const Size.fromHeight(buttonHeight),
       side: BorderSide(
         color: buttonBorderColor2,
