@@ -1,3 +1,4 @@
+import 'package:delayed_display/delayed_display.dart';
 import 'package:e_sound_reminder_app/models/language.dart';
 import 'package:e_sound_reminder_app/widgets/page_bottom_area.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import '../utils/assetslink.dart';
 import '../utils/constants.dart';
 import '../widgets/custom_button_normal.dart';
 import '../widgets/custom_button_normal_back.dart';
+import '../widgets/custom_scroll_bar.dart';
 import '../widgets/custom_text_normal.dart';
 
 class LangConfigPage extends StatefulWidget {
@@ -25,6 +27,7 @@ class LangConfigPage extends StatefulWidget {
 class _LangConfigPageState extends State<LangConfigPage> {
   bool initalConfig = true;
 
+  ScrollController _scrollController = ScrollController();
   List<Widget> langSelectArea(
       BuildContext context, AppLanguage appLanguage, List langlist) {
     List<Widget> mwList = [];
@@ -80,41 +83,42 @@ class _LangConfigPageState extends State<LangConfigPage> {
             ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(safeAreaPaddingAll),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Lottie.asset(
-                  assetslinkLottie('132900-0101ftue-04'),
-                  width: MediaQuery.of(context).size.width * 0.4,
-                  height: MediaQuery.of(context).size.width * 0.4,
+            padding: const EdgeInsets.all(safeAreaPaddingAll),
+            child: DelayedDisplay(
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Lottie.asset(
+                      assetslinkLottie('132900-0101ftue-04'),
+                      width: MediaQuery.of(context).size.width * 0.4,
+                      height: MediaQuery.of(context).size.width * 0.4,
+                    ),
+                    Visibility(
+                        visible: !initalConfig,
+                        child: CusNText(
+                          Language.of(context)!.t("lang_list_msg"),
+                          textAlign: TextAlign.center,
+                        )),
+                    Expanded(
+                        child: CusScrollbar(
+                            scrollController: _scrollController,
+                            child: ListView(
+                                controller: _scrollController,
+                                padding: const EdgeInsets.only(
+                                    top: safeAreaPaddingAll),
+                                children: langSelectArea(
+                                    context,
+                                    Provider.of<AppLanguage>(context),
+                                    Language.localeDisplay.keys.toList())))),
+                    Visibility(
+                      visible: !initalConfig,
+                      child: PageBottomArea(onPressed: goBack),
+                    ),
+                  ],
                 ),
-                Visibility(
-                    visible: !initalConfig,
-                    child: CusNText(
-                      Language.of(context)!.t("lang_list_msg"),
-                      textAlign: TextAlign.center,
-                    )),
-                Expanded(
-                    child: Scrollbar(
-                        thumbVisibility: false,
-                        thickness: 10.0,
-                        child: ListView(
-                            padding:
-                                const EdgeInsets.only(top: safeAreaPaddingAll),
-                            children: langSelectArea(
-                                context,
-                                Provider.of<AppLanguage>(context),
-                                Language.localeDisplay.keys.toList())))),
-                Visibility(
-                  visible: !initalConfig,
-                  child: PageBottomArea(onPressed: goBack),
-                ),
-              ],
-            ),
-          ),
-        ),
+              ),
+            )),
       ),
     );
   }

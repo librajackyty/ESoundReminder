@@ -1,15 +1,12 @@
-import 'package:e_sound_reminder_app/widgets/custom_text_small.dart';
+import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:provider/provider.dart';
 
 import '../models/language.dart';
 import '../utils/assetslink.dart';
 import '../utils/constants.dart';
-import '../utils/text_config.dart';
-import '../widgets/custom_button_normal_back.dart';
 import '../widgets/custom_list_item.dart';
-import '../widgets/custom_text_normal.dart';
+import '../widgets/custom_scroll_bar.dart';
 import '../widgets/page_bottom_area.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -22,6 +19,7 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+  ScrollController _scrollController = ScrollController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,49 +37,58 @@ class _SettingsPageState extends State<SettingsPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Expanded(
-                  child: Scrollbar(
-                      thumbVisibility: true,
-                      thickness: 10.0,
-                      child: ListView(
-                          padding:
-                              const EdgeInsets.only(top: safeAreaPaddingAll),
-                          children: [
-                            Lottie.asset(
-                              assetslinkLottie('94350-gears-lottie-animation'),
-                              width: MediaQuery.of(context).size.width * 0.4,
-                              height: MediaQuery.of(context).size.width * 0.4,
-                            ),
-                            CusListItm(
-                                Language.of(context)!
-                                    .t("settings_list_language"),
-                                noBorder: true,
-                                iconData: Icons.language, onTap: () {
-                              Navigator.pushNamed(context, pageRouteLangConfig);
-                            }),
-                            CusListItm(
-                                Language.of(context)!
-                                    .t("settings_list_display"),
-                                noBorder: true,
-                                iconData: Icons.text_increase, onTap: () {
-                              Navigator.pushNamed(
-                                  context, pageRouteDisplayConfig);
-                            }),
-                            CusListItm(
-                                Language.of(context)!.t("settings_list_about"),
-                                noBorder: true,
-                                iconData: Icons.help, onTap: () {
-                              Navigator.pushNamed(context, pageRouteAbout);
-                            }),
-                            CusListItm(
-                                Language.of(context)!.t("settings_list_oss"),
-                                noBorder: true,
-                                iconData: Icons.terminal, onTap: () {
-                              Navigator.pushNamed(
-                                  context, pageRouteOpenSources);
-                            }),
-                          ])),
+                  child: DelayedDisplay(
+                      child: CusScrollbar(
+                          scrollController: _scrollController,
+                          child: ListView(
+                              controller: _scrollController,
+                              padding: const EdgeInsets.only(
+                                  top: safeAreaPaddingAll),
+                              children: [
+                                Lottie.asset(
+                                  assetslinkLottie(
+                                      '94350-gears-lottie-animation'),
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.4,
+                                  height:
+                                      MediaQuery.of(context).size.width * 0.4,
+                                ),
+                                CusListItm(
+                                    Language.of(context)!
+                                        .t("settings_list_language"),
+                                    noBorder: true,
+                                    iconData: Icons.language, onTap: () {
+                                  Navigator.pushNamed(
+                                      context, pageRouteLangConfig);
+                                }),
+                                CusListItm(
+                                    Language.of(context)!
+                                        .t("settings_list_display"),
+                                    noBorder: true,
+                                    iconData: Icons.text_increase, onTap: () {
+                                  Navigator.pushNamed(
+                                      context, pageRouteDisplayConfig);
+                                }),
+                                CusListItm(
+                                    Language.of(context)!
+                                        .t("settings_list_about"),
+                                    noBorder: true,
+                                    iconData: Icons.help, onTap: () {
+                                  Navigator.pushNamed(context, pageRouteAbout);
+                                }),
+                                CusListItm(
+                                    Language.of(context)!
+                                        .t("settings_list_oss"),
+                                    noBorder: true,
+                                    iconData: Icons.terminal, onTap: () {
+                                  Navigator.pushNamed(
+                                      context, pageRouteOpenSources);
+                                }),
+                              ]))),
                 ),
-                PageBottomArea()
+                DelayedDisplay(
+                    delay: Duration(milliseconds: pageBottomDelayShowTime),
+                    child: PageBottomArea())
               ],
             ),
           ),

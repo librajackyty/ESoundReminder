@@ -1,3 +1,4 @@
+import 'package:delayed_display/delayed_display.dart';
 import 'package:e_sound_reminder_app/models/language.dart';
 import 'package:e_sound_reminder_app/utils/text_config.dart';
 import 'package:e_sound_reminder_app/widgets/page_bottom_area.dart';
@@ -8,7 +9,7 @@ import '../models/displayer.dart';
 import '../utils/assetslink.dart';
 import '../utils/constants.dart';
 import '../widgets/custom_button_normal.dart';
-import '../widgets/custom_button_normal_back.dart';
+import '../widgets/custom_scroll_bar.dart';
 import '../widgets/custom_text_normal.dart';
 
 class DisplayConfigPage extends StatefulWidget {
@@ -21,6 +22,7 @@ class DisplayConfigPage extends StatefulWidget {
 }
 
 class _DisplayConfigPageState extends State<DisplayConfigPage> {
+  ScrollController _scrollController = ScrollController();
   List<Widget> sizeSelectArea(BuildContext context, List sizeDisplayKey) {
     List<Widget> mwList = [];
     for (var size in sizeDisplayKey) {
@@ -65,7 +67,8 @@ class _DisplayConfigPageState extends State<DisplayConfigPage> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(safeAreaPaddingAll),
-          child: Center(
+          child: DelayedDisplay(
+              child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -81,10 +84,10 @@ class _DisplayConfigPageState extends State<DisplayConfigPage> {
                       textAlign: TextAlign.center,
                     )),
                 Expanded(
-                    child: Scrollbar(
-                        thumbVisibility: false,
-                        thickness: 10.0,
+                    child: CusScrollbar(
+                        scrollController: _scrollController,
                         child: ListView(
+                            controller: _scrollController,
                             padding:
                                 const EdgeInsets.only(top: safeAreaPaddingAll),
                             children: sizeSelectArea(context,
@@ -92,7 +95,7 @@ class _DisplayConfigPageState extends State<DisplayConfigPage> {
                 Visibility(visible: true, child: PageBottomArea()),
               ],
             ),
-          ),
+          )),
         ),
       ),
     );

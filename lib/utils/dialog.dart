@@ -37,7 +37,7 @@ void showDialogLottieIcon(BuildContext context,
     double? lottieHeight,
     Function? onLoaded,
     repeat = false,
-    dismissible = true}) {
+    dismissible = false}) {
   showBaseDialog(
     context,
     dismissible: dismissible,

@@ -46,7 +46,7 @@ class DayInWeek {
   DayInWeek(this.dayName, {this.isSelected = false});
 
   void toggleIsSelected() {
-    this.isSelected = !this.isSelected;
+    isSelected = !isSelected;
   }
 }
 
@@ -121,11 +121,11 @@ class _SelectWeekDaysState extends State<SelectWeekDays> {
   @override
   void initState() {
     debugPrint("initStatus _SelectWeekDaysState");
-    widget.days.forEach((element) {
+    for (var element in widget.days) {
       if (element.isSelected) {
         selectedDays.add(element.dayName);
       }
-    });
+    }
     super.initState();
   }
 
@@ -136,7 +136,7 @@ class _SelectWeekDaysState extends State<SelectWeekDays> {
 // getter to handle background color of container.
   Color? get _handleBackgroundColor {
     if (widget.backgroundColor == null) {
-      return Theme.of(context).accentColor;
+      return Theme.of(context).colorScheme.secondary;
     } else {
       return widget.backgroundColor;
     }
@@ -175,17 +175,17 @@ class _SelectWeekDaysState extends State<SelectWeekDays> {
         return widget.unSelectedDayTextColor;
       }
     }
+    return null;
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: widget.boxDecoration == null
-          ? BoxDecoration(
-              color: _handleBackgroundColor,
-              borderRadius: BorderRadius.circular(0),
-            )
-          : widget.boxDecoration,
+      decoration: widget.boxDecoration ??
+          BoxDecoration(
+            color: _handleBackgroundColor,
+            borderRadius: BorderRadius.circular(0),
+          ),
       child: Padding(
         padding: EdgeInsets.all(widget.padding),
         child: Row(

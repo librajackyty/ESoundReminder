@@ -35,18 +35,25 @@ class CardReminderItem extends StatelessWidget {
 
   Widget createCard(BuildContext context, {subline}) {
     return CusCard(
-        Lottie.asset(
-          assetslinkLottie('61069-medicine-pills'),
-          reverse: true,
-          width: 60,
-          height: 60,
-        ),
-        reminder.selectedMedicine.join(","),
-        fromTimeToString(reminder.time1),
-        reminder.weekdays1.isNotEmpty
-            ? "${Language.of(context)!.t("home_card_repeat")} \n${showingRepeatWeekdays(context, reminder)}"
-            : '',
-        subline1: subline,
-        onPressed: onPressed);
+      Lottie.asset(
+        assetslinkLottie('61069-medicine-pills'),
+        reverse: true,
+        width: 60,
+        height: 60,
+      ),
+      reminder.selectedMedicine.join(","),
+      fromTimeToString(reminder.time1, weekdays: reminder.weekdays1, dateTxts: [
+        Language.of(context)!.t("day_today"),
+        Language.of(context)!.t("day_tmr"),
+        Language.of(context)!.t("day_expired"),
+      ]),
+      reminder.weekdays1.isNotEmpty
+          ? "${Language.of(context)!.t("home_card_repeat")} \n${showingRepeatWeekdays(context, reminder)}"
+          : '',
+      subline1: subline,
+      onPressed: onPressed,
+      expiredTime1: checkReminderTime1IsExpired(reminder),
+      expiredColor: checkReminderTime1IsExpired(reminder) ? errorColor : null,
+    );
   }
 }

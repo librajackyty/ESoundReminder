@@ -39,7 +39,7 @@
     "reminder_new1_msg": "Please select which medicine you will take & press 'Next'",
     "reminder_new1_selectedmedicine": "Selected medicine:",
     "reminder_new1_snackmsg1": "Please select at least one medicine first",
-    "reminder_new1_inputhint": "Can't find from above? Enter medicine name",
+    "reminder_new1_inputhint": "Select/Enter medicine",
 
     "reminder_new2_msg": "Please set the time to remind you & press 'Next'",
     "reminder_new2_settimer1": "Alarm:",
@@ -60,6 +60,7 @@
     "reminder_detail_confirmquestion": "Are you sure to save this reminder?",
     "reminder_detail_cancelquestion": "Are you sure to cancel this reminder?",
     "reminder_detail_deletequestion": "Are you sure to delete this reminder?",
+    "reminder_detail_expiredDelquestion": "Reminder is expired\nDo you want to delete?",
     "reminder_detail_notice": "Remember to follow doctor's instructions to take the proper quantity of medicine every time",
 
     "settings_title": "Settings",
@@ -90,6 +91,9 @@
     "timepicker_hr": "Hr   ",
     "timepicker_min": "Min  ",
 
+    "day_expired": "Expired",
+    "day_today": "Today",
+    "day_tmr": "Tomorrow",
     "week_mon": "Monday",
     "week_tue": "Tuesday",
     "week_wed": "Wednesday",
