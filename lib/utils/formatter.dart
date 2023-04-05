@@ -109,32 +109,49 @@ String fromTimeToString(DateTime time,
   if (weekdays != null) {
     if (weekdays.isEmpty) {
       if (dateTxts != null && dateTxts.isNotEmpty) {
-        final currentT = DateTime.now();
-
-        if (longFormat) {
-          if (currentT.isBefore(time)) {
-            if (currentT.day == time.day) {
-              return '${time.year}/${time.month}/${time.day}\n${dateTxts[0]} $timeStr';
-            }
-            return '${time.year}/${time.month}/${time.day}\n${dateTxts[1]} $timeStr';
-          } else {
-            if (dateTxts.length >= 3) {
-              // expired
-              return '${time.year}/${time.month}/${time.day}\n${dateTxts[2]} $timeStr';
-            }
-            return '${time.year}/${time.month}/${time.day} $timeStr';
-          }
-        } else {
-          if (currentT.day == time.day) {
-            return '${dateTxts[0]} $timeStr';
-          }
-          return '${dateTxts[1]} $timeStr';
-        }
+        _showTimeWthdateTxt(time, timeStr, dateTxts, longFormat);
       }
       return '${time.year}/${time.month}/${time.day}\n$timeStr';
     }
   }
   return timeStr;
+}
+
+String _showTimeWthdateTxt(
+    DateTime time, String timeStr, List<String> dateTxts, bool longFormat) {
+  final currentT = DateTime.now();
+
+  if (longFormat) {
+    if (currentT.isBefore(time)) {
+      if (currentT.day <= time.day) {
+        // tdy
+        return '${time.year}/${time.month}/${time.day}\n${dateTxts[0]} $timeStr';
+      }
+      // tmr
+      return '${time.year}/${time.month}/${time.day}\n${dateTxts[1]} $timeStr';
+    } else {
+      // expired
+      if (dateTxts.length >= 3) {
+        return '${time.year}/${time.month}/${time.day}\n${dateTxts[2]} $timeStr';
+      }
+      return '${time.year}/${time.month}/${time.day} $timeStr';
+    }
+  } else {
+    if (currentT.isBefore(time)) {
+      if (currentT.day <= time.day) {
+        // tdy
+        return '${dateTxts[0]} $timeStr';
+      }
+      // tmr
+      return '${dateTxts[1]} $timeStr';
+    } else {
+      // expired
+      if (dateTxts.length >= 3) {
+        return '${dateTxts[2]} $timeStr';
+      }
+      return 'X $timeStr';
+    }
+  }
 }
 
 String fromTimeOfDayToString(TimeOfDay time, {List? weekdays}) {
