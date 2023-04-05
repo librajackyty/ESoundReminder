@@ -1,4 +1,7 @@
 import 'package:flutter/services.dart';
+import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
+
+import 'assetslink.dart';
 
 enum HapticFeedbackType { vibrate, onselection, heavy, medium, light }
 
@@ -22,13 +25,16 @@ void runHapticSound({HapticFeedbackType type = HapticFeedbackType.light}) {
     default:
       HapticFeedback.lightImpact();
   }
-  SystemSound.play(SystemSoundType.click);
+  // SystemSound.play(SystemSoundType.click);
+  FlutterRingtonePlayer.play(fromAsset: assetslinkSounds("tap"));
 }
 
 void runSaveFeedback() {
   HapticFeedback.heavyImpact();
+  FlutterRingtonePlayer.play(fromAsset: assetslinkSounds("success"));
 }
 
 void runDeleteFeedback() {
   HapticFeedback.heavyImpact();
+  FlutterRingtonePlayer.play(fromAsset: assetslinkSounds("remove"));
 }
