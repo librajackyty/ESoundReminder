@@ -91,6 +91,7 @@ const Color elementNotActiveColor = Colors.white;
 const Color elementActiveTxtColor = Colors.white;
 const Color elementNotActiveTxtColor = Colors.black;
 final Color scrollBarColor = Colors.green.shade500;
+final Color errorColor = Colors.red[900]!;
 
 // button ui
 const double buttonBorderWidth = 2;

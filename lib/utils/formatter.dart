@@ -94,10 +94,14 @@ int fromStringToWeekday(String weekdayStr) {
   }
 }
 
-DateTime convertSelectTime(DateTime dateTime) {
+bool isTimeAfterNow(DateTime time) {
   final currentT = DateTime.now();
-  debugPrint("convertSelectTime: ${currentT.toString()}");
-  if (dateTime.isBefore(currentT)) {
+  debugPrint("currentT: ${currentT.toString()}");
+  return currentT.isAfter(time);
+}
+
+DateTime convertSelectTime(DateTime dateTime) {
+  if (!isTimeAfterNow(dateTime)) {
     return dateTime.add(const Duration(days: 1));
   }
   return dateTime;
@@ -122,7 +126,7 @@ String _showTimeWthdateTxt(
   final currentT = DateTime.now();
 
   if (longFormat) {
-    if (currentT.isBefore(time)) {
+    if (!isTimeAfterNow(time)) {
       if (currentT.day == time.day) {
         // tdy
         return '${time.year}/${time.month}/${time.day}\n${dateTxts[0]} $timeStr';
@@ -137,7 +141,7 @@ String _showTimeWthdateTxt(
       return '${time.year}/${time.month}/${time.day} $timeStr';
     }
   } else {
-    if (currentT.isBefore(time)) {
+    if (!isTimeAfterNow(time)) {
       if (currentT.day == time.day) {
         // tdy
         return '${dateTxts[0]} $timeStr';

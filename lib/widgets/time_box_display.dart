@@ -7,9 +7,14 @@ class TimeBoxDisplay extends StatelessWidget {
   final String time;
   final Widget? icon;
   final bool largeTxt;
+  final Color? color;
 
   const TimeBoxDisplay(
-      {Key? key, required this.time, this.icon, this.largeTxt = false})
+      {Key? key,
+      required this.time,
+      this.icon,
+      this.largeTxt = false,
+      this.color})
       : super(key: key);
 
   @override
@@ -18,7 +23,7 @@ class TimeBoxDisplay extends StatelessWidget {
       padding: EdgeInsets.fromLTRB(6, 6, 10, 6),
       decoration: BoxDecoration(
           color: Colors.white,
-          border: Border.all(color: Colors.green[800]!),
+          border: Border.all(color: color ?? Colors.green[800]!),
           borderRadius: BorderRadius.all(Radius.circular(16.0))),
       child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -28,15 +33,11 @@ class TimeBoxDisplay extends StatelessWidget {
             icon ?? const SizedBox.shrink(),
             largeTxt
                 ? Flexible(
-                    child: CusTitleText(
-                    time,
-                    textAlign: TextAlign.center,
-                  ))
+                    child: CusTitleText(time,
+                        textAlign: TextAlign.center, color: color))
                 : Flexible(
-                    child: CusNText(
-                    time,
-                    textAlign: TextAlign.center,
-                  ))
+                    child: CusNText(time,
+                        textAlign: TextAlign.center, color: color))
           ]),
     );
   }
