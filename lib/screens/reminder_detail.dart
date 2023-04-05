@@ -1,4 +1,6 @@
+import 'package:delayed_display/delayed_display.dart';
 import 'package:e_sound_reminder_app/widgets/custom_button_normal.dart';
+import 'package:e_sound_reminder_app/widgets/page_bottom_area.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
@@ -195,16 +197,20 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
                 widget.title == pageNameReminderDetail
                     ? Container(
                         margin: EdgeInsets.only(bottom: elementSPadding),
-                        child: ReminderHeader(
-                          progressText:
-                              "${Language.of(context)!.t("common_step")} ( 3 / 3 )",
-                          progressValue: progressIdx,
-                          headerText:
-                              Language.of(context)!.t("reminder_detail_msg"),
-                          hasBottomDivider: false,
-                        ))
+                        child: DelayedDisplay(
+                            slidingBeginOffset: const Offset(0.0, -0.35),
+                            child: ReminderHeader(
+                              progressText:
+                                  "${Language.of(context)!.t("common_step")} ( 3 / 3 )",
+                              progressValue: progressIdx,
+                              headerText: Language.of(context)!
+                                  .t("reminder_detail_msg"),
+                              hasBottomDivider: false,
+                            )))
                     : const SizedBox.shrink(),
                 Expanded(
+                    child: DelayedDisplay(
+                  delay: Duration(milliseconds: pageContentDelayShowTime),
                   child: CusCardContainer(
                       child: Padding(
                     padding: EdgeInsets.all(8),
@@ -287,21 +293,15 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
                       ],
                     ),
                   )),
-                ),
-                createBottomActionBar(context)
+                )),
+                DelayedDisplay(
+                    delay: Duration(milliseconds: pageBottomDelayShowTime),
+                    child: PageBottomArea())
               ],
             ),
           ),
         ),
       ),
-    );
-  }
-
-  Widget createBottomActionBar(BuildContext context) {
-    return Align(
-      alignment: Alignment.bottomCenter,
-      child: CusNBackButton(Language.of(context)!.t("common_back"),
-          () => {Navigator.pop(context)}),
     );
   }
 }

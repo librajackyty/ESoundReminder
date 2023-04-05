@@ -1,3 +1,4 @@
+import 'package:delayed_display/delayed_display.dart';
 import 'package:e_sound_reminder_app/models/language.dart';
 import 'package:e_sound_reminder_app/widgets/custom_text_small.dart';
 import 'package:e_sound_reminder_app/widgets/custom_text_small_ex.dart';
@@ -236,7 +237,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 padding: const EdgeInsets.only(
                     left: listviewPaddingAll, right: listviewPaddingAll),
                 child: Column(children: [
-                  createAppBar(),
+                  DelayedDisplay(
+                      slidingBeginOffset: const Offset(0.0, -0.35),
+                      child: createAppBar()),
                   Expanded(
                     child: ListView.builder(
                       shrinkWrap: true,
@@ -263,7 +266,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   ),
                 ]));
           }
-          return createNoReminderSection();
+          return DelayedDisplay(
+              slidingBeginOffset: const Offset(0.0, -0.35),
+              delay: Duration(milliseconds: pageContentDelayShowTime),
+              child: createNoReminderSection());
         });
   }
 

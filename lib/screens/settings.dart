@@ -1,3 +1,4 @@
+import 'package:delayed_display/delayed_display.dart';
 import 'package:e_sound_reminder_app/widgets/custom_text_small.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
@@ -39,49 +40,58 @@ class _SettingsPageState extends State<SettingsPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Expanded(
-                  child: Scrollbar(
-                      thumbVisibility: true,
-                      thickness: 10.0,
-                      child: ListView(
-                          padding:
-                              const EdgeInsets.only(top: safeAreaPaddingAll),
-                          children: [
-                            Lottie.asset(
-                              assetslinkLottie('94350-gears-lottie-animation'),
-                              width: MediaQuery.of(context).size.width * 0.4,
-                              height: MediaQuery.of(context).size.width * 0.4,
-                            ),
-                            CusListItm(
-                                Language.of(context)!
-                                    .t("settings_list_language"),
-                                noBorder: true,
-                                iconData: Icons.language, onTap: () {
-                              Navigator.pushNamed(context, pageRouteLangConfig);
-                            }),
-                            CusListItm(
-                                Language.of(context)!
-                                    .t("settings_list_display"),
-                                noBorder: true,
-                                iconData: Icons.text_increase, onTap: () {
-                              Navigator.pushNamed(
-                                  context, pageRouteDisplayConfig);
-                            }),
-                            CusListItm(
-                                Language.of(context)!.t("settings_list_about"),
-                                noBorder: true,
-                                iconData: Icons.help, onTap: () {
-                              Navigator.pushNamed(context, pageRouteAbout);
-                            }),
-                            CusListItm(
-                                Language.of(context)!.t("settings_list_oss"),
-                                noBorder: true,
-                                iconData: Icons.terminal, onTap: () {
-                              Navigator.pushNamed(
-                                  context, pageRouteOpenSources);
-                            }),
-                          ])),
+                  child: DelayedDisplay(
+                      child: Scrollbar(
+                          thumbVisibility: true,
+                          thickness: 10.0,
+                          child: ListView(
+                              padding: const EdgeInsets.only(
+                                  top: safeAreaPaddingAll),
+                              children: [
+                                Lottie.asset(
+                                  assetslinkLottie(
+                                      '94350-gears-lottie-animation'),
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.4,
+                                  height:
+                                      MediaQuery.of(context).size.width * 0.4,
+                                ),
+                                CusListItm(
+                                    Language.of(context)!
+                                        .t("settings_list_language"),
+                                    noBorder: true,
+                                    iconData: Icons.language, onTap: () {
+                                  Navigator.pushNamed(
+                                      context, pageRouteLangConfig);
+                                }),
+                                CusListItm(
+                                    Language.of(context)!
+                                        .t("settings_list_display"),
+                                    noBorder: true,
+                                    iconData: Icons.text_increase, onTap: () {
+                                  Navigator.pushNamed(
+                                      context, pageRouteDisplayConfig);
+                                }),
+                                CusListItm(
+                                    Language.of(context)!
+                                        .t("settings_list_about"),
+                                    noBorder: true,
+                                    iconData: Icons.help, onTap: () {
+                                  Navigator.pushNamed(context, pageRouteAbout);
+                                }),
+                                CusListItm(
+                                    Language.of(context)!
+                                        .t("settings_list_oss"),
+                                    noBorder: true,
+                                    iconData: Icons.terminal, onTap: () {
+                                  Navigator.pushNamed(
+                                      context, pageRouteOpenSources);
+                                }),
+                              ]))),
                 ),
-                PageBottomArea()
+                DelayedDisplay(
+                    delay: Duration(milliseconds: pageBottomDelayShowTime),
+                    child: PageBottomArea())
               ],
             ),
           ),

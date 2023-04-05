@@ -1,3 +1,4 @@
+import 'package:delayed_display/delayed_display.dart';
 import 'package:e_sound_reminder_app/models/language.dart';
 import 'package:e_sound_reminder_app/utils/text_config.dart';
 import 'package:e_sound_reminder_app/widgets/page_bottom_area.dart';
@@ -65,7 +66,8 @@ class _DisplayConfigPageState extends State<DisplayConfigPage> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(safeAreaPaddingAll),
-          child: Center(
+          child: DelayedDisplay(
+              child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -92,7 +94,7 @@ class _DisplayConfigPageState extends State<DisplayConfigPage> {
                 Visibility(visible: true, child: PageBottomArea()),
               ],
             ),
-          ),
+          )),
         ),
       ),
     );

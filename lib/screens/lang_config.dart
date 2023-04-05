@@ -1,3 +1,4 @@
+import 'package:delayed_display/delayed_display.dart';
 import 'package:e_sound_reminder_app/models/language.dart';
 import 'package:e_sound_reminder_app/widgets/page_bottom_area.dart';
 import 'package:flutter/material.dart';
@@ -80,41 +81,42 @@ class _LangConfigPageState extends State<LangConfigPage> {
             ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(safeAreaPaddingAll),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Lottie.asset(
-                  assetslinkLottie('132900-0101ftue-04'),
-                  width: MediaQuery.of(context).size.width * 0.4,
-                  height: MediaQuery.of(context).size.width * 0.4,
+            padding: const EdgeInsets.all(safeAreaPaddingAll),
+            child: DelayedDisplay(
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Lottie.asset(
+                      assetslinkLottie('132900-0101ftue-04'),
+                      width: MediaQuery.of(context).size.width * 0.4,
+                      height: MediaQuery.of(context).size.width * 0.4,
+                    ),
+                    Visibility(
+                        visible: !initalConfig,
+                        child: CusNText(
+                          Language.of(context)!.t("lang_list_msg"),
+                          textAlign: TextAlign.center,
+                        )),
+                    Expanded(
+                        child: Scrollbar(
+                            thumbVisibility: false,
+                            thickness: 10.0,
+                            child: ListView(
+                                padding: const EdgeInsets.only(
+                                    top: safeAreaPaddingAll),
+                                children: langSelectArea(
+                                    context,
+                                    Provider.of<AppLanguage>(context),
+                                    Language.localeDisplay.keys.toList())))),
+                    Visibility(
+                      visible: !initalConfig,
+                      child: PageBottomArea(onPressed: goBack),
+                    ),
+                  ],
                 ),
-                Visibility(
-                    visible: !initalConfig,
-                    child: CusNText(
-                      Language.of(context)!.t("lang_list_msg"),
-                      textAlign: TextAlign.center,
-                    )),
-                Expanded(
-                    child: Scrollbar(
-                        thumbVisibility: false,
-                        thickness: 10.0,
-                        child: ListView(
-                            padding:
-                                const EdgeInsets.only(top: safeAreaPaddingAll),
-                            children: langSelectArea(
-                                context,
-                                Provider.of<AppLanguage>(context),
-                                Language.localeDisplay.keys.toList())))),
-                Visibility(
-                  visible: !initalConfig,
-                  child: PageBottomArea(onPressed: goBack),
-                ),
-              ],
-            ),
-          ),
-        ),
+              ),
+            )),
       ),
     );
   }
