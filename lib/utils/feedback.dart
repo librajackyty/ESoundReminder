@@ -22,7 +22,7 @@ void runHapticSound({HapticFeedbackType type = HapticFeedbackType.light}) {
     default:
       HapticFeedback.lightImpact();
   }
-  SystemSound.play(SystemSoundType.click);
+  SystemSound.play(SystemSoundType.alert);
 }
 
 void runSaveFeedback() {
