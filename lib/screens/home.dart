@@ -39,7 +39,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     end: 1.0,
   ).animate(CurvedAnimation(
     parent: aniController,
-    curve: Curves.easeIn,
+    curve: Curves.easeInOut,
   ));
 
   late final AnimationController aniControllerBottom = AnimationController(
@@ -92,10 +92,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           Language.of(context)!.t(filterKeys[index]),
                           iconData: filterIconData[index],
                           onTap: () {
-                            setState(() {
-                              selectedFilterIndex.value = index;
-                            });
                             Navigator.pop(context);
+                            aniController.reverse();
+                            Future.delayed(Duration(milliseconds: 400), () {
+                              setState(() {
+                                selectedFilterIndex.value = index;
+                              });
+                            });
                           },
                           selected: selectedFilterIndex.value == index,
                         );
@@ -116,9 +119,14 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     });
     selectedFilterIndex.addListener(() {
       debugPrint("selectedFilterIndex val changes");
-      listFilterBtnStrKey = filterKeys[selectedFilterIndex.value];
-      final model = context.read<ReminderModel>();
-      model.filterReminder(selectedFilterIndex.value);
+      Future.delayed(Duration.zero, () {
+        setState(() {
+          aniController.forward();
+        });
+        listFilterBtnStrKey = filterKeys[selectedFilterIndex.value];
+        final model = context.read<ReminderModel>();
+        model.filterReminder(selectedFilterIndex.value);
+      });
     });
     super.initState();
   }
