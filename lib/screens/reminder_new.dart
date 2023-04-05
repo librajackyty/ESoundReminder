@@ -1,21 +1,16 @@
 import 'package:delayed_display/delayed_display.dart';
 import 'package:e_sound_reminder_app/utils/feedback.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animation_progress_bar/flutter_animation_progress_bar.dart';
 
 import '../models/language.dart';
 import '../models/reminder.dart';
 import '../models/reminder_screen_arg.dart';
 import '../utils/constants.dart';
-import '../widgets/ani_progress_bar.dart';
 import '../widgets/custom_button_normal.dart';
 import '../widgets/custom_button_normal_back.dart';
 import '../widgets/custom_button_small.dart';
-import '../widgets/custom_card_container.dart';
 import '../widgets/custom_scroll_bar.dart';
-import '../widgets/custom_text_normal.dart';
 import '../widgets/custom_text_small.dart';
-import '../widgets/custom_text_small_ex.dart';
 import '../widgets/reminder_header.dart';
 
 class ReminderNewPage extends StatefulWidget {
@@ -107,6 +102,7 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
   }
 
   // UI rendering
+  ScrollController _medicineSVController = ScrollController();
   bool showActionArea = true;
   List getMedicineByLang(BuildContext context) {
     switch (Language.currentLocale(context)) {
@@ -241,22 +237,30 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
                       ? DelayedDisplay(
                           delay:
                               Duration(milliseconds: pageContentDelayShowTime),
-                          child: SingleChildScrollView(
-                            child: Column(
-                                children:
-                                    medicineSelection(staticmedicineENlist)),
-                          ))
+                          child: CusScrollbar(
+                              isAlwaysShown: true,
+                              scrollController: _medicineSVController,
+                              child: SingleChildScrollView(
+                                controller: _medicineSVController,
+                                child: Column(
+                                    children: medicineSelection(
+                                        staticmedicineENlist)),
+                              )))
                       : DelayedDisplay(
                           delay:
                               Duration(milliseconds: pageContentDelayShowTime),
-                          child: GridView.count(
-                              primary: false,
-                              padding: const EdgeInsets.all(8),
-                              crossAxisSpacing: 10,
-                              mainAxisSpacing: 8,
-                              crossAxisCount: 3,
-                              children: medicineSelection(
-                                  getMedicineByLang(context)))),
+                          child: CusScrollbar(
+                              isAlwaysShown: true,
+                              scrollController: _medicineSVController,
+                              child: GridView.count(
+                                  controller: _medicineSVController,
+                                  primary: false,
+                                  padding: const EdgeInsets.all(8),
+                                  crossAxisSpacing: 10,
+                                  mainAxisSpacing: 8,
+                                  crossAxisCount: 3,
+                                  children: medicineSelection(
+                                      getMedicineByLang(context))))),
                 ),
                 DelayedDisplay(
                     delay: Duration(milliseconds: pageBottomDelayShowTime),

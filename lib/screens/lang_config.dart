@@ -10,6 +10,7 @@ import '../utils/assetslink.dart';
 import '../utils/constants.dart';
 import '../widgets/custom_button_normal.dart';
 import '../widgets/custom_button_normal_back.dart';
+import '../widgets/custom_scroll_bar.dart';
 import '../widgets/custom_text_normal.dart';
 
 class LangConfigPage extends StatefulWidget {
@@ -26,6 +27,7 @@ class LangConfigPage extends StatefulWidget {
 class _LangConfigPageState extends State<LangConfigPage> {
   bool initalConfig = true;
 
+  ScrollController _scrollController = ScrollController();
   List<Widget> langSelectArea(
       BuildContext context, AppLanguage appLanguage, List langlist) {
     List<Widget> mwList = [];
@@ -99,10 +101,10 @@ class _LangConfigPageState extends State<LangConfigPage> {
                           textAlign: TextAlign.center,
                         )),
                     Expanded(
-                        child: Scrollbar(
-                            thumbVisibility: false,
-                            thickness: 10.0,
+                        child: CusScrollbar(
+                            scrollController: _scrollController,
                             child: ListView(
+                                controller: _scrollController,
                                 padding: const EdgeInsets.only(
                                     top: safeAreaPaddingAll),
                                 children: langSelectArea(

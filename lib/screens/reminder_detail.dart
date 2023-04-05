@@ -14,14 +14,11 @@ import '../utils/constants.dart';
 import '../utils/dialog.dart';
 import '../utils/feedback.dart';
 import '../utils/formatter.dart';
-import '../widgets/ani_progress_bar.dart';
 import '../widgets/custom_button_normal_back.dart';
-import '../widgets/custom_button_small.dart';
 import '../widgets/custom_card_container.dart';
+import '../widgets/custom_scroll_bar.dart';
 import '../widgets/custom_text_normal.dart';
 import '../widgets/custom_text_small.dart';
-import '../widgets/custom_text_small_ex.dart';
-import '../widgets/custom_text_title.dart';
 import '../widgets/reminder_header.dart';
 import '../widgets/reminder_weekdays_display.dart';
 import '../widgets/time_section_display.dart';
@@ -52,6 +49,7 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
   late int index = widget.arg?.index ?? 0;
 
   // UI
+  ScrollController _reminderDSVController = ScrollController();
   List<Widget> medicineSelectedArea(List selectedlist) {
     List<Widget> mwList = [];
     for (var medicine in selectedlist) {
@@ -219,52 +217,61 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Expanded(
-                          child: ListView(
-                            padding: const EdgeInsets.only(left: 12, right: 12),
-                            children: [
-                              Lottie.asset(
-                                assetslinkLottie('61069-medicine-pills'),
-                                reverse: true,
-                                width: MediaQuery.of(context).size.width * 0.3,
-                                height: MediaQuery.of(context).size.width * 0.3,
-                              ),
-                              ...medicineSelectedArea(
-                                  reminder.selectedMedicine),
-                              const SizedBox(
-                                height: 8,
-                              ),
-                              Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(Icons.alarm_on_outlined),
-                                    SizedBox(width: 6),
-                                    CusSText(Language.of(context)!
-                                        .t("reminder_detail_settimer")),
-                                  ]),
-                              settedTime(reminder),
-                              const SizedBox(
-                                height: 8,
-                              ),
-                              Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(Icons.event_repeat_outlined),
-                                    SizedBox(width: 6),
-                                    CusSText(Language.of(context)!
-                                        .t("reminder_detail_setrepeat")),
-                                  ]),
-                              WeekdaysDisplay(
-                                reminder: reminder,
-                                padding: EdgeInsets.all(16),
-                                alignment: Alignment.center,
-                                largeTxt: true,
-                                displayAll: true,
-                              ),
-                              const SizedBox(
-                                height: 8,
-                              ),
-                            ],
-                          ),
+                          child: CusScrollbar(
+                              isAlwaysShown: true,
+                              scrollController: _reminderDSVController,
+                              child: ListView(
+                                controller: _reminderDSVController,
+                                padding:
+                                    const EdgeInsets.only(left: 12, right: 12),
+                                children: [
+                                  Lottie.asset(
+                                    assetslinkLottie('61069-medicine-pills'),
+                                    reverse: true,
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.3,
+                                    height:
+                                        MediaQuery.of(context).size.width * 0.3,
+                                  ),
+                                  ...medicineSelectedArea(
+                                      reminder.selectedMedicine),
+                                  const SizedBox(
+                                    height: 8,
+                                  ),
+                                  Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Icon(Icons.alarm_on_outlined),
+                                        SizedBox(width: 6),
+                                        CusSText(Language.of(context)!
+                                            .t("reminder_detail_settimer")),
+                                      ]),
+                                  settedTime(reminder),
+                                  const SizedBox(
+                                    height: 8,
+                                  ),
+                                  Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Icon(Icons.event_repeat_outlined),
+                                        SizedBox(width: 6),
+                                        CusSText(Language.of(context)!
+                                            .t("reminder_detail_setrepeat")),
+                                      ]),
+                                  WeekdaysDisplay(
+                                    reminder: reminder,
+                                    padding: EdgeInsets.all(16),
+                                    alignment: Alignment.center,
+                                    largeTxt: true,
+                                    displayAll: true,
+                                  ),
+                                  const SizedBox(
+                                    height: 8,
+                                  ),
+                                ],
+                              )),
                         ),
                         const Divider(),
                         Container(

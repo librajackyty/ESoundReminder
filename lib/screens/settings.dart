@@ -1,16 +1,12 @@
 import 'package:delayed_display/delayed_display.dart';
-import 'package:e_sound_reminder_app/widgets/custom_text_small.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:provider/provider.dart';
 
 import '../models/language.dart';
 import '../utils/assetslink.dart';
 import '../utils/constants.dart';
-import '../utils/text_config.dart';
-import '../widgets/custom_button_normal_back.dart';
 import '../widgets/custom_list_item.dart';
-import '../widgets/custom_text_normal.dart';
+import '../widgets/custom_scroll_bar.dart';
 import '../widgets/page_bottom_area.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -23,6 +19,7 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+  ScrollController _scrollController = ScrollController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,10 +38,10 @@ class _SettingsPageState extends State<SettingsPage> {
               children: <Widget>[
                 Expanded(
                   child: DelayedDisplay(
-                      child: Scrollbar(
-                          thumbVisibility: true,
-                          thickness: 10.0,
+                      child: CusScrollbar(
+                          scrollController: _scrollController,
                           child: ListView(
+                              controller: _scrollController,
                               padding: const EdgeInsets.only(
                                   top: safeAreaPaddingAll),
                               children: [
