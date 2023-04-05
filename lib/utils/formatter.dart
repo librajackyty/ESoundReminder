@@ -123,7 +123,7 @@ String _showTimeWthdateTxt(
 
   if (longFormat) {
     if (currentT.isBefore(time)) {
-      if (currentT.day <= time.day) {
+      if (currentT.day == time.day) {
         // tdy
         return '${time.year}/${time.month}/${time.day}\n${dateTxts[0]} $timeStr';
       }
@@ -138,7 +138,7 @@ String _showTimeWthdateTxt(
     }
   } else {
     if (currentT.isBefore(time)) {
-      if (currentT.day <= time.day) {
+      if (currentT.day == time.day) {
         // tdy
         return '${dateTxts[0]} $timeStr';
       }
