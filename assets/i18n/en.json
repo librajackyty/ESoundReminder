@@ -39,7 +39,7 @@
     "reminder_new1_msg": "Please select which medicine you will take & press 'Next'",
     "reminder_new1_selectedmedicine": "Selected medicine:",
     "reminder_new1_snackmsg1": "Please select at least one medicine first",
-    "reminder_new1_inputhint": "Can't find from above? Enter medicine name",
+    "reminder_new1_inputhint": "Select/Enter medicine",
 
     "reminder_new2_msg": "Please set the time to remind you & press 'Next'",
     "reminder_new2_settimer1": "Alarm:",

@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 import '../utils/constants.dart';
@@ -71,7 +72,7 @@ class _CusNButtonState extends State<CusNButton> {
               widget.onPressed?.call();
               runHapticSound();
             },
-      child: Text(
+      child: AutoSizeText(
         widget.text,
         textAlign: TextAlign.center,
         maxLines: readOnly ? 3 : 2,

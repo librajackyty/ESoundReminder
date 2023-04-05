@@ -255,7 +255,7 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
                       border: Border(top: BorderSide()),
                     )),
                     Container(
-                      padding: EdgeInsets.symmetric(vertical: 8),
+                      padding: EdgeInsets.symmetric(vertical: elementSPadding),
                       child: Row(
                         children: [
                           Expanded(
@@ -268,7 +268,8 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
                                   fontWeight: FontWeight.bold),
                               decoration: InputDecoration(
                                   counterText: "",
-                                  // contentPadding: const EdgeInsets.all(16),
+                                  contentPadding:
+                                      const EdgeInsets.all(elementSPadding),
                                   border: OutlineInputBorder(
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(16))),
@@ -282,6 +283,8 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
                                   prefixText: showActionArea
                                       ? ''
                                       : '${textLength.toString()}/${maxLength.toString()} ',
+                                  prefixStyle:
+                                      TextStyle(fontSize: textExSmallSize),
                                   suffixIcon: _txtFController.text.isNotEmpty
                                       ? IconButton(
                                           onPressed: () {

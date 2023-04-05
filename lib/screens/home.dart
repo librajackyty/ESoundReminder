@@ -291,7 +291,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   Widget createAppBar() {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: elementMPadding),
+      padding: EdgeInsets.all(elementMPadding),
       child: Column(
         children: [createAppBarTxt(), const Divider()],
       ),
@@ -312,12 +312,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       }
       return CusExSText(
         "${Language.of(context)!.t("home_greeting")} ${Language.of(context)!.t("home_list_msg")}",
-        textAlign: TextAlign.start,
+        textAlign: TextAlign.center,
       );
     }
     return CusExSText(
       Language.of(context)!.t("home_greeting"),
-      textAlign: TextAlign.start,
+      textAlign: TextAlign.center,
     );
   }
 
