@@ -124,7 +124,9 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
         progressIdx = progressIdxStep4;
       });
       showDialogLottieIcon(context, lottieFileName: "95029-success");
-      runSaveFeedback();
+      Future.delayed(const Duration(milliseconds: 200), () {
+        runSaveFeedback();
+      });
       reminder = reminder.copyWith(
           reminderTitle:
               "${fromTimeToString(reminder.time1)} ${Language.of(context)?.t("localnotification_title")}",
@@ -167,7 +169,9 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
         noBtnOnPressed: () => Navigator.pop(context, 'NO'),
         yesBtnOnPressed: () async {
           showDialogLottieIcon(context, lottieFileName: "95029-success");
-          runDeleteFeedback();
+          Future.delayed(const Duration(milliseconds: 200), () {
+            runDeleteFeedback();
+          });
           final model = context.read<ReminderModel>();
           await model.deleteReminder(reminder, index);
           await Future.delayed(const Duration(seconds: 2));
