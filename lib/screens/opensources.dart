@@ -1,10 +1,10 @@
+import 'package:delayed_display/delayed_display.dart';
 import 'package:e_sound_reminder_app/oss_licenses.dart';
 import 'package:e_sound_reminder_app/widgets/custom_text_small.dart';
 import 'package:flutter/material.dart';
 
 import '../models/language.dart';
 import '../utils/constants.dart';
-import '../widgets/custom_button_normal_back.dart';
 import '../widgets/custom_scroll_bar.dart';
 import '../widgets/custom_text_small_ex.dart';
 import '../widgets/page_bottom_area.dart';
@@ -54,26 +54,29 @@ class _OpenSourcesPageState extends State<OpenSourcesPage> {
               left: safeAreaPaddingAll,
               right: safeAreaPaddingAll,
               bottom: safeAreaPaddingAll),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Expanded(
-                    child: CusScrollbar(
-                        scrollController: _scrollController,
-                        child: ListView(
-                            controller: _scrollController,
-                            padding:
-                                const EdgeInsets.only(top: safeAreaPaddingAll),
-                            children: [
-                              CusSText(Language.of(context)!.t("oss_msg")),
-                              const SizedBox(
-                                height: 20.0,
-                              ),
-                              ...generateOssList()
-                            ]))),
-                PageBottomArea()
-              ],
+          child: DelayedDisplay(
+            slidingBeginOffset: const Offset(0.55, 0.0),
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Expanded(
+                      child: CusScrollbar(
+                          scrollController: _scrollController,
+                          child: ListView(
+                              controller: _scrollController,
+                              padding: const EdgeInsets.only(
+                                  top: safeAreaPaddingAll),
+                              children: [
+                                CusSText(Language.of(context)!.t("oss_msg")),
+                                const SizedBox(
+                                  height: 20.0,
+                                ),
+                                ...generateOssList()
+                              ]))),
+                  PageBottomArea()
+                ],
+              ),
             ),
           ),
         ),

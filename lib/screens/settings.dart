@@ -38,6 +38,7 @@ class _SettingsPageState extends State<SettingsPage> {
               children: <Widget>[
                 Expanded(
                   child: DelayedDisplay(
+                      slidingBeginOffset: const Offset(0.55, 0.0),
                       child: CusScrollbar(
                           scrollController: _scrollController,
                           child: ListView(

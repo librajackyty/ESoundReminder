@@ -85,6 +85,9 @@ class _LangConfigPageState extends State<LangConfigPage> {
         child: Padding(
             padding: const EdgeInsets.all(safeAreaPaddingAll),
             child: DelayedDisplay(
+              slidingBeginOffset: initalConfig
+                  ? const Offset(0.0, 0.35)
+                  : const Offset(0.55, 0.0),
               child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
