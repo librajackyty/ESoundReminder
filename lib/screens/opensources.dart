@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../models/language.dart';
 import '../utils/constants.dart';
 import '../widgets/custom_button_normal_back.dart';
+import '../widgets/custom_scroll_bar.dart';
 import '../widgets/custom_text_small_ex.dart';
 import '../widgets/page_bottom_area.dart';
 
@@ -18,6 +19,7 @@ class OpenSourcesPage extends StatefulWidget {
 }
 
 class _OpenSourcesPageState extends State<OpenSourcesPage> {
+  ScrollController _scrollController = ScrollController();
   List generateOssList() {
     List<Widget> displayList = [];
     for (var item in ossLicenses) {
@@ -57,15 +59,19 @@ class _OpenSourcesPageState extends State<OpenSourcesPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Expanded(
-                    child: ListView(
-                        padding: const EdgeInsets.only(top: safeAreaPaddingAll),
-                        children: [
-                      CusSText(Language.of(context)!.t("oss_msg")),
-                      const SizedBox(
-                        height: 20.0,
-                      ),
-                      ...generateOssList()
-                    ])),
+                    child: CusScrollbar(
+                        scrollController: _scrollController,
+                        child: ListView(
+                            controller: _scrollController,
+                            padding:
+                                const EdgeInsets.only(top: safeAreaPaddingAll),
+                            children: [
+                              CusSText(Language.of(context)!.t("oss_msg")),
+                              const SizedBox(
+                                height: 20.0,
+                              ),
+                              ...generateOssList()
+                            ]))),
                 PageBottomArea()
               ],
             ),

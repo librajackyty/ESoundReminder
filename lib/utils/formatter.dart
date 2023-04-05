@@ -94,11 +94,75 @@ int fromStringToWeekday(String weekdayStr) {
   }
 }
 
-String fromTimeToString(DateTime time) {
-  return '${hTOhh_24hTrue(time.hour)}:${mTOmm(time.minute)}';
+bool checkReminderTime1IsExpired(Reminder reminder) {
+  return reminder.weekdays1.isEmpty && !isTimeAfterNow(reminder.time1);
 }
 
-String fromTimeOfDayToString(TimeOfDay time) {
+bool isTimeAfterNow(DateTime time) {
+  final currentT = DateTime.now();
+  debugPrint("currentT: ${currentT.toString()}");
+  return time.isAfter(currentT);
+}
+
+DateTime convertSelectTime(DateTime dateTime) {
+  if (!isTimeAfterNow(dateTime)) {
+    return dateTime.add(const Duration(days: 1));
+  }
+  return dateTime;
+}
+
+String fromTimeToString(DateTime time,
+    {List? weekdays, List<String>? dateTxts, bool longFormat = false}) {
+  String timeStr = '${hTOhh_24hTrue(time.hour)}:${mTOmm(time.minute)}';
+  if (weekdays != null) {
+    if (weekdays.isEmpty) {
+      if (dateTxts != null && dateTxts.isNotEmpty) {
+        return _showTimeWthdateTxt(time, timeStr, dateTxts, longFormat);
+      }
+      return '${time.year}/${time.month}/${time.day}\n$timeStr';
+    }
+  }
+  return timeStr;
+}
+
+String _showTimeWthdateTxt(
+    DateTime time, String timeStr, List<String> dateTxts, bool longFormat) {
+  final currentT = DateTime.now();
+
+  if (longFormat) {
+    if (isTimeAfterNow(time)) {
+      if (currentT.day == time.day) {
+        // tdy
+        return '${time.year}/${time.month}/${time.day}\n${dateTxts[0]} $timeStr';
+      }
+      // tmr
+      return '${time.year}/${time.month}/${time.day}\n${dateTxts[1]} $timeStr';
+    } else {
+      // expired
+      if (dateTxts.length >= 3) {
+        return '${time.year}/${time.month}/${time.day}\n$timeStr ${dateTxts[2]}';
+      }
+      return '${time.year}/${time.month}/${time.day} $timeStr';
+    }
+  } else {
+    if (isTimeAfterNow(time)) {
+      if (currentT.day == time.day) {
+        // tdy
+        return '${dateTxts[0]} $timeStr';
+      }
+      // tmr
+      return '${dateTxts[1]} $timeStr';
+    } else {
+      // expired
+      if (dateTxts.length >= 3) {
+        return '$timeStr ${dateTxts[2]}';
+      }
+      return timeStr;
+    }
+  }
+}
+
+String fromTimeOfDayToString(TimeOfDay time, {List? weekdays}) {
   return '${hTOhh_24hTrue(time.hour)}:${mTOmm(time.minute)}';
 }
 

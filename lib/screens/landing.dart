@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 
-import '../utils/assetslink.dart';
 import '../utils/constants.dart';
-import '../widgets/custom_button_normal_back.dart';
-import '../widgets/custom_text_normal.dart';
 
 class LandingPage extends StatefulWidget {
   const LandingPage({super.key, required this.title});

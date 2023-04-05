@@ -1,9 +1,11 @@
+import 'package:delayed_display/delayed_display.dart';
 import 'package:e_sound_reminder_app/models/language.dart';
 import 'package:e_sound_reminder_app/widgets/custom_text_small.dart';
 import 'package:e_sound_reminder_app/widgets/custom_text_small_ex.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
+import 'package:vs_scrollbar/vs_scrollbar.dart';
 import '../models/reminder_screen_arg.dart';
 import '../providers/reminders/reminders_provider.dart';
 import '../utils/assetslink.dart';
@@ -11,6 +13,8 @@ import '../utils/constants.dart' as constants;
 import '../utils/constants.dart';
 import '../utils/feedback.dart';
 import '../widgets/custom_list_item.dart';
+import '../widgets/custom_scroll_bar.dart';
+import '../widgets/custom_text_normal.dart';
 import '../widgets/reminder_card.dart';
 
 class HomePage extends StatefulWidget {
@@ -53,6 +57,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     parent: aniControllerBottom,
     curve: Curves.fastOutSlowIn,
   );
+  ScrollController _reminderLVController = ScrollController();
   String listFilterBtnStrKey = "filter_all";
   ValueNotifier<int> selectedFilterIndex = ValueNotifier<int>(0);
 
@@ -76,6 +81,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     color: Colors.grey[800],
                   ),
                   Expanded(
+                      child: CusScrollbar(
+                    scrollController: controller,
                     child: ListView.builder(
                       padding: EdgeInsets.all(elementMPadding),
                       controller: controller,
@@ -94,7 +101,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         );
                       },
                     ),
-                  ),
+                  )),
                 ],
               ),
             ));
@@ -233,37 +240,46 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               return createNoFilterResult();
             }
             return Padding(
-                padding: const EdgeInsets.only(
-                    left: listviewPaddingAll, right: listviewPaddingAll),
+                padding: EdgeInsets
+                    .zero, //const EdgeInsets.only(left: listviewPaddingAll, right: listviewPaddingAll),
                 child: Column(children: [
-                  createAppBar(),
+                  DelayedDisplay(
+                      slidingBeginOffset: const Offset(0.0, -0.35),
+                      child: createAppBar()),
                   Expanded(
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      padding: EdgeInsets.only(bottom: 40),
-                      itemCount: model.reminders!.length,
-                      itemBuilder: (_, index) {
-                        if (index >= model.reminders!.length) {
-                          return Container();
-                        }
-                        var reminder = model.reminders![index];
-                        debugPrint("reminder id: ${reminder.id}");
-                        debugPrint(
-                            "reminder createtime: ${reminder.createTime}");
-                        return CardReminderItem(
-                          reminder: reminder,
-                          animation: animation,
-                          onPressed: () => Navigator.pushNamed(
-                              context, pageRouteReminderDetailMore,
-                              arguments:
-                                  ReminderScreenArg(reminder, index: index)),
-                        );
-                      },
-                    ),
+                    child: CusScrollbar(
+                        scrollController: _reminderLVController,
+                        child: ListView.builder(
+                          controller: _reminderLVController,
+                          shrinkWrap: true,
+                          padding: EdgeInsets.fromLTRB(
+                              listviewPaddingAll, 0, listviewPaddingAll, 40),
+                          itemCount: model.reminders!.length,
+                          itemBuilder: (_, index) {
+                            if (index >= model.reminders!.length) {
+                              return Container();
+                            }
+                            var reminder = model.reminders![index];
+                            debugPrint("reminder id: ${reminder.id}");
+                            debugPrint(
+                                "reminder createtime: ${reminder.createTime}");
+                            return CardReminderItem(
+                              reminder: reminder,
+                              animation: animation,
+                              onPressed: () => Navigator.pushNamed(
+                                  context, pageRouteReminderDetailMore,
+                                  arguments: ReminderScreenArg(reminder,
+                                      index: index)),
+                            );
+                          },
+                        )),
                   ),
                 ]));
           }
-          return createNoReminderSection();
+          return DelayedDisplay(
+              slidingBeginOffset: const Offset(0.0, -0.35),
+              delay: Duration(milliseconds: pageContentDelayShowTime),
+              child: createNoReminderSection());
         });
   }
 
@@ -291,7 +307,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   Widget createAppBar() {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: elementMPadding),
+      padding: EdgeInsets.all(elementMPadding),
       child: Column(
         children: [createAppBarTxt(), const Divider()],
       ),
@@ -312,12 +328,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       }
       return CusExSText(
         "${Language.of(context)!.t("home_greeting")} ${Language.of(context)!.t("home_list_msg")}",
-        textAlign: TextAlign.start,
+        textAlign: TextAlign.center,
       );
     }
     return CusExSText(
       Language.of(context)!.t("home_greeting"),
-      textAlign: TextAlign.start,
+      textAlign: TextAlign.center,
     );
   }
 
@@ -332,7 +348,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         padding: EdgeInsets.only(left: 40, right: 40),
         child: Align(
             alignment: Alignment.center,
-            child: CusSText(
+            child: CusNText(
               Language.of(context)!.t("home_no_data_msg"),
               textAlign: TextAlign.center,
             )),

@@ -38,7 +38,12 @@ const double listviewPaddingAll = 18.0;
 // const double selectWeekDaysFontSize = 20.0;
 const double selectWeekDaysBorderRadius = 30.0;
 const double selectWeekDaysPadding = 10.0;
-const int progressBarDelayShowTime = 300;
+const int progressBarDelayShowTime = 500;
+const int askExpiredDelShowTime = 1200;
+
+const int pageHeaderDelayShowTime = 100;
+const int pageContentDelayShowTime = 400;
+const int pageBottomDelayShowTime = 500;
 
 double _textTitleSize = 36;
 double _textNormalSize = 30;
@@ -86,6 +91,8 @@ final Color elementActiveColor = Colors.green[900]!;
 const Color elementNotActiveColor = Colors.white;
 const Color elementActiveTxtColor = Colors.white;
 const Color elementNotActiveTxtColor = Colors.black;
+final Color scrollBarColor = Colors.green.shade500;
+final Color errorColor = Colors.red[900]!;
 
 // button ui
 const double buttonBorderWidth = 2;
