@@ -79,6 +79,8 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
               Language.of(context)!.t("day_expired"),
             ])
       ],
+      expiredTime1: checkReminderTime1IsExpired(reminder),
+      color: checkReminderTime1IsExpired(reminder) ? errorColor : null,
     );
   }
 
@@ -158,6 +160,19 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
         });
   }
 
+  void deleteAction() async {
+    showDialogLottieIcon(context, lottieFileName: "95029-success");
+    Future.delayed(const Duration(milliseconds: 200), () {
+      runDeleteFeedback();
+    });
+    final model = context.read<ReminderModel>();
+    await model.deleteReminder(reminder, index);
+    await Future.delayed(const Duration(seconds: 2));
+    if (context.mounted) {
+      backToHomePage();
+    }
+  }
+
   void showDeleteDialog() {
     showDialogLottie(context,
         lottieFileName: '131686-deleted',
@@ -167,18 +182,23 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
           textAlign: TextAlign.center,
         ),
         noBtnOnPressed: () => Navigator.pop(context, 'NO'),
-        yesBtnOnPressed: () async {
-          showDialogLottieIcon(context, lottieFileName: "95029-success");
-          Future.delayed(const Duration(milliseconds: 200), () {
-            runDeleteFeedback();
-          });
-          final model = context.read<ReminderModel>();
-          await model.deleteReminder(reminder, index);
-          await Future.delayed(const Duration(seconds: 2));
-          if (context.mounted) {
-            backToHomePage();
-          }
-        });
+        yesBtnOnPressed: deleteAction);
+  }
+
+  void showExpiredDeleteDialog() {
+    if (checkReminderTime1IsExpired(reminder)) {
+      showDialogLottie(context,
+          lottieFileName: '131686-deleted',
+          title: CusSText('${Language.of(context)!.t("common_delete")}?'),
+          content: CusNText(
+            Language.of(context)!.t("reminder_detail_expiredDelquestion"),
+            textAlign: TextAlign.center,
+          ),
+          noBtnTxtKey: "common_back",
+          noBtnOnPressed: () => Navigator.pop(context, 'NO'),
+          yesBtnTxtKey: "common_delete",
+          yesBtnOnPressed: deleteAction);
+    }
   }
 
   void backToHomePage() {
@@ -193,6 +213,8 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
         .then((value) => setState(() {
               progressIdx = progressIdxStep1;
             }));
+    Future.delayed(const Duration(milliseconds: askExpiredDelShowTime))
+        .then((value) => showExpiredDeleteDialog());
   }
 
   @override

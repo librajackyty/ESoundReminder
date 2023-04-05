@@ -39,6 +39,7 @@ const double listviewPaddingAll = 18.0;
 const double selectWeekDaysBorderRadius = 30.0;
 const double selectWeekDaysPadding = 10.0;
 const int progressBarDelayShowTime = 500;
+const int askExpiredDelShowTime = 1200;
 
 const int pageHeaderDelayShowTime = 100;
 const int pageContentDelayShowTime = 400;

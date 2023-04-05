@@ -52,12 +52,8 @@ class CardReminderItem extends StatelessWidget {
           : '',
       subline1: subline,
       onPressed: onPressed,
-      expiredTime1:
-          reminder.weekdays1.isEmpty && isTimeAfterNow(reminder.time1),
-      expiredColor:
-          (reminder.weekdays1.isEmpty && isTimeAfterNow(reminder.time1))
-              ? errorColor
-              : null,
+      expiredTime1: checkReminderTime1IsExpired(reminder),
+      expiredColor: checkReminderTime1IsExpired(reminder) ? errorColor : null,
     );
   }
 }

@@ -60,6 +60,7 @@
     "reminder_detail_confirmquestion": "您要保存此提醒事项吗？",
     "reminder_detail_cancelquestion": "您要取消此提醒事项吗？",
     "reminder_detail_deletequestion": "您要删除此提醒事项吗？",
+    "reminder_detail_expiredDelquestion": "提醒事项已过期\n要删除吗?",
     "reminder_detail_notice": "记得按照医生的指示\n每次服用适量的药物",
 
     "settings_title": "设定",

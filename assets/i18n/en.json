@@ -60,6 +60,7 @@
     "reminder_detail_confirmquestion": "Are you sure to save this reminder?",
     "reminder_detail_cancelquestion": "Are you sure to cancel this reminder?",
     "reminder_detail_deletequestion": "Are you sure to delete this reminder?",
+    "reminder_detail_expiredDelquestion": "Reminder is expired\nDo you want to delete?",
     "reminder_detail_notice": "Remember to follow doctor's instructions to take the proper quantity of medicine every time",
 
     "settings_title": "Settings",

@@ -94,10 +94,14 @@ int fromStringToWeekday(String weekdayStr) {
   }
 }
 
+bool checkReminderTime1IsExpired(Reminder reminder) {
+  return reminder.weekdays1.isEmpty && !isTimeAfterNow(reminder.time1);
+}
+
 bool isTimeAfterNow(DateTime time) {
   final currentT = DateTime.now();
   debugPrint("currentT: ${currentT.toString()}");
-  return currentT.isAfter(time);
+  return time.isAfter(currentT);
 }
 
 DateTime convertSelectTime(DateTime dateTime) {
@@ -126,7 +130,7 @@ String _showTimeWthdateTxt(
   final currentT = DateTime.now();
 
   if (longFormat) {
-    if (!isTimeAfterNow(time)) {
+    if (isTimeAfterNow(time)) {
       if (currentT.day == time.day) {
         // tdy
         return '${time.year}/${time.month}/${time.day}\n${dateTxts[0]} $timeStr';
@@ -136,12 +140,12 @@ String _showTimeWthdateTxt(
     } else {
       // expired
       if (dateTxts.length >= 3) {
-        return '${time.year}/${time.month}/${time.day}\n${dateTxts[2]} $timeStr';
+        return '${time.year}/${time.month}/${time.day}\n$timeStr ${dateTxts[2]}';
       }
       return '${time.year}/${time.month}/${time.day} $timeStr';
     }
   } else {
-    if (!isTimeAfterNow(time)) {
+    if (isTimeAfterNow(time)) {
       if (currentT.day == time.day) {
         // tdy
         return '${dateTxts[0]} $timeStr';
@@ -151,9 +155,9 @@ String _showTimeWthdateTxt(
     } else {
       // expired
       if (dateTxts.length >= 3) {
-        return '${dateTxts[2]} $timeStr';
+        return '$timeStr ${dateTxts[2]}';
       }
-      return 'X $timeStr';
+      return timeStr;
     }
   }
 }
