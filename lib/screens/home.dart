@@ -14,6 +14,7 @@ import '../utils/constants.dart';
 import '../utils/feedback.dart';
 import '../widgets/custom_list_item.dart';
 import '../widgets/custom_scroll_bar.dart';
+import '../widgets/custom_text_normal.dart';
 import '../widgets/reminder_card.dart';
 
 class HomePage extends StatefulWidget {
@@ -347,7 +348,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         padding: EdgeInsets.only(left: 40, right: 40),
         child: Align(
             alignment: Alignment.center,
-            child: CusSText(
+            child: CusNText(
               Language.of(context)!.t("home_no_data_msg"),
               textAlign: TextAlign.center,
             )),
