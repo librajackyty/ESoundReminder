@@ -6,6 +6,7 @@ import '../models/reminder.dart';
 import '../models/reminder_screen_arg.dart';
 import '../utils/constants.dart';
 import '../utils/formatter.dart';
+import '../utils/snack_msg.dart';
 import '../utils/time_picker.dart';
 import '../widgets/custom_button_normal.dart';
 import '../widgets/custom_button_normal_back.dart';
@@ -29,22 +30,20 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
   double progressIdx = 0;
   double progressIdxStep1 = 50;
   DateTime _fromDate = DateTime.now();
-  TimeOfDay timeMorning = TimeOfDay.now(); //TimeOfDay(hour: 6, minute: 0);
-  TimeOfDay timeNoon = TimeOfDay(hour: 12, minute: 0);
-  TimeOfDay timeNight = TimeOfDay(hour: 18, minute: 0);
-  // TimeOfDay time = TimeOfDay.now();
+  TimeOfDay timeOfDay1 = TimeOfDay.now(); //TimeOfDay(hour: 6, minute: 0);
+  TimeOfDay timeOfDay2 = TimeOfDay.now(); // TimeOfDay(hour: 12, minute: 0);
+  TimeOfDay timeOfDay3 = TimeOfDay.now(); // TimeOfDay(hour: 18, minute: 0);
+  TimeOfDay timeOfDay4 = TimeOfDay.now();
+  int timerNum = 1;
+  List<bool> timeExpireds = [];
 
   late Reminder reminder = widget.arg?.reminder ??
       Reminder(
           reminderTitle: "",
           time1: DateTime.now(),
           weekdays1: [1, 2, 3, 4, 5, 6, 7],
-          selectedMedicine: []);
-
-  bool eatMoreThanOnce = false;
-  bool setMorning = true;
-  bool setNoon = false;
-  bool setNight = false;
+          selectedMedicine: [],
+          reminderType: 1);
 
   // Weekly selector
   List selectedweekdays1 = List.filled(3, true);
@@ -79,15 +78,25 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
     ];
   }
 
-  void updateTime1ToModel(TimeOfDay newTime) {
+  // =========
+  void updateExpiredTime() {
+    timeExpireds = getReminderAllTimeExpired(reminder);
+  }
+
+  DateTime _convertSetAlarmDateTime(TimeOfDay newTime) {
     DateTime newDT = DateTime(_fromDate.year, _fromDate.month, _fromDate.day,
         newTime.hour, newTime.minute);
     if (reminder.weekdays1.isEmpty) {
       newDT = convertSelectTime(DateTime(_fromDate.year, _fromDate.month,
           _fromDate.day, newTime.hour, newTime.minute));
     }
-    debugPrint("updateTime1ToModel setTime: ${newDT.toString()}");
-    reminder = reminder.copyWith(time1: newDT);
+    // debugPrint("_convertSetAlarmDateTime setTime: ${newDT.toString()}");
+    return newDT;
+  }
+
+  void updateTime1ToModel(TimeOfDay newTime) {
+    debugPrint("updateTime1ToModel setTime: ${newTime.toString()}");
+    reminder = reminder.copyWith(time1: _convertSetAlarmDateTime(newTime));
   }
 
   void updateWeekdays1ToModel() {
@@ -115,7 +124,10 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
     reminder = reminder.copyWith(weekdays1: newWeekdays);
 
     // reset alarm time -> not adding 1 day if will be loop OR adding back 1day if no loop
-    updatingAlarmTime(timeMorning);
+    updatingAlarmTime(timeOfDay1, 1);
+    updatingAlarmTime(timeOfDay2, 2);
+    updatingAlarmTime(timeOfDay3, 3);
+    updatingAlarmTime(timeOfDay4, 4);
     debugPrint("updateWeekdays1ToModel ================");
   }
 
@@ -133,37 +145,95 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
     updateWeekdays1ToModel();
   }
 
-  // UI
-  void openTimePicker() async {
-    TimeOfDay? newtime = await showStyledTimePicker(context, timeMorning,
-        errorInvalidText:
-            Language.of(context)!.t("reminder_new2_timepicker_error"),
-        helpText: Language.of(context)!.t("reminder_new2_settimer1"),
-        confirmText: Language.of(context)!.t("common_confirm"),
-        cancelText: Language.of(context)!.t("common_cancel"));
-
-    updatingAlarmTime(newtime);
+  // set other alarm
+  void updateAlarmNum(bool add) {
+    if (add) {
+      setState(() {
+        if (timerNum < 4) {
+          timerNum++;
+        } else {
+          showSnackMsg(
+              context, Language.of(context)!.t("reminder_new2_settimer_max"));
+        }
+      });
+    } else {
+      setState(() {
+        if (timerNum > 1) {
+          timerNum--;
+        } else {
+          showSnackMsg(
+              context, Language.of(context)!.t("reminder_new2_settimer_min"));
+        }
+      });
+    }
+    if (reminder.reminderType != timerNum) {
+      debugPrint("Updaing reminder reminderType");
+      reminder = reminder.copyWith(reminderType: timerNum);
+    }
   }
 
-  void openDayNightTimePicker() {
-    showDayNightTimePicker(context, timeMorning,
+  void updateTime2ToModel(TimeOfDay newTime) {
+    debugPrint("updateTime2ToModel setTime: ${newTime.toString()}");
+    reminder = reminder.copyWith(time2: _convertSetAlarmDateTime(newTime));
+  }
+
+  void updateTime3ToModel(TimeOfDay newTime) {
+    debugPrint("updateTime3ToModel setTime: ${newTime.toString()}");
+    reminder = reminder.copyWith(time3: _convertSetAlarmDateTime(newTime));
+  }
+
+  void updateTime4ToModel(TimeOfDay newTime) {
+    debugPrint("updateTime4ToModel setTime: ${newTime.toString()}");
+    reminder = reminder.copyWith(time4: _convertSetAlarmDateTime(newTime));
+  }
+
+  // UI
+  // void openTimePicker(TimeOfDay intialTime, {alarmNo = 1}) async {
+  //   TimeOfDay? newtime = await showStyledTimePicker(context, intialTime,
+  //       errorInvalidText:
+  //           Language.of(context)!.t("reminder_new2_timepicker_error"),
+  //       helpText: Language.of(context)!.t("reminder_new2_settimer1"),
+  //       confirmText: Language.of(context)!.t("common_confirm"),
+  //       cancelText: Language.of(context)!.t("common_cancel"));
+
+  //   updatingAlarmTime(newtime, alarmNo: alarmNo);
+  // }
+
+  void openDayNightTimePicker(TimeOfDay intialTime, int alarmNo) {
+    showDayNightTimePicker(context, intialTime,
         confirmText: Language.of(context)!.t("common_confirm"),
         cancelText: Language.of(context)!.t("common_cancel"),
         hourLabel: Language.of(context)!.t("timepicker_hr"),
         minuteLabel: Language.of(context)!.t("timepicker_min"),
         onChangeDateTime: (datetime) {
       debugPrint("onChangeDateTime: ${datetime.hour}:${datetime.minute}");
-
-      updatingAlarmTime(TimeOfDay.fromDateTime(datetime));
+      updatingAlarmTime(TimeOfDay.fromDateTime(datetime), alarmNo);
     });
   }
 
-  void updatingAlarmTime(TimeOfDay? newtime) {
+  void updatingAlarmTime(TimeOfDay? newtime, int alarmNo) {
     if (newtime == null) return;
 
     setState(() {
-      timeMorning = newtime;
-      updateTime1ToModel(timeMorning);
+      switch (alarmNo) {
+        case 1:
+          timeOfDay1 = newtime;
+          updateTime1ToModel(timeOfDay1);
+          break;
+        case 2:
+          timeOfDay2 = newtime;
+          updateTime2ToModel(timeOfDay2);
+          break;
+        case 3:
+          timeOfDay3 = newtime;
+          updateTime3ToModel(timeOfDay3);
+          break;
+        case 4:
+          timeOfDay4 = newtime;
+          updateTime4ToModel(timeOfDay4);
+          break;
+        default:
+      }
     });
   }
 
@@ -183,7 +253,10 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
 
   @override
   void initState() {
-    updateTime1ToModel(timeMorning);
+    // updateTime1ToModel(timeOfDay1);
+    // updateTime2ToModel(timeOfDay2);
+    // updateTime3ToModel(timeOfDay3);
+    // updateTime4ToModel(timeOfDay4);
     updateWeekdays1ToModel();
     super.initState();
     Future.delayed(const Duration(milliseconds: progressBarDelayShowTime))
@@ -213,23 +286,109 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                   child: DelayedDisplay(
                       delay: Duration(milliseconds: pageContentDelayShowTime),
                       child: ListView(children: [
-                        CusSText(
-                          Language.of(context)!.t("reminder_new2_settimer1"),
+                        Container(
+                            margin: EdgeInsets.only(bottom: elementSSPadding),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: CusSText(
+                                    Language.of(context)!
+                                        .t("reminder_new2_settimer1"),
+                                  ),
+                                ),
+                                Row(
+                                  children: [
+                                    FloatingActionButton.small(
+                                        backgroundColor: elementActiveColor,
+                                        heroTag: "fabMinus",
+                                        onPressed: () => updateAlarmNum(false),
+                                        child: Icon(
+                                          Icons.remove,
+                                          color: elementActiveTxtColor,
+                                        )),
+                                    Container(
+                                        width: 30,
+                                        padding:
+                                            EdgeInsets.all(elementSPadding),
+                                        margin: EdgeInsets.symmetric(
+                                            horizontal: elementSSPadding),
+                                        child: CusSText('$timerNum')),
+                                    FloatingActionButton.small(
+                                        backgroundColor: elementActiveColor,
+                                        heroTag: "fabPlus",
+                                        onPressed: () => updateAlarmNum(true),
+                                        child: Icon(
+                                          Icons.add,
+                                          color: elementActiveTxtColor,
+                                        ))
+                                  ],
+                                )
+                              ],
+                            )),
+                        Container(
+                            margin: EdgeInsets.only(bottom: 12),
+                            child: CusNButton(
+                              // fromTimeOfDayToString(timeOfDay1),
+                              fromTimeToString(reminder.time1,
+                                  weekdays: reminder.weekdays1,
+                                  dateTxts: [
+                                    Language.of(context)!.t("day_today"),
+                                    Language.of(context)!.t("day_tmr")
+                                  ]),
+                              () => openDayNightTimePicker(timeOfDay1, 1),
+                              // openTimePicker,
+                              icon: Icon(Icons.alarm_add),
+                            )),
+                        AnimatedSize(
+                          duration: const Duration(milliseconds: 200),
+                          child: timerNum >= 2
+                              ? Container(
+                                  margin: EdgeInsets.only(bottom: 12),
+                                  child: CusNButton(
+                                    fromTimeToString(reminder.time2!,
+                                        weekdays: reminder.weekdays1,
+                                        dateTxts: [
+                                          Language.of(context)!.t("day_today"),
+                                          Language.of(context)!.t("day_tmr")
+                                        ]),
+                                    () => openDayNightTimePicker(timeOfDay2, 2),
+                                    icon: Icon(Icons.alarm_add),
+                                  ))
+                              : SizedBox.shrink(),
                         ),
-                        CusNButton(
-                          // fromTimeOfDayToString(timeMorning),
-                          fromTimeToString(reminder.time1,
-                              weekdays: reminder.weekdays1,
-                              dateTxts: [
-                                Language.of(context)!.t("day_today"),
-                                Language.of(context)!.t("day_tmr")
-                              ]),
-                          () => openDayNightTimePicker(),
-                          // openTimePicker,
-                          icon: Icon(Icons.alarm_add),
+                        AnimatedSize(
+                          duration: const Duration(milliseconds: 200),
+                          child: timerNum >= 3
+                              ? Container(
+                                  margin: EdgeInsets.only(bottom: 12),
+                                  child: CusNButton(
+                                    fromTimeToString(reminder.time3!,
+                                        weekdays: reminder.weekdays1,
+                                        dateTxts: [
+                                          Language.of(context)!.t("day_today"),
+                                          Language.of(context)!.t("day_tmr")
+                                        ]),
+                                    () => openDayNightTimePicker(timeOfDay3, 3),
+                                    icon: Icon(Icons.alarm_add),
+                                  ))
+                              : SizedBox.shrink(),
                         ),
-                        const SizedBox(
-                          height: 12,
+                        AnimatedSize(
+                          duration: const Duration(milliseconds: 200),
+                          child: timerNum >= 4
+                              ? Container(
+                                  margin: EdgeInsets.only(bottom: 12),
+                                  child: CusNButton(
+                                    fromTimeToString(reminder.time4!,
+                                        weekdays: reminder.weekdays1,
+                                        dateTxts: [
+                                          Language.of(context)!.t("day_today"),
+                                          Language.of(context)!.t("day_tmr")
+                                        ]),
+                                    () => openDayNightTimePicker(timeOfDay4, 4),
+                                    icon: Icon(Icons.alarm_add),
+                                  ))
+                              : SizedBox.shrink(),
                         ),
                         LabeledSwitch(
                           label: Language.of(context)!
@@ -329,7 +488,7 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                         //             TimeSectionDisplay(
                         //               padding:
                         //                   const EdgeInsets.only(top: 2, bottom: 8),
-                        //               times: [fromTimeOfDayToString(timeMorning)],
+                        //               times: [fromTimeOfDayToString(timeOfDay1)],
                         //             ),
                         //             Visibility(
                         //               maintainSize: true,
@@ -370,13 +529,19 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                             ),
                             Expanded(
                               child: CusNButton(
-                                  Language.of(context)!.t("common_next"),
-                                  () => {
-                                        Navigator.pushNamed(
-                                            context, pageRouteReminderDetail,
-                                            arguments:
-                                                ReminderScreenArg(reminder))
-                                      }),
+                                  Language.of(context)!.t("common_next"), () {
+                                if (checkOneOfTimeIsExpired(
+                                    getReminderAllTimeExpired(reminder))) {
+                                  showSnackMsg(
+                                      context,
+                                      Language.of(context)!
+                                          .t("reminder_new2_settimer_expired"));
+                                  return;
+                                }
+                                Navigator.pushNamed(
+                                    context, pageRouteReminderDetail,
+                                    arguments: ReminderScreenArg(reminder));
+                              }),
                             ),
                           ],
                         ),

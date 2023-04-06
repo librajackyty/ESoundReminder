@@ -45,8 +45,13 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
           reminderTitle: "",
           time1: DateTime.now(),
           weekdays1: [],
-          selectedMedicine: []);
+          selectedMedicine: [],
+          reminderType: 1);
   late int index = widget.arg?.index ?? 0;
+
+  bool checkOpenAsNewDetailPage() {
+    return widget.title == pageNameReminderDetail;
+  }
 
   // UI
   ScrollController _reminderDSVController = ScrollController();
@@ -66,22 +71,72 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
   }
 
   Widget settedTime(Reminder reminder) {
-    return TimeSectionDisplay(
-      largeTxt: true,
-      alignment: Alignment.center,
-      times: [
-        fromTimeToString(reminder.time1,
+    debugPrint("settedTime ==============");
+    debugPrint("reminder reminderType: ${reminder.reminderType}");
+    debugPrint("reminder time1: ${reminder.time1}");
+    List<String> times = [];
+    for (var i = 0; i < reminder.reminderType; i++) {
+      DateTime dt;
+      switch (i) {
+        case 0:
+          dt = reminder.time1;
+          break;
+        case 1:
+          dt = reminder.time2!;
+          break;
+        case 2:
+          dt = reminder.time3!;
+          break;
+        case 3:
+          dt = reminder.time4!;
+          break;
+        default:
+          dt = reminder.time1;
+      }
+      if (checkReminderTimesAreSameDay(reminder) &&
+          reminder.reminderType > 1 &&
+          reminder.weekdays1.isEmpty) {
+        times.add(fromSameDayTimeToString(dt,
+            dateTxts: checkReminderAllTimeAreExpired(
+                    getReminderAllTimeExpired(reminder))
+                ? []
+                : [
+                    Language.of(context)!.t("day_today"),
+                    Language.of(context)!.t("day_tmr"),
+                    Language.of(context)!.t("day_expired"),
+                  ]));
+      } else {
+        times.add(fromTimeToString(dt,
             weekdays: reminder.weekdays1,
-            longFormat: true,
+            longFormat: reminder.reminderType == 1 ||
+                (reminder.reminderType > 1 &&
+                    reminder.weekdays1.isEmpty &&
+                    !checkReminderTimesAreSameDay(reminder)),
             dateTxts: [
               Language.of(context)!.t("day_today"),
               Language.of(context)!.t("day_tmr"),
               Language.of(context)!.t("day_expired"),
-            ])
-      ],
-      expiredTime1: checkReminderTime1IsExpired(reminder),
-      color: checkReminderTime1IsExpired(reminder) ? errorColor : null,
-    );
+            ]));
+      }
+    }
+    return TimeSectionDisplay(
+        padding: EdgeInsets.symmetric(
+            vertical: elementLPadding, horizontal: elementSSPadding),
+        largeTxt: true,
+        alignment: Alignment.center,
+        header: reminder.reminderType > 1 &&
+                reminder.weekdays1.isEmpty &&
+                checkReminderTimesAreSameDay(reminder)
+            ? fromTimeToDateLongString(reminder, dateTxts: [
+                Language.of(context)!.t("day_today"),
+                Language.of(context)!.t("day_tmr"),
+                Language.of(context)!.t("day_expired"),
+              ])
+            : null,
+        times: times,
+        expiredTimes: getReminderAllTimeExpired(reminder),
+        allTimeAreExpired: checkReminderAllTimeAreExpired(
+            getReminderAllTimeExpired(reminder)));
   }
 
   void showNoticeDialog() {
@@ -131,7 +186,7 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
       });
       reminder = reminder.copyWith(
           reminderTitle:
-              "${fromTimeToString(reminder.time1)} ${Language.of(context)?.t("localnotification_title")}",
+              "${Language.of(context)?.t("localnotification_title")}",
           reminderDescription:
               "${Language.of(context)?.t("localnotification_subtitle")} - ${reminder.selectedMedicine.join(",")}");
       final model = context.read<ReminderModel>();
@@ -186,7 +241,8 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
   }
 
   void showExpiredDeleteDialog() {
-    if (checkReminderTime1IsExpired(reminder)) {
+    if (!checkOpenAsNewDetailPage() &&
+        checkReminderAllTimeAreExpired(getReminderAllTimeExpired(reminder))) {
       showDialogLottie(context,
           lottieFileName: '131686-deleted',
           title: CusSText('${Language.of(context)!.t("common_delete")}?'),
@@ -227,7 +283,7 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                widget.title == pageNameReminderDetail
+                checkOpenAsNewDetailPage()
                     ? Container(
                         margin: EdgeInsets.only(bottom: elementSPadding),
                         child: DelayedDisplay(
@@ -308,10 +364,12 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
                                 ],
                               )),
                         ),
-                        const Divider(),
+                        const Divider(
+                          color: elementNotActiveTxtColor,
+                        ),
                         Container(
                             padding: EdgeInsets.all(8.0),
-                            child: widget.title == pageNameReminderDetail
+                            child: checkOpenAsNewDetailPage()
                                 ? Row(children: [
                                     Expanded(
                                       child: CusNBackButton(

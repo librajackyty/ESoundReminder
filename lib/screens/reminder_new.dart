@@ -6,6 +6,7 @@ import '../models/language.dart';
 import '../models/reminder.dart';
 import '../models/reminder_screen_arg.dart';
 import '../utils/constants.dart';
+import '../utils/snack_msg.dart';
 import '../widgets/custom_button_normal.dart';
 import '../widgets/custom_button_normal_back.dart';
 import '../widgets/custom_button_small.dart';
@@ -33,7 +34,8 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
           reminderTitle: "",
           time1: DateTime.now(),
           weekdays1: [1, 2, 3, 4, 5, 6, 7],
-          selectedMedicine: []);
+          selectedMedicine: [],
+          reminderType: 1);
 
   List staticmedicinelist = [
     "鈣質片",
@@ -422,13 +424,10 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
                                           () => {
                                                 if (selectedMedicine.isEmpty)
                                                   {
-                                                    ScaffoldMessenger.of(
-                                                            context)
-                                                        .showSnackBar(SnackBar(
-                                                      content: CusSText(Language
-                                                              .of(context)!
-                                                          .t("reminder_new1_snackmsg1")),
-                                                    ))
+                                                    showSnackMsg(
+                                                        context,
+                                                        Language.of(context)!.t(
+                                                            "reminder_new1_snackmsg1"))
                                                   }
                                                 else
                                                   {

@@ -38,13 +38,16 @@
 
     "reminder_new1_msg": "请选择您将要服用的药物,然后按'下一步'",
     "reminder_new1_selectedmedicine": "已选择药物:",
-    "reminder_new1_snackmsg1": "请先选择至少一种药物",
+    "reminder_new1_snackmsg1": "请先选择至少 1 种药物",
     "reminder_new1_inputhint": "上面找不到？输入药物名称",
 
     "reminder_new2_msg": "请设定时间提醒,然后按'下一步'",
     "reminder_new2_settimer1": "闹钟时间:",
     "reminder_new2_setrepeat1": "每周重复:",
     "reminder_new2_settimer2": "已设定闹钟:",
+    "reminder_new2_settimer_min": "需要设定至少 1 个闹钟",
+    "reminder_new2_settimer_max": "最多仅 4 个闹钟",
+    "reminder_new2_settimer_expired": "至少 1 个闹钟已过期。请再次检查！",
     "reminder_new2_setrepeat2": "已设定每周重复:",
     "reminder_new2_setrepeat3": "不重复",
     "reminder_new2_setrepeat4": "每天重复",

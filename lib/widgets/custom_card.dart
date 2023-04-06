@@ -1,5 +1,6 @@
 import 'package:e_sound_reminder_app/utils/feedback.dart';
 import 'package:e_sound_reminder_app/widgets/custom_button_small.dart';
+import 'package:e_sound_reminder_app/widgets/custom_text_normal.dart';
 import 'package:flutter/material.dart';
 
 import '../models/language.dart';
@@ -11,16 +12,20 @@ import 'time_section_display.dart';
 class CusCard extends StatefulWidget {
   final Widget icon;
   final String title;
-  final String subtitle;
-  final String subtitle2;
+  final String? subtitle;
+  final String? subtitle2;
+  final Widget? subline0;
   final Widget? subline1;
   final String? btntxt1;
   VoidCallback? onPressed;
   Color? expiredColor;
   bool expiredTime1;
 
-  CusCard(this.icon, this.title, this.subtitle, this.subtitle2,
-      {this.subline1,
+  CusCard(this.icon, this.title,
+      {this.subtitle,
+      this.subtitle2,
+      this.subline0,
+      this.subline1,
       this.btntxt1,
       this.onPressed,
       this.expiredColor,
@@ -28,14 +33,15 @@ class CusCard extends StatefulWidget {
 
   @override
   _CusCardState createState() => _CusCardState(icon, title, subtitle, subtitle2,
-      subline1, btntxt1, onPressed, expiredColor, expiredTime1);
+      subline0, subline1, btntxt1, onPressed, expiredColor, expiredTime1);
 }
 
 class _CusCardState extends State<CusCard> {
   Widget icon;
   String title;
-  String subtitle;
-  String subtitle2;
+  String? subtitle;
+  String? subtitle2;
+  Widget? subline0;
   Widget? subline1;
   String? btntxt1;
   VoidCallback? onPressed;
@@ -47,6 +53,7 @@ class _CusCardState extends State<CusCard> {
       this.title,
       this.subtitle,
       this.subtitle2,
+      this.subline0,
       this.subline1,
       this.btntxt1,
       this.onPressed,
@@ -86,11 +93,18 @@ class _CusCardState extends State<CusCard> {
                 ],
               ),
             ),
-            TimeSectionDisplay(
-              times: [widget.subtitle],
-              color: widget.expiredColor,
-              expiredTime1: widget.expiredTime1,
-            ),
+            // TimeSectionDisplay(
+            //   times: [widget.subtitle],
+            //   color: widget.expiredColor,
+            //   expiredTime1: widget.expiredTime1,
+            // ),
+            widget.subtitle != null
+                ? CusNText(widget.subtitle!)
+                : const SizedBox.shrink(),
+            widget.subtitle2 != null
+                ? CusNText(widget.subtitle2!)
+                : const SizedBox.shrink(),
+            widget.subline0 ?? const SizedBox.shrink(),
             widget.subline1 ?? const SizedBox.shrink(),
             const SizedBox(
               height: 8,
