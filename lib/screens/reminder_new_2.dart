@@ -10,6 +10,7 @@ import '../utils/snack_msg.dart';
 import '../utils/time_picker.dart';
 import '../widgets/custom_button_normal.dart';
 import '../widgets/custom_button_normal_back.dart';
+import '../widgets/custom_counter.dart';
 import '../widgets/custom_labeled_switch.dart';
 import '../widgets/custom_text_small.dart';
 import '../widgets/reminder_header.dart';
@@ -296,32 +297,10 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                                         .t("reminder_new2_settimer1"),
                                   ),
                                 ),
-                                Row(
-                                  children: [
-                                    FloatingActionButton.small(
-                                        backgroundColor: elementActiveColor,
-                                        heroTag: "fabMinus",
-                                        onPressed: () => updateAlarmNum(false),
-                                        child: Icon(
-                                          Icons.remove,
-                                          color: elementActiveTxtColor,
-                                        )),
-                                    Container(
-                                        width: 30,
-                                        padding:
-                                            EdgeInsets.all(elementSPadding),
-                                        margin: EdgeInsets.symmetric(
-                                            horizontal: elementSSPadding),
-                                        child: CusSText('$timerNum')),
-                                    FloatingActionButton.small(
-                                        backgroundColor: elementActiveColor,
-                                        heroTag: "fabPlus",
-                                        onPressed: () => updateAlarmNum(true),
-                                        child: Icon(
-                                          Icons.add,
-                                          color: elementActiveTxtColor,
-                                        ))
-                                  ],
+                                SimpleCounter(
+                                  value: timerNum,
+                                  onPressedMinus: () => updateAlarmNum(false),
+                                  onPressedAdd: () => updateAlarmNum(true),
                                 )
                               ],
                             )),
