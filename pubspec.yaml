@@ -44,6 +44,7 @@ scripts:
 
   dev: flutter run # -d <device_id>
   dev-fresh: flutter run --no-fast-start # -d <device_id>
+  profile: flutter run --profile
   devices: flutter devices
   install: flutter pub get
   build: flutter pub run build_runner build --delete-conflicting-outputs
