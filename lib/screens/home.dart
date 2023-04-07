@@ -122,6 +122,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       Future.delayed(Duration.zero, () {
         setState(() {
           aniController.forward();
+          if (_reminderLVController.positions.isNotEmpty) {
+            _reminderLVController
+                .jumpTo(_reminderLVController.position.minScrollExtent);
+          }
         });
         listFilterBtnStrKey = filterKeys[selectedFilterIndex.value];
         final model = context.read<ReminderModel>();
