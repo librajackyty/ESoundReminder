@@ -244,6 +244,7 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
     if (!checkOpenAsNewDetailPage() &&
         checkReminderAllTimeAreExpired(getReminderAllTimeExpired(reminder))) {
       showDialogLottie(context,
+          dismissible: false,
           lottieFileName: '131686-deleted',
           title: CusSText('${Language.of(context)!.t("common_delete")}?'),
           content: CusNText(

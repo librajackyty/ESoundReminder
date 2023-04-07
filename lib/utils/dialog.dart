@@ -4,7 +4,6 @@ import 'package:lottie/lottie.dart';
 
 import '../models/language.dart';
 import '../widgets/custom_button_small_back.dart';
-import '../widgets/custom_text_small.dart';
 import 'assetslink.dart';
 
 void showDialogLottie(BuildContext context,
@@ -16,7 +15,8 @@ void showDialogLottie(BuildContext context,
     noBtnTxtKey = "common_no",
     void Function()? noBtnOnPressed,
     yesBtnTxtKey = "common_yes",
-    void Function()? yesBtnOnPressed}) {
+    void Function()? yesBtnOnPressed,
+    bool dismissible = true}) {
   showCommonDialog(context,
       title: title,
       content: content,
@@ -28,7 +28,8 @@ void showDialogLottie(BuildContext context,
         assetslinkLottie(lottieFileName),
         width: lottieWidth ?? MediaQuery.of(context).size.width * 0.3,
         height: lottieHeight ?? MediaQuery.of(context).size.width * 0.3,
-      ));
+      ),
+      dismissible: dismissible);
 }
 
 void showDialogLottieIcon(BuildContext context,
@@ -66,19 +67,25 @@ void showCommonDialog(BuildContext context,
     noBtnTxtKey = "common_no",
     void Function()? noBtnOnPressed,
     yesBtnTxtKey = "common_yes",
-    void Function()? yesBtnOnPressed}) {
-  showBaseDialog(context, icon: icon, title: title, content: content, actions: [
-    CusSBackButton(
-      Language.of(context)!.t(noBtnTxtKey),
-      noBtnOnPressed,
-      maxWidth: false,
-    ),
-    CusSButton(
-      Language.of(context)!.t(yesBtnTxtKey),
-      yesBtnOnPressed,
-      maxWidth: false,
-    ),
-  ]);
+    void Function()? yesBtnOnPressed,
+    bool dismissible = true}) {
+  showBaseDialog(context,
+      icon: icon,
+      title: title,
+      content: content,
+      actions: [
+        CusSBackButton(
+          Language.of(context)!.t(noBtnTxtKey),
+          noBtnOnPressed,
+          maxWidth: false,
+        ),
+        CusSButton(
+          Language.of(context)!.t(yesBtnTxtKey),
+          yesBtnOnPressed,
+          maxWidth: false,
+        ),
+      ],
+      dismissible: dismissible);
 }
 
 void showBaseDialog(BuildContext context,
