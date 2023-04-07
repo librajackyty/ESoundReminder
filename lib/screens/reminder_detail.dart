@@ -320,6 +320,8 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
                               scrollController: _reminderDSVController,
                               child: ListView(
                                 controller: _reminderDSVController,
+                                physics: AlwaysScrollableScrollPhysics(
+                                    parent: BouncingScrollPhysics()),
                                 padding:
                                     const EdgeInsets.only(left: 12, right: 12),
                                 children: [

@@ -9,7 +9,6 @@ import '../providers/app_language.dart';
 import '../utils/assetslink.dart';
 import '../utils/constants.dart';
 import '../widgets/custom_button_normal.dart';
-import '../widgets/custom_button_normal_back.dart';
 import '../widgets/custom_scroll_bar.dart';
 import '../widgets/custom_text_normal.dart';
 
@@ -114,6 +113,8 @@ class _LangConfigPageState extends State<LangConfigPage> {
                             scrollController: _scrollController,
                             child: ListView(
                                 controller: _scrollController,
+                                physics: AlwaysScrollableScrollPhysics(
+                                    parent: BouncingScrollPhysics()),
                                 padding: const EdgeInsets.only(
                                     top: safeAreaPaddingAll),
                                 children: langSelectArea(

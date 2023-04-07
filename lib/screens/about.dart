@@ -78,6 +78,8 @@ class _AboutPageState extends State<AboutPage> {
                         scrollController: _scrollController,
                         child: ListView(
                             controller: _scrollController,
+                            physics: AlwaysScrollableScrollPhysics(
+                                parent: BouncingScrollPhysics()),
                             padding:
                                 const EdgeInsets.only(top: safeAreaPaddingAll),
                             children: <Widget>[

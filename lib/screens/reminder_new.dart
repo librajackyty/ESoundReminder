@@ -254,6 +254,8 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
                               scrollController: _medicineSVController,
                               child: SingleChildScrollView(
                                 controller: _medicineSVController,
+                                physics: AlwaysScrollableScrollPhysics(
+                                    parent: BouncingScrollPhysics()),
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: safeAreaPaddingAll),
                                 child: Column(
@@ -268,6 +270,8 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
                               scrollController: _medicineSVController,
                               child: GridView.count(
                                   controller: _medicineSVController,
+                                  physics: AlwaysScrollableScrollPhysics(
+                                      parent: BouncingScrollPhysics()),
                                   primary: false,
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: safeAreaPaddingAll),

@@ -50,6 +50,8 @@ class _SettingsPageState extends State<SettingsPage> {
                           scrollController: _scrollController,
                           child: ListView(
                               controller: _scrollController,
+                              physics: AlwaysScrollableScrollPhysics(
+                                  parent: BouncingScrollPhysics()),
                               padding: const EdgeInsets.only(
                                   top: safeAreaPaddingAll),
                               children: [

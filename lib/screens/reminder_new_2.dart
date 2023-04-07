@@ -302,6 +302,8 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                           scrollController: _reminderTimeSelectionController,
                           child: ListView(
                               controller: _reminderTimeSelectionController,
+                              physics: AlwaysScrollableScrollPhysics(
+                                  parent: BouncingScrollPhysics()),
                               padding: const EdgeInsets.symmetric(
                                   horizontal: safeAreaPaddingAll),
                               children: [

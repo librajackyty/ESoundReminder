@@ -95,6 +95,8 @@ class _DisplayConfigPageState extends State<DisplayConfigPage> {
                             scrollController: _scrollController,
                             child: ListView(
                                 controller: _scrollController,
+                                physics: AlwaysScrollableScrollPhysics(
+                                    parent: BouncingScrollPhysics()),
                                 padding: const EdgeInsets.only(
                                     top: safeAreaPaddingAll),
                                 children: sizeSelectArea(context,
