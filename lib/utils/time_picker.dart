@@ -151,7 +151,7 @@ void showDayNightTimePicker(BuildContext context, TimeOfDay initialTime,
     String? hourLabel,
     String? minuteLabel,
     TimePickerInterval minuteInterval = TimePickerInterval.ONE,
-    bool iosStylePicker = false}) {
+    bool iosStylePicker = true}) {
   Navigator.of(context).push(showPicker(
       context: context,
       height: 390,

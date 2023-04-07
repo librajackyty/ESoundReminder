@@ -59,6 +59,12 @@ class _DisplayConfigPageState extends State<DisplayConfigPage> {
   }
 
   @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -68,34 +74,37 @@ class _DisplayConfigPageState extends State<DisplayConfigPage> {
         child: Padding(
           padding: const EdgeInsets.all(safeAreaPaddingAll),
           child: DelayedDisplay(
+              slidingBeginOffset: const Offset(0.55, 0.0),
               child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Lottie.asset(
-                  assetslinkLottie('119674-font-animation'),
-                  width: MediaQuery.of(context).size.width * 0.4,
-                  height: MediaQuery.of(context).size.width * 0.4,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Lottie.asset(
+                      assetslinkLottie('119674-font-animation'),
+                      width: MediaQuery.of(context).size.width * 0.4,
+                      height: MediaQuery.of(context).size.width * 0.4,
+                    ),
+                    Visibility(
+                        visible: true,
+                        child: CusNText(
+                          Language.of(context)!.t("display_list_msg"),
+                          textAlign: TextAlign.center,
+                        )),
+                    Expanded(
+                        child: CusScrollbar(
+                            scrollController: _scrollController,
+                            child: ListView(
+                                controller: _scrollController,
+                                physics: AlwaysScrollableScrollPhysics(
+                                    parent: BouncingScrollPhysics()),
+                                padding: const EdgeInsets.only(
+                                    top: safeAreaPaddingAll),
+                                children: sizeSelectArea(context,
+                                    Displayer.sizeDisplayKey.keys.toList())))),
+                    Visibility(visible: true, child: PageBottomArea()),
+                  ],
                 ),
-                Visibility(
-                    visible: true,
-                    child: CusNText(
-                      Language.of(context)!.t("display_list_msg"),
-                      textAlign: TextAlign.center,
-                    )),
-                Expanded(
-                    child: CusScrollbar(
-                        scrollController: _scrollController,
-                        child: ListView(
-                            controller: _scrollController,
-                            padding:
-                                const EdgeInsets.only(top: safeAreaPaddingAll),
-                            children: sizeSelectArea(context,
-                                Displayer.sizeDisplayKey.keys.toList())))),
-                Visibility(visible: true, child: PageBottomArea()),
-              ],
-            ),
-          )),
+              )),
         ),
       ),
     );

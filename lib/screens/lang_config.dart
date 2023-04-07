@@ -9,7 +9,6 @@ import '../providers/app_language.dart';
 import '../utils/assetslink.dart';
 import '../utils/constants.dart';
 import '../widgets/custom_button_normal.dart';
-import '../widgets/custom_button_normal_back.dart';
 import '../widgets/custom_scroll_bar.dart';
 import '../widgets/custom_text_normal.dart';
 
@@ -72,6 +71,12 @@ class _LangConfigPageState extends State<LangConfigPage> {
   }
 
   @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     initalConfig = !widget.isFromSettings;
 
@@ -85,6 +90,9 @@ class _LangConfigPageState extends State<LangConfigPage> {
         child: Padding(
             padding: const EdgeInsets.all(safeAreaPaddingAll),
             child: DelayedDisplay(
+              slidingBeginOffset: initalConfig
+                  ? const Offset(0.0, 0.35)
+                  : const Offset(0.55, 0.0),
               child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -105,6 +113,8 @@ class _LangConfigPageState extends State<LangConfigPage> {
                             scrollController: _scrollController,
                             child: ListView(
                                 controller: _scrollController,
+                                physics: AlwaysScrollableScrollPhysics(
+                                    parent: BouncingScrollPhysics()),
                                 padding: const EdgeInsets.only(
                                     top: safeAreaPaddingAll),
                                 children: langSelectArea(

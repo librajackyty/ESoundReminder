@@ -1,11 +1,10 @@
-import 'package:e_sound_reminder_app/models/language.dart';
+import 'package:e_sound_reminder_app/utils/formatter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart';
 
 import '../../models/reminder.dart';
 import '../../storage/reminders_hive.dart';
-import '../../utils/formatter.dart';
 import 'reminders_state.dart';
 
 class ReminderModel extends ChangeNotifier {
@@ -85,6 +84,7 @@ class ReminderModel extends ChangeNotifier {
             .toList();
         break;
       default:
+        reminders = [];
     }
   }
 
@@ -177,6 +177,10 @@ class ReminderModel extends ChangeNotifier {
   int reminderSort(Reminder reminder1, Reminder reminder2) =>
       reminder2.createTime.compareTo(reminder1.createTime);
 
+  int getReminderAlarmID(Reminder reminder, DateTime time) {
+    return reminder.id + (time.day * time.minute);
+  }
+
   Future<void> _removeScheduledReminder(Reminder reminder) async {
     final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
         FlutterLocalNotificationsPlugin();
@@ -186,12 +190,68 @@ class ReminderModel extends ChangeNotifier {
     if (reminder.weekdays1.isNotEmpty) {
       for (var notification in pendingNotificationRequests) {
         // get grouped id
-        if ((notification.id / 10).floor() == reminder.id) {
+        int getReminderAlarmIDTime1 =
+            getReminderAlarmID(reminder, reminder.time1);
+        if ((notification.id / 10).floor() == getReminderAlarmIDTime1) {
+          debugPrint("grouped id MATCHED !!!");
+          debugPrint("notification id = ${notification.id}");
+          debugPrint("reminder.id = ${reminder.id}");
+          debugPrint(
+              "notification.id /10 floor =  ${(notification.id / 10).floor()}");
+          debugPrint("getReminderAlarmIDTime1 = $getReminderAlarmIDTime1");
           await flutterLocalNotificationsPlugin.cancel(notification.id);
         }
       }
+      if (reminder.reminderType > 1) {
+        for (var i = 2; i <= reminder.reminderType; i++) {
+          debugPrint("reminderType loop i = $i");
+          DateTime? otherT;
+          if (i == 2) {
+            otherT = reminder.time2!;
+          }
+          if (i == 3) {
+            otherT = reminder.time3!;
+          }
+          if (i == 4) {
+            otherT = reminder.time4!;
+          }
+          if (otherT == null) return;
+          debugPrint("reminderType time = ${otherT.toString()}");
+
+          for (var notification in pendingNotificationRequests) {
+            // get grouped id
+            int getReminderAlarmIDTime = getReminderAlarmID(reminder, otherT);
+            if ((notification.id / 10).floor() == getReminderAlarmIDTime) {
+              debugPrint("grouped id MATCHED !!!");
+              debugPrint("notification id = ${notification.id}");
+              debugPrint("reminder.id = ${reminder.id}");
+              debugPrint(
+                  "notification.id /10 floor =  ${(notification.id / 10).floor()}");
+              debugPrint("getReminderAlarmIDTime = $getReminderAlarmIDTime");
+              await flutterLocalNotificationsPlugin.cancel(notification.id);
+            }
+          }
+        }
+      }
     } else {
-      await flutterLocalNotificationsPlugin.cancel(reminder.id);
+      // await flutterLocalNotificationsPlugin.cancel(reminder.id);
+      for (var i = 1; i <= reminder.reminderType; i++) {
+        debugPrint("reminderType loop i = $i");
+        DateTime otherT = reminder.time1;
+        if (i == 2) {
+          otherT = reminder.time2!;
+        }
+        if (i == 3) {
+          otherT = reminder.time3!;
+        }
+        if (i == 4) {
+          otherT = reminder.time4!;
+        }
+        debugPrint("reminderType time = ${otherT.toString()}");
+        int getReminderAlarmIDTime = getReminderAlarmID(reminder, otherT);
+        debugPrint("getReminderAlarmIDTime = $getReminderAlarmIDTime");
+        await flutterLocalNotificationsPlugin.cancel(getReminderAlarmIDTime);
+      }
     }
   }
 
@@ -234,21 +294,100 @@ class ReminderModel extends ChangeNotifier {
     debugPrint("set up reminder:");
     debugPrint(reminder.reminderTitle);
     debugPrint(reminder.reminderDescription);
-    debugPrint(reminder.time1.toString());
     debugPrint(reminder.selectedMedicine.join(","));
-    if (reminder.weekdays1.isEmpty) {
+    debugPrint(reminder.weekdays1.toString());
+    debugPrint(reminder.time1.toString());
+    debugPrint("reminder id ? ${reminder.id}");
+
+    debugPrint("reminder set time1==============");
+    zonedSchedule(flutterLocalNotificationsPlugin, platformChannelSpecifics,
+        reminder, reminder.weekdays1, reminder.time1);
+
+    if (reminder.reminderType >= 2) {
+      debugPrint("reminder set time2==============");
+
+      zonedSchedule(flutterLocalNotificationsPlugin, platformChannelSpecifics,
+          reminder, reminder.weekdays1, reminder.time2!);
+    }
+    if (reminder.reminderType >= 3) {
+      debugPrint("reminder set time3==============");
+      zonedSchedule(flutterLocalNotificationsPlugin, platformChannelSpecifics,
+          reminder, reminder.weekdays1, reminder.time3!);
+    }
+    if (reminder.reminderType == 4) {
+      debugPrint("reminder set time4==============");
+      zonedSchedule(flutterLocalNotificationsPlugin, platformChannelSpecifics,
+          reminder, reminder.weekdays1, reminder.time4!);
+    }
+    // if (reminder.weekdays1.isEmpty) {
+    //   debugPrint("set up LocalNotifications weekdays1.isEmpty");
+    //   debugPrint("reminder id ? ${reminder.id}");
+    //   await flutterLocalNotificationsPlugin.zonedSchedule(
+    //     reminder.id,
+    //     reminder.reminderTitle,
+    //     reminder.reminderDescription,
+    //     TZDateTime.local(
+    //       reminder.time1.year,
+    //       reminder.time1.month,
+    //       reminder.time1.day,
+    //       reminder.time1.hour,
+    //       reminder.time1.minute,
+    //     ),
+    //     platformChannelSpecifics,
+    //     androidAllowWhileIdle: true,
+    //     uiLocalNotificationDateInterpretation:
+    //         UILocalNotificationDateInterpretation.absoluteTime,
+    //     matchDateTimeComponents: DateTimeComponents.time,
+    //   );
+    // } else {
+    //   debugPrint("set up LocalNotifications weekdays1. not empty");
+    //   debugPrint(reminder.weekdays1.join(","));
+    //   for (var weekday in reminder.weekdays1) {
+    //     await flutterLocalNotificationsPlugin.zonedSchedule(
+    //       // acts as an id, for cancelling later
+    //       reminder.id * 10 + weekday,
+    //       reminder.reminderTitle,
+    //       reminder.reminderDescription,
+    //       TZDateTime.local(
+    //         reminder.time1.year,
+    //         reminder.time1.month,
+    //         reminder.time1.day - reminder.time1.weekday + weekday,
+    //         reminder.time1.hour,
+    //         reminder.time1.minute,
+    //       ),
+    //       platformChannelSpecifics,
+    //       androidAllowWhileIdle: true,
+    //       uiLocalNotificationDateInterpretation:
+    //           UILocalNotificationDateInterpretation.absoluteTime,
+    //       matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime,
+    //     );
+    //   }
+    // }
+  }
+
+  zonedSchedule(
+      FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin,
+      NotificationDetails platformChannelSpecifics,
+      Reminder reminder,
+      List<int> weekdays,
+      DateTime time) async {
+    debugPrint("reminder time ? ${time.toString()}");
+    int id = getReminderAlarmID(reminder, time);
+    String titleWthTime = '${fromTimeToString(time)} ${reminder.reminderTitle}';
+    debugPrint("reminder gen time id ? $id");
+    debugPrint("reminder gen time title with time ? $titleWthTime");
+    if (weekdays.isEmpty) {
       debugPrint("set up LocalNotifications weekdays1.isEmpty");
-      debugPrint("reminder id ? ${reminder.id}");
       await flutterLocalNotificationsPlugin.zonedSchedule(
-        reminder.id,
-        reminder.reminderTitle,
+        id,
+        titleWthTime,
         reminder.reminderDescription,
         TZDateTime.local(
-          reminder.time1.year,
-          reminder.time1.month,
-          reminder.time1.day,
-          reminder.time1.hour,
-          reminder.time1.minute,
+          time.year,
+          time.month,
+          time.day,
+          time.hour,
+          time.minute,
         ),
         platformChannelSpecifics,
         androidAllowWhileIdle: true,
@@ -258,19 +397,19 @@ class ReminderModel extends ChangeNotifier {
       );
     } else {
       debugPrint("set up LocalNotifications weekdays1. not empty");
-      debugPrint(reminder.weekdays1.join(","));
-      for (var weekday in reminder.weekdays1) {
+      debugPrint(weekdays.join(","));
+      for (var weekday in weekdays) {
         await flutterLocalNotificationsPlugin.zonedSchedule(
           // acts as an id, for cancelling later
-          reminder.id * 10 + weekday,
-          reminder.reminderTitle,
+          id * 10 + weekday,
+          titleWthTime,
           reminder.reminderDescription,
           TZDateTime.local(
-            reminder.time1.year,
-            reminder.time1.month,
-            reminder.time1.day - reminder.time1.weekday + weekday,
-            reminder.time1.hour,
-            reminder.time1.minute,
+            time.year,
+            time.month,
+            time.day - time.weekday + weekday,
+            time.hour,
+            time.minute,
           ),
           platformChannelSpecifics,
           androidAllowWhileIdle: true,

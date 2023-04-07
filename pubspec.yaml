@@ -3,7 +3,7 @@ description: Flutter project of smart reminder mobile app for elderly people
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 0.9.9+2
+version: 1.0.0+10
 
 environment:
   sdk: '>=2.18.4 <3.0.0'
@@ -44,6 +44,7 @@ scripts:
 
   dev: flutter run # -d <device_id>
   dev-fresh: flutter run --no-fast-start # -d <device_id>
+  profile: flutter run --profile
   devices: flutter devices
   install: flutter pub get
   build: flutter pub run build_runner build --delete-conflicting-outputs
@@ -99,6 +100,7 @@ dependencies:
   delayed_display: ^2.0.0
   vs_scrollbar: ^0.2.1
   flutter_ringtone_player: ^3.2.0
+  custom_refresh_indicator: ^2.0.1
 
 dev_dependencies:
   flutter_test:
