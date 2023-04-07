@@ -275,6 +275,12 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
   }
 
   @override
+  void dispose() {
+    _reminderDSVController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(

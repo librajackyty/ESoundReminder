@@ -217,6 +217,12 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
   }
 
   @override
+  void dispose() {
+    _medicineSVController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(

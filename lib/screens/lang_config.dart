@@ -72,6 +72,12 @@ class _LangConfigPageState extends State<LangConfigPage> {
   }
 
   @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     initalConfig = !widget.isFromSettings;
 

@@ -59,6 +59,12 @@ class _DisplayConfigPageState extends State<DisplayConfigPage> {
   }
 
   @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
