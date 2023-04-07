@@ -227,18 +227,22 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(safeAreaPaddingAll),
+          padding: const EdgeInsets.symmetric(vertical: safeAreaPaddingAll),
           child: Center(
             child: Column(
               children: <Widget>[
                 DelayedDisplay(
                   slidingBeginOffset: const Offset(0.0, -0.35),
-                  child: ReminderHeader(
-                    progressText:
-                        "${Language.of(context)!.t("common_step")} ( 1 / 3 )",
-                    progressValue: progressIdx,
-                    headerText: Language.of(context)!.t("reminder_new1_msg"),
-                  ),
+                  child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: safeAreaPaddingAll),
+                      child: ReminderHeader(
+                        progressText:
+                            "${Language.of(context)!.t("common_step")} ( 1 / 3 )",
+                        progressValue: progressIdx,
+                        headerText:
+                            Language.of(context)!.t("reminder_new1_msg"),
+                      )),
                 ),
                 Expanded(
                   child: Language.currentLocale(context) == Language.codeEnglish
@@ -250,6 +254,8 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
                               scrollController: _medicineSVController,
                               child: SingleChildScrollView(
                                 controller: _medicineSVController,
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: safeAreaPaddingAll),
                                 child: Column(
                                     children: medicineSelection(
                                         staticmedicineENlist)),
@@ -263,7 +269,8 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
                               child: GridView.count(
                                   controller: _medicineSVController,
                                   primary: false,
-                                  padding: const EdgeInsets.all(8),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: safeAreaPaddingAll),
                                   crossAxisSpacing: 10,
                                   mainAxisSpacing: 8,
                                   crossAxisCount: 3,
@@ -272,184 +279,192 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
                 ),
                 DelayedDisplay(
                     delay: Duration(milliseconds: pageBottomDelayShowTime),
-                    child: Column(
-                      children: [
-                        Container(
-                            decoration: BoxDecoration(
-                          border: Border(top: BorderSide()),
-                        )),
-                        Container(
-                          padding:
-                              EdgeInsets.symmetric(vertical: elementSPadding),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: TextField(
-                                  maxLines: 1,
-                                  maxLength: maxLength,
-                                  controller: _txtFController,
-                                  style: TextStyle(
-                                      fontSize: textSmallSize,
-                                      fontWeight: FontWeight.bold),
-                                  decoration: InputDecoration(
-                                      counterText: "",
-                                      contentPadding:
-                                          const EdgeInsets.all(elementSPadding),
-                                      border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(16))),
-                                      hintText: showActionArea
-                                          ? Language.of(context)!
-                                              .t("reminder_new1_inputhint")
-                                          : '',
-                                      hintStyle: TextStyle(color: Colors.black),
-                                      prefixIcon: showActionArea
-                                          ? Icon(Icons.edit)
-                                          : null,
-                                      prefixText: showActionArea
-                                          ? ''
-                                          : '${textLength.toString()}/${maxLength.toString()} ',
-                                      prefixStyle:
-                                          TextStyle(fontSize: textExSmallSize),
-                                      suffixIcon: _txtFController
-                                              .text.isNotEmpty
-                                          ? IconButton(
-                                              onPressed: () {
-                                                _txtFController.clear();
-                                                updateSelectedMedicine('');
-                                                setState(() {
-                                                  textLength = _txtFController
-                                                      .text.length;
-                                                });
-                                                runHapticSound();
-                                              },
-                                              icon: Icon(
-                                                Icons.cancel_outlined,
-                                                size: 32,
-                                              ))
-                                          : null),
-                                  onChanged: (value) {
-                                    setState(() {
-                                      textLength = value.length;
-                                    });
-                                  },
-                                  onTap: () {
-                                    runHapticSound();
-                                    setState(() {
-                                      showActionArea = false;
-                                    });
-                                  },
-                                  onSubmitted: (value) {
-                                    debugPrint("onSubmitted: $value");
-                                    inputTxtSubmit(value);
-                                  },
-                                ),
-                              ),
-                              // Visibility(
-                              //   visible: !showActionArea,
-                              //   child:
-                              AnimatedSize(
-                                duration: const Duration(milliseconds: 200),
-                                child: showActionArea
-                                    ? SizedBox.shrink()
-                                    : IconButton(
-                                        onPressed: showActionArea
-                                            ? null
-                                            : () => inputTxtSubmit(
-                                                _txtFController.text),
-                                        iconSize: 48,
-                                        icon: Icon(
-                                          Icons.check_circle_outline,
-                                          color: showActionArea
-                                              ? Colors.grey[400]
-                                              : Colors.green[800],
-                                        ),
-                                      ),
-                              )
-                            ],
-                          ),
-                        ),
-                        Visibility(
-                            visible: showActionArea,
-                            child: const SizedBox(
-                              height: 2,
+                    child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: safeAreaPaddingAll),
+                        child: Column(
+                          children: [
+                            Container(
+                                decoration: BoxDecoration(
+                              border: Border(top: BorderSide()),
                             )),
-                        // AnimatedSize(
-                        //   duration: const Duration(milliseconds: 200),
-                        //   child: !(selectedMedicine.isNotEmpty && showActionArea)
-                        //       ? SizedBox.shrink()
-                        //       : CusCardContainer(
-                        //           child: SizedBox(
-                        //             width: double.maxFinite,
-                        //             height: MediaQuery.of(context).size.height *
-                        //                 reminderCardHeightRatio,
-                        //             child: ListView(
-                        //               padding: const EdgeInsets.all(12),
-                        //               children: [
-                        //                 Row(children: [
-                        //                   Icon(Icons.medication_outlined),
-                        //                   SizedBox(width: 6),
-                        //                   CusSText(Language.of(context)!
-                        //                       .t("reminder_new1_selectedmedicine"))
-                        //                 ]),
-                        //                 const SizedBox(
-                        //                   height: 8.0,
-                        //                 ),
-                        //                 ...medicineSelectedArea(selectedMedicine)
-                        //               ],
-                        //             ),
-                        //           ),
-                        //         ),
-                        // ),
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: elementSPadding),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: TextField(
+                                      maxLines: 1,
+                                      maxLength: maxLength,
+                                      controller: _txtFController,
+                                      style: TextStyle(
+                                          fontSize: textSmallSize,
+                                          fontWeight: FontWeight.bold),
+                                      decoration: InputDecoration(
+                                          counterText: "",
+                                          contentPadding: const EdgeInsets.all(
+                                              elementSPadding),
+                                          border: OutlineInputBorder(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(16))),
+                                          hintText: showActionArea
+                                              ? Language.of(context)!
+                                                  .t("reminder_new1_inputhint")
+                                              : '',
+                                          hintStyle:
+                                              TextStyle(color: Colors.black),
+                                          prefixIcon: showActionArea
+                                              ? Icon(Icons.edit)
+                                              : null,
+                                          prefixText: showActionArea
+                                              ? ''
+                                              : '${textLength.toString()}/${maxLength.toString()} ',
+                                          prefixStyle: TextStyle(
+                                              fontSize: textExSmallSize),
+                                          suffixIcon: _txtFController
+                                                  .text.isNotEmpty
+                                              ? IconButton(
+                                                  onPressed: () {
+                                                    _txtFController.clear();
+                                                    updateSelectedMedicine('');
+                                                    setState(() {
+                                                      textLength =
+                                                          _txtFController
+                                                              .text.length;
+                                                    });
+                                                    runHapticSound();
+                                                  },
+                                                  icon: Icon(
+                                                    Icons.cancel_outlined,
+                                                    size: 32,
+                                                  ))
+                                              : null),
+                                      onChanged: (value) {
+                                        setState(() {
+                                          textLength = value.length;
+                                        });
+                                      },
+                                      onTap: () {
+                                        runHapticSound();
+                                        setState(() {
+                                          showActionArea = false;
+                                        });
+                                      },
+                                      onSubmitted: (value) {
+                                        debugPrint("onSubmitted: $value");
+                                        inputTxtSubmit(value);
+                                      },
+                                    ),
+                                  ),
+                                  // Visibility(
+                                  //   visible: !showActionArea,
+                                  //   child:
+                                  AnimatedSize(
+                                    duration: const Duration(milliseconds: 200),
+                                    child: showActionArea
+                                        ? SizedBox.shrink()
+                                        : IconButton(
+                                            onPressed: showActionArea
+                                                ? null
+                                                : () => inputTxtSubmit(
+                                                    _txtFController.text),
+                                            iconSize: 48,
+                                            icon: Icon(
+                                              Icons.check_circle_outline,
+                                              color: showActionArea
+                                                  ? Colors.grey[400]
+                                                  : Colors.green[800],
+                                            ),
+                                          ),
+                                  )
+                                ],
+                              ),
+                            ),
+                            Visibility(
+                                visible: showActionArea,
+                                child: const SizedBox(
+                                  height: 2,
+                                )),
+                            // AnimatedSize(
+                            //   duration: const Duration(milliseconds: 200),
+                            //   child: !(selectedMedicine.isNotEmpty && showActionArea)
+                            //       ? SizedBox.shrink()
+                            //       : CusCardContainer(
+                            //           child: SizedBox(
+                            //             width: double.maxFinite,
+                            //             height: MediaQuery.of(context).size.height *
+                            //                 reminderCardHeightRatio,
+                            //             child: ListView(
+                            //               padding: const EdgeInsets.all(12),
+                            //               children: [
+                            //                 Row(children: [
+                            //                   Icon(Icons.medication_outlined),
+                            //                   SizedBox(width: 6),
+                            //                   CusSText(Language.of(context)!
+                            //                       .t("reminder_new1_selectedmedicine"))
+                            //                 ]),
+                            //                 const SizedBox(
+                            //                   height: 8.0,
+                            //                 ),
+                            //                 ...medicineSelectedArea(selectedMedicine)
+                            //               ],
+                            //             ),
+                            //           ),
+                            //         ),
+                            // ),
 
-                        // bottom action area
-                        AnimatedSize(
-                          duration: const Duration(milliseconds: 200),
-                          child: !showActionArea
-                              ? SizedBox.shrink()
-                              :
-                              // ),
-                              // Visibility(
-                              //   visible: showActionArea,
-                              //   child:
-                              Row(
-                                  children: [
-                                    Expanded(
-                                      child: CusNBackButton(
-                                          Language.of(context)!
-                                              .t("common_back"),
-                                          () => {Navigator.pop(context)}),
+                            // bottom action area
+                            AnimatedSize(
+                              duration: const Duration(milliseconds: 200),
+                              child: !showActionArea
+                                  ? SizedBox.shrink()
+                                  :
+                                  // ),
+                                  // Visibility(
+                                  //   visible: showActionArea,
+                                  //   child:
+                                  Row(
+                                      children: [
+                                        Expanded(
+                                          child: CusNBackButton(
+                                              Language.of(context)!
+                                                  .t("common_back"),
+                                              () => {Navigator.pop(context)}),
+                                        ),
+                                        const SizedBox(
+                                          width: 8,
+                                        ),
+                                        Expanded(
+                                          child: CusNButton(
+                                              Language.of(context)!
+                                                  .t("common_next"),
+                                              () => {
+                                                    if (selectedMedicine
+                                                        .isEmpty)
+                                                      {
+                                                        showSnackMsg(
+                                                            context,
+                                                            Language.of(
+                                                                    context)!
+                                                                .t("reminder_new1_snackmsg1"))
+                                                      }
+                                                    else
+                                                      {
+                                                        Navigator.pushNamed(
+                                                            context,
+                                                            pageRouteReminderNew2,
+                                                            arguments:
+                                                                ReminderScreenArg(
+                                                                    reminder))
+                                                      }
+                                                  }),
+                                        ),
+                                      ],
                                     ),
-                                    const SizedBox(
-                                      width: 8,
-                                    ),
-                                    Expanded(
-                                      child: CusNButton(
-                                          Language.of(context)!
-                                              .t("common_next"),
-                                          () => {
-                                                if (selectedMedicine.isEmpty)
-                                                  {
-                                                    showSnackMsg(
-                                                        context,
-                                                        Language.of(context)!.t(
-                                                            "reminder_new1_snackmsg1"))
-                                                  }
-                                                else
-                                                  {
-                                                    Navigator.pushNamed(context,
-                                                        pageRouteReminderNew2,
-                                                        arguments:
-                                                            ReminderScreenArg(
-                                                                reminder))
-                                                  }
-                                              }),
-                                    ),
-                                  ],
-                                ),
-                        ),
-                      ],
-                    ))
+                            ),
+                          ],
+                        )))
               ],
             ),
           ),

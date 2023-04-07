@@ -279,274 +279,293 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(safeAreaPaddingAll),
+          padding: const EdgeInsets.symmetric(vertical: safeAreaPaddingAll),
           child: Center(
             child: Column(
               children: <Widget>[
                 DelayedDisplay(
                     slidingBeginOffset: const Offset(0.0, -0.35),
-                    child: ReminderHeader(
-                      progressText:
-                          "${Language.of(context)!.t("common_step")} ( 2 / 3 )",
-                      progressValue: progressIdx,
-                      headerText: Language.of(context)!.t("reminder_new2_msg"),
-                    )),
+                    child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: safeAreaPaddingAll),
+                        child: ReminderHeader(
+                          progressText:
+                              "${Language.of(context)!.t("common_step")} ( 2 / 3 )",
+                          progressValue: progressIdx,
+                          headerText:
+                              Language.of(context)!.t("reminder_new2_msg"),
+                        ))),
                 Expanded(
                   child: DelayedDisplay(
                       delay: Duration(milliseconds: pageContentDelayShowTime),
                       child: CusScrollbar(
                           scrollController: _reminderTimeSelectionController,
-                          child: ListView(children: [
-                            Container(
-                                margin:
-                                    EdgeInsets.only(bottom: elementSSPadding),
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: CusSText(
-                                        Language.of(context)!
-                                            .t("reminder_new2_settimer1"),
-                                      ),
-                                    ),
-                                    SimpleCounter(
-                                      value: timerNum,
-                                      onPressedMinus: () =>
-                                          updateAlarmNum(false),
-                                      onPressedAdd: () => updateAlarmNum(true),
-                                    )
-                                  ],
-                                )),
-                            Container(
-                                margin: EdgeInsets.only(bottom: 12),
-                                child: CusNButton(
-                                  // fromTimeOfDayToString(timeOfDay1),
-                                  fromTimeToString(reminder.time1,
-                                      weekdays: reminder.weekdays1,
-                                      dateTxts: [
-                                        Language.of(context)!.t("day_today"),
-                                        Language.of(context)!.t("day_tmr")
+                          child: ListView(
+                              controller: _reminderTimeSelectionController,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: safeAreaPaddingAll),
+                              children: [
+                                Container(
+                                    margin: EdgeInsets.only(
+                                        bottom: elementSSPadding),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: CusSText(
+                                            Language.of(context)!
+                                                .t("reminder_new2_settimer1"),
+                                          ),
+                                        ),
+                                        SimpleCounter(
+                                          value: timerNum,
+                                          onPressedMinus: () =>
+                                              updateAlarmNum(false),
+                                          onPressedAdd: () =>
+                                              updateAlarmNum(true),
+                                        )
+                                      ],
+                                    )),
+                                Container(
+                                    margin: EdgeInsets.only(bottom: 12),
+                                    child: CusNButton(
+                                      // fromTimeOfDayToString(timeOfDay1),
+                                      fromTimeToString(reminder.time1,
+                                          weekdays: reminder.weekdays1,
+                                          dateTxts: [
+                                            Language.of(context)!
+                                                .t("day_today"),
+                                            Language.of(context)!.t("day_tmr")
+                                          ]),
+                                      () =>
+                                          openDayNightTimePicker(timeOfDay1, 1),
+                                      // openTimePicker,
+                                      icon: Icon(Icons.alarm_add),
+                                    )),
+                                AnimatedSize(
+                                  duration: const Duration(milliseconds: 200),
+                                  child: timerNum >= 2
+                                      ? Container(
+                                          margin: EdgeInsets.only(bottom: 12),
+                                          child: CusNButton(
+                                            fromTimeToString(reminder.time2!,
+                                                weekdays: reminder.weekdays1,
+                                                dateTxts: [
+                                                  Language.of(context)!
+                                                      .t("day_today"),
+                                                  Language.of(context)!
+                                                      .t("day_tmr")
+                                                ]),
+                                            () => openDayNightTimePicker(
+                                                timeOfDay2, 2),
+                                            icon: Icon(Icons.alarm_add),
+                                          ))
+                                      : SizedBox.shrink(),
+                                ),
+                                AnimatedSize(
+                                  duration: const Duration(milliseconds: 200),
+                                  child: timerNum >= 3
+                                      ? Container(
+                                          margin: EdgeInsets.only(bottom: 12),
+                                          child: CusNButton(
+                                            fromTimeToString(reminder.time3!,
+                                                weekdays: reminder.weekdays1,
+                                                dateTxts: [
+                                                  Language.of(context)!
+                                                      .t("day_today"),
+                                                  Language.of(context)!
+                                                      .t("day_tmr")
+                                                ]),
+                                            () => openDayNightTimePicker(
+                                                timeOfDay3, 3),
+                                            icon: Icon(Icons.alarm_add),
+                                          ))
+                                      : SizedBox.shrink(),
+                                ),
+                                AnimatedSize(
+                                  duration: const Duration(milliseconds: 200),
+                                  child: timerNum >= 4
+                                      ? Container(
+                                          margin: EdgeInsets.only(bottom: 12),
+                                          child: CusNButton(
+                                            fromTimeToString(reminder.time4!,
+                                                weekdays: reminder.weekdays1,
+                                                dateTxts: [
+                                                  Language.of(context)!
+                                                      .t("day_today"),
+                                                  Language.of(context)!
+                                                      .t("day_tmr")
+                                                ]),
+                                            () => openDayNightTimePicker(
+                                                timeOfDay4, 4),
+                                            icon: Icon(Icons.alarm_add),
+                                          ))
+                                      : SizedBox.shrink(),
+                                ),
+                                LabeledSwitch(
+                                  label: Language.of(context)!
+                                      .t("reminder_new2_setrepeat1"),
+                                  labelRight: Language.of(context)!
+                                      .t("reminder_new2_allrepeat"),
+                                  value: reminder.weekdays1.length == 7,
+                                  onChanged: (bool newValue) {
+                                    debugPrint(
+                                        'LabeledSwitch : val = $newValue');
+                                    setState(() {
+                                      updateWeekDaysByOnce(newValue);
+                                    });
+                                  },
+                                ),
+                                Container(
+                                  decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: buttonBorderColor,
+                                          width: buttonBorderWidth),
+                                      borderRadius: BorderRadius.circular(
+                                          selectWeekDaysBorderRadius)),
+                                  child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        WeekdaysSelector(
+                                            boxDecoration: BoxDecoration(
+                                              color: Colors.green.shade50,
+                                              borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(
+                                                      selectWeekDaysBorderRadius),
+                                                  topRight: Radius.circular(
+                                                      selectWeekDaysBorderRadius)),
+                                            ),
+                                            days: getweekdaysList1(context),
+                                            onSelect: (values) {
+                                              setState(() {
+                                                debugPrint(values.toString());
+                                                selectedweekdays1 =
+                                                    List.from(values);
+                                                debugPrint(
+                                                    "selectedweekdays1 ${selectedweekdays1.toString()}");
+                                                updateWeekdays1ToModel();
+                                              });
+                                            }),
+                                        WeekdaysSelector(
+                                            boxDecoration: BoxDecoration(
+                                              color: Colors.green.shade50,
+                                              borderRadius: BorderRadius.only(
+                                                  bottomLeft: Radius.circular(
+                                                      selectWeekDaysBorderRadius),
+                                                  bottomRight: Radius.circular(
+                                                      selectWeekDaysBorderRadius)),
+                                            ),
+                                            days: getweekdaysList2(context),
+                                            onSelect: (values) {
+                                              setState(() {
+                                                debugPrint(values.toString());
+                                                selectedweekdays2 =
+                                                    List.from(values);
+                                                debugPrint(
+                                                    "selectedweekdays2 ${selectedweekdays2.toString()}");
+                                                updateWeekdays1ToModel();
+                                              });
+                                            }),
                                       ]),
-                                  () => openDayNightTimePicker(timeOfDay1, 1),
-                                  // openTimePicker,
-                                  icon: Icon(Icons.alarm_add),
-                                )),
-                            AnimatedSize(
-                              duration: const Duration(milliseconds: 200),
-                              child: timerNum >= 2
-                                  ? Container(
-                                      margin: EdgeInsets.only(bottom: 12),
-                                      child: CusNButton(
-                                        fromTimeToString(reminder.time2!,
-                                            weekdays: reminder.weekdays1,
-                                            dateTxts: [
-                                              Language.of(context)!
-                                                  .t("day_today"),
-                                              Language.of(context)!.t("day_tmr")
-                                            ]),
-                                        () => openDayNightTimePicker(
-                                            timeOfDay2, 2),
-                                        icon: Icon(Icons.alarm_add),
-                                      ))
-                                  : SizedBox.shrink(),
-                            ),
-                            AnimatedSize(
-                              duration: const Duration(milliseconds: 200),
-                              child: timerNum >= 3
-                                  ? Container(
-                                      margin: EdgeInsets.only(bottom: 12),
-                                      child: CusNButton(
-                                        fromTimeToString(reminder.time3!,
-                                            weekdays: reminder.weekdays1,
-                                            dateTxts: [
-                                              Language.of(context)!
-                                                  .t("day_today"),
-                                              Language.of(context)!.t("day_tmr")
-                                            ]),
-                                        () => openDayNightTimePicker(
-                                            timeOfDay3, 3),
-                                        icon: Icon(Icons.alarm_add),
-                                      ))
-                                  : SizedBox.shrink(),
-                            ),
-                            AnimatedSize(
-                              duration: const Duration(milliseconds: 200),
-                              child: timerNum >= 4
-                                  ? Container(
-                                      margin: EdgeInsets.only(bottom: 12),
-                                      child: CusNButton(
-                                        fromTimeToString(reminder.time4!,
-                                            weekdays: reminder.weekdays1,
-                                            dateTxts: [
-                                              Language.of(context)!
-                                                  .t("day_today"),
-                                              Language.of(context)!.t("day_tmr")
-                                            ]),
-                                        () => openDayNightTimePicker(
-                                            timeOfDay4, 4),
-                                        icon: Icon(Icons.alarm_add),
-                                      ))
-                                  : SizedBox.shrink(),
-                            ),
-                            LabeledSwitch(
-                              label: Language.of(context)!
-                                  .t("reminder_new2_setrepeat1"),
-                              labelRight: Language.of(context)!
-                                  .t("reminder_new2_allrepeat"),
-                              value: reminder.weekdays1.length == 7,
-                              onChanged: (bool newValue) {
-                                debugPrint('LabeledSwitch : val = $newValue');
-                                setState(() {
-                                  updateWeekDaysByOnce(newValue);
-                                });
-                              },
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: buttonBorderColor,
-                                      width: buttonBorderWidth),
-                                  borderRadius: BorderRadius.circular(
-                                      selectWeekDaysBorderRadius)),
-                              child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    WeekdaysSelector(
-                                        boxDecoration: BoxDecoration(
-                                          color: Colors.green.shade50,
-                                          borderRadius: BorderRadius.only(
-                                              topLeft: Radius.circular(
-                                                  selectWeekDaysBorderRadius),
-                                              topRight: Radius.circular(
-                                                  selectWeekDaysBorderRadius)),
-                                        ),
-                                        days: getweekdaysList1(context),
-                                        onSelect: (values) {
-                                          setState(() {
-                                            debugPrint(values.toString());
-                                            selectedweekdays1 =
-                                                List.from(values);
-                                            debugPrint(
-                                                "selectedweekdays1 ${selectedweekdays1.toString()}");
-                                            updateWeekdays1ToModel();
-                                          });
-                                        }),
-                                    WeekdaysSelector(
-                                        boxDecoration: BoxDecoration(
-                                          color: Colors.green.shade50,
-                                          borderRadius: BorderRadius.only(
-                                              bottomLeft: Radius.circular(
-                                                  selectWeekDaysBorderRadius),
-                                              bottomRight: Radius.circular(
-                                                  selectWeekDaysBorderRadius)),
-                                        ),
-                                        days: getweekdaysList2(context),
-                                        onSelect: (values) {
-                                          setState(() {
-                                            debugPrint(values.toString());
-                                            selectedweekdays2 =
-                                                List.from(values);
-                                            debugPrint(
-                                                "selectedweekdays2 ${selectedweekdays2.toString()}");
-                                            updateWeekdays1ToModel();
-                                          });
-                                        }),
-                                  ]),
-                            ),
-                          ]))),
+                                ),
+                              ]))),
                 ),
                 DelayedDisplay(
                     delay: Duration(milliseconds: pageBottomDelayShowTime),
-                    child: Column(
-                      children: [
-                        Container(
-                            padding: EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              border: Border(top: BorderSide()),
-                            )),
-                        // CusCardContainer(
-                        //     child: SizedBox(
-                        //         height: MediaQuery.of(context).size.height *
-                        //             reminderCardHeightRatio,
-                        //         child: ListView(
-                        //           padding: EdgeInsets.all(12),
-                        //           children: [
-                        //             Visibility(
-                        //               maintainSize: true,
-                        //               maintainAnimation: true,
-                        //               maintainState: true,
-                        //               visible: setMorning,
-                        //               child: Row(children: [
-                        //                 Icon(
-                        //                   Icons.alarm_on_outlined,
-                        //                   size: 14,
-                        //                 ),
-                        //                 SizedBox(width: 2),
-                        //                 CusExSText(Language.of(context)!
-                        //                     .t("reminder_new2_settimer2")),
-                        //               ]),
-                        //             ),
-                        //             TimeSectionDisplay(
-                        //               padding:
-                        //                   const EdgeInsets.only(top: 2, bottom: 8),
-                        //               times: [fromTimeOfDayToString(timeOfDay1)],
-                        //             ),
-                        //             Visibility(
-                        //               maintainSize: true,
-                        //               maintainAnimation: true,
-                        //               maintainState: true,
-                        //               visible: true,
-                        //               child: Row(children: [
-                        //                 Icon(
-                        //                   Icons.event_repeat_outlined,
-                        //                   size: 14,
-                        //                 ),
-                        //                 SizedBox(width: 2),
-                        //                 CusExSText(Language.of(context)!
-                        //                     .t("reminder_new2_setrepeat2")),
-                        //               ]),
-                        //             ),
-                        //             Visibility(
-                        //                 maintainSize: true,
-                        //                 maintainAnimation: true,
-                        //                 maintainState: true,
-                        //                 visible: true,
-                        //                 child: WeekdaysDisplay(
-                        //                   reminder: reminder,
-                        //                   padding: const EdgeInsets.only(
-                        //                       top: 2, bottom: 8),
-                        //                 )),
-                        //           ],
-                        //         ))),
-                        Row(
+                    child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: safeAreaPaddingAll),
+                        child: Column(
                           children: [
-                            Expanded(
-                              child: CusNBackButton(
-                                  Language.of(context)!.t("common_back"),
-                                  () => {Navigator.pop(context)}),
-                            ),
-                            const SizedBox(
-                              width: 8,
-                            ),
-                            Expanded(
-                              child: CusNButton(
-                                  Language.of(context)!.t("common_next"), () {
-                                if (checkOneOfTimeIsExpired(
-                                    getReminderAllTimeExpired(reminder))) {
-                                  showSnackMsg(
-                                      context,
-                                      Language.of(context)!
-                                          .t("reminder_new2_settimer_expired"));
-                                  return;
-                                }
-                                Navigator.pushNamed(
-                                    context, pageRouteReminderDetail,
-                                    arguments: ReminderScreenArg(reminder));
-                              }),
+                            Container(
+                                padding: EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  border: Border(top: BorderSide()),
+                                )),
+                            // CusCardContainer(
+                            //     child: SizedBox(
+                            //         height: MediaQuery.of(context).size.height *
+                            //             reminderCardHeightRatio,
+                            //         child: ListView(
+                            //           padding: EdgeInsets.all(12),
+                            //           children: [
+                            //             Visibility(
+                            //               maintainSize: true,
+                            //               maintainAnimation: true,
+                            //               maintainState: true,
+                            //               visible: setMorning,
+                            //               child: Row(children: [
+                            //                 Icon(
+                            //                   Icons.alarm_on_outlined,
+                            //                   size: 14,
+                            //                 ),
+                            //                 SizedBox(width: 2),
+                            //                 CusExSText(Language.of(context)!
+                            //                     .t("reminder_new2_settimer2")),
+                            //               ]),
+                            //             ),
+                            //             TimeSectionDisplay(
+                            //               padding:
+                            //                   const EdgeInsets.only(top: 2, bottom: 8),
+                            //               times: [fromTimeOfDayToString(timeOfDay1)],
+                            //             ),
+                            //             Visibility(
+                            //               maintainSize: true,
+                            //               maintainAnimation: true,
+                            //               maintainState: true,
+                            //               visible: true,
+                            //               child: Row(children: [
+                            //                 Icon(
+                            //                   Icons.event_repeat_outlined,
+                            //                   size: 14,
+                            //                 ),
+                            //                 SizedBox(width: 2),
+                            //                 CusExSText(Language.of(context)!
+                            //                     .t("reminder_new2_setrepeat2")),
+                            //               ]),
+                            //             ),
+                            //             Visibility(
+                            //                 maintainSize: true,
+                            //                 maintainAnimation: true,
+                            //                 maintainState: true,
+                            //                 visible: true,
+                            //                 child: WeekdaysDisplay(
+                            //                   reminder: reminder,
+                            //                   padding: const EdgeInsets.only(
+                            //                       top: 2, bottom: 8),
+                            //                 )),
+                            //           ],
+                            //         ))),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: CusNBackButton(
+                                      Language.of(context)!.t("common_back"),
+                                      () => {Navigator.pop(context)}),
+                                ),
+                                const SizedBox(
+                                  width: 8,
+                                ),
+                                Expanded(
+                                  child: CusNButton(
+                                      Language.of(context)!.t("common_next"),
+                                      () {
+                                    if (checkOneOfTimeIsExpired(
+                                        getReminderAllTimeExpired(reminder))) {
+                                      showSnackMsg(
+                                          context,
+                                          Language.of(context)!.t(
+                                              "reminder_new2_settimer_expired"));
+                                      return;
+                                    }
+                                    Navigator.pushNamed(
+                                        context, pageRouteReminderDetail,
+                                        arguments: ReminderScreenArg(reminder));
+                                  }),
+                                ),
+                              ],
                             ),
                           ],
-                        ),
-                      ],
-                    ))
+                        )))
               ],
             ),
           ),
