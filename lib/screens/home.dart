@@ -315,7 +315,9 @@ class _HomePageState extends State<HomePage>
                                 opacity: animationLoading,
                                 child: ListView.builder(
                                   controller: _reminderLVController,
-                                  shrinkWrap: true,
+                                  // shrinkWrap: true,
+                                  physics: AlwaysScrollableScrollPhysics(
+                                      parent: BouncingScrollPhysics()),
                                   padding: EdgeInsets.fromLTRB(
                                       listviewPaddingAll,
                                       0,
@@ -327,9 +329,9 @@ class _HomePageState extends State<HomePage>
                                       return Container();
                                     }
                                     var reminder = model.reminders![index];
-                                    debugPrint("reminder id: ${reminder.id}");
-                                    debugPrint(
-                                        "reminder createtime: ${reminder.createTime}");
+                                    // debugPrint("reminder id: ${reminder.id}");
+                                    // debugPrint(
+                                    //     "reminder createtime: ${reminder.createTime}");
                                     return CardReminderItem(
                                       reminder: reminder,
                                       animation: animation,
