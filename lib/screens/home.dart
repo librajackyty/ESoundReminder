@@ -1,3 +1,4 @@
+import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:delayed_display/delayed_display.dart';
 import 'package:e_sound_reminder_app/models/language.dart';
 import 'package:e_sound_reminder_app/widgets/custom_text_small.dart';
@@ -26,7 +27,8 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
+class _HomePageState extends State<HomePage>
+    with TickerProviderStateMixin, WidgetsBindingObserver {
   final GlobalKey<AnimatedListState> listKey = GlobalKey<AnimatedListState>();
 
   late var stateReady = false;
@@ -60,6 +62,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   ScrollController _reminderLVController = ScrollController();
   String listFilterBtnStrKey = "filter_all";
   ValueNotifier<int> selectedFilterIndex = ValueNotifier<int>(0);
+
+  late AnimationController aniLoadingController = AnimationController(
+    vsync: this,
+    duration: Duration(milliseconds: 300),
+  );
+  late Animation<double> animationLoading =
+      CurvedAnimation(parent: aniLoadingController, curve: Curves.easeInOut);
 
   bool isFiltering() {
     return selectedFilterIndex.value > 0;
@@ -110,11 +119,35 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             ));
   }
 
+  Future<void> reloadRemindersList() {
+    debugPrint("Reload reminders");
+    aniLoadingController.reverse();
+    Future.delayed(Duration(milliseconds: 300), () {
+      setState(() {
+        final model = context.read<ReminderModel>();
+        model.filterReminder(99);
+      });
+    });
+    return Future.delayed(Duration(milliseconds: 800), () {
+      debugPrint("Reload reminders : Future");
+      aniLoadingController.forward();
+      final model = context.read<ReminderModel>();
+      model.filterReminder(selectedFilterIndex.value);
+    });
+  }
+
+  void newReminder() {
+    runHapticSound(type: HapticFeedbackType.medium);
+    Navigator.pushNamed(context, pageRouteReminderNew);
+  }
+
   @override
   void initState() {
+    WidgetsBinding.instance.addObserver(this);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       aniController.forward();
       aniControllerBottom.forward();
+      aniLoadingController.forward();
       stateReady = true;
     });
     selectedFilterIndex.addListener(() {
@@ -137,9 +170,20 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    _reminderLVController.dispose(); // scrollbar
     aniController.dispose();
     aniControllerBottom.dispose();
+    aniLoadingController.dispose();
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      debugPrint("App:Home: resumed");
+      reloadRemindersList();
+    }
   }
 
   @override
@@ -155,10 +199,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         floatingActionButton: ScaleTransition(
           scale: animationFAB,
           child: FloatingActionButton.large(
-              onPressed: () => {
-                    runHapticSound(type: HapticFeedbackType.medium),
-                    Navigator.pushNamed(context, pageRouteReminderNew)
-                  },
+              onPressed: () => newReminder(),
               elevation: 20.0,
               backgroundColor: Colors.green[500],
               tooltip: Language.of(context)!.t("home_add_tip"),
@@ -239,14 +280,15 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         },
         selector: (_, model) => model,
         builder: (context, model, child) {
-          debugPrint("createReminderList builder Rebuild");
-          debugPrint(
-              "createReminderList model.remindersIntial len: ${model.remindersIntial?.length}");
-          debugPrint(
-              "createReminderList model.reminders len: ${model.reminders?.length}");
+          // debugPrint("createReminderList builder Rebuild");
+          // debugPrint(
+          //     "createReminderList model.remindersIntial len: ${model.remindersIntial?.length}");
+          // debugPrint(
+          //     "createReminderList model.reminders len: ${model.reminders?.length}");
           if (model.remindersIntial != null &&
               model.remindersIntial!.isNotEmpty) {
             if (isFiltering() &&
+                aniLoadingController.isCompleted &&
                 model.reminders != null &&
                 model.reminders!.isEmpty) {
               return createNoFilterResult();
@@ -259,32 +301,45 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       slidingBeginOffset: const Offset(0.0, -0.35),
                       child: createAppBar()),
                   Expanded(
-                    child: CusScrollbar(
-                        scrollController: _reminderLVController,
-                        child: ListView.builder(
-                          controller: _reminderLVController,
-                          shrinkWrap: true,
-                          padding: EdgeInsets.fromLTRB(
-                              listviewPaddingAll, 0, listviewPaddingAll, 40),
-                          itemCount: model.reminders!.length,
-                          itemBuilder: (_, index) {
-                            if (index >= model.reminders!.length) {
-                              return Container();
-                            }
-                            var reminder = model.reminders![index];
-                            debugPrint("reminder id: ${reminder.id}");
-                            debugPrint(
-                                "reminder createtime: ${reminder.createTime}");
-                            return CardReminderItem(
-                              reminder: reminder,
-                              animation: animation,
-                              onPressed: () => Navigator.pushNamed(
-                                  context, pageRouteReminderDetailMore,
-                                  arguments: ReminderScreenArg(reminder,
-                                      index: index)),
-                            );
+                    child: CustomRefreshIndicator(
+                        builder: MaterialIndicatorDelegate(
+                          builder: (context, controller) {
+                            return Lottie.asset(
+                                assetslinkLottie('67546-medicine-animation'));
                           },
-                        )),
+                        ),
+                        onRefresh: () => reloadRemindersList(),
+                        child: CusScrollbar(
+                            scrollController: _reminderLVController,
+                            child: FadeTransition(
+                                opacity: animationLoading,
+                                child: ListView.builder(
+                                  controller: _reminderLVController,
+                                  shrinkWrap: true,
+                                  padding: EdgeInsets.fromLTRB(
+                                      listviewPaddingAll,
+                                      0,
+                                      listviewPaddingAll,
+                                      40),
+                                  itemCount: model.reminders!.length,
+                                  itemBuilder: (_, index) {
+                                    if (index >= model.reminders!.length) {
+                                      return Container();
+                                    }
+                                    var reminder = model.reminders![index];
+                                    debugPrint("reminder id: ${reminder.id}");
+                                    debugPrint(
+                                        "reminder createtime: ${reminder.createTime}");
+                                    return CardReminderItem(
+                                      reminder: reminder,
+                                      animation: animation,
+                                      onPressed: () => Navigator.pushNamed(
+                                          context, pageRouteReminderDetailMore,
+                                          arguments: ReminderScreenArg(reminder,
+                                              index: index)),
+                                    );
+                                  },
+                                )))),
                   ),
                 ]));
           }

@@ -84,6 +84,7 @@ class ReminderModel extends ChangeNotifier {
             .toList();
         break;
       default:
+        reminders = [];
     }
   }
 

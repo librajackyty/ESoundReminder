@@ -3,7 +3,7 @@ description: Flutter project of smart reminder mobile app for elderly people
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.0+3
+version: 1.0.0+4
 
 environment:
   sdk: '>=2.18.4 <3.0.0'
@@ -99,6 +99,7 @@ dependencies:
   delayed_display: ^2.0.0
   vs_scrollbar: ^0.2.1
   flutter_ringtone_player: ^3.2.0
+  custom_refresh_indicator: ^2.0.1
 
 dev_dependencies:
   flutter_test:
