@@ -121,5 +121,13 @@
     "week_thu_ss": "T",
     "week_fri_ss": "F",
     "week_sat_ss": "S",
-    "week_sun_ss": "S"
+    "week_sun_ss": "S",
+
+    "coachtutorial_skip": "SKIP",
+    "coachtutorial_page1_step1": "1st Step:",
+    "coachtutorial_page1_step1_msg": "Select the medicine that to be reminded to take",
+    "coachtutorial_page1_step2": "2nd Step:",
+    "coachtutorial_page1_step2_msg": "You will see the medicine name here after selected\nOR\nYou can also click here to edit/add the medicine name you want to have!",
+    "coachtutorial_page1_step3": "3rd Step:",
+    "coachtutorial_page1_step3_msg": "Click 'Next' to continue ->"
 }

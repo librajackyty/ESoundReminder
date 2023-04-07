@@ -121,5 +121,13 @@
     "week_thu_ss": "四",
     "week_fri_ss": "五",
     "week_sat_ss": "六",
-    "week_sun_ss": "日"
+    "week_sun_ss": "日",
+
+    "coachtutorial_skip": "跳過",
+    "coachtutorial_page1_step1": "第一步:",
+    "coachtutorial_page1_step1_msg": "選擇要提醒服用的藥物",
+    "coachtutorial_page1_step2": "第二步:",
+    "coachtutorial_page1_step2_msg": "選擇後，您將在此處看到藥物名稱\n或\n您也可以單擊此處編輯/添加您想要的藥物名稱!",
+    "coachtutorial_page1_step3": "第三步:",
+    "coachtutorial_page1_step3_msg": "點擊'下一步'繼續 ->"
 }

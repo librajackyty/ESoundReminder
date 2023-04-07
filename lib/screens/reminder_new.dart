@@ -1,6 +1,8 @@
 import 'package:delayed_display/delayed_display.dart';
 import 'package:e_sound_reminder_app/utils/feedback.dart';
+import 'package:e_sound_reminder_app/widgets/custom_text_normal.dart';
 import 'package:flutter/material.dart';
+import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 import '../models/language.dart';
 import '../models/reminder.dart';
@@ -121,11 +123,12 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
 
   List<Widget> medicineSelection(List medicinelist) {
     List<Widget> mwList = [];
-    for (var medicine in medicinelist) {
+    for (var i = 0; i < medicinelist.length; i++) {
+      // for (var medicine in medicinelist) {
       mwList.add(Container(
         padding: EdgeInsets.all(8),
-        child: CusSButton("$medicine", () {
-          updateClickSelection(medicine);
+        child: CusSButton(key: i == 0 ? key1 : null, "${medicinelist[i]}", () {
+          updateClickSelection(medicinelist[i]);
         }),
       ));
     }
@@ -201,8 +204,151 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
     });
   }
 
+  // TutorialCoachMark =======
+  late TutorialCoachMark tutorialCoachMark;
+  GlobalKey key1 = GlobalKey();
+  GlobalKey key2 = GlobalKey();
+  GlobalKey key3 = GlobalKey();
+
+  void showTutorial() {
+    tutorialCoachMark.show(context: context);
+  }
+
+  void createTutorial() {
+    tutorialCoachMark = TutorialCoachMark(
+      targets: _createTargets(),
+      colorShadow: elementActiveColor,
+      textSkip: Language.of(context)!.t("coachtutorial_skip"),
+      textStyleSkip: TextStyle(
+          fontSize: textSmallSize,
+          fontWeight: FontWeight.bold,
+          color: elementActiveTxtColor),
+      paddingFocus: 10,
+      opacityShadow: 0.8,
+      hideSkip: true,
+      onFinish: () {
+        debugPrint("finish");
+      },
+      onClickTarget: (target) {
+        debugPrint('onClickTarget: $target');
+      },
+      onClickTargetWithTapPosition: (target, tapDetails) {
+        debugPrint("target: $target");
+        debugPrint(
+            "clicked at position local: ${tapDetails.localPosition} - global: ${tapDetails.globalPosition}");
+      },
+      onClickOverlay: (target) {
+        debugPrint('onClickOverlay: $target');
+      },
+      onSkip: () {
+        debugPrint("skip");
+      },
+    );
+  }
+
+  List<TargetFocus> _createTargets() {
+    List<TargetFocus> targets = [];
+    targets.add(
+      TargetFocus(
+        identify: "key1",
+        keyTarget: key1,
+        alignSkip: Alignment.topRight,
+        shape: Language.currentLocale(context) == Language.codeEnglish
+            ? ShapeLightFocus.RRect
+            : ShapeLightFocus.Circle,
+        contents: [
+          TargetContent(
+            align: ContentAlign.bottom,
+            builder: (context, controller) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CusSText(
+                    Language.of(context)!.t("coachtutorial_page1_step1"),
+                    color: elementActiveTxtColor,
+                  ),
+                  CusNText(
+                    Language.of(context)!.t("coachtutorial_page1_step1_msg"),
+                    color: elementActiveTxtColor,
+                  ),
+                ],
+              );
+            },
+          ),
+        ],
+      ),
+    );
+    targets.add(
+      TargetFocus(
+        identify: "key2",
+        keyTarget: key2,
+        alignSkip: Alignment.topRight,
+        shape: ShapeLightFocus.RRect,
+        contents: [
+          TargetContent(
+            align: ContentAlign.top,
+            builder: (context, controller) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CusSText(
+                    Language.of(context)!.t("coachtutorial_page1_step2"),
+                    color: elementActiveTxtColor,
+                  ),
+                  CusNText(
+                    Language.of(context)!.t("coachtutorial_page1_step2_msg"),
+                    color: elementActiveTxtColor,
+                  ),
+                ],
+              );
+            },
+          ),
+        ],
+      ),
+    );
+    targets.add(
+      TargetFocus(
+        identify: "key3",
+        keyTarget: key3,
+        alignSkip: Alignment.topRight,
+        shape: ShapeLightFocus.RRect,
+        contents: [
+          TargetContent(
+            align: ContentAlign.top,
+            builder: (context, controller) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CusSText(
+                    Language.of(context)!.t("coachtutorial_page1_step3"),
+                    color: elementActiveTxtColor,
+                  ),
+                  CusNText(
+                    Language.of(context)!.t("coachtutorial_page1_step3_msg"),
+                    color: elementActiveTxtColor,
+                  ),
+                ],
+              );
+            },
+          ),
+        ],
+      ),
+    );
+    return targets;
+  }
+  // TutorialCoachMark =======
+
   @override
   void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      createTutorial();
+      Future.delayed(
+          const Duration(milliseconds: (progressBarDelayShowTime + 500)),
+          showTutorial);
+    });
     super.initState();
     Future.delayed(const Duration(milliseconds: progressBarDelayShowTime))
         .then((value) => setState(() {
@@ -259,6 +405,7 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: safeAreaPaddingAll),
                                 child: Column(
+                                    // key: key1,
                                     children: medicineSelection(
                                         staticmedicineENlist)),
                               )))
@@ -269,6 +416,7 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
                               isAlwaysShown: true,
                               scrollController: _medicineSVController,
                               child: GridView.count(
+                                  // key: key1,
                                   controller: _medicineSVController,
                                   physics: AlwaysScrollableScrollPhysics(
                                       parent: BouncingScrollPhysics()),
@@ -299,6 +447,7 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
                                 children: [
                                   Expanded(
                                     child: TextField(
+                                      key: key2,
                                       maxLines: 1,
                                       maxLength: maxLength,
                                       controller: _txtFController,
@@ -440,6 +589,7 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
                                           width: 8,
                                         ),
                                         Expanded(
+                                          key: key3,
                                           child: CusNButton(
                                               Language.of(context)!
                                                   .t("common_next"),
