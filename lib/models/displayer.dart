@@ -14,8 +14,6 @@ class Displayer {
     codeSizeS: "S"
   };
 
-  // Displayer();
-
   static DisplayerProvider? of(BuildContext context) {
     return context.read<DisplayerProvider>();
   }
@@ -27,5 +25,17 @@ class Displayer {
   static updateAppTextSize(BuildContext context, AppTextSize appTextSize) {
     updateAppTxtSize(size: appTextSize);
     of(context)?.saveAppTextSize(fromTypeToSizeVal(appTextSize));
+  }
+
+  // time picker
+  static const int codeTimepickerStyle1 = 1;
+  static const int codeTimepickerStyle2 = 2;
+
+  static currenTimepickerStyle(BuildContext context) {
+    return of(context)?.timepickerStyle;
+  }
+
+  static updateTimepickerStyle(BuildContext context, int style) {
+    of(context)?.saveTimepickerStyle(style);
   }
 }

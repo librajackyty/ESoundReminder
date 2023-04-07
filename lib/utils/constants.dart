@@ -13,6 +13,7 @@ const String pageRouteReminderNew2 = "/remindernew2";
 const String pageRouteOpenSources = "/opensources";
 const String pageRouteAbout = "/about";
 const String pageRouteDisplayConfig = "/displayConfig";
+const String pageRouteOtherConfig = "/otherConfig";
 
 const String pageNameReminderDetailMore = "More Reminder Detail";
 const String pageNameReminderDetail = "New Reminder Detail";
@@ -41,9 +42,9 @@ const double selectWeekDaysPadding = 10.0;
 const int progressBarDelayShowTime = 500;
 const int askExpiredDelShowTime = 1200;
 
-const int pageHeaderDelayShowTime = 100;
-const int pageContentDelayShowTime = 400;
-const int pageBottomDelayShowTime = 500;
+const int pageHeaderDelayShowTime = 200;
+const int pageContentDelayShowTime = 200;
+const int pageBottomDelayShowTime = 400;
 
 double _textTitleSize = 36;
 double _textNormalSize = 30;

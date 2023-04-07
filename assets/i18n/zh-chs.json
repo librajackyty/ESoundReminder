@@ -38,13 +38,16 @@
 
     "reminder_new1_msg": "请选择您将要服用的药物,然后按'下一步'",
     "reminder_new1_selectedmedicine": "已选择药物:",
-    "reminder_new1_snackmsg1": "请先选择至少一种药物",
+    "reminder_new1_snackmsg1": "请先选择至少 1 种药物",
     "reminder_new1_inputhint": "上面找不到？输入药物名称",
 
     "reminder_new2_msg": "请设定时间提醒,然后按'下一步'",
     "reminder_new2_settimer1": "闹钟时间:",
     "reminder_new2_setrepeat1": "每周重复:",
     "reminder_new2_settimer2": "已设定闹钟:",
+    "reminder_new2_settimer_min": "需要设定至少 1 个闹钟",
+    "reminder_new2_settimer_max": "最多仅 4 个闹钟",
+    "reminder_new2_settimer_expired": "至少 1 个闹钟已过期。请再次检查！",
     "reminder_new2_setrepeat2": "已设定每周重复:",
     "reminder_new2_setrepeat3": "不重复",
     "reminder_new2_setrepeat4": "每天重复",
@@ -66,6 +69,7 @@
     "settings_title": "设定",
     "settings_list_language": "语言",
     "settings_list_display": "文字大小",
+    "settings_list_other": "其他设置",
     "settings_list_about": "关于",
     "settings_list_oss": "开源软件 (OSS)",
 
@@ -78,6 +82,9 @@
     "display_list_itm_M": "中 (M)",
     "display_list_itm_S": "小 (S)",
     
+    "other_title": "其他设置",
+    "other_timepicker_title": "时间选择器样式",
+
     "oss_title": "开源软件 (OSS)",
     "oss_msg": "此应用程序使用以下软件/库/插件",
 

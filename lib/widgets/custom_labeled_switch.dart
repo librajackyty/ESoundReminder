@@ -1,5 +1,4 @@
 import 'package:e_sound_reminder_app/utils/constants.dart';
-import 'package:e_sound_reminder_app/widgets/custom_text_small_ex.dart';
 import 'package:flutter/material.dart';
 
 import '../utils/feedback.dart';
@@ -24,6 +23,7 @@ class LabeledSwitch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      borderRadius: BorderRadius.circular(cardsBorderRadius),
       onTap: () {
         onChanged(!value);
       },

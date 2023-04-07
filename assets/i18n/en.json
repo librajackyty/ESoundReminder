@@ -45,8 +45,11 @@
     "reminder_new2_settimer1": "Alarm:",
     "reminder_new2_setrepeat1": "Repeat in a week:",
     "reminder_new2_settimer2": "Alarm set to:",
+    "reminder_new2_settimer_min": "At least 1 alarm is required",
+    "reminder_new2_settimer_max": "Maximum 4 alarms only",
+    "reminder_new2_settimer_expired": "At least 1 alarm is expired already. Please check again!",
     "reminder_new2_setrepeat2": "Repeat on:",
-    "reminder_new2_setrepeat3": "Not Repeat",
+    "reminder_new2_setrepeat3": "No Repeat",
     "reminder_new2_setrepeat4": "Repeat Everyday",
     "reminder_new2_timepicker_help": "Select Time",
     "reminder_new2_timepicker_error": "Enter a valid time",
@@ -65,9 +68,10 @@
 
     "settings_title": "Settings",
     "settings_list_language": "Language",
-    "settings_list_display": "Text size",
+    "settings_list_display": "Text Size",
+    "settings_list_other": "Other Settings",
     "settings_list_about": "About",
-    "settings_list_oss": "Open source software (OSS)",
+    "settings_list_oss": "Open Source Software (OSS)",
 
     "lang_title": "Language",
     "lang_list_msg": "Please select the language:",
@@ -77,6 +81,9 @@
     "display_list_itm_L": "Large",
     "display_list_itm_M": "Medium",
     "display_list_itm_S": "Small",
+
+    "other_title": "Other Settings",
+    "other_timepicker_title": "Time Picker Style",
 
     "oss_title": "Open source software (OSS)",
     "oss_msg": "This application makes use of the following software/libraries/plugins",

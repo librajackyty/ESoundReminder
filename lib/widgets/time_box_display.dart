@@ -20,7 +20,9 @@ class TimeBoxDisplay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.fromLTRB(6, 6, 10, 6),
+      padding: icon != null
+          ? EdgeInsets.fromLTRB(6, 6, 10, 6)
+          : EdgeInsets.symmetric(vertical: 6, horizontal: 10),
       decoration: BoxDecoration(
           color: Colors.white,
           border: Border.all(color: color ?? Colors.green[800]!),

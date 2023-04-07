@@ -20,6 +20,13 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   ScrollController _scrollController = ScrollController();
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,10 +45,13 @@ class _SettingsPageState extends State<SettingsPage> {
               children: <Widget>[
                 Expanded(
                   child: DelayedDisplay(
+                      slidingBeginOffset: const Offset(0.55, 0.0),
                       child: CusScrollbar(
                           scrollController: _scrollController,
                           child: ListView(
                               controller: _scrollController,
+                              physics: AlwaysScrollableScrollPhysics(
+                                  parent: BouncingScrollPhysics()),
                               padding: const EdgeInsets.only(
                                   top: safeAreaPaddingAll),
                               children: [
@@ -68,6 +78,14 @@ class _SettingsPageState extends State<SettingsPage> {
                                     iconData: Icons.text_increase, onTap: () {
                                   Navigator.pushNamed(
                                       context, pageRouteDisplayConfig);
+                                }),
+                                CusListItm(
+                                    Language.of(context)!
+                                        .t("settings_list_other"),
+                                    noBorder: true,
+                                    iconData: Icons.tune, onTap: () {
+                                  Navigator.pushNamed(
+                                      context, pageRouteOtherConfig);
                                 }),
                                 CusListItm(
                                     Language.of(context)!

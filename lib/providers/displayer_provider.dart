@@ -36,4 +36,38 @@ class DisplayerProvider extends ChangeNotifier {
     await prefs.setString(scaleFactorKeyname, _size);
     notifyListeners();
   }
+
+  // Time picker
+  static const String timepickerStyleKeyname = "timepickerStyle";
+  int _defaultTimepickerStyle = Displayer.codeTimepickerStyle1;
+  int _timepickerStyle = Displayer.codeTimepickerStyle1;
+  int get timepickerStyle => _timepickerStyle;
+
+  fetchTimepickerStyle() async {
+    var prefs = await SharedPreferences.getInstance();
+    if (prefs.getInt(timepickerStyleKeyname) == null) {
+      debugPrint("timepickerStyle no data");
+      return false;
+    }
+    _timepickerStyle =
+        prefs.getInt(timepickerStyleKeyname) ?? _defaultTimepickerStyle;
+    debugPrint("timepickerStyle : $_timepickerStyle");
+    return true;
+  }
+
+  void saveTimepickerStyle(int style) async {
+    if (style < 1 || style > 2) {
+      debugPrint("saveTimepickerStyle no style");
+      return;
+    }
+    if (_timepickerStyle == style) {
+      return;
+    }
+    var prefs = await SharedPreferences.getInstance();
+    debugPrint("change style : $style");
+    debugPrint("_timepickerStyle : $_timepickerStyle");
+    _timepickerStyle = style;
+    await prefs.setInt(timepickerStyleKeyname, _timepickerStyle);
+    notifyListeners();
+  }
 }
