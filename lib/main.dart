@@ -24,6 +24,7 @@ import 'screens/intro.dart';
 import 'screens/landing.dart';
 import 'screens/lang_config.dart';
 import 'screens/opensources.dart';
+import 'screens/other_config.dart';
 import 'screens/reminder_new.dart';
 import 'screens/reminder_new_2.dart';
 import 'screens/settings.dart';
@@ -68,6 +69,7 @@ void main() async {
   debugPrint("Main main - successGetDefaultLang: $successGetDefaultLang");
   DisplayerProvider dp = DisplayerProvider();
   await dp.fetchAppTextSize();
+  await dp.fetchTimepickerStyle();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then(
     (_) => runApp(MyApp(
       appLanguage: appLanguage,
@@ -258,6 +260,10 @@ class _MyAppState extends State<MyApp> {
                 case constants.pageRouteDisplayConfig:
                   return PageTransition(
                       child: const DisplayConfigPage(title: 'Display Config'),
+                      type: PageTransitionType.rightToLeft);
+                case constants.pageRouteOtherConfig:
+                  return PageTransition(
+                      child: const OtherConfigPage(title: 'Other Config'),
                       type: PageTransitionType.rightToLeft);
 
                 case constants.pageRouteReminderNew:

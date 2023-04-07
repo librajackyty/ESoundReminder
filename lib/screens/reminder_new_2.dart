@@ -1,4 +1,5 @@
 import 'package:delayed_display/delayed_display.dart';
+import 'package:e_sound_reminder_app/models/displayer.dart';
 import 'package:flutter/material.dart';
 
 import '../models/language.dart';
@@ -204,6 +205,7 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
 
   void openDayNightTimePicker(TimeOfDay intialTime, int alarmNo) {
     showDayNightTimePicker(context, intialTime,
+        iosStylePicker: Displayer.currenTimepickerStyle(context) == 2,
         confirmText: Language.of(context)!.t("common_confirm"),
         cancelText: Language.of(context)!.t("common_cancel"),
         hourLabel: Language.of(context)!.t("timepicker_hr"),

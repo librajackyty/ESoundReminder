@@ -81,6 +81,14 @@ class _SettingsPageState extends State<SettingsPage> {
                                 }),
                                 CusListItm(
                                     Language.of(context)!
+                                        .t("settings_list_other"),
+                                    noBorder: true,
+                                    iconData: Icons.tune, onTap: () {
+                                  Navigator.pushNamed(
+                                      context, pageRouteOtherConfig);
+                                }),
+                                CusListItm(
+                                    Language.of(context)!
                                         .t("settings_list_about"),
                                     noBorder: true,
                                     iconData: Icons.help, onTap: () {

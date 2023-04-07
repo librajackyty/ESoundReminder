@@ -68,9 +68,10 @@
 
     "settings_title": "Settings",
     "settings_list_language": "Language",
-    "settings_list_display": "Text size",
+    "settings_list_display": "Text Size",
+    "settings_list_other": "Other Settings",
     "settings_list_about": "About",
-    "settings_list_oss": "Open source software (OSS)",
+    "settings_list_oss": "Open Source Software (OSS)",
 
     "lang_title": "Language",
     "lang_list_msg": "Please select the language:",
@@ -80,6 +81,9 @@
     "display_list_itm_L": "Large",
     "display_list_itm_M": "Medium",
     "display_list_itm_S": "Small",
+
+    "other_title": "Other Settings",
+    "other_timepicker_title": "Time Picker Style",
 
     "oss_title": "Open source software (OSS)",
     "oss_msg": "This application makes use of the following software/libraries/plugins",

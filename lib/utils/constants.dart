@@ -13,6 +13,7 @@ const String pageRouteReminderNew2 = "/remindernew2";
 const String pageRouteOpenSources = "/opensources";
 const String pageRouteAbout = "/about";
 const String pageRouteDisplayConfig = "/displayConfig";
+const String pageRouteOtherConfig = "/otherConfig";
 
 const String pageNameReminderDetailMore = "More Reminder Detail";
 const String pageNameReminderDetail = "New Reminder Detail";
