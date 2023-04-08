@@ -28,6 +28,7 @@ class LabeledSwitch extends StatelessWidget {
       borderRadius: BorderRadius.circular(cardsBorderRadius),
       onTap: () {
         onChanged(!value);
+        runHapticSound();
       },
       child: Padding(
         padding: padding ?? EdgeInsets.all(0),
@@ -38,12 +39,6 @@ class LabeledSwitch extends StatelessWidget {
                 ? CusSText(labelRight!)
                 : const SizedBox.shrink(),
             Switch(
-              thumbIcon: value
-                  ? MaterialStatePropertyAll(Icon(
-                      Icons.done,
-                      color: elementActiveColor,
-                    ))
-                  : MaterialStatePropertyAll(Icon(Icons.close)),
               value: value,
               onChanged: (bool newValue) {
                 onChanged(newValue);

@@ -43,17 +43,18 @@ class _CusListItmSwitchState extends State<CusListItmSwitch> {
   @override
   Widget build(BuildContext context) {
     Widget createImg() {
-      return imageData ?? const SizedBox.shrink();
+      return imageData != null
+          ? InkWell(
+              borderRadius: BorderRadius.circular(cardsBorderRadius),
+              onTap: () {
+                widget.onTap!(!widget.value);
+                runHapticSound();
+              },
+              child: imageData)
+          : const SizedBox.shrink();
     }
 
     return SizedBox(
-      // child: InkWell(
-      //   borderRadius: BorderRadius.circular(cardsBorderRadius),
-      //   onTap: () {
-      //     debugPrint("Go to ${widget.text}");
-      //     widget.onTap?.call();
-      //     runHapticSound();
-      //   },
       child: Padding(
           padding: const EdgeInsets.all(elementSPadding),
           child: Row(children: [
@@ -68,16 +69,6 @@ class _CusListItmSwitchState extends State<CusListItmSwitch> {
               shape: RoundedRectangleBorder(
                   borderRadius:
                       BorderRadius.all(Radius.circular(cardsBorderRadius))),
-              // shape: noBorder
-              //     ? null
-              // : RoundedRectangleBorder(
-              //     side: BorderSide(
-              //         color: buttonBorderColor, width: buttonBorderWidth),
-              //     borderRadius:
-              //         BorderRadius.all(Radius.circular(cardsBorderRadius))),
-              // tileColor: buttonReadOnlyColor,
-              // selectedTileColor: buttonBorderColor,
-              // selectedColor: buttonReadOnlyColor,
               selected: selected,
               title: widget.text != null ? CusNText(widget.text!) : null,
             )),
