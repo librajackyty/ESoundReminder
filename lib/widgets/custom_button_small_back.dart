@@ -9,7 +9,9 @@ class CusSBackButton extends StatefulWidget {
   VoidCallback? onPressed;
   bool maxWidth;
 
-  CusSBackButton(this.text, this.onPressed, {this.icon, this.maxWidth = true});
+  CusSBackButton(this.text, this.onPressed,
+      {Key? key, this.icon, this.maxWidth = true})
+      : super(key: key);
 
   @override
   _CusSBackButtonState createState() =>

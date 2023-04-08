@@ -15,12 +15,14 @@ class CusListItmSwitch extends StatefulWidget {
   bool noBorder;
 
   CusListItmSwitch(this.value,
-      {this.text,
+      {Key? key,
+      this.text,
       this.imageData,
       this.iconData,
       required this.onTap,
       this.selected = false,
-      this.noBorder = false});
+      this.noBorder = false})
+      : super(key: key);
 
   @override
   _CusListItmSwitchState createState() => _CusListItmSwitchState(

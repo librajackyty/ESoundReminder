@@ -12,7 +12,8 @@ class CusNButton extends StatefulWidget {
   bool readOnly = false;
 
   CusNButton(this.text, this.onPressed,
-      {this.icon, this.disabled = false, this.readOnly = false});
+      {Key? key, this.icon, this.disabled = false, this.readOnly = false})
+      : super(key: key);
 
   @override
   _CusNButtonState createState() =>

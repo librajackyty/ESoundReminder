@@ -13,10 +13,12 @@ class CusListItm extends StatefulWidget {
   bool noBorder;
 
   CusListItm(this.text,
-      {this.iconData,
+      {Key? key,
+      this.iconData,
       this.onTap,
       this.selected = false,
-      this.noBorder = false});
+      this.noBorder = false})
+      : super(key: key);
 
   @override
   _CusListItmState createState() =>

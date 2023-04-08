@@ -10,7 +10,11 @@ class WeekdaysSelector extends StatefulWidget {
   BoxDecoration? boxDecoration;
 
   WeekdaysSelector(
-      {required this.days, required this.onSelect, this.boxDecoration});
+      {Key? key,
+      required this.days,
+      required this.onSelect,
+      this.boxDecoration})
+      : super(key: key);
 
   @override
   _WeekdaysSelectorState createState() => _WeekdaysSelectorState();

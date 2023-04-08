@@ -8,7 +8,8 @@ class CusTitleText extends StatefulWidget {
   Color? color;
   TextAlign? textAlign;
 
-  CusTitleText(this.text, {this.color, this.textAlign});
+  CusTitleText(this.text, {Key? key, this.color, this.textAlign})
+      : super(key: key);
 
   @override
   _CusTitleTextState createState() => _CusTitleTextState();

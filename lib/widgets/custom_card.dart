@@ -22,14 +22,16 @@ class CusCard extends StatefulWidget {
   bool expiredTime1;
 
   CusCard(this.icon, this.title,
-      {this.subtitle,
+      {Key? key,
+      this.subtitle,
       this.subtitle2,
       this.subline0,
       this.subline1,
       this.btntxt1,
       this.onPressed,
       this.expiredColor,
-      this.expiredTime1 = false});
+      this.expiredTime1 = false})
+      : super(key: key);
 
   @override
   _CusCardState createState() => _CusCardState(icon, title, subtitle, subtitle2,

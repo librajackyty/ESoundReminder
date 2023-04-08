@@ -8,7 +8,8 @@ class CusNBackButton extends StatefulWidget {
   Widget? icon;
   VoidCallback? onPressed;
 
-  CusNBackButton(this.text, this.onPressed, {this.icon});
+  CusNBackButton(this.text, this.onPressed, {Key? key, this.icon})
+      : super(key: key);
 
   @override
   _CusNBackButtonState createState() =>
