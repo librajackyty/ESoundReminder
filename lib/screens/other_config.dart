@@ -7,6 +7,7 @@ import 'package:lottie/lottie.dart';
 import '../models/displayer.dart';
 import '../utils/assetslink.dart';
 import '../utils/constants.dart';
+import '../widgets/custom_labeled_switch.dart';
 import '../widgets/custom_list_item_switch.dart';
 import '../widgets/custom_scroll_bar.dart';
 import '../widgets/custom_text_normal.dart';
@@ -22,11 +23,41 @@ class OtherConfigPage extends StatefulWidget {
 
 class _DisplayConfigPageState extends State<OtherConfigPage> {
   bool _timepickerSliderStyle = true;
+  bool _tutorialSetting = true;
   ScrollController _scrollController = ScrollController();
   List<Widget> settingArea(BuildContext context) {
     List<Widget> mwList = [];
+    mwList.add(tutorialModeSetting());
+    mwList.add(const Divider(
+      color: dividerColor,
+    ));
     mwList.add(timePickerTypeSelection());
     return mwList;
+  }
+
+  Widget tutorialModeSetting() {
+    return Container(
+        padding: EdgeInsets.all(elementSSPadding),
+        child: LabeledSwitch(
+          largeLabel: true,
+          label: Language.of(context)!.t("other_tutorial_title"),
+          value: _tutorialSetting,
+          onChanged: (value) {
+            setState(() {
+              _tutorialSetting = value;
+            });
+            savingTutorialSetting(context, _tutorialSetting);
+          },
+        ));
+  }
+
+  void savingTutorialSetting(BuildContext context, bool val) {
+    debugPrint("savingTutorialSetting: $val");
+    int newSetting = Displayer.codeTutorialModeOff;
+    if (val) {
+      newSetting = Displayer.codeTutorialModeOn;
+    }
+    Displayer.updateTutorialSetting(context, newSetting);
   }
 
   Widget timePickerTypeSelection() {
@@ -126,6 +157,7 @@ class _DisplayConfigPageState extends State<OtherConfigPage> {
   @override
   Widget build(BuildContext context) {
     _timepickerSliderStyle = Displayer.currenTimepickerStyle(context) == 1;
+    _tutorialSetting = Displayer.currenTutorialSetting(context) == 1;
     return Scaffold(
       appBar: AppBar(
         title: Text(Language.of(context)!.t("other_title")),

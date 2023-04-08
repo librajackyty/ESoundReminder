@@ -83,6 +83,7 @@
     "display_list_itm_S": "小 (S)",
 
     "other_title": "其他設置",
+    "other_tutorial_title": "教程模式 (開/關)",
     "other_timepicker_title": "時間選擇器風格",
 
     "oss_title": "開源軟件 (OSS)",
@@ -127,7 +128,24 @@
     "coachtutorial_page1_step1": "第一步:",
     "coachtutorial_page1_step1_msg": "選擇要提醒服用的藥物",
     "coachtutorial_page1_step2": "第二步:",
-    "coachtutorial_page1_step2_msg": "選擇後，您將在此處看到藥物名稱\n或\n您也可以單擊此處編輯/添加您想要的藥物名稱!",
+    "coachtutorial_page1_step2_msg": "您會在呢個位見到選擇的藥物名稱",
+    "coachtutorial_page1_step2_msg2": "如果上面搵唔到,您都可以點擊呢度加入您想要的藥物名稱",
     "coachtutorial_page1_step3": "第三步:",
-    "coachtutorial_page1_step3_msg": "點擊'下一步'繼續 ->"
+    "coachtutorial_page1_step3_msg": "加入藥物名稱後\n點擊 '下一步' 繼續 ->",
+
+    "coachtutorial_page2_step1": "第一步:",
+    "coachtutorial_page2_step1_msg": "點擊呢度設置鬧鐘時間",
+    "coachtutorial_page2_step1a_msg": "時間選擇器將彈出",
+    "coachtutorial_page2_step1b_msg": "向左/右滑動可以調整時間\n點擊'確認'設置時間",
+    "coachtutorial_page2_step1b2_msg": "向上/下滑動可以調整時間\n點擊'確認'設置時間",
+    "coachtutorial_page2_step1_msg2": "如果要設置更多時間,點擊 '+'",
+    "coachtutorial_page2_step2": "第二步:",
+    "coachtutorial_page2_step2_msg": "默認設置鬧鐘每日都重複響鬧,您可以點擊關閉",
+    "coachtutorial_page2_step3": "第三步:",
+    "coachtutorial_page2_step3_msg": "設置鬧鐘後\n點擊 '下一步' 繼續 ->",
+
+    "coachtutorial_page3_step1": "第一步:",
+    "coachtutorial_page3_step1_msg": "檢查提醒事項設置",
+    "coachtutorial_page3_step2": "第二步:",
+    "coachtutorial_page3_step2_msg": "確認設置之後\n點擊 '下一步' 保存 ->"
 }

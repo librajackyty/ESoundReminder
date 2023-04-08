@@ -38,4 +38,17 @@ class Displayer {
   static updateTimepickerStyle(BuildContext context, int style) {
     of(context)?.saveTimepickerStyle(style);
   }
+
+  // tutorial setting
+  static const int codeTutorialModeInitial = 0; // 1st time show tutorial
+  static const int codeTutorialModeOn = 1; // should show tutorial
+  static const int codeTutorialModeOff = 2; // stop auto show show tutorial
+
+  static currenTutorialSetting(BuildContext context) {
+    return of(context)?.tutorialSetting;
+  }
+
+  static updateTutorialSetting(BuildContext context, int setting) {
+    of(context)?.saveTutorialSetting(setting);
+  }
 }

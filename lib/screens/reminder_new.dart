@@ -1,4 +1,5 @@
 import 'package:delayed_display/delayed_display.dart';
+import 'package:e_sound_reminder_app/models/displayer.dart';
 import 'package:e_sound_reminder_app/utils/feedback.dart';
 import 'package:e_sound_reminder_app/widgets/custom_text_normal.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import '../models/reminder.dart';
 import '../models/reminder_screen_arg.dart';
 import '../utils/constants.dart';
 import '../utils/snack_msg.dart';
+import '../utils/tutorial.dart';
 import '../widgets/custom_button_normal.dart';
 import '../widgets/custom_button_normal_back.dart';
 import '../widgets/custom_button_small.dart';
@@ -214,140 +216,23 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
     tutorialCoachMark.show(context: context);
   }
 
-  void createTutorial() {
-    tutorialCoachMark = TutorialCoachMark(
-      targets: _createTargets(),
-      colorShadow: elementActiveColor,
-      textSkip: Language.of(context)!.t("coachtutorial_skip"),
-      textStyleSkip: TextStyle(
-          fontSize: textSmallSize,
-          fontWeight: FontWeight.bold,
-          color: elementActiveTxtColor),
-      paddingFocus: 10,
-      opacityShadow: 0.8,
-      hideSkip: true,
-      onFinish: () {
-        debugPrint("finish");
-      },
-      onClickTarget: (target) {
-        debugPrint('onClickTarget: $target');
-      },
-      onClickTargetWithTapPosition: (target, tapDetails) {
-        debugPrint("target: $target");
-        debugPrint(
-            "clicked at position local: ${tapDetails.localPosition} - global: ${tapDetails.globalPosition}");
-      },
-      onClickOverlay: (target) {
-        debugPrint('onClickOverlay: $target');
-      },
-      onSkip: () {
-        debugPrint("skip");
-      },
-    );
-  }
-
-  List<TargetFocus> _createTargets() {
-    List<TargetFocus> targets = [];
-    targets.add(
-      TargetFocus(
-        identify: "key1",
-        keyTarget: key1,
-        alignSkip: Alignment.topRight,
-        shape: Language.currentLocale(context) == Language.codeEnglish
-            ? ShapeLightFocus.RRect
-            : ShapeLightFocus.Circle,
-        contents: [
-          TargetContent(
-            align: ContentAlign.bottom,
-            builder: (context, controller) {
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CusSText(
-                    Language.of(context)!.t("coachtutorial_page1_step1"),
-                    color: elementActiveTxtColor,
-                  ),
-                  CusNText(
-                    Language.of(context)!.t("coachtutorial_page1_step1_msg"),
-                    color: elementActiveTxtColor,
-                  ),
-                ],
-              );
-            },
-          ),
-        ],
-      ),
-    );
-    targets.add(
-      TargetFocus(
-        identify: "key2",
-        keyTarget: key2,
-        alignSkip: Alignment.topRight,
-        shape: ShapeLightFocus.RRect,
-        contents: [
-          TargetContent(
-            align: ContentAlign.top,
-            builder: (context, controller) {
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CusSText(
-                    Language.of(context)!.t("coachtutorial_page1_step2"),
-                    color: elementActiveTxtColor,
-                  ),
-                  CusNText(
-                    Language.of(context)!.t("coachtutorial_page1_step2_msg"),
-                    color: elementActiveTxtColor,
-                  ),
-                ],
-              );
-            },
-          ),
-        ],
-      ),
-    );
-    targets.add(
-      TargetFocus(
-        identify: "key3",
-        keyTarget: key3,
-        alignSkip: Alignment.topRight,
-        shape: ShapeLightFocus.RRect,
-        contents: [
-          TargetContent(
-            align: ContentAlign.top,
-            builder: (context, controller) {
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CusSText(
-                    Language.of(context)!.t("coachtutorial_page1_step3"),
-                    color: elementActiveTxtColor,
-                  ),
-                  CusNText(
-                    Language.of(context)!.t("coachtutorial_page1_step3_msg"),
-                    color: elementActiveTxtColor,
-                  ),
-                ],
-              );
-            },
-          ),
-        ],
-      ),
-    );
-    return targets;
+  void setUpTutorial() {
+    if (Displayer.currenTutorialSetting(context) ==
+            Displayer.codeTutorialModeInitial ||
+        Displayer.currenTutorialSetting(context) ==
+            Displayer.codeTutorialModeOn) {
+      tutorialCoachMark =
+          createTutorial(pageRouteReminderNew, context, [key1, key2, key3]);
+      Future.delayed(
+          const Duration(milliseconds: tutorialShowTime), showTutorial);
+    }
   }
   // TutorialCoachMark =======
 
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      createTutorial();
-      Future.delayed(
-          const Duration(milliseconds: (progressBarDelayShowTime + 500)),
-          showTutorial);
+      setUpTutorial();
     });
     super.initState();
     Future.delayed(const Duration(milliseconds: progressBarDelayShowTime))

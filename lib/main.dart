@@ -70,6 +70,7 @@ void main() async {
   DisplayerProvider dp = DisplayerProvider();
   await dp.fetchAppTextSize();
   await dp.fetchTimepickerStyle();
+  await dp.fetchTutorialSetting();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then(
     (_) => runApp(MyApp(
       appLanguage: appLanguage,
