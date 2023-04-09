@@ -78,8 +78,8 @@ class _DisplayConfigPageState extends State<OtherConfigPage> {
                 savingTimepickerStyle(context, _timepickerSliderStyle);
               },
               imageData: Container(
-                width: MediaQuery.of(context).size.width * 0.6,
-                height: MediaQuery.of(context).size.width * 0.6 * (470 / 875),
+                width: MediaQuery.of(context).size.width * 0.54,
+                height: MediaQuery.of(context).size.width * 0.54 * (470 / 875),
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         fit: BoxFit.fill,
@@ -90,6 +90,8 @@ class _DisplayConfigPageState extends State<OtherConfigPage> {
                     border: Border.all(
                         color: elementActiveColor,
                         width: buttonBorderWidthReadOnly)),
+                padding: EdgeInsets.fromLTRB(
+                    elementSPadding, elementSPadding, 0, elementSPadding),
               ),
             ),
             Container(
@@ -104,8 +106,8 @@ class _DisplayConfigPageState extends State<OtherConfigPage> {
                 savingTimepickerStyle(context, _timepickerSliderStyle);
               },
               imageData: Container(
-                width: MediaQuery.of(context).size.width * 0.6,
-                height: MediaQuery.of(context).size.width * 0.6 * (470 / 875),
+                width: MediaQuery.of(context).size.width * 0.54,
+                height: MediaQuery.of(context).size.width * 0.54 * (470 / 875),
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         fit: BoxFit.fill,
@@ -116,6 +118,8 @@ class _DisplayConfigPageState extends State<OtherConfigPage> {
                     border: Border.all(
                         color: elementActiveColor,
                         width: buttonBorderWidthReadOnly)),
+                padding: EdgeInsets.fromLTRB(
+                    elementSPadding, elementSPadding, 0, elementSPadding),
               ),
             ),
           ]),

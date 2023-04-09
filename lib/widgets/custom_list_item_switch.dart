@@ -13,6 +13,7 @@ class CusListItmSwitch extends StatefulWidget {
   void Function(bool)? onTap;
   bool selected;
   bool noBorder;
+  final EdgeInsets? padding;
 
   CusListItmSwitch(this.value,
       {Key? key,
@@ -21,12 +22,13 @@ class CusListItmSwitch extends StatefulWidget {
       this.iconData,
       required this.onTap,
       this.selected = false,
-      this.noBorder = false})
+      this.noBorder = false,
+      this.padding})
       : super(key: key);
 
   @override
   _CusListItmSwitchState createState() => _CusListItmSwitchState(
-      imageData, iconData, text, onTap, selected, noBorder);
+      imageData, iconData, text, onTap, selected, noBorder, padding);
 }
 
 class _CusListItmSwitchState extends State<CusListItmSwitch> {
@@ -36,9 +38,10 @@ class _CusListItmSwitchState extends State<CusListItmSwitch> {
   void Function(bool)? onTap;
   bool selected;
   bool noBorder;
+  EdgeInsets? padding;
 
   _CusListItmSwitchState(this.imageData, this.iconData, this.text, this.onTap,
-      this.selected, this.noBorder);
+      this.selected, this.noBorder, this.padding);
 
   @override
   Widget build(BuildContext context) {
@@ -56,11 +59,12 @@ class _CusListItmSwitchState extends State<CusListItmSwitch> {
 
     return SizedBox(
       child: Padding(
-          padding: const EdgeInsets.all(elementSPadding),
+          padding: padding ?? const EdgeInsets.all(elementSPadding),
           child: Row(children: [
             createImg(),
             Expanded(
                 child: SwitchListTile(
+              contentPadding: EdgeInsets.all(elementSSPadding),
               value: widget.value,
               onChanged: (value) {
                 widget.onTap!(value);

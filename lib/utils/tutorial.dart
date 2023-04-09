@@ -197,6 +197,30 @@ List<TargetFocus> _createTargetsPage2(
         TargetContent(
           align: ContentAlign.bottom,
           builder: (context, controller) {
+            return SingleChildScrollView(
+                child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _getTSText(context, "coachtutorial_page2_step1"),
+                _getTNText(context, "coachtutorial_page2_step1_msg"),
+              ],
+            ));
+          },
+        ),
+      ],
+    ),
+  );
+  targets.add(
+    TargetFocus(
+      identify: "tutorialStep1",
+      keyTarget: keys[0],
+      alignSkip: Alignment.topRight,
+      shape: ShapeLightFocus.RRect,
+      contents: [
+        TargetContent(
+          align: ContentAlign.bottom,
+          builder: (context, controller) {
             int styleType = Displayer.currenTimepickerStyle(context);
             double ratio = styleType == 1 ? (1174 / 900) : (1171 / 1052);
             String imglink = styleType == 1
@@ -205,19 +229,15 @@ List<TargetFocus> _createTargetsPage2(
             String txtkey = styleType == 1
                 ? "coachtutorial_page2_step1b_msg"
                 : "coachtutorial_page2_step1b2_msg";
-            return Column(
+            return SingleChildScrollView(
+                child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _getTSText(context, "coachtutorial_page2_step1"),
-                _getTNText(context, "coachtutorial_page2_step1_msg"),
-                const SizedBox(
-                  height: elementLPadding,
-                ),
                 _getTSText(context, "coachtutorial_page2_step1a_msg"),
                 Container(
-                  width: MediaQuery.of(context).size.width * 0.6,
-                  height: MediaQuery.of(context).size.width * 0.6 * ratio,
+                  width: MediaQuery.of(context).size.height * 0.3,
+                  height: MediaQuery.of(context).size.height * 0.3 * ratio,
                   decoration: BoxDecoration(
                       image: DecorationImage(
                           fit: BoxFit.fill,
@@ -230,7 +250,7 @@ List<TargetFocus> _createTargetsPage2(
                 ),
                 _getTNText(context, txtkey),
               ],
-            );
+            ));
           },
         ),
       ],
