@@ -95,6 +95,8 @@ class _HomePageState extends State<HomePage>
                       child: CusScrollbar(
                     scrollController: controller,
                     child: ListView.builder(
+                      physics: AlwaysScrollableScrollPhysics(
+                          parent: BouncingScrollPhysics()),
                       padding: EdgeInsets.all(elementMPadding),
                       controller: controller,
                       itemCount: filterKeys.length,
