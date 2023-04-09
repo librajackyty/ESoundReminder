@@ -468,7 +468,11 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
                                           child: CusNBackButton(
                                               Language.of(context)!
                                                   .t("common_back"),
-                                              () => {Navigator.pop(context)}),
+                                              () => {
+                                                    removeCurrentSnavkBar(
+                                                        context),
+                                                    Navigator.pop(context)
+                                                  }),
                                         ),
                                         const SizedBox(
                                           width: 8,
@@ -479,6 +483,8 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
                                               Language.of(context)!
                                                   .t("common_next"),
                                               () => {
+                                                    removeCurrentSnavkBar(
+                                                        context),
                                                     if (selectedMedicine
                                                         .isEmpty)
                                                       {

@@ -570,7 +570,10 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                                 Expanded(
                                   child: CusNBackButton(
                                       Language.of(context)!.t("common_back"),
-                                      () => {Navigator.pop(context)}),
+                                      () => {
+                                            removeCurrentSnavkBar(context),
+                                            Navigator.pop(context)
+                                          }),
                                 ),
                                 const SizedBox(
                                   width: 8,
@@ -580,6 +583,7 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                                   child: CusNButton(
                                       Language.of(context)!.t("common_next"),
                                       () {
+                                    removeCurrentSnavkBar(context);
                                     if (checkOneOfTimeIsExpired(
                                         getReminderAllTimeExpired(reminder))) {
                                       showSnackMsg(
