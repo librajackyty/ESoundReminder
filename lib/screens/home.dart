@@ -147,11 +147,20 @@ class _HomePageState extends State<HomePage>
     if (widget.arg != null) {
       debugPrint("checkNotificationPassing");
       Reminder? notifReminder = widget.arg?.reminder;
-      if (notifReminder != null) {
+      if (notifReminder == null) {
+        return;
+      }
+      final model = context.read<ReminderModel>();
+      var reminders = model.reminders;
+      if (reminders == null) {
+        return;
+      }
+      var curReminders = reminders.where((r) => r.id == notifReminder.id);
+      if (curReminders.isNotEmpty) {
         debugPrint("checkNotificationPassing find reminder");
         Future.delayed(Duration(milliseconds: 400), () {
           Navigator.pushNamed(context, pageRouteReminderDetailMore,
-              arguments: ReminderScreenArg(notifReminder, index: 0));
+              arguments: ReminderScreenArg(curReminders.first, index: 0));
         });
       }
     }
