@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:vs_scrollbar/vs_scrollbar.dart';
+import '../models/reminder.dart';
 import '../models/reminder_screen_arg.dart';
 import '../providers/reminders/reminders_provider.dart';
 import '../utils/assetslink.dart';
@@ -19,9 +20,10 @@ import '../widgets/custom_text_normal.dart';
 import '../widgets/reminder_card.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key, required this.title});
+  const HomePage({super.key, required this.title, this.arg});
 
   final String title;
+  final ReminderScreenArg? arg;
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -141,6 +143,20 @@ class _HomePageState extends State<HomePage>
     Navigator.pushNamed(context, pageRouteReminderNew);
   }
 
+  void checkNotificationPassing() {
+    if (widget.arg != null) {
+      debugPrint("checkNotificationPassing");
+      Reminder? notifReminder = widget.arg?.reminder;
+      if (notifReminder != null) {
+        debugPrint("checkNotificationPassing find reminder");
+        Future.delayed(Duration(milliseconds: 400), () {
+          Navigator.pushNamed(context, pageRouteReminderDetailMore,
+              arguments: ReminderScreenArg(notifReminder, index: 0));
+        });
+      }
+    }
+  }
+
   @override
   void initState() {
     WidgetsBinding.instance.addObserver(this);
@@ -149,6 +165,7 @@ class _HomePageState extends State<HomePage>
       aniControllerBottom.forward();
       aniLoadingController.forward();
       stateReady = true;
+      checkNotificationPassing();
     });
     selectedFilterIndex.addListener(() {
       debugPrint("selectedFilterIndex val changes");
