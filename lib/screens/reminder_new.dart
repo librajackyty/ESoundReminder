@@ -9,6 +9,7 @@ import '../models/language.dart';
 import '../models/reminder.dart';
 import '../models/reminder_screen_arg.dart';
 import '../utils/constants.dart';
+import '../utils/dialog.dart';
 import '../utils/snack_msg.dart';
 import '../utils/tutorial.dart';
 import '../widgets/custom_button_normal.dart';
@@ -229,9 +230,25 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
   }
   // TutorialCoachMark =======
 
+  // safety Overlay
+  OverlayEntry? overlayEntry;
+  void createOverlay() {
+    removeOverly();
+    assert(overlayEntry == null);
+    overlayEntry = creatingOverlay();
+    Overlay.of(context, debugRequiredFor: widget).insert(overlayEntry!);
+  }
+
+  void removeOverly() {
+    overlayEntry?.remove();
+    overlayEntry = null;
+  }
+  // ===================
+
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      createOverlay();
       setUpTutorial();
     });
     super.initState();
@@ -245,11 +262,14 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
         setState(() => {_wasEmpty = _txtFController.text.isEmpty});
       }
     });
+    Future.delayed(const Duration(milliseconds: safetyOverlayRmTime))
+        .then((value) => removeOverly());
   }
 
   @override
   void dispose() {
     _medicineSVController.dispose();
+    removeOverly();
     super.dispose();
   }
 
@@ -424,45 +444,13 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
                                 child: const SizedBox(
                                   height: 2,
                                 )),
-                            // AnimatedSize(
-                            //   duration: const Duration(milliseconds: 200),
-                            //   child: !(selectedMedicine.isNotEmpty && showActionArea)
-                            //       ? SizedBox.shrink()
-                            //       : CusCardContainer(
-                            //           child: SizedBox(
-                            //             width: double.maxFinite,
-                            //             height: MediaQuery.of(context).size.height *
-                            //                 reminderCardHeightRatio,
-                            //             child: ListView(
-                            //               padding: const EdgeInsets.all(12),
-                            //               children: [
-                            //                 Row(children: [
-                            //                   Icon(Icons.medication_outlined),
-                            //                   SizedBox(width: 6),
-                            //                   CusSText(Language.of(context)!
-                            //                       .t("reminder_new1_selectedmedicine"))
-                            //                 ]),
-                            //                 const SizedBox(
-                            //                   height: 8.0,
-                            //                 ),
-                            //                 ...medicineSelectedArea(selectedMedicine)
-                            //               ],
-                            //             ),
-                            //           ),
-                            //         ),
-                            // ),
 
                             // bottom action area
                             AnimatedSize(
                               duration: const Duration(milliseconds: 200),
                               child: !showActionArea
                                   ? SizedBox.shrink()
-                                  :
-                                  // ),
-                                  // Visibility(
-                                  //   visible: showActionArea,
-                                  //   child:
-                                  Row(
+                                  : Row(
                                       children: [
                                         Expanded(
                                           child: CusNBackButton(

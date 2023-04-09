@@ -7,6 +7,7 @@ import '../models/language.dart';
 import '../models/reminder.dart';
 import '../models/reminder_screen_arg.dart';
 import '../utils/constants.dart';
+import '../utils/dialog.dart';
 import '../utils/formatter.dart';
 import '../utils/snack_msg.dart';
 import '../utils/time_picker.dart';
@@ -282,10 +283,26 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
   }
   // TutorialCoachMark =======
 
+  // safety Overlay
+  OverlayEntry? overlayEntry;
+  void createOverlay() {
+    removeOverly();
+    assert(overlayEntry == null);
+    overlayEntry = creatingOverlay();
+    Overlay.of(context, debugRequiredFor: widget).insert(overlayEntry!);
+  }
+
+  void removeOverly() {
+    overlayEntry?.remove();
+    overlayEntry = null;
+  }
+  // ===================
+
   @override
   void initState() {
     updateWeekdays1ToModel();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      createOverlay();
       setUpTutorial();
     });
     super.initState();
@@ -293,11 +310,14 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
         .then((value) => setState(() {
               progressIdx = progressIdxStep1;
             }));
+    Future.delayed(const Duration(milliseconds: safetyOverlayRmTime))
+        .then((value) => removeOverly());
   }
 
   @override
   void dispose() {
     _reminderTimeSelectionController.dispose();
+    removeOverly();
     super.dispose();
   }
 

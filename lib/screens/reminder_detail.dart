@@ -270,8 +270,6 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
   late TutorialCoachMark tutorialCoachMark;
   GlobalKey key1 = GlobalKey();
   GlobalKey key2 = GlobalKey();
-  // GlobalKey key3 = GlobalKey();
-  // GlobalKey key4 = GlobalKey();
 
   void showTutorial() {
     tutorialCoachMark.show(context: context);
@@ -300,9 +298,25 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
   }
   // TutorialCoachMark =======
 
+  // safety Overlay
+  OverlayEntry? overlayEntry;
+  void createOverlay() {
+    removeOverly();
+    assert(overlayEntry == null);
+    overlayEntry = creatingOverlay();
+    Overlay.of(context, debugRequiredFor: widget).insert(overlayEntry!);
+  }
+
+  void removeOverly() {
+    overlayEntry?.remove();
+    overlayEntry = null;
+  }
+  // ===================
+
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      creatingOverlay();
       if (checkOpenAsNewDetailPage()) {
         setUpTutorial();
       }
@@ -314,11 +328,14 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
             }));
     Future.delayed(const Duration(milliseconds: askExpiredDelShowTime))
         .then((value) => showExpiredDeleteDialog());
+    Future.delayed(const Duration(milliseconds: safetyOverlayRmTime))
+        .then((value) => removeOverly());
   }
 
   @override
   void dispose() {
     _reminderDSVController.dispose();
+    removeOverly();
     super.dispose();
   }
 

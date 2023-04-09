@@ -42,6 +42,7 @@ const double selectWeekDaysPadding = 10.0;
 const int progressBarDelayShowTime = 500;
 const int askExpiredDelShowTime = 1000;
 const int tutorialShowTime = progressBarDelayShowTime + 500;
+const int safetyOverlayRmTime = 1200;
 
 const int pageHeaderDelayShowTime = 200;
 const int pageContentDelayShowTime = 200;
