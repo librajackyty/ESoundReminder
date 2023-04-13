@@ -65,6 +65,11 @@
     "reminder_detail_deletequestion": "您要删除此提醒事项吗？",
     "reminder_detail_expiredDelquestion": "提醒事项已过期\n要删除吗?",
     "reminder_detail_notice": "记得按照医生的指示\n每次服用适量的药物",
+    "reminder_detail_notice_t": "记得",
+    "reminder_detail_notice1": "1.服用适量的药物",
+    "reminder_detail_notice2": "2.是不是餐前/餐后吃药?",
+    "reminder_detail_notice3": "3.是不是要空肚吃药?",
+    "reminder_detail_notice4": "4.是不是要量血糖/血压?",
 
     "settings_title": "设定",
     "settings_list_language": "语言",

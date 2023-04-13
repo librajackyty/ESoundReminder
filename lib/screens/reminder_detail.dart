@@ -24,6 +24,7 @@ import '../widgets/custom_text_normal.dart';
 import '../widgets/custom_text_small.dart';
 import '../widgets/reminder_header.dart';
 import '../widgets/reminder_weekdays_display.dart';
+import '../widgets/time_box_display.dart';
 import '../widgets/time_section_display.dart';
 
 class ReminderDetailPage extends StatefulWidget {
@@ -395,6 +396,13 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
                                   ),
                                   ...medicineSelectedArea(
                                       reminder.selectedMedicine),
+                                  const SizedBox(
+                                    height: 8,
+                                  ),
+                                  TimeBoxDisplay(
+                                      textAlign: TextAlign.start,
+                                      text:
+                                          "${Language.of(context)!.t("reminder_detail_notice_t")}\n${Language.of(context)!.t("reminder_detail_notice1")}\n${Language.of(context)!.t("reminder_detail_notice2")}\n${Language.of(context)!.t("reminder_detail_notice3")}\n${Language.of(context)!.t("reminder_detail_notice4")}"),
                                   const SizedBox(
                                     height: 8,
                                   ),

@@ -56,7 +56,7 @@ class TimeSectionDisplay extends StatelessWidget {
         margin: EdgeInsets.symmetric(horizontal: elementSPadding),
         child: Column(children: [
           TimeBoxDisplay(
-            time: text,
+            text: text,
             largeTxt: largeTxt,
             color: allTimeAreExpired ? errorColor : null,
           ),
@@ -84,7 +84,7 @@ class TimeSectionDisplay extends StatelessWidget {
                   width: largeTxt ? 40 : 30,
                   height: largeTxt ? 40 : 30,
                 ),
-          time: times[i],
+          text: times[i],
           color: checkExpireds(i) ? errorColor : null));
     }
     return tdList;

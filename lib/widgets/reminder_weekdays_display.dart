@@ -39,7 +39,7 @@ class WeekdaysDisplay extends StatelessWidget {
 
     Widget createWeekdaySummary(String text) {
       return TimeBoxDisplay(
-        time: text,
+        text: text,
         icon: Lottie.asset(
           assetslinkLottie('24038-calendar-icon'),
           width: largeTxt ? 40 : 30,

@@ -65,6 +65,11 @@
     "reminder_detail_deletequestion": "Are you sure to delete this reminder?",
     "reminder_detail_expiredDelquestion": "Reminder is expired\nDo you want to delete?",
     "reminder_detail_notice": "Remember to follow doctor's instructions to take the proper quantity of medicine every time",
+    "reminder_detail_notice_t": "Remember",
+    "reminder_detail_notice1": "1.Proper quantity of medicine",
+    "reminder_detail_notice2": "2.Before/After meal to take medicine?",
+    "reminder_detail_notice3": "3.Empty stomach before take medicine?",
+    "reminder_detail_notice4": "4.Measure blood sugar/blood pressure?",
 
     "settings_title": "Settings",
     "settings_list_language": "Language",
