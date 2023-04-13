@@ -103,6 +103,7 @@ class _MyAppState extends State<MyApp> {
     setUpLocalNotification();
     requestNotificationPermissions();
     super.initState();
+    handleNotificationPayload();
   }
 
   void requestNotificationPermissions() async {
@@ -167,6 +168,27 @@ class _MyAppState extends State<MyApp> {
     initializeTimeZones();
     final String? timeZoneName = await FlutterNativeTimezone.getLocalTimezone();
     setLocalLocation(getLocation(timeZoneName!));
+  }
+
+  Future<void> handleNotificationPayload() async {
+    var details =
+        await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
+    if (details != null && details.didNotificationLaunchApp) {
+      var payload = details.payload;
+      debugPrint(
+          'getNotificationAppLaunchDetails didNotificationLaunchApp payload: $payload');
+      if (payload != null) {
+        debugPrint('notification payload: $payload');
+        var json = jsonDecode(payload);
+        Reminder alarmedReminder = Reminder.fromJson(json);
+
+        Future.delayed(const Duration(milliseconds: 800), () {
+          debugPrint("_navigationService opening new Home");
+          _navigationService.pushNamedAndRemoveUntil(pageRouteHome,
+              args: ReminderScreenArg(alarmedReminder, index: 0));
+        });
+      }
+    }
   }
 
   @override
