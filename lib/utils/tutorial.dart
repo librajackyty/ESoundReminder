@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:e_sound_reminder_app/models/displayer.dart';
 import 'package:e_sound_reminder_app/utils/constants.dart';
+import 'package:e_sound_reminder_app/utils/feedback.dart';
 import 'package:flutter/material.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
@@ -51,6 +52,7 @@ TutorialCoachMark createTutorial(
     onClickTarget: (target) {
       debugPrint('$page tutorial::onClickTarget: $target');
       onClickTarget?.call(target);
+      runHapticSound();
     },
     onClickTargetWithTapPosition: (target, tapDetails) {
       debugPrint("$page tutorial::target: $target");
@@ -65,6 +67,7 @@ TutorialCoachMark createTutorial(
     onSkip: () {
       debugPrint("$page tutorial::onSkip");
       onSkip?.call();
+      runHapticSound();
     },
   );
 }
