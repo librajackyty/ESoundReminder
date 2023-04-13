@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.e_daily_reminder">
+    package="com.libraweekendday.edailyreminder">
 
     <uses-permission android:name="android.permission.VIBRATE"/>
 
