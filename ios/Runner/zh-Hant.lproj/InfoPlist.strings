@@ -1,0 +1,9 @@
+/* 
+  InfoPlist.strings
+  Runner
+
+  Created by Jack TY Yuen on 13/4/2023.
+  
+*/
+"CFBundleDisplayName" = "到點吃藥";
+"CFBundleName" = "到點吃藥";
