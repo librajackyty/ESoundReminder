@@ -436,11 +436,10 @@ class _HomePageState extends State<HomePage>
 
   Widget createNoReminderSection() {
     List<Widget> noRSList = [
-      Lottie.asset(
-        assetslinkLottie('89809-no-result-green-theme'),
-        width: MediaQuery.of(context).size.width * 0.4,
-        height: MediaQuery.of(context).size.width * 0.4,
-      ),
+      Lottie.asset(assetslinkLottie('89809-no-result-green-theme'),
+          width: MediaQuery.of(context).size.width * 0.4,
+          height: MediaQuery.of(context).size.width * 0.4,
+          reverse: true),
       Container(
         padding: EdgeInsets.only(left: 40, right: 40),
         child: Align(

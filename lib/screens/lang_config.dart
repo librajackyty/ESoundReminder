@@ -59,7 +59,7 @@ class _LangConfigPageState extends State<LangConfigPage> {
   void goBack() {
     if (initalConfig) {
       Navigator.pushNamedAndRemoveUntil(
-          context, pageRouteHome, (route) => false);
+          context, pageRouteLanding, (route) => false);
     } else {
       Navigator.of(context).pop();
     }
