@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:e_sound_reminder_app/widgets/custom_button_small.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
@@ -103,5 +105,31 @@ void showBaseDialog(BuildContext context,
       content: content,
       actions: actions,
     ),
+  );
+}
+
+OverlayEntry creatingOverlay() {
+  return OverlayEntry(
+    builder: (BuildContext context) {
+      return
+          // BackdropFilter(
+          //   filter: ImageFilter.blur(
+          //     sigmaX: 3,
+          //     sigmaY: 3,
+          //   ),
+          //   child:
+          Container(
+        color: Colors.black.withOpacity(0),
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        // child: Center(
+        //   child: ElevatedButton(
+        //     onPressed: () {},
+        //     child: const Text('Remove Overlay'),
+        //   ),
+        // ),
+        // ),
+      );
+    },
   );
 }

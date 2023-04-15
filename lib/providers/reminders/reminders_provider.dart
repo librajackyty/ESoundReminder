@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:e_sound_reminder_app/utils/formatter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -300,69 +302,27 @@ class ReminderModel extends ChangeNotifier {
     debugPrint("reminder id ? ${reminder.id}");
 
     debugPrint("reminder set time1==============");
+
+    List<int> wds = List.from(reminder.weekdays1);
     zonedSchedule(flutterLocalNotificationsPlugin, platformChannelSpecifics,
-        reminder, reminder.weekdays1, reminder.time1);
+        reminder, wds, reminder.time1);
 
     if (reminder.reminderType >= 2) {
       debugPrint("reminder set time2==============");
 
       zonedSchedule(flutterLocalNotificationsPlugin, platformChannelSpecifics,
-          reminder, reminder.weekdays1, reminder.time2!);
+          reminder, wds, reminder.time2!);
     }
     if (reminder.reminderType >= 3) {
       debugPrint("reminder set time3==============");
       zonedSchedule(flutterLocalNotificationsPlugin, platformChannelSpecifics,
-          reminder, reminder.weekdays1, reminder.time3!);
+          reminder, wds, reminder.time3!);
     }
     if (reminder.reminderType == 4) {
       debugPrint("reminder set time4==============");
       zonedSchedule(flutterLocalNotificationsPlugin, platformChannelSpecifics,
-          reminder, reminder.weekdays1, reminder.time4!);
+          reminder, wds, reminder.time4!);
     }
-    // if (reminder.weekdays1.isEmpty) {
-    //   debugPrint("set up LocalNotifications weekdays1.isEmpty");
-    //   debugPrint("reminder id ? ${reminder.id}");
-    //   await flutterLocalNotificationsPlugin.zonedSchedule(
-    //     reminder.id,
-    //     reminder.reminderTitle,
-    //     reminder.reminderDescription,
-    //     TZDateTime.local(
-    //       reminder.time1.year,
-    //       reminder.time1.month,
-    //       reminder.time1.day,
-    //       reminder.time1.hour,
-    //       reminder.time1.minute,
-    //     ),
-    //     platformChannelSpecifics,
-    //     androidAllowWhileIdle: true,
-    //     uiLocalNotificationDateInterpretation:
-    //         UILocalNotificationDateInterpretation.absoluteTime,
-    //     matchDateTimeComponents: DateTimeComponents.time,
-    //   );
-    // } else {
-    //   debugPrint("set up LocalNotifications weekdays1. not empty");
-    //   debugPrint(reminder.weekdays1.join(","));
-    //   for (var weekday in reminder.weekdays1) {
-    //     await flutterLocalNotificationsPlugin.zonedSchedule(
-    //       // acts as an id, for cancelling later
-    //       reminder.id * 10 + weekday,
-    //       reminder.reminderTitle,
-    //       reminder.reminderDescription,
-    //       TZDateTime.local(
-    //         reminder.time1.year,
-    //         reminder.time1.month,
-    //         reminder.time1.day - reminder.time1.weekday + weekday,
-    //         reminder.time1.hour,
-    //         reminder.time1.minute,
-    //       ),
-    //       platformChannelSpecifics,
-    //       androidAllowWhileIdle: true,
-    //       uiLocalNotificationDateInterpretation:
-    //           UILocalNotificationDateInterpretation.absoluteTime,
-    //       matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime,
-    //     );
-    //   }
-    // }
   }
 
   zonedSchedule(
@@ -376,38 +336,22 @@ class ReminderModel extends ChangeNotifier {
     String titleWthTime = '${fromTimeToString(time)} ${reminder.reminderTitle}';
     debugPrint("reminder gen time id ? $id");
     debugPrint("reminder gen time title with time ? $titleWthTime");
+    String encodeJsonReminder = jsonEncode(reminder.toJson());
+    debugPrint(
+        "encodeJsonReminder ====================================================");
+    debugPrint("encodeJsonReminder: $encodeJsonReminder");
+    debugPrint(
+        " encodeJsonReminder====================================================");
     if (weekdays.isEmpty) {
       debugPrint("set up LocalNotifications weekdays1.isEmpty");
       await flutterLocalNotificationsPlugin.zonedSchedule(
-        id,
-        titleWthTime,
-        reminder.reminderDescription,
-        TZDateTime.local(
-          time.year,
-          time.month,
-          time.day,
-          time.hour,
-          time.minute,
-        ),
-        platformChannelSpecifics,
-        androidAllowWhileIdle: true,
-        uiLocalNotificationDateInterpretation:
-            UILocalNotificationDateInterpretation.absoluteTime,
-        matchDateTimeComponents: DateTimeComponents.time,
-      );
-    } else {
-      debugPrint("set up LocalNotifications weekdays1. not empty");
-      debugPrint(weekdays.join(","));
-      for (var weekday in weekdays) {
-        await flutterLocalNotificationsPlugin.zonedSchedule(
-          // acts as an id, for cancelling later
-          id * 10 + weekday,
+          id,
           titleWthTime,
           reminder.reminderDescription,
           TZDateTime.local(
             time.year,
             time.month,
-            time.day - time.weekday + weekday,
+            time.day,
             time.hour,
             time.minute,
           ),
@@ -415,8 +359,30 @@ class ReminderModel extends ChangeNotifier {
           androidAllowWhileIdle: true,
           uiLocalNotificationDateInterpretation:
               UILocalNotificationDateInterpretation.absoluteTime,
-          matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime,
-        );
+          matchDateTimeComponents: DateTimeComponents.time,
+          payload: encodeJsonReminder);
+    } else {
+      debugPrint("set up LocalNotifications weekdays1. not empty");
+      debugPrint(weekdays.join(","));
+      for (var weekday in weekdays) {
+        await flutterLocalNotificationsPlugin.zonedSchedule(
+            // acts as an id, for cancelling later
+            id * 10 + weekday,
+            titleWthTime,
+            reminder.reminderDescription,
+            TZDateTime.local(
+              time.year,
+              time.month,
+              time.day - time.weekday + weekday,
+              time.hour,
+              time.minute,
+            ),
+            platformChannelSpecifics,
+            androidAllowWhileIdle: true,
+            uiLocalNotificationDateInterpretation:
+                UILocalNotificationDateInterpretation.absoluteTime,
+            matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime,
+            payload: encodeJsonReminder);
       }
     }
   }

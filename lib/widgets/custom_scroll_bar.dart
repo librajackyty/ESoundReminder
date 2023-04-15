@@ -10,10 +10,12 @@ class CusScrollbar extends StatefulWidget {
   final double thickness;
 
   CusScrollbar(
-      {required this.child,
+      {Key? key,
+      required this.child,
       this.scrollController,
       this.isAlwaysShown = false,
-      this.thickness = 16.0});
+      this.thickness = 16.0})
+      : super(key: key);
 
   @override
   _CusScrollbarState createState() => _CusScrollbarState();

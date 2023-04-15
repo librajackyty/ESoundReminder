@@ -70,4 +70,39 @@ class DisplayerProvider extends ChangeNotifier {
     await prefs.setInt(timepickerStyleKeyname, _timepickerStyle);
     notifyListeners();
   }
+
+  // Tutorial settings
+  static const String tutorialSettingKeyname = "tutorialSetting";
+  int _defaultTutorialSetting = Displayer.codeTutorialModeOn;
+  int _tutorialSetting = Displayer.codeTutorialModeOn;
+  int get tutorialSetting => _tutorialSetting;
+
+  fetchTutorialSetting() async {
+    var prefs = await SharedPreferences.getInstance();
+    if (prefs.getInt(tutorialSettingKeyname) == null) {
+      debugPrint("tutorialSetting no data");
+      _tutorialSetting = Displayer.codeTutorialModeInitial;
+      return false;
+    }
+    _tutorialSetting =
+        prefs.getInt(tutorialSettingKeyname) ?? _defaultTutorialSetting;
+    debugPrint("tutorialSetting : $_tutorialSetting");
+    return true;
+  }
+
+  void saveTutorialSetting(int setting) async {
+    if (setting < 1 || setting > 2) {
+      debugPrint("saveTutorialSetting incorrect setting id");
+      return;
+    }
+    if (_tutorialSetting == setting) {
+      return;
+    }
+    var prefs = await SharedPreferences.getInstance();
+    debugPrint("change setting : $setting");
+    debugPrint("_tutorialSetting : $_tutorialSetting");
+    _tutorialSetting = setting;
+    await prefs.setInt(tutorialSettingKeyname, _tutorialSetting);
+    notifyListeners();
+  }
 }

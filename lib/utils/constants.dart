@@ -40,7 +40,9 @@ const double listviewPaddingAll = 18.0;
 const double selectWeekDaysBorderRadius = 30.0;
 const double selectWeekDaysPadding = 10.0;
 const int progressBarDelayShowTime = 500;
-const int askExpiredDelShowTime = 1200;
+const int askExpiredDelShowTime = 1000;
+const int tutorialShowTime = progressBarDelayShowTime + 500;
+const int safetyOverlayRmTime = 1200;
 
 const int pageHeaderDelayShowTime = 200;
 const int pageContentDelayShowTime = 200;
@@ -94,6 +96,7 @@ const Color elementActiveTxtColor = Colors.white;
 const Color elementNotActiveTxtColor = Colors.black;
 final Color scrollBarColor = Colors.green.shade500;
 final Color errorColor = Colors.red[900]!;
+const Color dividerColor = Colors.black;
 
 // button ui
 const double buttonBorderWidth = 2;

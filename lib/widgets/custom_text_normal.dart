@@ -7,7 +7,7 @@ class CusNText extends StatefulWidget {
   Color? color;
   TextAlign? textAlign;
 
-  CusNText(this.text, {this.color, this.textAlign});
+  CusNText(this.text, {Key? key, this.color, this.textAlign}) : super(key: key);
 
   @override
   _CusNTextState createState() => _CusNTextState();

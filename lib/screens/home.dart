@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:vs_scrollbar/vs_scrollbar.dart';
+import '../models/reminder.dart';
 import '../models/reminder_screen_arg.dart';
 import '../providers/reminders/reminders_provider.dart';
 import '../utils/assetslink.dart';
@@ -19,9 +20,10 @@ import '../widgets/custom_text_normal.dart';
 import '../widgets/reminder_card.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key, required this.title});
+  const HomePage({super.key, required this.title, this.arg});
 
   final String title;
+  final ReminderScreenArg? arg;
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -93,6 +95,8 @@ class _HomePageState extends State<HomePage>
                       child: CusScrollbar(
                     scrollController: controller,
                     child: ListView.builder(
+                      physics: AlwaysScrollableScrollPhysics(
+                          parent: BouncingScrollPhysics()),
                       padding: EdgeInsets.all(elementMPadding),
                       controller: controller,
                       itemCount: filterKeys.length,
@@ -141,6 +145,29 @@ class _HomePageState extends State<HomePage>
     Navigator.pushNamed(context, pageRouteReminderNew);
   }
 
+  void checkNotificationPassing() {
+    if (widget.arg != null) {
+      debugPrint("checkNotificationPassing");
+      Reminder? notifReminder = widget.arg?.reminder;
+      if (notifReminder == null) {
+        return;
+      }
+      final model = context.read<ReminderModel>();
+      var reminders = model.reminders;
+      if (reminders == null) {
+        return;
+      }
+      var curReminders = reminders.where((r) => r.id == notifReminder.id);
+      if (curReminders.isNotEmpty) {
+        debugPrint("checkNotificationPassing find reminder");
+        Future.delayed(Duration(milliseconds: 400), () {
+          Navigator.pushNamed(context, pageRouteReminderDetailMore,
+              arguments: ReminderScreenArg(curReminders.first, index: 0));
+        });
+      }
+    }
+  }
+
   @override
   void initState() {
     WidgetsBinding.instance.addObserver(this);
@@ -149,6 +176,7 @@ class _HomePageState extends State<HomePage>
       aniControllerBottom.forward();
       aniLoadingController.forward();
       stateReady = true;
+      checkNotificationPassing();
     });
     selectedFilterIndex.addListener(() {
       debugPrint("selectedFilterIndex val changes");
@@ -408,11 +436,10 @@ class _HomePageState extends State<HomePage>
 
   Widget createNoReminderSection() {
     List<Widget> noRSList = [
-      Lottie.asset(
-        assetslinkLottie('89809-no-result-green-theme'),
-        width: MediaQuery.of(context).size.width * 0.4,
-        height: MediaQuery.of(context).size.width * 0.4,
-      ),
+      Lottie.asset(assetslinkLottie('89809-no-result-green-theme'),
+          width: MediaQuery.of(context).size.width * 0.4,
+          height: MediaQuery.of(context).size.width * 0.4,
+          reverse: true),
       Container(
         padding: EdgeInsets.only(left: 40, right: 40),
         child: Align(
