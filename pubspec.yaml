@@ -3,7 +3,7 @@ description: Flutter project of smart reminder mobile app for elderly people
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.0+10
+version: 1.0.0+23
 
 environment:
   sdk: '>=2.18.4 <3.0.0'
@@ -14,6 +14,7 @@ scripts:
   run: "flutter run -t lib/main.dart"
   # you can define more commands like this: "rps gen"
   gen: "flutter pub run build_runner watch --delete-conflicting-outputs"
+  genoss: "flutter pub run flutter_oss_licenses:generate.dart"
   # and even nest them!
   buildoutput:
     # You can use hooks to! (and even nest them!)
@@ -101,6 +102,8 @@ dependencies:
   vs_scrollbar: ^0.2.1
   flutter_ringtone_player: ^3.2.0
   custom_refresh_indicator: ^2.0.1
+  tutorial_coach_mark: ^1.2.8
+  no_context_navigation: ^2.1.2
 
 dev_dependencies:
   flutter_test:
@@ -111,6 +114,7 @@ dev_dependencies:
   hive_generator: ^1.1.2
   build_runner: ^2.1.7
   flutter_launcher_icons: ^0.12.0
+  change_app_package_name: ^1.1.0
 
 flutter_icons:
   android: "launcher_icon"

@@ -1,9 +1,11 @@
 import 'package:delayed_display/delayed_display.dart';
+import 'package:e_sound_reminder_app/models/displayer.dart';
 import 'package:e_sound_reminder_app/widgets/custom_button_normal.dart';
 import 'package:e_sound_reminder_app/widgets/page_bottom_area.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
+import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 import '../models/language.dart';
 import '../models/reminder.dart';
@@ -14,6 +16,7 @@ import '../utils/constants.dart';
 import '../utils/dialog.dart';
 import '../utils/feedback.dart';
 import '../utils/formatter.dart';
+import '../utils/tutorial.dart';
 import '../widgets/custom_button_normal_back.dart';
 import '../widgets/custom_card_container.dart';
 import '../widgets/custom_scroll_bar.dart';
@@ -21,6 +24,7 @@ import '../widgets/custom_text_normal.dart';
 import '../widgets/custom_text_small.dart';
 import '../widgets/reminder_header.dart';
 import '../widgets/reminder_weekdays_display.dart';
+import '../widgets/time_box_display.dart';
 import '../widgets/time_section_display.dart';
 
 class ReminderDetailPage extends StatefulWidget {
@@ -57,9 +61,9 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
   ScrollController _reminderDSVController = ScrollController();
   List<Widget> medicineSelectedArea(List selectedlist) {
     List<Widget> mwList = [];
-    for (var medicine in selectedlist) {
+    for (var i = 0; i < selectedlist.length; i++) {
       mwList.add(CusNButton(
-        "$medicine",
+        "${selectedlist[i]}",
         () {},
         readOnly: true,
       ));
@@ -263,8 +267,61 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
         context, pageRouteHome, ((route) => false));
   }
 
+  // TutorialCoachMark =======
+  late TutorialCoachMark tutorialCoachMark;
+  GlobalKey key1 = GlobalKey();
+  GlobalKey key2 = GlobalKey();
+
+  void showTutorial() {
+    tutorialCoachMark.show(context: context);
+  }
+
+  void setUpTutorial() {
+    if (Displayer.currenTutorialSetting(context) ==
+            Displayer.codeTutorialModeInitial ||
+        Displayer.currenTutorialSetting(context) ==
+            Displayer.codeTutorialModeOn) {
+      tutorialCoachMark = createTutorial(
+        pageRouteReminderDetail,
+        context,
+        [key1, key2],
+        onFinish: () {
+          if (Displayer.currenTutorialSetting(context) ==
+              Displayer.codeTutorialModeInitial) {
+            Displayer.updateTutorialSetting(
+                context, Displayer.codeTutorialModeOff);
+          }
+        },
+      );
+      Future.delayed(
+          const Duration(milliseconds: tutorialShowTime), showTutorial);
+    }
+  }
+  // TutorialCoachMark =======
+
+  // safety Overlay
+  OverlayEntry? overlayEntry;
+  void createOverlay() {
+    removeOverly();
+    assert(overlayEntry == null);
+    overlayEntry = creatingOverlay();
+    Overlay.of(context, debugRequiredFor: widget).insert(overlayEntry!);
+  }
+
+  void removeOverly() {
+    overlayEntry?.remove();
+    overlayEntry = null;
+  }
+  // ===================
+
   @override
   void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      creatingOverlay();
+      if (checkOpenAsNewDetailPage()) {
+        setUpTutorial();
+      }
+    });
     super.initState();
     Future.delayed(const Duration(milliseconds: progressBarDelayShowTime))
         .then((value) => setState(() {
@@ -272,11 +329,14 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
             }));
     Future.delayed(const Duration(milliseconds: askExpiredDelShowTime))
         .then((value) => showExpiredDeleteDialog());
+    Future.delayed(const Duration(milliseconds: safetyOverlayRmTime))
+        .then((value) => removeOverly());
   }
 
   @override
   void dispose() {
     _reminderDSVController.dispose();
+    removeOverly();
     super.dispose();
   }
 
@@ -319,6 +379,7 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
                               isAlwaysShown: true,
                               scrollController: _reminderDSVController,
                               child: ListView(
+                                key: key1,
                                 controller: _reminderDSVController,
                                 physics: AlwaysScrollableScrollPhysics(
                                     parent: BouncingScrollPhysics()),
@@ -335,6 +396,13 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
                                   ),
                                   ...medicineSelectedArea(
                                       reminder.selectedMedicine),
+                                  const SizedBox(
+                                    height: 8,
+                                  ),
+                                  TimeBoxDisplay(
+                                      textAlign: TextAlign.start,
+                                      text:
+                                          "${Language.of(context)!.t("reminder_detail_notice_t")}\n${Language.of(context)!.t("reminder_detail_notice1")}\n${Language.of(context)!.t("reminder_detail_notice2")}\n${Language.of(context)!.t("reminder_detail_notice3")}\n${Language.of(context)!.t("reminder_detail_notice4")}"),
                                   const SizedBox(
                                     height: 8,
                                   ),
@@ -374,7 +442,7 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
                               )),
                         ),
                         const Divider(
-                          color: elementNotActiveTxtColor,
+                          color: dividerColor,
                         ),
                         Container(
                             padding: EdgeInsets.all(8.0),
@@ -390,6 +458,7 @@ class _ReminderDetailPageState extends State<ReminderDetailPage> {
                                       width: 8,
                                     ),
                                     Expanded(
+                                      key: key2,
                                       child: CusNButton(
                                           Language.of(context)!
                                               .t("common_save"),

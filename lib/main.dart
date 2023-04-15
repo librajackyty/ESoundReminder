@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:e_sound_reminder_app/models/reminder.dart';
 import 'package:e_sound_reminder_app/providers/reminders/reminders_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +10,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
+import 'package:no_context_navigation/no_context_navigation.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:timezone/data/latest_all.dart';
@@ -31,6 +34,7 @@ import 'screens/settings.dart';
 import 'screens/reminder_detail.dart';
 import 'storage/reminders_hive.dart';
 import 'utils/constants.dart' as constants;
+import 'utils/constants.dart';
 
 class ReceivedNotification {
   ReceivedNotification({
@@ -70,6 +74,7 @@ void main() async {
   DisplayerProvider dp = DisplayerProvider();
   await dp.fetchAppTextSize();
   await dp.fetchTimepickerStyle();
+  await dp.fetchTutorialSetting();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then(
     (_) => runApp(MyApp(
       appLanguage: appLanguage,
@@ -91,12 +96,14 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
+  final NavigationService _navigationService = NavigationService();
 
   @override
   void initState() {
     setUpLocalNotification();
     requestNotificationPermissions();
     super.initState();
+    handleNotificationPayload();
   }
 
   void requestNotificationPermissions() async {
@@ -146,6 +153,10 @@ class _MyAppState extends State<MyApp> {
         onSelectNotification: (String? payload) async {
       if (payload != null) {
         debugPrint('notification payload: $payload');
+        var json = jsonDecode(payload);
+        Reminder alarmedReminder = Reminder.fromJson(json);
+        _navigationService.pushNamedAndRemoveUntil(pageRouteHome,
+            args: ReminderScreenArg(alarmedReminder, index: 0));
       }
     });
   }
@@ -157,6 +168,27 @@ class _MyAppState extends State<MyApp> {
     initializeTimeZones();
     final String? timeZoneName = await FlutterNativeTimezone.getLocalTimezone();
     setLocalLocation(getLocation(timeZoneName!));
+  }
+
+  Future<void> handleNotificationPayload() async {
+    var details =
+        await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
+    if (details != null && details.didNotificationLaunchApp) {
+      var payload = details.payload;
+      debugPrint(
+          'getNotificationAppLaunchDetails didNotificationLaunchApp payload: $payload');
+      if (payload != null) {
+        debugPrint('notification payload: $payload');
+        var json = jsonDecode(payload);
+        Reminder alarmedReminder = Reminder.fromJson(json);
+
+        Future.delayed(const Duration(milliseconds: 800), () {
+          debugPrint("_navigationService opening new Home");
+          _navigationService.pushNamedAndRemoveUntil(pageRouteHome,
+              args: ReminderScreenArg(alarmedReminder, index: 0));
+        });
+      }
+    }
   }
 
   @override
@@ -186,6 +218,7 @@ class _MyAppState extends State<MyApp> {
         child: Consumer<AppLanguage>(
           builder: (context, model, child) => MaterialApp(
             // title: 'E Daily Reminder',
+            navigatorKey: NavigationService.navigationKey,
             locale: model.appLocal,
             supportedLocales: [
               const Locale(Language.codeEnglish, 'US'),
@@ -230,7 +263,10 @@ class _MyAppState extends State<MyApp> {
                       type: PageTransitionType.fade);
                 case constants.pageRouteHome:
                   return PageTransition(
-                      child: const HomePage(title: 'Home'),
+                      child: HomePage(
+                        title: 'Home',
+                        arg: settings.arguments as ReminderScreenArg?,
+                      ),
                       type: PageTransitionType.fade);
                 case constants.pageRouteSettings:
                   return PageTransition(

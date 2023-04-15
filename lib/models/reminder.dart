@@ -11,7 +11,7 @@ class Reminder {
   @HiveField(1)
   final DateTime time1;
   @HiveField(2)
-  final List<int> weekdays1;
+  final List weekdays1;
   @HiveField(3)
   final int reminderType; // alarm num
   @HiveField(4)
@@ -56,7 +56,7 @@ class Reminder {
     String? reminderTitle,
     String? reminderDescription,
     DateTime? time1,
-    List<int>? weekdays1,
+    List? weekdays1,
     List? selectedMedicine,
     int? reminderType,
     DateTime? time2,
@@ -77,4 +77,33 @@ class Reminder {
         time3: time3 ?? this.time3,
         time4: time4 ?? this.time4,
       );
+
+  Reminder.fromJson(Map<String, dynamic> json)
+      : id = json['id'],
+        time1 = DateTime.parse(json['time1'].toString()),
+        weekdays1 = json['weekdays1'],
+        reminderType = json['reminderType'],
+        reminderTitle = json['reminderTitle'],
+        reminderDescription = json['reminderDescription'],
+        reminderNotes = json['reminderNotes'],
+        selectedMedicine = json['selectedMedicine'],
+        createTime = DateTime.parse(json['createTime'].toString()),
+        time2 = DateTime.parse(json['time2'].toString()),
+        time3 = DateTime.parse(json['time3'].toString()),
+        time4 = DateTime.parse(json['time4'].toString());
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'time1': time1.toString(),
+        'weekdays1': weekdays1,
+        'reminderType': reminderType,
+        'reminderTitle': reminderTitle,
+        'reminderDescription': reminderDescription,
+        'reminderNotes': reminderNotes,
+        'selectedMedicine': selectedMedicine,
+        'createTime': createTime.toString(),
+        'time2': time2.toString(),
+        'time3': time3.toString(),
+        'time4': time4.toString(),
+      };
 }

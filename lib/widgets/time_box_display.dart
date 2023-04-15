@@ -4,17 +4,19 @@ import 'package:flutter/material.dart';
 import 'custom_text_normal.dart';
 
 class TimeBoxDisplay extends StatelessWidget {
-  final String time;
+  final String text;
   final Widget? icon;
   final bool largeTxt;
   final Color? color;
+  final TextAlign? textAlign;
 
   const TimeBoxDisplay(
       {Key? key,
-      required this.time,
+      required this.text,
       this.icon,
       this.largeTxt = false,
-      this.color})
+      this.color,
+      this.textAlign})
       : super(key: key);
 
   @override
@@ -35,11 +37,11 @@ class TimeBoxDisplay extends StatelessWidget {
             icon ?? const SizedBox.shrink(),
             largeTxt
                 ? Flexible(
-                    child: CusTitleText(time,
-                        textAlign: TextAlign.center, color: color))
+                    child: CusTitleText(text,
+                        textAlign: textAlign ?? TextAlign.center, color: color))
                 : Flexible(
-                    child: CusNText(time,
-                        textAlign: TextAlign.center, color: color))
+                    child: CusNText(text,
+                        textAlign: textAlign ?? TextAlign.center, color: color))
           ]),
     );
   }

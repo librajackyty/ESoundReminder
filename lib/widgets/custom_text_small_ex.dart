@@ -6,7 +6,8 @@ class CusExSText extends StatefulWidget {
   Color? color;
   TextAlign? textAlign;
 
-  CusExSText(this.text, {this.color, this.textAlign});
+  CusExSText(this.text, {Key? key, this.color, this.textAlign})
+      : super(key: key);
 
   @override
   _CusExSTextState createState() => _CusExSTextState();

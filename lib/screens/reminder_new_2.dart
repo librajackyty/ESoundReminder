@@ -1,14 +1,17 @@
 import 'package:delayed_display/delayed_display.dart';
 import 'package:e_sound_reminder_app/models/displayer.dart';
 import 'package:flutter/material.dart';
+import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 import '../models/language.dart';
 import '../models/reminder.dart';
 import '../models/reminder_screen_arg.dart';
 import '../utils/constants.dart';
+import '../utils/dialog.dart';
 import '../utils/formatter.dart';
 import '../utils/snack_msg.dart';
 import '../utils/time_picker.dart';
+import '../utils/tutorial.dart';
 import '../widgets/custom_button_normal.dart';
 import '../widgets/custom_button_normal_back.dart';
 import '../widgets/custom_counter.dart';
@@ -256,23 +259,65 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
     return Language.of(context)!.t("reminder_new2_setrepeat4");
   }
 
+  // TutorialCoachMark =======
+  late TutorialCoachMark tutorialCoachMark;
+  GlobalKey key1 = GlobalKey();
+  GlobalKey key2 = GlobalKey();
+  GlobalKey key3 = GlobalKey();
+  GlobalKey key4 = GlobalKey();
+
+  void showTutorial() {
+    tutorialCoachMark.show(context: context);
+  }
+
+  void setUpTutorial() {
+    if (Displayer.currenTutorialSetting(context) ==
+            Displayer.codeTutorialModeInitial ||
+        Displayer.currenTutorialSetting(context) ==
+            Displayer.codeTutorialModeOn) {
+      tutorialCoachMark = createTutorial(
+          pageRouteReminderNew2, context, [key1, key2, key3, key4]);
+      Future.delayed(
+          const Duration(milliseconds: tutorialShowTime), showTutorial);
+    }
+  }
+  // TutorialCoachMark =======
+
+  // safety Overlay
+  OverlayEntry? overlayEntry;
+  void createOverlay() {
+    removeOverly();
+    assert(overlayEntry == null);
+    overlayEntry = creatingOverlay();
+    Overlay.of(context, debugRequiredFor: widget).insert(overlayEntry!);
+  }
+
+  void removeOverly() {
+    overlayEntry?.remove();
+    overlayEntry = null;
+  }
+  // ===================
+
   @override
   void initState() {
-    // updateTime1ToModel(timeOfDay1);
-    // updateTime2ToModel(timeOfDay2);
-    // updateTime3ToModel(timeOfDay3);
-    // updateTime4ToModel(timeOfDay4);
     updateWeekdays1ToModel();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      createOverlay();
+      setUpTutorial();
+    });
     super.initState();
     Future.delayed(const Duration(milliseconds: progressBarDelayShowTime))
         .then((value) => setState(() {
               progressIdx = progressIdxStep1;
             }));
+    Future.delayed(const Duration(milliseconds: safetyOverlayRmTime))
+        .then((value) => removeOverly());
   }
 
   @override
   void dispose() {
     _reminderTimeSelectionController.dispose();
+    removeOverly();
     super.dispose();
   }
 
@@ -321,6 +366,7 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                                           ),
                                         ),
                                         SimpleCounter(
+                                          key: key2,
                                           value: timerNum,
                                           onPressedMinus: () =>
                                               updateAlarmNum(false),
@@ -332,7 +378,6 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                                 Container(
                                     margin: EdgeInsets.only(bottom: 12),
                                     child: CusNButton(
-                                      // fromTimeOfDayToString(timeOfDay1),
                                       fromTimeToString(reminder.time1,
                                           weekdays: reminder.weekdays1,
                                           dateTxts: [
@@ -342,8 +387,8 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                                           ]),
                                       () =>
                                           openDayNightTimePicker(timeOfDay1, 1),
-                                      // openTimePicker,
                                       icon: Icon(Icons.alarm_add),
+                                      key: key1,
                                     )),
                                 AnimatedSize(
                                   duration: const Duration(milliseconds: 200),
@@ -420,6 +465,7 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                                   },
                                 ),
                                 Container(
+                                  key: key3,
                                   decoration: BoxDecoration(
                                       border: Border.all(
                                           color: buttonBorderColor,
@@ -544,15 +590,20 @@ class _ReminderNewPage2State extends State<ReminderNewPage2> {
                                 Expanded(
                                   child: CusNBackButton(
                                       Language.of(context)!.t("common_back"),
-                                      () => {Navigator.pop(context)}),
+                                      () => {
+                                            removeCurrentSnavkBar(context),
+                                            Navigator.pop(context)
+                                          }),
                                 ),
                                 const SizedBox(
                                   width: 8,
                                 ),
                                 Expanded(
+                                  key: key4,
                                   child: CusNButton(
                                       Language.of(context)!.t("common_next"),
                                       () {
+                                    removeCurrentSnavkBar(context);
                                     if (checkOneOfTimeIsExpired(
                                         getReminderAllTimeExpired(reminder))) {
                                       showSnackMsg(

@@ -145,7 +145,8 @@ final cancelBtnStyle = ButtonStyle(
     fixedSize: MaterialStatePropertyAll(Size.fromHeight(buttonHeightSmall)));
 
 void showDayNightTimePicker(BuildContext context, TimeOfDay initialTime,
-    {required void Function(DateTime) onChangeDateTime,
+    {Key? key,
+    required void Function(DateTime) onChangeDateTime,
     String? confirmText,
     String? cancelText,
     String? hourLabel,
@@ -153,6 +154,7 @@ void showDayNightTimePicker(BuildContext context, TimeOfDay initialTime,
     TimePickerInterval minuteInterval = TimePickerInterval.ONE,
     bool iosStylePicker = true}) {
   Navigator.of(context).push(showPicker(
+      key: key,
       context: context,
       height: 390,
       value: Time.fromTimeOfDay(initialTime, 0),

@@ -1,12 +1,17 @@
 import 'package:delayed_display/delayed_display.dart';
+import 'package:e_sound_reminder_app/models/displayer.dart';
 import 'package:e_sound_reminder_app/utils/feedback.dart';
+import 'package:e_sound_reminder_app/widgets/custom_text_normal.dart';
 import 'package:flutter/material.dart';
+import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 import '../models/language.dart';
 import '../models/reminder.dart';
 import '../models/reminder_screen_arg.dart';
 import '../utils/constants.dart';
+import '../utils/dialog.dart';
 import '../utils/snack_msg.dart';
+import '../utils/tutorial.dart';
 import '../widgets/custom_button_normal.dart';
 import '../widgets/custom_button_normal_back.dart';
 import '../widgets/custom_button_small.dart';
@@ -121,11 +126,12 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
 
   List<Widget> medicineSelection(List medicinelist) {
     List<Widget> mwList = [];
-    for (var medicine in medicinelist) {
+    for (var i = 0; i < medicinelist.length; i++) {
+      // for (var medicine in medicinelist) {
       mwList.add(Container(
         padding: EdgeInsets.all(8),
-        child: CusSButton("$medicine", () {
-          updateClickSelection(medicine);
+        child: CusSButton(key: i == 0 ? key1 : null, "${medicinelist[i]}", () {
+          updateClickSelection(medicinelist[i]);
         }),
       ));
     }
@@ -201,8 +207,50 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
     });
   }
 
+  // TutorialCoachMark =======
+  late TutorialCoachMark tutorialCoachMark;
+  GlobalKey key1 = GlobalKey();
+  GlobalKey key2 = GlobalKey();
+  GlobalKey key3 = GlobalKey();
+
+  void showTutorial() {
+    tutorialCoachMark.show(context: context);
+  }
+
+  void setUpTutorial() {
+    if (Displayer.currenTutorialSetting(context) ==
+            Displayer.codeTutorialModeInitial ||
+        Displayer.currenTutorialSetting(context) ==
+            Displayer.codeTutorialModeOn) {
+      tutorialCoachMark =
+          createTutorial(pageRouteReminderNew, context, [key1, key2, key3]);
+      Future.delayed(
+          const Duration(milliseconds: tutorialShowTime), showTutorial);
+    }
+  }
+  // TutorialCoachMark =======
+
+  // safety Overlay
+  OverlayEntry? overlayEntry;
+  void createOverlay() {
+    removeOverly();
+    assert(overlayEntry == null);
+    overlayEntry = creatingOverlay();
+    Overlay.of(context, debugRequiredFor: widget).insert(overlayEntry!);
+  }
+
+  void removeOverly() {
+    overlayEntry?.remove();
+    overlayEntry = null;
+  }
+  // ===================
+
   @override
   void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      createOverlay();
+      setUpTutorial();
+    });
     super.initState();
     Future.delayed(const Duration(milliseconds: progressBarDelayShowTime))
         .then((value) => setState(() {
@@ -214,11 +262,14 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
         setState(() => {_wasEmpty = _txtFController.text.isEmpty});
       }
     });
+    Future.delayed(const Duration(milliseconds: safetyOverlayRmTime))
+        .then((value) => removeOverly());
   }
 
   @override
   void dispose() {
     _medicineSVController.dispose();
+    removeOverly();
     super.dispose();
   }
 
@@ -259,6 +310,7 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: safeAreaPaddingAll),
                                 child: Column(
+                                    // key: key1,
                                     children: medicineSelection(
                                         staticmedicineENlist)),
                               )))
@@ -269,6 +321,7 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
                               isAlwaysShown: true,
                               scrollController: _medicineSVController,
                               child: GridView.count(
+                                  // key: key1,
                                   controller: _medicineSVController,
                                   physics: AlwaysScrollableScrollPhysics(
                                       parent: BouncingScrollPhysics()),
@@ -299,6 +352,7 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
                                 children: [
                                   Expanded(
                                     child: TextField(
+                                      key: key2,
                                       maxLines: 1,
                                       maxLength: maxLength,
                                       controller: _txtFController,
@@ -390,60 +444,35 @@ class _ReminderNewPageState extends State<ReminderNewPage> {
                                 child: const SizedBox(
                                   height: 2,
                                 )),
-                            // AnimatedSize(
-                            //   duration: const Duration(milliseconds: 200),
-                            //   child: !(selectedMedicine.isNotEmpty && showActionArea)
-                            //       ? SizedBox.shrink()
-                            //       : CusCardContainer(
-                            //           child: SizedBox(
-                            //             width: double.maxFinite,
-                            //             height: MediaQuery.of(context).size.height *
-                            //                 reminderCardHeightRatio,
-                            //             child: ListView(
-                            //               padding: const EdgeInsets.all(12),
-                            //               children: [
-                            //                 Row(children: [
-                            //                   Icon(Icons.medication_outlined),
-                            //                   SizedBox(width: 6),
-                            //                   CusSText(Language.of(context)!
-                            //                       .t("reminder_new1_selectedmedicine"))
-                            //                 ]),
-                            //                 const SizedBox(
-                            //                   height: 8.0,
-                            //                 ),
-                            //                 ...medicineSelectedArea(selectedMedicine)
-                            //               ],
-                            //             ),
-                            //           ),
-                            //         ),
-                            // ),
 
                             // bottom action area
                             AnimatedSize(
                               duration: const Duration(milliseconds: 200),
                               child: !showActionArea
                                   ? SizedBox.shrink()
-                                  :
-                                  // ),
-                                  // Visibility(
-                                  //   visible: showActionArea,
-                                  //   child:
-                                  Row(
+                                  : Row(
                                       children: [
                                         Expanded(
                                           child: CusNBackButton(
                                               Language.of(context)!
                                                   .t("common_back"),
-                                              () => {Navigator.pop(context)}),
+                                              () => {
+                                                    removeCurrentSnavkBar(
+                                                        context),
+                                                    Navigator.pop(context)
+                                                  }),
                                         ),
                                         const SizedBox(
                                           width: 8,
                                         ),
                                         Expanded(
+                                          key: key3,
                                           child: CusNButton(
                                               Language.of(context)!
                                                   .t("common_next"),
                                               () => {
+                                                    removeCurrentSnavkBar(
+                                                        context),
                                                     if (selectedMedicine
                                                         .isEmpty)
                                                       {

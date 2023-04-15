@@ -1,5 +1,5 @@
 {
-    "app_title": "E Daily Reminder",
+    "app_title": "Take Medicine Now",
     "common_yes": "Yes",
     "common_no": "No",
     "common_back": "Back",
@@ -7,7 +7,7 @@
     "common_confirm": "Confirm",
     "common_save": "Save",
     "common_delete": "Delete",
-    "common_step": "Step",
+    "common_step": "Progress",
     "common_next": "Next",
     "common_ok": "OK",
     "common_understand": "OK",
@@ -65,6 +65,11 @@
     "reminder_detail_deletequestion": "Are you sure to delete this reminder?",
     "reminder_detail_expiredDelquestion": "Reminder is expired\nDo you want to delete?",
     "reminder_detail_notice": "Remember to follow doctor's instructions to take the proper quantity of medicine every time",
+    "reminder_detail_notice_t": "Remember",
+    "reminder_detail_notice1": "1.Proper quantity of medicine",
+    "reminder_detail_notice2": "2.Before/After meal to take medicine?",
+    "reminder_detail_notice3": "3.Empty stomach before take medicine?",
+    "reminder_detail_notice4": "4.Measure blood sugar/blood pressure?",
 
     "settings_title": "Settings",
     "settings_list_language": "Language",
@@ -83,6 +88,7 @@
     "display_list_itm_S": "Small",
 
     "other_title": "Other Settings",
+    "other_tutorial_title": "Tutorial Mode (On/Off)",
     "other_timepicker_title": "Time Picker Style",
 
     "oss_title": "Open source software (OSS)",
@@ -121,5 +127,30 @@
     "week_thu_ss": "T",
     "week_fri_ss": "F",
     "week_sat_ss": "S",
-    "week_sun_ss": "S"
+    "week_sun_ss": "S",
+
+    "coachtutorial_skip": "SKIP",
+    "coachtutorial_page1_step1": "1st Step:",
+    "coachtutorial_page1_step1_msg": "Select the medicine that to be reminded to take",
+    "coachtutorial_page1_step2": "2nd Step:",
+    "coachtutorial_page1_step2_msg": "You will see the medicine name here after selected",
+    "coachtutorial_page1_step2_msg2": "You can also click here to add the medicine name you want",
+    "coachtutorial_page1_step3": "3rd Step:",
+    "coachtutorial_page1_step3_msg": "After adding medicine name\nClick 'Next' to continue ->",
+
+    "coachtutorial_page2_step1": "1st Step:",
+    "coachtutorial_page2_step1_msg": "Click here to set the alarm time",
+    "coachtutorial_page2_step1a_msg": "A time selector will be popped out",
+    "coachtutorial_page2_step1b_msg": "Pull the slider to left/right to adjust time\nClick 'Confirm' to set the time",
+    "coachtutorial_page2_step1b2_msg": "Move up or down to adjust time\nClick 'Confirm' to set the time",
+    "coachtutorial_page2_step1_msg2": "If you want to set more time,\nclick '+' or just ignore is fine",
+    "coachtutorial_page2_step2": "2nd Step:",
+    "coachtutorial_page2_step2_msg": "Default setting the alarm repeat every day. If you don't want, just click to turn it off",
+    "coachtutorial_page2_step3": "3rd Step:",
+    "coachtutorial_page2_step3_msg": "After setting alarm\nClick 'Next' to continue ->",
+
+    "coachtutorial_page3_step1": "1st Step:",
+    "coachtutorial_page3_step1_msg": "Check the reminder detail",
+    "coachtutorial_page3_step2": "2nd Step:",
+    "coachtutorial_page3_step2_msg": "After confirm the details\nClick 'Next' to save ->"
 }

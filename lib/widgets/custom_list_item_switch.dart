@@ -13,18 +13,22 @@ class CusListItmSwitch extends StatefulWidget {
   void Function(bool)? onTap;
   bool selected;
   bool noBorder;
+  final EdgeInsets? padding;
 
   CusListItmSwitch(this.value,
-      {this.text,
+      {Key? key,
+      this.text,
       this.imageData,
       this.iconData,
       required this.onTap,
       this.selected = false,
-      this.noBorder = false});
+      this.noBorder = false,
+      this.padding})
+      : super(key: key);
 
   @override
   _CusListItmSwitchState createState() => _CusListItmSwitchState(
-      imageData, iconData, text, onTap, selected, noBorder);
+      imageData, iconData, text, onTap, selected, noBorder, padding);
 }
 
 class _CusListItmSwitchState extends State<CusListItmSwitch> {
@@ -34,30 +38,33 @@ class _CusListItmSwitchState extends State<CusListItmSwitch> {
   void Function(bool)? onTap;
   bool selected;
   bool noBorder;
+  EdgeInsets? padding;
 
   _CusListItmSwitchState(this.imageData, this.iconData, this.text, this.onTap,
-      this.selected, this.noBorder);
+      this.selected, this.noBorder, this.padding);
 
   @override
   Widget build(BuildContext context) {
     Widget createImg() {
-      return imageData ?? const SizedBox.shrink();
+      return imageData != null
+          ? InkWell(
+              borderRadius: BorderRadius.circular(cardsBorderRadius),
+              onTap: () {
+                widget.onTap!(!widget.value);
+                runHapticSound();
+              },
+              child: imageData)
+          : const SizedBox.shrink();
     }
 
     return SizedBox(
-      // child: InkWell(
-      //   borderRadius: BorderRadius.circular(cardsBorderRadius),
-      //   onTap: () {
-      //     debugPrint("Go to ${widget.text}");
-      //     widget.onTap?.call();
-      //     runHapticSound();
-      //   },
       child: Padding(
-          padding: const EdgeInsets.all(elementSPadding),
+          padding: padding ?? const EdgeInsets.all(elementSPadding),
           child: Row(children: [
             createImg(),
             Expanded(
                 child: SwitchListTile(
+              contentPadding: EdgeInsets.all(elementSSPadding),
               value: widget.value,
               onChanged: (value) {
                 widget.onTap!(value);
@@ -66,16 +73,6 @@ class _CusListItmSwitchState extends State<CusListItmSwitch> {
               shape: RoundedRectangleBorder(
                   borderRadius:
                       BorderRadius.all(Radius.circular(cardsBorderRadius))),
-              // shape: noBorder
-              //     ? null
-              // : RoundedRectangleBorder(
-              //     side: BorderSide(
-              //         color: buttonBorderColor, width: buttonBorderWidth),
-              //     borderRadius:
-              //         BorderRadius.all(Radius.circular(cardsBorderRadius))),
-              // tileColor: buttonReadOnlyColor,
-              // selectedTileColor: buttonBorderColor,
-              // selectedColor: buttonReadOnlyColor,
               selected: selected,
               title: widget.text != null ? CusNText(widget.text!) : null,
             )),
