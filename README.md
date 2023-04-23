@@ -1,4 +1,4 @@
-# E Daily Reminder
+# E Sound Reminder (App Name: Take Medicine Now)
 
 Flutter project of smart reminder mobile app for elderly people
 
