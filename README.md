@@ -16,5 +16,4 @@ Yuen Tin Yau Jack
 Contact (email):
 jackyuen4-c@my.cityu.edu.hk
 
-Copyright © 2023 Jack TY Yuen All rights reserved.
 
