@@ -2,8 +2,12 @@
 
 Flutter project of smart reminder mobile app for elderly people
 
-FYP of:
-School of Continuing and Professional Education ( CityU SCOPE )
+Final Year Project of:
+Coventry University
+Programme Code: PM_213-29430
+BSc (Hons) Information Technology for Business (Part-time)  
+Module Code: 303COM
+
 
 Project Developer:
 Yuen tin Yau Jack
